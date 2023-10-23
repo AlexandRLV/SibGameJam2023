@@ -1,19 +1,16 @@
 using System.Collections.Generic;
 
+using SibGameJam.Datagrams;
+
 namespace NetFrame.Utils
 {
-	public class NetFrameDatagramCollection
+	public static class NetFrameDatagramCollection
 	{
-		public Dictionary<string, INetFrameDatagram> _datagrams;
+		public static Dictionary<string, INetFrameDatagram> Datagrams = new();
 
-		public NetFrameDatagramCollection()
+		public static INetFrameDatagram GetDatagramByKey(string key)
 		{
-			_datagrams = new Dictionary<string, INetFrameDatagram>();
-		}
-
-		public INetFrameDatagram GetDatagramByKey(string key)
-		{
-			return _datagrams[key];
+			return Datagrams[key];
 		}
 	}
 }

@@ -3,7 +3,6 @@ using System.Collections.Concurrent;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using NetFrame.Constants;
 using NetFrame.Enums;
@@ -14,9 +13,8 @@ namespace NetFrame.Client
 {
     public class NetFrameClient
     {
-        private readonly NetFrameByteConverter _byteConverter;
-        private readonly ConcurrentDictionary<Type, Delegate> _handlers;
-        private readonly NetFrameDatagramCollection _datagramCollection;
+        private readonly NetFrameByteConverter _byteConverter = new();
+        private readonly ConcurrentDictionary<Type, Delegate> _handlers = new();
         
         private TcpClient _tcpSocket;
         private NetworkStream _networkStream;
@@ -36,13 +34,6 @@ namespace NetFrame.Client
         public event Action<ReasonServerConnectionFailed> ConnectedFailed;
         public event Action ConnectionSuccessful;
         public event Action Disconnected;
-
-        public NetFrameClient()
-        {
-            _handlers = new ConcurrentDictionary<Type, Delegate>();
-            _byteConverter = new NetFrameByteConverter();
-            _datagramCollection = new NetFrameDatagramCollection();
-        }
 
         public void Connect(string host, int port, int receiveBufferSize = 4096, int writeBufferSize = 4096)
         {
@@ -175,7 +166,7 @@ namespace NetFrame.Client
 
                     readBytesCompleteCount += packageSize;
 
-                    var datagram = _datagramCollection.GetDatagramByKey(headerDatagram);
+                    var datagram = NetFrameDatagramCollection.GetDatagramByKey(headerDatagram);
                     var targetType = datagram.GetType();
                     
                     _reader.SetBuffer(contentSegment);
@@ -194,7 +185,6 @@ namespace NetFrame.Client
             catch (Exception e)
             {
                 Console.WriteLine($"Error receive TCP Client {e.Message}");
-                //Debug.LogError($"Error receive TCP Client {e.Message}");
                 
                 MainThread.Run(Disconnect);
             }

@@ -22,7 +22,6 @@ namespace NetFrame.Server
         private readonly int _receiveBufferSize; 
 
         private NetFrameReader _reader;
-        private NetFrameDatagramCollection _datagramCollection;
 
         private bool _isReadProcess;
         private bool _isOversizeReceiveBuffer;
@@ -30,14 +29,13 @@ namespace NetFrame.Server
         public TcpClient TcpSocket => _tcpSocket;
 
         public NetFrameClientOnServer(int id, TcpClient tcpSocket, ConcurrentDictionary<Type, Delegate> handlers, 
-            int bufferSize, NetFrameDatagramCollection datagramCollection)
+            int bufferSize)
         {
             _id = id;
             _tcpSocket = tcpSocket;
             _handlers = handlers;
             _networkStream = tcpSocket.GetStream();
             _byteConverter = new NetFrameByteConverter();
-            _datagramCollection = datagramCollection;
             _reader = new NetFrameReader(new byte[bufferSize]);
             _receiveBufferSize = bufferSize;
             _receiveBuffer = new byte[_receiveBufferSize];
@@ -126,7 +124,7 @@ namespace NetFrame.Server
                     
                     readBytesCompleteCount += packageSize;
 
-                    var datagram = _datagramCollection.GetDatagramByKey(headerDatagram);
+                    var datagram = NetFrameDatagramCollection.GetDatagramByKey(headerDatagram);
                     var targetType = datagram.GetType();
                     
                     _reader.SetBuffer(contentSegment);

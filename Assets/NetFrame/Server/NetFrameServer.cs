@@ -21,19 +21,11 @@ namespace NetFrame.Server
         private Dictionary<int, NetFrameClientOnServer> _clients;
 
         private NetFrameWriter _writer;
-        private NetFrameByteConverter _byteConverter;
-        private ConcurrentDictionary<Type, Delegate> _handlers;
-        private NetFrameDatagramCollection _datagramCollection;
+        private NetFrameByteConverter _byteConverter = new();
+        private ConcurrentDictionary<Type, Delegate> _handlers = new();
 
         public event Action<int> ClientConnection;
         public event Action<int> ClientDisconnect;
-
-        public NetFrameServer()
-        {
-            _byteConverter = new NetFrameByteConverter();
-            _handlers = new ConcurrentDictionary<Type, Delegate>();
-            _datagramCollection = new NetFrameDatagramCollection();
-        }
 
         public void Start(int port, int maxClient, int receiveBufferSize = 4096, int writeBufferSize = 4096)
         {
@@ -92,9 +84,9 @@ namespace NetFrame.Server
             {
                 clientId = _clients.Last().Key + 1;
             }
-             
+            
             var netFrameClientOnServer = new NetFrameClientOnServer(clientId, client, _handlers, 
-                _receiveBufferSize, _datagramCollection);
+                _receiveBufferSize);
 
             _clients.Add(clientId, netFrameClientOnServer);
              
@@ -102,7 +94,6 @@ namespace NetFrame.Server
             {
                 ClientConnection?.Invoke(_clients.Last().Key);
             });
-            
             _tcpServer.BeginAcceptTcpClient(ConnectedClientCallback, _tcpServer);
         }
 
@@ -188,7 +179,7 @@ namespace NetFrame.Server
                 {
                     continue;
                 }
-
+                
                 ClientDisconnect?.Invoke(client.Key);
                 client.Value.Disconnect();
                 _clients.Remove(client.Key);
