@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace UI.WindowsSystem
@@ -10,24 +9,24 @@ namespace UI.WindowsSystem
         private GameWindows _gameWindows;
         private UIRoot _uiRoot;
         
-        private Dictionary<Type, WindowBase> _windows;
+        private Dictionary<Type, WindowBase> _windowsPrefabs;
         
         public void Initialize(GameWindows gameWindows, UIRoot uiRoot)
         {
             _gameWindows = gameWindows;
             _uiRoot = uiRoot;
-            _windows = new Dictionary<Type, WindowBase>();
+            _windowsPrefabs = new Dictionary<Type, WindowBase>();
 
             foreach (var window in _gameWindows.windows)
             {
-                _windows.Add(window.GetType(), window);
+                _windowsPrefabs.Add(window.GetType(), window);
             }
         }
 
         public T GetWindow<T>() where T : WindowBase
         {
             var type = typeof(T);
-            if (!_windows.TryGetValue(type, out var windowPrefab))
+            if (!_windowsPrefabs.TryGetValue(type, out var windowPrefab))
                 throw new ArgumentException($"Error in getting window type {type.Name} - window not registered");
             
             if (windowPrefab is not T window)

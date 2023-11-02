@@ -3,6 +3,7 @@ using Common;
 using Cysharp.Threading.Tasks;
 using Startup.GameplayInitializers;
 using Startup.Initializers;
+using UI;
 using UnityEngine;
 
 namespace Startup
@@ -45,12 +46,16 @@ namespace Startup
 
         public async UniTask StartGame()
         {
+            var loadingScreen = GameContainer.Common.Resolve<LoadingScreen>();
+            loadingScreen.Active = true;
+            
             GameContainer.InGame = new Container();
             foreach (var initializer in _gameplayInitializers)
             {
                 await initializer.Initialize();
             }
 
+            loadingScreen.Active = false;
             InGame = true;
         }
 

@@ -3,6 +3,7 @@ using Cysharp.Threading.Tasks;
 using UI;
 using UI.NotificationsSystem;
 using UI.WindowsSystem;
+using UI.WindowsSystem.WindowTypes;
 using UnityEngine;
 
 namespace Startup.Initializers
@@ -28,6 +29,8 @@ namespace Startup.Initializers
             var notificationsManagerPrefab = Resources.Load<NotificationsManager>("UI/NotificationsScreen");
             var notificationsManager = Object.Instantiate(notificationsManagerPrefab, uiRoot.NotificationsParent);
             GameContainer.Common.Register(notificationsManager);
+
+            windowsSystem.GetWindow<MainMenu>();
             
             return UniTask.CompletedTask;
         }

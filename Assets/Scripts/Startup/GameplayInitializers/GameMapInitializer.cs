@@ -1,6 +1,7 @@
 ﻿using Common;
 using Cysharp.Threading.Tasks;
-using UI;
+using GameCore.Input;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Startup.GameplayInitializers
@@ -11,12 +12,13 @@ namespace Startup.GameplayInitializers
         
         public async UniTask Initialize()
         {
-            var loadingScreen = GameContainer.Common.Resolve<LoadingScreen>();
-            loadingScreen.Active = true;
-            
             await SceneManager.LoadSceneAsync(SceneName, LoadSceneMode.Additive);
+
+            var inputState = new InputState();
+            GameContainer.InGame.Register(inputState);
             
-            loadingScreen.Active = false;
+            var inputSourcePrefab = Resources.Load<DesktopInputSource>("Input/DesktopInputSource");
+            Object.Instantiate(inputSourcePrefab);
         }
 
         public void Dispose()
