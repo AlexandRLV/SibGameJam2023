@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Common;
-using Cysharp.Threading.Tasks;
 using Startup.GameplayInitializers;
 using Startup.Initializers;
 using UI;
@@ -23,14 +22,14 @@ namespace Startup
         
         public bool InGame { get; private set; }
         
-        private async void Awake()
+        private void Awake()
         {
             GameContainer.Common = new Container();
             GameContainer.Common.Register(this);
             
             foreach (var initializer in _startGameInitializers)
             {
-                await initializer.Initialize();
+                initializer.Initialize();
             }
         }
 
@@ -44,7 +43,7 @@ namespace Startup
             }
         }
 
-        public async UniTask StartGame()
+        public void StartGame()
         {
             var loadingScreen = GameContainer.Common.Resolve<LoadingScreen>();
             loadingScreen.Active = true;
@@ -52,7 +51,7 @@ namespace Startup
             GameContainer.InGame = new Container();
             foreach (var initializer in _gameplayInitializers)
             {
-                await initializer.Initialize();
+                initializer.Initialize();
             }
 
             loadingScreen.Active = false;

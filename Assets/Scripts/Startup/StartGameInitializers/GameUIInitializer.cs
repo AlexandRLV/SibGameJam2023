@@ -1,5 +1,4 @@
 ﻿using Common;
-using Cysharp.Threading.Tasks;
 using UI;
 using UI.NotificationsSystem;
 using UI.WindowsSystem;
@@ -10,7 +9,7 @@ namespace Startup.Initializers
 {
     public class GameUIInitializer : IInitializer
     {
-        public UniTask Initialize()
+        public void Initialize()
         {
             var uiRootPrefab = Resources.Load<UIRoot>("UI/UIRoot");
             var uiRoot = Object.Instantiate(uiRootPrefab);
@@ -31,8 +30,6 @@ namespace Startup.Initializers
             GameContainer.Common.Register(notificationsManager);
 
             windowsSystem.GetWindow<MainMenu>();
-            
-            return UniTask.CompletedTask;
         }
 
         public void Dispose()

@@ -1,5 +1,4 @@
 ﻿using Common;
-using Cysharp.Threading.Tasks;
 using GameCore.Input;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -10,9 +9,9 @@ namespace Startup.GameplayInitializers
     {
         public const string SceneName = "";
         
-        public async UniTask Initialize()
+        public void Initialize()
         {
-            await SceneManager.LoadSceneAsync(SceneName, LoadSceneMode.Additive);
+            SceneManager.LoadScene(SceneName, LoadSceneMode.Additive);
 
             var inputState = new InputState();
             GameContainer.InGame.Register(inputState);

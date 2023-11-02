@@ -1,10 +1,8 @@
-﻿using Cysharp.Threading.Tasks;
-
-namespace Startup
+﻿namespace Startup
 {
     public interface IInitializer
     {
-        public UniTask Initialize();
+        public void Initialize();
         public void Dispose();
     }
 }

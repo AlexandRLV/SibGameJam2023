@@ -1,17 +1,10 @@
 ﻿using Common;
-using LocalMessages;
 using Startup;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace UI.WindowsSystem.WindowTypes
 {
-    public struct StartGameMessage
-    {
-        public int X;
-        public string Text;
-    }
-    
     public class MainMenu : WindowBase
     {
         [SerializeField] private Button _startGameButton;
@@ -27,10 +20,10 @@ namespace UI.WindowsSystem.WindowTypes
             _leaveButton.onClick.AddListener(LeaveGame);
         }
 
-        private async void StartGame()
+        private void StartGame()
         {
             Hide();
-            await _gameInitializer.StartGame();
+            _gameInitializer.StartGame();
             Destroy(gameObject);
         }
 
