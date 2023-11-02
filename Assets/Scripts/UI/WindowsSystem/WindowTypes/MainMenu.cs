@@ -1,10 +1,17 @@
 ﻿using Common;
+using LocalMessages;
 using Startup;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace UI.WindowsSystem.WindowTypes
 {
+    public struct StartGameMessage
+    {
+        public int X;
+        public string Text;
+    }
+    
     public class MainMenu : WindowBase
     {
         [SerializeField] private Button _startGameButton;

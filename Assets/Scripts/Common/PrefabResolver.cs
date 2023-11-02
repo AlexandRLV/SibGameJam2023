@@ -16,8 +16,6 @@ namespace Common
             var attributeType = typeof(ResolveComponentAttribute);
             foreach (var component in gameObject.GetComponentsInChildren<MonoBehaviour>())
             {
-                var allFields = component.GetType()
-                    .GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
                 var fields = component.GetType()
                     .GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
                     .Where(x => x.IsDefined(attributeType, true));
