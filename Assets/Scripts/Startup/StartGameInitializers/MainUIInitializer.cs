@@ -30,7 +30,6 @@ namespace Startup.Initializers
             var notificationsManager = Object.Instantiate(notificationsManagerPrefab, uiRoot.NotificationsParent);
             GameContainer.Common.Register(notificationsManager);
 
-            windowsSystem.GetWindow<MainMenu>();
             yield return null;
         }
 

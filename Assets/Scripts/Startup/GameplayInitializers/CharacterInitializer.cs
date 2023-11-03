@@ -2,6 +2,7 @@
 using Common;
 using GameCore;
 using GameCore.Camera;
+using GameCore.Input;
 using UnityEngine;
 
 namespace Startup.GameplayInitializers
@@ -10,6 +11,12 @@ namespace Startup.GameplayInitializers
     {
         public IEnumerator Initialize()
         {
+            var inputState = new InputState();
+            GameContainer.InGame.Register(inputState);
+            
+            var inputSourcePrefab = Resources.Load<DesktopInputSource>("Input/DesktopInputSource");
+            Object.Instantiate(inputSourcePrefab);
+            
             var spawns = GameContainer.InGame.Resolve<PlayerSpawns>();
             
             var characterPrefab = Resources.Load<GameObject>("Prefabs/Character");
