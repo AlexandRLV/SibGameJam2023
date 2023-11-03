@@ -16,12 +16,12 @@ namespace GameCore.StateMachine
 
         internal void Update(float deltaTime)
         {
-            CurrentState.Update(deltaTime);
+            CurrentState.Update();
         }
 		
         internal void FixedUpdate(float deltaTime)
         {
-            CurrentState.FixedUpdate(deltaTime);
+            CurrentState.FixedUpdate();
         }
 
         internal void CheckStates(bool debug)

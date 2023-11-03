@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using GameCore.Character.Animation;
 
 namespace GameCore.StateMachine
 {
     public abstract class StateBase<TStateType> where TStateType : Enum
     {
+        public abstract AnimationType AnimationType { get; }
         public abstract TStateType Type { get; }
 
         public HashSet<TStateType> whiteListOnEnter = new();
@@ -33,7 +35,7 @@ namespace GameCore.StateMachine
         public virtual void OnEnter(TStateType prevState) { }
         public virtual void OnExit(TStateType nextState) { }
 		
-        public virtual void Update(float deltaTime) { }
-        public virtual void FixedUpdate(float deltaTime) { }
+        public virtual void Update() { }
+        public virtual void FixedUpdate() { }
     }
 }

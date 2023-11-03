@@ -4,7 +4,7 @@ namespace GameCore.Input
 {
     public class InputState
     {
-        public Vector2 Movement;
+        public Vector2 MoveVector;
         public Vector2 Camera;
 
         public bool JumpPressed;
@@ -13,7 +13,7 @@ namespace GameCore.Input
 
         public void Clear()
         {
-            Movement = Vector2.zero;
+            MoveVector = Vector2.zero;
             Camera = Vector2.zero;
 
             JumpPressed = false;
