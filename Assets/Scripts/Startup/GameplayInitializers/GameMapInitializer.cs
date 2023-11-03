@@ -8,7 +8,7 @@ namespace Startup.GameplayInitializers
 {
     public class GameMapInitializer : IInitializer
     {
-        private const string SceneName = "TestCharacterScene";
+        private const string SceneName = "CharacterScene";
         
         public IEnumerator Initialize()
         {

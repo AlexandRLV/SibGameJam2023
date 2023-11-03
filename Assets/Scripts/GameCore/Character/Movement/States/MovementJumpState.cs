@@ -23,6 +23,8 @@ namespace GameCore.Character.Movement.States
 
         public override void OnEnter(MovementStateType prevState)
         {
+            if (!movement.InputState.JumpPressed) return;
+            
             float jumpForce = Mathf.Sqrt(-2f
                                          * Physics.gravity.y
                                          * parameters.jumpHeight
