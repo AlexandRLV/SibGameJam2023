@@ -4,7 +4,6 @@
     {
         public static class Character
         {
-            public const float Gravity = -9.81f;
             public const float MinJumpTime = 0.2f;
         }
     }

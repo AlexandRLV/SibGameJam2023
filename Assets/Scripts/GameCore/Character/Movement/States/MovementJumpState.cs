@@ -23,7 +23,12 @@ namespace GameCore.Character.Movement.States
 
         public override void OnEnter(MovementStateType prevState)
         {
-            float jumpForce = Mathf.Sqrt(-2f * Const.Character.Gravity * parameters.jumpHeight * 1.1f);
+            float jumpForce = Mathf.Sqrt(-2f
+                                         * Physics.gravity.y
+                                         * parameters.jumpHeight
+                                         * parameters.gravityMultiplier
+                                         * 1.1f) * rigidbody.mass;
+            
             rigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             _jumpTimer = Const.Character.MinJumpTime;
         }
@@ -43,7 +48,7 @@ namespace GameCore.Character.Movement.States
 
             input *= parameters.inAirSpeed;
             
-            movement.Move(input);
+            movement.MoveInAir(input);
         }
     }
 }

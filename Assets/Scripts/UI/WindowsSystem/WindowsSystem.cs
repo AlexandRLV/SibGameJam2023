@@ -53,7 +53,10 @@ namespace UI.WindowsSystem
             if (!_loadedWindows.TryGetValue(type, out var window))
                 return;
             
-            Object.Destroy(window.gameObject);
+            if (window != null && window.gameObject != null)
+                Object.Destroy(window.gameObject);
+
+            _loadedWindows.Remove(type);
         }
     }
 }
