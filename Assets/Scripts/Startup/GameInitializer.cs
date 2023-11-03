@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using Common;
 using Startup.GameplayInitializers;
 using Startup.Initializers;
@@ -12,12 +13,14 @@ namespace Startup
     {
         private static List<IInitializer> _startGameInitializers = new()
         {
-            new GameUIInitializer(),
+            new MainUIInitializer(),
         };
 
         private static List<IInitializer> _gameplayInitializers = new()
         {
             new GameMapInitializer(),
+            new InGameUIInitializer(),
+            new CharacterInitializer(),
         };
         
         public bool InGame { get; private set; }
@@ -26,11 +29,8 @@ namespace Startup
         {
             GameContainer.Common = new Container();
             GameContainer.Common.Register(this);
-            
-            foreach (var initializer in _startGameInitializers)
-            {
-                initializer.Initialize();
-            }
+
+            StartCoroutine(InitializeGameCoroutine());
         }
 
         private void OnDestroy()
@@ -45,17 +45,7 @@ namespace Startup
 
         public void StartGame()
         {
-            var loadingScreen = GameContainer.Common.Resolve<LoadingScreen>();
-            loadingScreen.Active = true;
-            
-            GameContainer.InGame = new Container();
-            foreach (var initializer in _gameplayInitializers)
-            {
-                initializer.Initialize();
-            }
-
-            loadingScreen.Active = false;
-            InGame = true;
+            StartCoroutine(StartGameCoroutine());
         }
 
         public void StopGame()
@@ -67,6 +57,29 @@ namespace Startup
 
             GameContainer.InGame = null;
             InGame = false;
+        }
+
+        private IEnumerator InitializeGameCoroutine()
+        {
+            foreach (var initializer in _startGameInitializers)
+            {
+                yield return initializer.Initialize();
+            }
+        }
+
+        private IEnumerator StartGameCoroutine()
+        {
+            var loadingScreen = GameContainer.Common.Resolve<LoadingScreen>();
+            loadingScreen.Active = true;
+            
+            GameContainer.InGame = new Container();
+            foreach (var initializer in _gameplayInitializers)
+            {
+                yield return initializer.Initialize();
+            }
+
+            loadingScreen.Active = false;
+            InGame = true;
         }
     }
 }

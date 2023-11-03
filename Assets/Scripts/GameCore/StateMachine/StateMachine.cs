@@ -14,12 +14,12 @@ namespace GameCore.StateMachine
         private TStateType _currentType;
         private readonly EqualityComparer<TStateType> _comparer = EqualityComparer<TStateType>.Default;
 
-        internal void Update(float deltaTime)
+        internal void Update()
         {
             CurrentState.Update();
         }
 		
-        internal void FixedUpdate(float deltaTime)
+        internal void FixedUpdate()
         {
             CurrentState.FixedUpdate();
         }

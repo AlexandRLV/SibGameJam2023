@@ -1,8 +1,10 @@
-﻿namespace Startup
+﻿using System.Collections;
+
+namespace Startup
 {
     public interface IInitializer
     {
-        public void Initialize();
+        public IEnumerator Initialize();
         public void Dispose();
     }
 }

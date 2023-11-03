@@ -1,4 +1,5 @@
-﻿using Common;
+﻿using System.Collections;
+using Common;
 using GameCore.Input;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -7,11 +8,12 @@ namespace Startup.GameplayInitializers
 {
     public class GameMapInitializer : IInitializer
     {
-        public const string SceneName = "";
+        private const string SceneName = "TestCharacterScene";
         
-        public void Initialize()
+        public IEnumerator Initialize()
         {
-            SceneManager.LoadScene(SceneName, LoadSceneMode.Additive);
+            var asyncOperation = SceneManager.LoadSceneAsync(SceneName, LoadSceneMode.Additive);
+            yield return asyncOperation;
 
             var inputState = new InputState();
             GameContainer.InGame.Register(inputState);

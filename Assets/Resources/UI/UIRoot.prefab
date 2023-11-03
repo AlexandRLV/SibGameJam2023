@@ -83,7 +83,7 @@ GameObject:
   - component: {fileID: 7258455596964279090}
   - component: {fileID: 7258455596964279091}
   - component: {fileID: 7258455596964279088}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: EventSystem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -149,7 +149,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7258455597259383568}
   - component: {fileID: 1380277063412073216}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: UIRoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}

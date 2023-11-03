@@ -1,4 +1,5 @@
-﻿using Common;
+﻿using System.Collections;
+using Common;
 using UI;
 using UI.NotificationsSystem;
 using UI.WindowsSystem;
@@ -7,9 +8,9 @@ using UnityEngine;
 
 namespace Startup.Initializers
 {
-    public class GameUIInitializer : IInitializer
+    public class MainUIInitializer : IInitializer
     {
-        public void Initialize()
+        public IEnumerator Initialize()
         {
             var uiRootPrefab = Resources.Load<UIRoot>("UI/UIRoot");
             var uiRoot = Object.Instantiate(uiRootPrefab);
@@ -22,7 +23,7 @@ namespace Startup.Initializers
             
             var loadingScreenPrefab = Resources.Load<LoadingScreen>("UI/LoadingScreen");
             var loadingScreen = Object.Instantiate(loadingScreenPrefab, uiRoot.OverlayParent);
-            loadingScreen.Active = true;
+            loadingScreen.Active = false;
             GameContainer.Common.Register(loadingScreen);
 
             var notificationsManagerPrefab = Resources.Load<NotificationsManager>("UI/NotificationsScreen");
@@ -30,6 +31,7 @@ namespace Startup.Initializers
             GameContainer.Common.Register(notificationsManager);
 
             windowsSystem.GetWindow<MainMenu>();
+            yield return null;
         }
 
         public void Dispose()

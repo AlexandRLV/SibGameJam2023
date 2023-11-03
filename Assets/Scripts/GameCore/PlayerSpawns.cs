@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace GameCore
 {
+    [DefaultExecutionOrder(-100)]
     public class PlayerSpawns : MonoBehaviour
     {
         [SerializeField] private Transform _spawnPoint;

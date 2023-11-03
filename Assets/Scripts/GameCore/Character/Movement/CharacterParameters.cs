@@ -12,5 +12,9 @@ namespace GameCore.Character.Movement
 
         [Header("Inertia")]
         [SerializeField] public float lerpInertiaSpeed;
+
+        [Header("Floating")]
+        [SerializeField] public float springForce;
+        [SerializeField] public float dampingForce;
     }
 }

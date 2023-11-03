@@ -22,9 +22,10 @@ namespace UI.WindowsSystem.WindowTypes
 
         private void StartGame()
         {
-            Hide();
             _gameInitializer.StartGame();
-            Destroy(gameObject);
+
+            var windowsSystem = GameContainer.Common.Resolve<WindowsSystem>();
+            windowsSystem.DestroyWindow<MainMenu>();
         }
 
         private void LeaveGame()
