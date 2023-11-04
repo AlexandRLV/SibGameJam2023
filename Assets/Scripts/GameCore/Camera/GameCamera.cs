@@ -5,18 +5,20 @@ namespace GameCore.Camera
 {
     public class GameCamera : MonoBehaviour
     {
+        public CameraFollowTarget FollowTarget => _followTarget;
+        
         [SerializeField] private CinemachineVirtualCamera _virtualCamera;
+        [SerializeField] private CameraFollowTarget _followTarget;
 
         public void SetTarget(Transform target)
         {
-            _virtualCamera.Follow = target;
-            _virtualCamera.LookAt = target;
+            _followTarget.SetTarget(target);
         }
 
         public void ClearTarget()
         {
-            _virtualCamera.LookAt = null;
-            _virtualCamera.Follow = null;
+            _followTarget.ClearTarget();
+            _followTarget.Height = 0f;
         }
     }
 }

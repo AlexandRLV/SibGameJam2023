@@ -30,10 +30,7 @@ public class EnemyMovement : MonoBehaviour
         if (canMove == false) return;
 
         if (movePoints.Count == 0)
-        {
-            Debug.LogError(name + " waypoints not assigned");
             return;
-        }
 
         if (Vector3.Distance(transform.position, movePoints[currentPointIndex].transform.position) > 2f)
         {
