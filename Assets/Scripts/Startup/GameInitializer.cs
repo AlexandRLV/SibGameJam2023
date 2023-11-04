@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Common;
+using GameCore.Camera;
 using Startup.GameplayInitializers;
 using Startup.Initializers;
 using UI;
@@ -47,6 +48,8 @@ namespace Startup
                 return;
             }
             
+            DontDestroyOnLoad(gameObject);
+            
             GameContainer.Common = new Container();
             GameContainer.Common.Register(this);
 
@@ -58,15 +61,8 @@ namespace Startup
         {
             if (InGame) StopGame();
 
-            foreach (var initializer in _startupInitializers)
-            {
-                initializer.Dispose();
-            }
-            
-            foreach (var initializer in _mainMenuInitializers)
-            {
-                initializer.Dispose();
-            }
+            DisposeList(_startupInitializers);
+            DisposeList(_mainMenuInitializers);
         }
 
         public void StartGame()
@@ -76,15 +72,8 @@ namespace Startup
 
         public void StopGame()
         {
-            foreach (var initializer in _gameplayInitializers)
-            {
-                initializer.Dispose();
-            }
-
-            foreach (var initializer in _gameMapInitializers)
-            {
-                initializer.Dispose();
-            }
+            DisposeList(_gameplayInitializers);
+            DisposeList(_gameMapInitializers);
 
             GameContainer.InGame = null;
             InGame = false;
@@ -92,22 +81,12 @@ namespace Startup
 
         private IEnumerator InitializeGameCoroutine()
         {
-            foreach (var initializer in _startupInitializers)
-            {
-                yield return initializer.Initialize();
-            }
-            
+            yield return InitializeList(_startupInitializers);
+
             if (!_initializeRightToGame)
-            {
-                foreach (var initializer in _mainMenuInitializers)
-                {
-                    yield return initializer.Initialize();
-                }
-            }
+                yield return InitializeList(_mainMenuInitializers);
             else
-            {
                 StartGame();
-            }
         }
 
         private IEnumerator StartGameCoroutine()
@@ -118,20 +97,32 @@ namespace Startup
             GameContainer.InGame = new Container();
             
             if (!_initializeRightToGame)
-            {
-                foreach (var initializer in _gameMapInitializers)
-                {
-                    yield return initializer.Initialize();
-                }
-            }
-            
-            foreach (var initializer in _gameplayInitializers)
-            {
-                yield return initializer.Initialize();
-            }
+                yield return InitializeList(_gameMapInitializers);
+
+            yield return InitializeList(_gameplayInitializers);
 
             loadingScreen.Active = false;
             InGame = true;
+            
+            // TODO: remove when game will be initialized normally
+            if (_initializeRightToGame)
+                Camera.main.gameObject.AddComponent<AudioListener>();
+        }
+
+        private IEnumerator InitializeList(List<IInitializer> initializers)
+        {
+            foreach (var initializer in initializers)
+            {
+                yield return initializer.Initialize();
+            }
+        }
+
+        private void DisposeList(List<IInitializer> initializers)
+        {
+            foreach (var initializer in initializers)
+            {
+                initializer.Dispose();
+            }
         }
     }
 }
