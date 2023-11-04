@@ -15,5 +15,11 @@ namespace Common
             origin.y = y;
             return origin;
         }
+
+        public static Quaternion FlatRotation(this Transform transform)
+        {
+            float eulerY = transform.eulerAngles.y;
+            return Quaternion.Euler(0f, eulerY, 0f);
+        }
     }
 }

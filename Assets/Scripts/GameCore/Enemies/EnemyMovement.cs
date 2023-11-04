@@ -32,10 +32,7 @@ public class EnemyMovement : MonoBehaviour
     public void SequentalWaypointsMovement()
     {
         if (movePoints.Count == 0)
-        {
-            Debug.LogError(name + " waypoints not assigned");
             return;
-        }
 
         if (Vector3.Distance(transform.position, movePoints[currentPointIndex].position) > 1f)
         {

@@ -9,7 +9,10 @@ namespace GameCore.Character.Movement
         [SerializeField] public float speed;
         [SerializeField] [Range(0f, 1f)] public float crouchSpeedMultiplier;
         [SerializeField] [Range(0f, 1f)] public float crouchHeightMultiplier;
-        [SerializeField] [Range(0f, 1f)] public float sneakSpeedMultiplier; 
+        [SerializeField] [Range(0f, 1f)] public float sneakSpeedMultiplier;
+
+        [Header("Camera")]
+        [SerializeField] public float cameraHeight;
         
         [Header("Jump")]
         [SerializeField] public bool canJump;

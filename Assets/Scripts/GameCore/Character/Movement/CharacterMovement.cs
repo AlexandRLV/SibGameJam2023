@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Common;
+using GameCore.Camera;
 using GameCore.Character.Movement.States;
 using GameCore.Input;
 using GameCore.StateMachine;
@@ -19,7 +20,6 @@ namespace GameCore.Character.Movement
         
         [Header("References")]
         [SerializeField] private Rigidbody _rigidbody;
-        [SerializeField] private GameObject _posessIndicator;
         [SerializeField] private CharacterParameters _parameters;
 
         [Header("Floating")]
@@ -33,6 +33,9 @@ namespace GameCore.Character.Movement
         [SerializeField] private MovementStateType _currentState;
 
         private StateMachine<MovementStateBase, MovementStateType> _stateMachine;
+
+        private GameCamera _gameCamera;
+        private Vector3 _movement;
 
 #region Internal methods
         private void Awake()
@@ -61,6 +64,7 @@ namespace GameCore.Character.Movement
         private void FixedUpdate()
         {
             CheckGrounded();
+            RotateToCamera();
 
             float gravity = Physics.gravity.y * _parameters.gravityMultiplier * _rigidbody.mass;
             _rigidbody.AddForce(Vector3.up * gravity);
@@ -104,6 +108,15 @@ namespace GameCore.Character.Movement
             springForce *= _rigidbody.mass;
             _rigidbody.AddForce(Vector3.down * springForce);
         }
+
+        private void RotateToCamera()
+        {
+            if (!IsControlledByPlayer) return;
+            if (_movement.magnitude < 0.1f) return;
+
+            float targetY = _gameCamera.FollowTarget.transform.eulerAngles.y;
+            _rigidbody.rotation = Quaternion.Euler(0f, targetY, 0f);
+        }
 #endregion
 
 #region Public methods
@@ -111,41 +124,38 @@ namespace GameCore.Character.Movement
         {
             InputState = GameContainer.InGame.Resolve<InputState>();
             IsControlledByPlayer = true;
-            _posessIndicator.SetActive(true);
             _rigidbody.drag = 0f;
+
+            _gameCamera = GameContainer.InGame.Resolve<GameCamera>();
+            _gameCamera.FollowTarget.Height = _parameters.cameraHeight;
         }
 
         public void Unposess()
         {
             InputState = null;
             IsControlledByPlayer = false;
-            _posessIndicator.SetActive(false);
             
             _rigidbody.velocity = Vector3.zero.WithY(_rigidbody.velocity.y);
             _rigidbody.drag = 5f;
         }
         
         public void Move(Vector2 input)
-        { 
-            var movement = new Vector3(input.x, 0f, input.y);
-            _rigidbody.velocity = Vector3.Lerp(_rigidbody.velocity, movement, _parameters.lerpInertiaSpeed * Time.deltaTime);
-            
-            if (movement.magnitude > 0.1f)
-                _rigidbody.rotation = Quaternion.LookRotation(movement, Vector3.up);
+        {
+            var rotation = _gameCamera.FollowTarget.transform.FlatRotation();
+            _movement = rotation * new Vector3(input.x, 0f, input.y);
+            _rigidbody.velocity = Vector3.Lerp(_rigidbody.velocity, _movement, _parameters.lerpInertiaSpeed * Time.deltaTime);
         }
 
         public void MoveInAir(Vector2 input)
         {
-            var movement = new Vector3(input.x, 0f, input.y);
+            var rotation = _gameCamera.FollowTarget.transform.FlatRotation();
+            _movement = rotation * new Vector3(input.x, 0f, input.y);
             var horizontalVelocity = _rigidbody.velocity;
             float verticalVelocity = horizontalVelocity.y;
             horizontalVelocity.y = 0f;
 
-            horizontalVelocity = Vector3.Lerp(horizontalVelocity, movement, _parameters.lerpInertiaSpeed * Time.deltaTime);
+            horizontalVelocity = Vector3.Lerp(horizontalVelocity, _movement, _parameters.lerpInertiaSpeed * Time.deltaTime);
             _rigidbody.velocity = new Vector3(horizontalVelocity.x, verticalVelocity, horizontalVelocity.z);
-            
-            if (movement.magnitude > 0.1f)
-                _rigidbody.rotation = Quaternion.LookRotation(movement, Vector3.up);
         }
 #endregion
     }
