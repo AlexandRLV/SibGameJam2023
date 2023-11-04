@@ -25,7 +25,7 @@ namespace UI.WindowsSystem
             }
         }
 
-        public T GetWindow<T>() where T : WindowBase
+        public T CreateWindow<T>() where T : WindowBase
         {
             var type = typeof(T);
             if (_loadedWindows.TryGetValue(type, out var baseWindow))
