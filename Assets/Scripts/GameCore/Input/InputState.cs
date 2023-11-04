@@ -4,21 +4,25 @@ namespace GameCore.Input
 {
     public class InputState
     {
-        public Vector2 MoveVector;
-        public Vector2 Camera;
+        public Vector2 moveVector;
+        public Vector2 camera;
 
-        public bool JumpPressed;
-        public bool AttackPressed;
-        public bool InteractPressState;
+        public PressState jump;
+        public PressState crouch;
+        public PressState sneak;
+        public PressState interact;
+        public PressState changeCharacter;
 
         public void Clear()
         {
-            MoveVector = Vector2.zero;
-            Camera = Vector2.zero;
+            moveVector = Vector2.zero;
+            camera = Vector2.zero;
 
-            JumpPressed = false;
-            AttackPressed = false;
-            InteractPressState = false;
+            jump = PressState.Released;
+            crouch = PressState.Released;
+            sneak = PressState.Released;
+            interact = PressState.Released;
+            changeCharacter = PressState.Released;
         }
     }
 }

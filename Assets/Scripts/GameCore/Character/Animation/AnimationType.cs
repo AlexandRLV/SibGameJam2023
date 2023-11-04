@@ -7,5 +7,7 @@
         Jump,
         Fall,
         Dead,
+        CrouchIdle,
+        CrouchWalk,
     }
 }

@@ -5,5 +5,6 @@
         Walk,
         Jump,
         Dead,
+        Crouch,
     }
 }

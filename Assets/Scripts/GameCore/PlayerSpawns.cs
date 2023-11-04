@@ -7,9 +7,9 @@ namespace GameCore
     [DefaultExecutionOrder(-10)]
     public class PlayerSpawns : MonoBehaviour
     {
-        [SerializeField] private Transform _spawnPoint;
+        [SerializeField] private Transform[] _spawnPoint;
 
-        public Transform SpawnPoint => _spawnPoint;
+        public Transform[] SpawnPoints => _spawnPoint;
         
         public void Awake()
         {
