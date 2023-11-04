@@ -5,13 +5,15 @@ namespace GameCore.Input
     [CreateAssetMenu(fileName = "Input Key Settings")]
     public class InputKeySettings : ScriptableObject
     {
-        public KeyCode ForwardMoveKey;
-        public KeyCode BackMoveKey;
-        public KeyCode RightMoveKey;
-        public KeyCode LeftMoveKey;
+        public KeyCode forwardMoveKey;
+        public KeyCode backMoveKey;
+        public KeyCode rightMoveKey;
+        public KeyCode leftMoveKey;
         
-        public KeyCode JumpKey;
-        public KeyCode AttackKey;
-        public KeyCode InteractKey;
+        public KeyCode jumpKey;
+        public KeyCode crouchKey;
+        public KeyCode sneakKey;
+        public KeyCode interactKey;
+        public KeyCode changeCharacterKey;
     }
 }

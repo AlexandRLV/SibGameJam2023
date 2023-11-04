@@ -1,4 +1,5 @@
-﻿using GameCore.Character.Animation;
+﻿using Common;
+using GameCore.Character.Animation;
 
 namespace GameCore.Character.Movement.States
 {
@@ -20,12 +21,17 @@ namespace GameCore.Character.Movement.States
 
         public override void FixedUpdate()
         {
-            var input = movement.InputState.MoveVector;
+            if (!movement.IsControlledByPlayer) return;
+            
+            var input = movement.InputState.moveVector;
             if (input.magnitude > 1f)
                 input = input.normalized;
 
-            input *= parameters.speed;
+            float speed = parameters.speed * moveValues.SpeedMultiplier;
+            if (movement.InputState.sneak.IsHold())
+                speed *= parameters.sneakSpeedMultiplier;
             
+            input *= speed;
             movement.Move(input);
         }
     }
