@@ -9,7 +9,7 @@ public class Route : MonoBehaviour
 
     private void Awake()
     {
-        for(int i = 0; i < transform.childCount; i++)
+        for (int i = 0; i < transform.childCount; i++)
         {
             waypoints.Add(transform.GetChild(i).GetComponent<Waypoint>());
         }

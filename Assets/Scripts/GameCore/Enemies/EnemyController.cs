@@ -13,7 +13,7 @@ public class EnemyController : MonoBehaviour
 
     EnemyTargetScaner enemyScan;
     EnemyMovement enemyMovement;
-    [SerializeField]Transform currentTarget;
+    [SerializeField] Transform currentTarget;
 
     public void Init(List<Waypoint> movePoints)
     {
@@ -29,8 +29,8 @@ public class EnemyController : MonoBehaviour
 
         if (MovementType.waypointsSequentakPatrolling == movementType)
         {
-            if(currentTarget != null) 
-            { 
+            if (currentTarget != null)
+            {
                 enemyMovement.MoveToTarget(currentTarget);
             }
             else enemyMovement.SequentalWaypointsMovement();
