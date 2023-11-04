@@ -25,6 +25,8 @@ public class DayNightController : MonoBehaviour
         {
             currentRotX += 360 / dayDuration * Time.deltaTime;
             transform.rotation = Quaternion.Euler(currentRotX, 0, 0);
+
+
         }
     }
 }

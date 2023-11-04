@@ -13,10 +13,5 @@ namespace GameCore.InteractiveObjects
         public float SpeedMultiplier => speedMultiplier;
 
         public float SpeedMultiplierDuration => speedMultiplierDuration;
-
-        public void Interact()
-        {
-            OnInteracted?.Invoke();
-        }
     }
 }
