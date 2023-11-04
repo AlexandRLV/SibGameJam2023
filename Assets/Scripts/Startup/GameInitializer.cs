@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Common;
+using GameCore.Camera;
 using Startup.GameplayInitializers;
 using Startup.Initializers;
 using UI;
@@ -102,6 +103,10 @@ namespace Startup
 
             loadingScreen.Active = false;
             InGame = true;
+            
+            // TODO: remove when game will be initialized normally
+            if (_initializeRightToGame)
+                Camera.main.gameObject.AddComponent<AudioListener>();
         }
 
         private IEnumerator InitializeList(List<IInitializer> initializers)

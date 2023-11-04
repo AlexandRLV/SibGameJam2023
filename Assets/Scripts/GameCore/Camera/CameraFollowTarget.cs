@@ -15,6 +15,8 @@ namespace GameCore.Camera
 
         [SerializeField] private float _minAngle;
         [SerializeField] private float _maxAngle;
+
+        private bool _inPause;
         
         private bool _hasTarget;
         private Transform _target;
@@ -34,6 +36,8 @@ namespace GameCore.Camera
 
         private void Update()
         {
+            if (_inPause) return;
+            
             CheckLockCamera();
             
             if (_inputState == null) return;
@@ -96,6 +100,22 @@ namespace GameCore.Camera
         {
             _hasTarget = false;
             _target = null;
+        }
+
+        public void SetInPause(bool value)
+        {
+            if (value)
+            {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+            }
+            else
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            }
+
+            _inPause = value;
         }
 #endregion
     }

@@ -10,7 +10,7 @@ namespace Startup.GameplayInitializers
         public IEnumerator Initialize()
         {
             var windowsSystem = GameContainer.Common.Resolve<WindowsSystem>();
-            windowsSystem.GetWindow<InGameUI>();
+            windowsSystem.CreateWindow<InGameUI>();
             yield break;
         }
 
