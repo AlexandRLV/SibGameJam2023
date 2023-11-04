@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using Common;
 using GameCore.Character.Movement.States;
 using GameCore.Input;
@@ -33,6 +34,8 @@ namespace GameCore.Character.Movement
         [SerializeField] private MovementStateType _currentState;
 
         private StateMachine<MovementStateBase, MovementStateType> _stateMachine;
+
+        private bool _isSpeedModified;
 
 #region Internal methods
         private void Awake()
@@ -104,6 +107,19 @@ namespace GameCore.Character.Movement
             springForce *= _rigidbody.mass;
             _rigidbody.AddForce(Vector3.down * springForce);
         }
+
+        private IEnumerator BuffTimer(float multiplier, float buffDuration)
+        {
+            float countdownValue = buffDuration;
+            while (countdownValue > 0)
+            {
+                yield return new WaitForSeconds(1.0f);
+                countdownValue--;
+            }
+
+            MoveValues.SpeedMultiplier /= multiplier;
+            _isSpeedModified = false;
+        }
 #endregion
 
 #region Public methods
@@ -146,6 +162,17 @@ namespace GameCore.Character.Movement
             
             if (movement.magnitude > 0.1f)
                 _rigidbody.rotation = Quaternion.LookRotation(movement, Vector3.up);
+        }
+
+        public void ChangeMovementSpeed(float multiplier, float duration)
+        {
+            print("IsModified:" + _isSpeedModified);
+            if (!_isSpeedModified)
+            {
+                MoveValues.SpeedMultiplier *= multiplier;
+                _isSpeedModified = true;
+                StartCoroutine(BuffTimer(multiplier, duration));
+            }
         }
 #endregion
     }

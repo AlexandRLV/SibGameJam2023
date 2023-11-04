@@ -1,25 +1,41 @@
+using System;
 using Common;
+using GameCore.Character.Movement;
 using GameCore.InteractiveObjects;
 using UI.NotificationsSystem;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace GameCore.Character.Interaction
 {
     public class CharacterInteraction : MonoBehaviour
     {
+        [SerializeField] private CharacterMovement characterMovement;
         private NotificationsManager _notificationsManager;
+
+        private EatableObject _currentEatableObject;
 
         private void Start()
         {
             _notificationsManager = GameContainer.Common.Resolve<NotificationsManager>();
         }
 
+        private void Update()
+        {
+            if (characterMovement.IsControlledByPlayer && _currentEatableObject &&
+                characterMovement.InputState.interact.IsDown())
+            {
+                _currentEatableObject.Interact();
+            }
+        }
+
         private void OnTriggerEnter(Collider other)
         {
-            if (other.TryGetComponent(out IInteractable interactiveObject))
+            if (other.TryGetComponent(out EatableObject eatableObject))
             {
-                _notificationsManager.ShowNotification("Interact!!", NotificationsManager.NotificationType.Center);
+                _currentEatableObject = eatableObject;
+                eatableObject.OnInteracted += () =>
+                    characterMovement.ChangeMovementSpeed(_currentEatableObject.SpeedMultiplier,
+                        eatableObject.SpeedMultiplierDuration);
             }
         }
 
@@ -29,6 +45,7 @@ namespace GameCore.Character.Interaction
 
         private void OnTriggerExit(Collider other)
         {
+            _currentEatableObject = null;
         }
     }
 }

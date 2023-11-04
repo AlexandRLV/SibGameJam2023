@@ -10,8 +10,8 @@ namespace Startup.GameplayInitializers
     {
         public IEnumerator Initialize()
         {
-            InteractiveObject eatPrefab = Resources.Load<EatableObject>("Prefabs/InteractiveObjects/Eat");
-            InteractiveObject trapPrefab = Resources.Load<TrapObject>("Prefabs/InteractiveObjects/Trap");
+            Transform eatPrefab = Resources.Load<Transform>("Prefabs/InteractiveObjects/Eat");
+            Transform trapPrefab = Resources.Load<Transform>("Prefabs/InteractiveObjects/Trap");
             var spawnPoints = GameContainer.InGame.Resolve<InteractiveObjectsSpawns>();
 
             int numberOfObjects = spawnPoints.spawnPoints.Count;
@@ -25,6 +25,7 @@ namespace Startup.GameplayInitializers
                     spawnPoints.spawnPoints[randomNumber].position;
                 spawnPoints.spawnPoints.RemoveAt(randomNumber);
             }
+
             yield return null;
         }
 
