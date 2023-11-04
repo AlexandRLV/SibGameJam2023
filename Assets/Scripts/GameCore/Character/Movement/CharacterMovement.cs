@@ -11,6 +11,7 @@ namespace GameCore.Character.Movement
     {
         public bool IsGrounded { get; private set; }
         public bool IsDead { get; private set; }
+        public bool IsControlledByPlayer { get; private set; }
         public InputState InputState { get; private set; }
         public Rigidbody Rigidbody => _rigidbody;
         public CharacterParameters Parameters => _parameters;
@@ -31,10 +32,9 @@ namespace GameCore.Character.Movement
 
         private StateMachine<MovementStateBase, MovementStateType> _stateMachine;
 
-        private void Awake()
+#region Internal methods
+         private void Awake()
         {
-            InputState = GameContainer.InGame.Resolve<InputState>();
-
             _stateMachine = new StateMachine<MovementStateBase, MovementStateType>
             {
                 States = new List<MovementStateBase>
@@ -85,7 +85,7 @@ namespace GameCore.Character.Movement
             IsGrounded = true;
 
             if (!_applySpring) return;
-            
+
             float rayDirVelocity = Vector3.Dot(Vector3.down, _rigidbody.velocity);
             float yDelta = hit.distance - checkHeight;
             float springForce = yDelta * _parameters.springForce - rayDirVelocity * _parameters.dampingForce;
@@ -94,7 +94,21 @@ namespace GameCore.Character.Movement
             springForce *= _rigidbody.mass;
             _rigidbody.AddForce(Vector3.down * springForce);
         }
+#endregion
 
+#region Public methods
+        public void Posess()
+        {
+            InputState = GameContainer.InGame.Resolve<InputState>();
+            IsControlledByPlayer = true;
+        }
+
+        public void Unposess()
+        {
+            InputState = null;
+            IsControlledByPlayer = false;
+        }
+        
         public void Move(Vector2 input)
         { 
             var movement = new Vector3(input.x, 0f, input.y);
@@ -117,5 +131,6 @@ namespace GameCore.Character.Movement
             if (movement.magnitude > 0.1f)
                 _rigidbody.rotation = Quaternion.LookRotation(movement, Vector3.up);
         }
+#endregion
     }
 }

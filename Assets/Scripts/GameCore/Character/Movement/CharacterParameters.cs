@@ -7,6 +7,7 @@ namespace GameCore.Character.Movement
     {
         [Header("Common")]
         [SerializeField] public float speed;
+        [SerializeField] public bool canJump;
         [SerializeField] public float jumpHeight;
         [SerializeField] public float inAirSpeed;
         [SerializeField] public float gravityMultiplier;

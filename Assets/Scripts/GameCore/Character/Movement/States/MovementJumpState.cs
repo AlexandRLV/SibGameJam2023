@@ -18,12 +18,12 @@ namespace GameCore.Character.Movement.States
 
         public override bool CanEnter(MovementStateType prevState)
         {
-            return !movement.IsGrounded || movement.InputState.JumpPressed;
+            return !movement.IsGrounded || JumpPressed();
         }
 
         public override void OnEnter(MovementStateType prevState)
         {
-            if (!movement.InputState.JumpPressed) return;
+            if (!JumpPressed() || !parameters.canJump) return;
             
             float jumpForce = Mathf.Sqrt(-2f
                                          * Physics.gravity.y
@@ -44,6 +44,7 @@ namespace GameCore.Character.Movement.States
         {
             _jumpTimer -= Time.deltaTime;
             
+            if (!movement.IsControlledByPlayer) return;
             var input = movement.InputState.MoveVector;
             if (input.magnitude > 1f)
                 input = input.normalized;
@@ -52,5 +53,7 @@ namespace GameCore.Character.Movement.States
             
             movement.MoveInAir(input);
         }
+
+        private bool JumpPressed() => movement.IsControlledByPlayer && movement.InputState.Jump.IsDown();
     }
 }

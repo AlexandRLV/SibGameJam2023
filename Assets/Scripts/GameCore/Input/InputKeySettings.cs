@@ -13,5 +13,6 @@ namespace GameCore.Input
         public KeyCode JumpKey;
         public KeyCode AttackKey;
         public KeyCode InteractKey;
+        public KeyCode ChangeCharacterKey;
     }
 }

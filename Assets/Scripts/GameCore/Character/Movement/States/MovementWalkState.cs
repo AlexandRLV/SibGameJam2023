@@ -20,6 +20,8 @@ namespace GameCore.Character.Movement.States
 
         public override void FixedUpdate()
         {
+            if (!movement.IsControlledByPlayer) return;
+            
             var input = movement.InputState.MoveVector;
             if (input.magnitude > 1f)
                 input = input.normalized;

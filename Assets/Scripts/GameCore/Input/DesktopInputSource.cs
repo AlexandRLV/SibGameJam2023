@@ -14,7 +14,7 @@ namespace GameCore.Input
             _inputState = GameContainer.InGame.Resolve<InputState>();
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             _inputState.Clear();
 
@@ -32,9 +32,18 @@ namespace GameCore.Input
             _inputState.Camera =
                 new Vector2(UnityEngine.Input.GetAxis("Mouse X"), UnityEngine.Input.GetAxis("Mouse Y"));
 
-            _inputState.JumpPressed = UnityEngine.Input.GetKey(_keySettings.JumpKey);
-            _inputState.AttackPressed = UnityEngine.Input.GetKey(_keySettings.AttackKey);
-            _inputState.InteractPressState = UnityEngine.Input.GetKey(_keySettings.InteractKey);
+            _inputState.Jump = GetPressState(_keySettings.JumpKey);
+            _inputState.Attack = GetPressState(_keySettings.AttackKey);
+            _inputState.Interact = GetPressState(_keySettings.InteractKey);
+            _inputState.ChangeCharacter = GetPressState(_keySettings.ChangeCharacterKey);
+        }
+
+        private PressState GetPressState(KeyCode key)
+        {
+            if (UnityEngine.Input.GetKeyDown(key)) return PressState.Down;
+            if (UnityEngine.Input.GetKeyUp(key)) return PressState.Up;
+            if (UnityEngine.Input.GetKey(key)) return PressState.Hold;
+            return PressState.Released;
         }
     }
 }
