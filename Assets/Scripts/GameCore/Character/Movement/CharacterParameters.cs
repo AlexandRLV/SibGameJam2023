@@ -5,8 +5,13 @@ namespace GameCore.Character.Movement
     [CreateAssetMenu(fileName = "Character Parameters")]
     public class CharacterParameters : ScriptableObject
     {
-        [Header("Common")]
+        [Header("Movement")]
         [SerializeField] public float speed;
+        [SerializeField] [Range(0f, 1f)] public float crouchSpeedMultiplier;
+        [SerializeField] [Range(0f, 1f)] public float crouchHeightMultiplier;
+        [SerializeField] [Range(0f, 1f)] public float sneakSpeedMultiplier; 
+        
+        [Header("Jump")]
         [SerializeField] public bool canJump;
         [SerializeField] public float jumpHeight;
         [SerializeField] public float inAirSpeed;

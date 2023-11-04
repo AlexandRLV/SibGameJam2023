@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: Little Mouse Parameters
   m_EditorClassIdentifier: 
   speed: 5
+  crouchSpeedMultiplier: 0.6
+  crouchHeightMultiplier: 0.4
+  sneakSpeedMultiplier: 0.8
   canJump: 1
   jumpHeight: 3
   inAirSpeed: 3

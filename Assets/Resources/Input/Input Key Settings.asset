@@ -12,10 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3f97f3dc98f43009dda89535fc91b5f, type: 3}
   m_Name: Input Key Settings
   m_EditorClassIdentifier: 
-  ForwardMoveKey: 119
-  BackMoveKey: 115
-  RightMoveKey: 100
-  LeftMoveKey: 97
-  JumpKey: 32
-  AttackKey: 323
-  InteractKey: 101
+  forwardMoveKey: 119
+  backMoveKey: 115
+  rightMoveKey: 100
+  leftMoveKey: 97
+  jumpKey: 32
+  crouchKey: 306
+  sneakKey: 304
+  attackKey: 323
+  interactKey: 101
+  changeCharacterKey: 117

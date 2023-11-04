@@ -14,28 +14,29 @@ namespace GameCore.Input
             _inputState = GameContainer.InGame.Resolve<InputState>();
         }
 
-        private void FixedUpdate()
+        private void Update()
         {
             _inputState.Clear();
 
             var movement = Vector2.zero;
-            if (UnityEngine.Input.GetKey(_keySettings.ForwardMoveKey))
+            if (UnityEngine.Input.GetKey(_keySettings.forwardMoveKey))
                 movement.y += 1f;
-            if (UnityEngine.Input.GetKey(_keySettings.BackMoveKey))
+            if (UnityEngine.Input.GetKey(_keySettings.backMoveKey))
                 movement.y -= 1f;
-            if (UnityEngine.Input.GetKey(_keySettings.RightMoveKey))
+            if (UnityEngine.Input.GetKey(_keySettings.rightMoveKey))
                 movement.x += 1f;
-            if (UnityEngine.Input.GetKey(_keySettings.LeftMoveKey))
+            if (UnityEngine.Input.GetKey(_keySettings.leftMoveKey))
                 movement.x -= 1f;
 
-            _inputState.MoveVector = movement;
-            _inputState.Camera =
+            _inputState.moveVector = movement;
+            _inputState.camera =
                 new Vector2(UnityEngine.Input.GetAxis("Mouse X"), UnityEngine.Input.GetAxis("Mouse Y"));
 
-            _inputState.Jump = GetPressState(_keySettings.JumpKey);
-            _inputState.Attack = GetPressState(_keySettings.AttackKey);
-            _inputState.Interact = GetPressState(_keySettings.InteractKey);
-            _inputState.ChangeCharacter = GetPressState(_keySettings.ChangeCharacterKey);
+            _inputState.jump = GetPressState(_keySettings.jumpKey);
+            _inputState.crouch = GetPressState(_keySettings.crouchKey);
+            _inputState.sneak = GetPressState(_keySettings.sneakKey);
+            _inputState.interact = GetPressState(_keySettings.interactKey);
+            _inputState.changeCharacter = GetPressState(_keySettings.changeCharacterKey);
         }
 
         private PressState GetPressState(KeyCode key)

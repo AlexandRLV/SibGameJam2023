@@ -13,11 +13,13 @@ namespace GameCore.Character.Movement
         public bool IsDead { get; private set; }
         public bool IsControlledByPlayer { get; private set; }
         public InputState InputState { get; private set; }
+        public CharacterMoveValues MoveValues { get; private set; }
         public Rigidbody Rigidbody => _rigidbody;
         public CharacterParameters Parameters => _parameters;
         
         [Header("References")]
         [SerializeField] private Rigidbody _rigidbody;
+        [SerializeField] private GameObject _posessIndicator;
         [SerializeField] private CharacterParameters _parameters;
 
         [Header("Floating")]
@@ -33,8 +35,15 @@ namespace GameCore.Character.Movement
         private StateMachine<MovementStateBase, MovementStateType> _stateMachine;
 
 #region Internal methods
-         private void Awake()
+        private void Awake()
         {
+            MoveValues = new CharacterMoveValues
+            {
+                SpeedMultiplier = 1f,
+                JumpHeightMultiplier = 1f,
+                FloatingHeightMultiplier = 1f,
+            };
+            
             _stateMachine = new StateMachine<MovementStateBase, MovementStateType>
             {
                 States = new List<MovementStateBase>
@@ -46,6 +55,7 @@ namespace GameCore.Character.Movement
             };
             
             _stateMachine.ForceSetState(MovementStateType.Walk, _debugStateChanges);
+            Unposess();
         }
 
         private void FixedUpdate()
@@ -62,7 +72,7 @@ namespace GameCore.Character.Movement
         private void CheckGrounded()
         {
             _appliedYForce = 0f;
-            float checkHeight = _floatingHeight * 1.5f;
+            float checkHeight = _floatingHeight * 1.5f * MoveValues.FloatingHeightMultiplier;
             var groundCheckOrigin = transform.position + Vector3.up * checkHeight;
             Physics.Raycast(groundCheckOrigin, Vector3.down, out var hit, _floatingHeight * 3f, _groundMask);
 
@@ -101,12 +111,18 @@ namespace GameCore.Character.Movement
         {
             InputState = GameContainer.InGame.Resolve<InputState>();
             IsControlledByPlayer = true;
+            _posessIndicator.SetActive(true);
+            _rigidbody.drag = 0f;
         }
 
         public void Unposess()
         {
             InputState = null;
             IsControlledByPlayer = false;
+            _posessIndicator.SetActive(false);
+            
+            _rigidbody.velocity = Vector3.zero.WithY(_rigidbody.velocity.y);
+            _rigidbody.drag = 5f;
         }
         
         public void Move(Vector2 input)

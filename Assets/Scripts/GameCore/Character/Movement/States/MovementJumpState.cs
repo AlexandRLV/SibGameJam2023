@@ -27,7 +27,7 @@ namespace GameCore.Character.Movement.States
             
             float jumpForce = Mathf.Sqrt(-2f
                                          * Physics.gravity.y
-                                         * parameters.jumpHeight
+                                         * parameters.jumpHeight * moveValues.JumpHeightMultiplier
                                          * parameters.gravityMultiplier
                                          * 1.1f) * rigidbody.mass;
             
@@ -45,7 +45,7 @@ namespace GameCore.Character.Movement.States
             _jumpTimer -= Time.deltaTime;
             
             if (!movement.IsControlledByPlayer) return;
-            var input = movement.InputState.MoveVector;
+            var input = movement.InputState.moveVector;
             if (input.magnitude > 1f)
                 input = input.normalized;
 
@@ -54,6 +54,6 @@ namespace GameCore.Character.Movement.States
             movement.MoveInAir(input);
         }
 
-        private bool JumpPressed() => movement.IsControlledByPlayer && movement.InputState.Jump.IsDown();
+        private bool JumpPressed() => movement.IsControlledByPlayer && movement.InputState.jump.IsHold();
     }
 }

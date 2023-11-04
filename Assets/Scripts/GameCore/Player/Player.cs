@@ -31,7 +31,7 @@ namespace GameCore.Player
 
         private void Update()
         {
-            if (!_inputState.ChangeCharacter.IsDown()) return;
+            if (!_inputState.changeCharacter.IsDown()) return;
 
             int currentIndex = _characters.IndexOf(_currentCharacter);
             currentIndex++;

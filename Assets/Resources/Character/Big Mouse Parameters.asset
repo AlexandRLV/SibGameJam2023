@@ -13,8 +13,11 @@ MonoBehaviour:
   m_Name: Big Mouse Parameters
   m_EditorClassIdentifier: 
   speed: 2
+  crouchSpeedMultiplier: 0.6
+  crouchHeightMultiplier: 0.4
+  sneakSpeedMultiplier: 0.8
   canJump: 0
-  jumpHeight: 3
+  jumpHeight: 1
   inAirSpeed: 1
   gravityMultiplier: 2.5
   lerpInertiaSpeed: 8
