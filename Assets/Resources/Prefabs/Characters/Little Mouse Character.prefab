@@ -207,6 +207,8 @@ GameObject:
   - component: {fileID: 2933814764328320537}
   - component: {fileID: 2933814764328320538}
   - component: {fileID: 2933814764328320539}
+  - component: {fileID: 1631886986086026936}
+  - component: {fileID: 3391540968953547827}
   m_Layer: 0
   m_Name: Little Mouse Character
   m_TagString: Untagged
@@ -270,6 +272,31 @@ MonoBehaviour:
   _appliedYForce: 0
   _debugStateChanges: 0
   _currentState: 0
+--- !u!114 &1631886986086026936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2933814764328320536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7add752abaeb47f3a208277a632852c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!65 &3391540968953547827
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2933814764328320536}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.2, y: 2, z: 1.2}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1001 &4794434003899046375
 PrefabInstance:
   m_ObjectHideFlags: 0
