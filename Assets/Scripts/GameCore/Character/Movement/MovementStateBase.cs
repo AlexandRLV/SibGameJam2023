@@ -8,12 +8,14 @@ namespace GameCore.Character.Movement
         protected readonly CharacterMovement movement;
         protected readonly CharacterParameters parameters;
         protected readonly Rigidbody rigidbody;
+        protected readonly CharacterMoveValues moveValues;
 
-        public MovementStateBase(CharacterMovement characterMovement)
+        protected MovementStateBase(CharacterMovement characterMovement)
         {
             movement = characterMovement;
             parameters = characterMovement.Parameters;
             rigidbody = characterMovement.Rigidbody;
+            moveValues = characterMovement.MoveValues;
         }
     }
 }
