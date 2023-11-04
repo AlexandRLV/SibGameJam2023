@@ -32,7 +32,11 @@ namespace GameCore.ObjectsPool
             {
                 var container = _returnOnTimeContainers[i];
                 container.timer -= Time.deltaTime;
-                if (container.timer > 0f) continue;
+                if (container.timer > 0f)
+                {
+                    _returnOnTimeContainers[i] = container;
+                    continue;
+                }
 				
                 Return(container.value);
                 _returnOnTimeContainers.RemoveAt(i);

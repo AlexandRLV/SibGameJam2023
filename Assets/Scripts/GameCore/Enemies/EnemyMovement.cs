@@ -5,14 +5,9 @@ using UnityEngine.AI;
 
 public class EnemyMovement : MonoBehaviour
 {
-    #region Serialize Variables
+    #region Public Variables
 
-    [Header("Waypoints Patrolling")]
-    [SerializeField] List<Transform> movePoints;
-
-    [Header("Random Patrolling")]
-    [SerializeField] float range;
-    [SerializeField] Transform centrePoint;
+    [HideInInspector] public List<Waypoint> movePoints;
 
     #endregion
 
@@ -20,6 +15,7 @@ public class EnemyMovement : MonoBehaviour
 
     int currentPointIndex;
     bool clockwiseMovement = true;
+    bool canMove = true;
     NavMeshAgent agent;
 
     #endregion
@@ -31,18 +27,22 @@ public class EnemyMovement : MonoBehaviour
 
     public void SequentalWaypointsMovement()
     {
-        if (movePoints.Count == 0)
-        {
-            Debug.LogError(name + " waypoints not assigned");
-            return;
-        }
+        if (canMove == false) return;
 
-        if (Vector3.Distance(transform.position, movePoints[currentPointIndex].position) > 1f)
+        if (movePoints.Count == 0)
+            return;
+
+        if (Vector3.Distance(transform.position, movePoints[currentPointIndex].transform.position) > 2f)
         {
-            agent.SetDestination(movePoints[currentPointIndex].position);
+            agent.SetDestination(movePoints[currentPointIndex].transform.position);
         }
         else
         {
+            if (movePoints[currentPointIndex].NeedStay)
+            {
+                StartCoroutine(WaitOnPoint(movePoints[currentPointIndex].StayTime));
+            }
+
             if (clockwiseMovement == true)
             {
                 if (currentPointIndex == movePoints.Count - 1)
@@ -62,5 +62,17 @@ public class EnemyMovement : MonoBehaviour
                 currentPointIndex--;
             }
         }
+    }
+
+    public void MoveToTarget(Transform target)
+    {
+        agent.SetDestination(target.position);
+    }
+
+    private IEnumerator WaitOnPoint(float time)
+    {
+        canMove = false;
+        yield return new WaitForSeconds(time);
+        canMove = true;
     }
 }

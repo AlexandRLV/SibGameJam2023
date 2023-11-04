@@ -14,9 +14,9 @@ namespace UI.NotificationsSystem
         [SerializeField] private float _showTime;
         [SerializeField] private NotificationsPool _notificationsPool;
      
-        [SerializeField] private Transform _topNotificationsParent;
-        [SerializeField] private Transform _centerNotificationsParent;
-        [SerializeField] private Transform _sideNotificationsParent;
+        [SerializeField] private RectTransform _topNotificationsParent;
+        [SerializeField] private RectTransform _centerNotificationsParent;
+        [SerializeField] private RectTransform _sideNotificationsParent;
 
         public void ShowNotification(string text, NotificationType type)
         {
@@ -28,7 +28,7 @@ namespace UI.NotificationsSystem
             };
             var notification = _notificationsPool.GetForTime(_showTime);
             notification.gameObject.SetActive(true);
-            notification.transform.parent = parent;
+            notification.transform.SetParent(parent);
             notification.Initialize(text, _showTime);
         }
     }

@@ -4,29 +4,37 @@ using UnityEngine;
 
 public enum MovementType
 {
-    waypointsClockwisePatrolling
+    waypointsSequentakPatrolling
 }
 
 public class EnemyController : MonoBehaviour
 {
-    [SerializeField] MovementType movementType = MovementType.waypointsClockwisePatrolling;
+    [SerializeField] MovementType movementType = MovementType.waypointsSequentakPatrolling;
 
     EnemyTargetScaner enemyScan;
     EnemyMovement enemyMovement;
+    [SerializeField]Transform currentTarget;
 
-    private void Awake()
+    public void Init(List<Waypoint> movePoints)
     {
         enemyScan = GetComponent<EnemyTargetScaner>();
         enemyMovement = GetComponent<EnemyMovement>();
+        enemyMovement.movePoints = movePoints;
+        currentTarget = null;
     }
 
     private void FixedUpdate()
     {
-        enemyScan.GetNearestTarget();
+        currentTarget = enemyScan.GetNearestTarget();
 
-        if (MovementType.waypointsClockwisePatrolling == movementType)
+        if (MovementType.waypointsSequentakPatrolling == movementType)
         {
-            enemyMovement.SequentalWaypointsMovement();
+            if(currentTarget != null) 
+            { 
+                enemyMovement.MoveToTarget(currentTarget);
+            }
+            else enemyMovement.SequentalWaypointsMovement();
+
         }
     }
 }
