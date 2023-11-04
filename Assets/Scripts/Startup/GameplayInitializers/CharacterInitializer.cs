@@ -39,6 +39,8 @@ namespace Startup.GameplayInitializers
             player.RegisterPosessableMovement(bigMouse);
             player.Initialize();
             
+            GameContainer.InGame.Register(player);
+            
             yield return null;
         }
 

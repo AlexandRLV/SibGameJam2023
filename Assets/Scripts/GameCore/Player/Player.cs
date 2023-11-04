@@ -9,6 +9,8 @@ namespace GameCore.Player
 {
     public class Player : MonoBehaviour
     {
+        public List<CharacterMovement> Characters => _characters;
+        
         private InputState _inputState;
         private GameCamera _gameCamera;
 
