@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using Common;
 using GameCore.Camera;
 using GameCore.Character.Movement.States;
@@ -17,9 +18,11 @@ namespace GameCore.Character.Movement
         public CharacterMoveValues MoveValues { get; private set; }
         public Rigidbody Rigidbody => _rigidbody;
         public CharacterParameters Parameters => _parameters;
+        public Collider Collider => _collider;
         
         [Header("References")]
         [SerializeField] private Rigidbody _rigidbody;
+        [SerializeField] private CapsuleCollider _collider;
         [SerializeField] private CharacterParameters _parameters;
 
         [Header("Floating")]
@@ -34,6 +37,8 @@ namespace GameCore.Character.Movement
 
         private StateMachine<MovementStateBase, MovementStateType> _stateMachine;
 
+        private bool _isSpeedModified;
+        
         private GameCamera _gameCamera;
         private Vector3 _movement;
 
@@ -59,6 +64,9 @@ namespace GameCore.Character.Movement
             
             _stateMachine.ForceSetState(MovementStateType.Walk, _debugStateChanges);
             Unposess();
+
+            _collider.height -= _floatingHeight;
+            _collider.center += Vector3.up * (_floatingHeight * 0.5f);
         }
 
         private void FixedUpdate()
@@ -108,7 +116,7 @@ namespace GameCore.Character.Movement
             springForce *= _rigidbody.mass;
             _rigidbody.AddForce(Vector3.down * springForce);
         }
-
+        
         private void RotateToCamera()
         {
             if (!IsControlledByPlayer) return;
@@ -116,6 +124,19 @@ namespace GameCore.Character.Movement
 
             float targetY = _gameCamera.FollowTarget.transform.eulerAngles.y;
             _rigidbody.rotation = Quaternion.Euler(0f, targetY, 0f);
+        }
+
+        private IEnumerator BuffTimer(float multiplier, float buffDuration)
+        {
+            float countdownValue = buffDuration;
+            while (countdownValue > 0)
+            {
+                yield return new WaitForSeconds(1.0f);
+                countdownValue--;
+            }
+
+            MoveValues.SpeedMultiplier /= multiplier;
+            _isSpeedModified = false;
         }
 #endregion
 
@@ -156,6 +177,17 @@ namespace GameCore.Character.Movement
 
             horizontalVelocity = Vector3.Lerp(horizontalVelocity, _movement, _parameters.lerpInertiaSpeed * Time.deltaTime);
             _rigidbody.velocity = new Vector3(horizontalVelocity.x, verticalVelocity, horizontalVelocity.z);
+        }
+
+        public void ChangeMovementSpeed(float multiplier, float duration)
+        {
+            print("IsModified:" + _isSpeedModified);
+            if (!_isSpeedModified)
+            {
+                MoveValues.SpeedMultiplier *= multiplier;
+                _isSpeedModified = true;
+                StartCoroutine(BuffTimer(multiplier, duration));
+            }
         }
 #endregion
     }

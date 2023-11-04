@@ -23,7 +23,7 @@ public class EnemyTargetScaner : MonoBehaviour
 
     #region Private Variables
 
-    List<Transform> targetList = new List<Transform>();
+    [SerializeField]List<Transform> targetList = new List<Transform>();
     Transform customTarget;
     Vector3 eyePos;
     RaycastHit hit;
@@ -102,6 +102,7 @@ public class EnemyTargetScaner : MonoBehaviour
 
                         if (!Physics.Raycast(transform.position, dirToTarget, out hit, distToTarget, obstacleLayer))
                         {
+
 #if UNITY_EDITOR
                             if (showGizmos)
                                 Debug.DrawLine(transform.position, targetPosition, Color.green);//----------------------------------------------Debug RayCast
