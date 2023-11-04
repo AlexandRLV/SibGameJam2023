@@ -10,7 +10,7 @@ namespace Startup.Initializers
         public IEnumerator Initialize()
         {
             var windowsSystem = GameContainer.Common.Resolve<WindowsSystem>();
-            windowsSystem.GetWindow<MainMenu>();
+            windowsSystem.CreateWindow<MainMenu>();
             
             yield return null;
         }

@@ -14,7 +14,10 @@ namespace GameCore
         public void Awake()
         {
             if (GameContainer.InGame != null)
-                GameContainer.InGame.Register(this);
+            {
+                if (!GameContainer.InGame.CanResolve<PlayerSpawns>())
+                    GameContainer.InGame.Register(this);
+            }
             else
                 StartCoroutine(Register());
         }
@@ -22,7 +25,8 @@ namespace GameCore
         private IEnumerator Register()
         {
             yield return new WaitUntil(() => GameContainer.InGame != null);
-            GameContainer.InGame.Register(this);
+            if (!GameContainer.InGame.CanResolve<PlayerSpawns>())
+                GameContainer.InGame.Register(this);
         }
     }
 }
