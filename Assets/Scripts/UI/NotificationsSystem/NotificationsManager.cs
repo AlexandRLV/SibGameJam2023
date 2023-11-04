@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace UI.NotificationsSystem
 {
@@ -24,7 +25,8 @@ namespace UI.NotificationsSystem
             {
                 NotificationType.Top => _topNotificationsParent,
                 NotificationType.Center => _centerNotificationsParent,
-                NotificationType.Side => _sideNotificationsParent
+                NotificationType.Side => _sideNotificationsParent,
+                _ => _topNotificationsParent
             };
             var notification = _notificationsPool.GetForTime(_showTime);
             notification.gameObject.SetActive(true);

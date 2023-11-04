@@ -60,15 +60,8 @@ namespace Startup
         {
             if (InGame) StopGame();
 
-            foreach (var initializer in _startupInitializers)
-            {
-                initializer.Dispose();
-            }
-            
-            foreach (var initializer in _mainMenuInitializers)
-            {
-                initializer.Dispose();
-            }
+            DisposeList(_startupInitializers);
+            DisposeList(_mainMenuInitializers);
         }
 
         public void StartGame()
