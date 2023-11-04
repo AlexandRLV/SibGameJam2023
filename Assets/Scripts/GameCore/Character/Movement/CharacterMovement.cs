@@ -17,9 +17,11 @@ namespace GameCore.Character.Movement
         public CharacterMoveValues MoveValues { get; private set; }
         public Rigidbody Rigidbody => _rigidbody;
         public CharacterParameters Parameters => _parameters;
+        public Collider Collider => _collider;
         
         [Header("References")]
         [SerializeField] private Rigidbody _rigidbody;
+        [SerializeField] private CapsuleCollider _collider;
         [SerializeField] private CharacterParameters _parameters;
 
         [Header("Floating")]
@@ -59,6 +61,9 @@ namespace GameCore.Character.Movement
             
             _stateMachine.ForceSetState(MovementStateType.Walk, _debugStateChanges);
             Unposess();
+
+            _collider.height -= _floatingHeight;
+            _collider.center += Vector3.up * (_floatingHeight * 0.5f);
         }
 
         private void FixedUpdate()

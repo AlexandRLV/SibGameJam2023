@@ -292,9 +292,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _showTime: 1
   _notificationsPool: {fileID: 8636049285811193123}
-  _topNotificationsParent: {fileID: 0}
-  _centerNotificationsParent: {fileID: 0}
-  _sideNotificationsParent: {fileID: 0}
+  _topNotificationsParent: {fileID: 5503875407902854614}
+  _centerNotificationsParent: {fileID: 132304694387148794}
+  _sideNotificationsParent: {fileID: 6605254986414843697}
 --- !u!1 &6751027073088382584
 GameObject:
   m_ObjectHideFlags: 0

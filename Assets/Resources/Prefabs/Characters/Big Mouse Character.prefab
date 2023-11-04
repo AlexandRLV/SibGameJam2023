@@ -179,9 +179,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5
-  m_Height: 1.5
+  m_Height: 2
   m_Direction: 1
-  m_Center: {x: 0, y: 0.25, z: 0}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2933814764328320536
 GameObject:
   m_ObjectHideFlags: 0
@@ -247,6 +247,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rigidbody: {fileID: 2933814764328320538}
+  _collider: {fileID: 2933814764234794317}
   _parameters: {fileID: 11400000, guid: 3aaf3724e11b0424fa16a03d3463175a, type: 2}
   _groundMask:
     serializedVersion: 2
