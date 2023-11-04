@@ -1,3 +1,5 @@
+using Common;
+using GameCore.Player;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -47,13 +49,18 @@ public class EnemyTargetScaner : MonoBehaviour
 
     private void FindVisibleTarget()
     {
-        Collider[] targetsInView = Physics.OverlapSphere(transform.position, viewRadius, targetLayer);
+        if (GameContainer.InGame == null) return;
+        var player = GameContainer.InGame.Resolve<Player>();
+        if (player == null) return;
 
-        for (int i = 0; i < targetsInView.Length; i++)
+        var characters = player.Characters;
+
+        foreach (var character in characters)
         {
+            var collider = character.GetComponentInChildren<Collider>();
             // Detect without obstacles
-            Vector3 targetSize = targetsInView[i].bounds.size;
-            Transform target = targetsInView[i].transform;
+            Vector3 targetSize = collider.bounds.size;
+            Transform target = collider.transform;
 
             Vector3 toPlayer = target.transform.position - eyePos;
 
