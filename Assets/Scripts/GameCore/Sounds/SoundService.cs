@@ -1,47 +1,98 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace GameCore.Sounds
 {
+    public enum SoundType
+    {
+        ButtonClick,
+        Buff,
+        Death,
+    }
+
     public class SoundService : MonoBehaviour
     {
-        private float _fadeTime;
-        private AudioSource _first;
-        private AudioSource _second;
+        [SerializeField] private AudioSource soundsSource;
+        [SerializeField] private AudioSource firstTrackSource;
+        [SerializeField] private AudioSource secondTrackSource;
 
-        private Coroutine _fadeSourcesRoutine;
-        
-        private void FadeToMusic(AudioClip clip)
+        [SerializeField] private AudioClip[] tracks;
+
+        [SerializeField] private AudioClip clickSound;
+        [SerializeField] private AudioClip buffSound;
+        [SerializeField] private AudioClip deathSound;
+
+        [SerializeField] float fadingTime = 5.0f;
+
+        private Coroutine _fadingCoroutine;
+
+        private Dictionary<SoundType, AudioClip> _sounds;
+
+        private void Start()
         {
-            _second.volume = 0f;
-            _second.clip = clip;
-            _second.Play();
-
-            if (_fadeSourcesRoutine != null)
-                StopCoroutine(_fadeSourcesRoutine);
-            
-            _fadeSourcesRoutine = StartCoroutine(FadeSources());
+            _sounds = new Dictionary<SoundType, AudioClip>();
+            _sounds.Add(SoundType.ButtonClick, clickSound);
+            _sounds.Add(SoundType.Buff, buffSound);
+            _sounds.Add(SoundType.Death, deathSound);
+            PlayMusic();
         }
 
-        private IEnumerator FadeSources()
+        public void PlaySound(SoundType soundType)
         {
-            float time = 0f;
-            while (time < _fadeTime)
+            var currentSound = _sounds[soundType];
+            if (currentSound) soundsSource.PlayOneShot(currentSound);
+        }
+
+        private AudioClip GetRandomTrack()
+        {
+            return tracks[Random.Range(0, tracks.Length)];
+        }
+
+        public void PlayMusic()
+        {
+            _fadingCoroutine = StartCoroutine(FadeTracks(GetRandomTrack()));
+        }
+
+        private void Update()
+        {
+            if (firstTrackSource.clip == null) return;
+            if (firstTrackSource.clip.length - firstTrackSource.time <= fadingTime)
             {
-                float t = time / _fadeTime;
-                _first.volume = Mathf.Lerp(1f, 0f, t);
-                _second.volume = Mathf.Lerp(0f, 1f, t);
+                if (_fadingCoroutine != null)
+                {
+                    return;
+                }
+
+                _fadingCoroutine = StartCoroutine(FadeTracks(GetRandomTrack()));
+            }
+        }
+
+        private IEnumerator FadeTracks(AudioClip nextTrack)
+        {
+            secondTrackSource.clip = nextTrack;
+            firstTrackSource.volume = 1.0f;
+            secondTrackSource.volume = 0.0f;
+            secondTrackSource.Play();
+
+            float time = 0.0f;
+            while (time < fadingTime)
+            {
+                float t = time / fadingTime;
+
+                firstTrackSource.volume = Mathf.Lerp(1.0f, 0.0f, t);
+                secondTrackSource.volume = Mathf.Lerp(0.0f, 1.0f, t);
+
                 time += Time.deltaTime;
+
                 yield return null;
             }
 
-            _first.volume = 0f;
-            _second.volume = 1f;
-            
-            _first.Stop();
-            
-            (_first, _second) = (_second, _first);
-            _fadeSourcesRoutine = null;
+            firstTrackSource.volume = 0.0f;
+            secondTrackSource.volume = 1.0f;
+            firstTrackSource.Stop();
+            (firstTrackSource, secondTrackSource) = (secondTrackSource, firstTrackSource);
+            _fadingCoroutine = null;
         }
     }
 }
