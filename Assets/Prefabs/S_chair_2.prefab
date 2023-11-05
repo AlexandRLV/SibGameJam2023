@@ -9,6 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2079729006750725202}
+  - component: {fileID: 361682359499047913}
+  - component: {fileID: 5047162879464758509}
   m_Layer: 0
   m_Name: S_chair_2
   m_TagString: Untagged
@@ -25,14 +27,43 @@ Transform:
   m_GameObject: {fileID: 1699966128421580520}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 3.69, y: 0.050001144, z: -25.2}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.78, y: 0.78, z: 0.78}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6500657977702554906}
   - {fileID: 4399808802863539942}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &361682359499047913
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1699966128421580520}
+  serializedVersion: 2
+  m_Mass: 100
+  m_Drag: 10
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 1
+--- !u!65 &5047162879464758509
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1699966128421580520}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.7287405, y: 1.5592822, z: 1.7435722}
+  m_Center: {x: 0.008264661, y: 0.7861405, z: 0.006788254}
 --- !u!1 &7335129358111910114
 GameObject:
   m_ObjectHideFlags: 0
@@ -128,7 +159,7 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 6710598227840910804, guid: 5e4bb6cbc522f2545b8a77fc8847eac3, type: 3}
 --- !u!1 &8372700604625798426
