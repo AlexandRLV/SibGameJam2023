@@ -31,6 +31,7 @@ public class MarkController : MonoBehaviour
     {
         questionMark.SetActive(false);
         exclamationMark.SetActive(true);
+        Debug.Log("hello");
         isActiveAnything = true;
     }
 

@@ -17,6 +17,7 @@ public class EnemyMovement : MonoBehaviour
     bool clockwiseMovement = true;
     bool canMove = true;
     NavMeshAgent agent;
+    [SerializeField] Coroutine currentCoroutine;
 
     #endregion
 
@@ -41,6 +42,7 @@ public class EnemyMovement : MonoBehaviour
             if (movePoints[currentPointIndex].NeedStay)
             {
                 var coroutine = StartCoroutine(WaitOnPoint(movePoints[currentPointIndex].StayTime));
+                currentCoroutine = coroutine;
             }
 
             if (clockwiseMovement == true)
@@ -78,6 +80,11 @@ public class EnemyMovement : MonoBehaviour
 
     public void MoveToTarget(Vector3 target)
     {
+        if (currentCoroutine != null)
+        {
+            StopCoroutine(currentCoroutine);
+            currentCoroutine = null;
+        }
         agent.SetDestination(target);
     }
 
