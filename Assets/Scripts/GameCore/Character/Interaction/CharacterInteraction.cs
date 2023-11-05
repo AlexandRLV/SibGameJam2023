@@ -1,7 +1,6 @@
 using Common;
 using GameCore.Character.Movement;
 using GameCore.InteractiveObjects;
-using UI.NotificationsSystem;
 using UnityEngine;
 
 namespace GameCore.Character.Interaction
@@ -9,31 +8,21 @@ namespace GameCore.Character.Interaction
     public class CharacterInteraction : MonoBehaviour
     {
         [SerializeField] private CharacterMovement characterMovement;
-        private NotificationsManager _notificationsManager;
-
-        private EatableObject _currentEatableObject;
-        private PrisonController _prisonDoorController;
-
-        private void Start()
-        {
-            _notificationsManager = GameContainer.Common.Resolve<NotificationsManager>();
-        }
 
         private void Update()
         {
             if (characterMovement.IsControlledByPlayer &&
                 characterMovement.InputState.interact.IsDown())
             {
-                if (_currentEatableObject != null)
+                if (characterMovement.MoveValues.EatableObject != null)
                 {
-                    characterMovement.ChangeMovementSpeed(_currentEatableObject.SpeedMultiplier,
-                    _currentEatableObject.SpeedMultiplierDuration);
+                    characterMovement.ChangeMovementSpeed(characterMovement.MoveValues.EatableObject.SpeedMultiplier,
+                    characterMovement.MoveValues.EatableObject.SpeedMultiplierDuration);
                 }
-                else if (_prisonDoorController != null)
+                else if (characterMovement.MoveValues.PrisonController != null)
                 {
-                    _prisonDoorController.OpenDoor();
+                    characterMovement.MoveValues.PrisonController.OpenDoor();
                 }
-
             }
         }
 
@@ -41,29 +30,23 @@ namespace GameCore.Character.Interaction
         {
             if (other.TryGetComponent(out EatableObject eatableObject))
             {
-                _currentEatableObject = eatableObject;
-
+                characterMovement.MoveValues.EatableObject = eatableObject;
             }
             else if (other.TryGetComponent(out PrisonController prisonDoor))
             {
-                _prisonDoorController = prisonDoor;
+                characterMovement.MoveValues.PrisonController = prisonDoor;
             }
-        }
-
-        private void OnTriggerStay(Collider other)
-        {
         }
 
         private void OnTriggerExit(Collider other)
         {
-            if (other.TryGetComponent(out EatableObject eatableObject))
+            if (other.TryGetComponent(out EatableObject _))
             {
-                _currentEatableObject = null;
-
+                characterMovement.MoveValues.EatableObject = null;
             }
-            else if (other.TryGetComponent(out PrisonController prisonDoor))
+            else if (other.TryGetComponent(out PrisonController _))
             {
-                _prisonDoorController = null;
+                characterMovement.MoveValues.PrisonController = null;
             }
         }
     }

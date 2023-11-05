@@ -12,15 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ad7b981199448e185415db1b2328ce1, type: 3}
   m_Name: Big Mouse Parameters
   m_EditorClassIdentifier: 
-  speed: 2
+  speed: 3.5
   crouchSpeedMultiplier: 0.6
   crouchHeightMultiplier: 0.4
   sneakSpeedMultiplier: 0.8
+  standStillTime: 5
   cameraHeight: 1.5
   canJump: 0
   jumpHeight: 1
   inAirSpeed: 1
   gravityMultiplier: 2.5
-  lerpInertiaSpeed: 8
-  springForce: 300
+  jumpTime: 0.3
+  interactTime: 0.5
+  lerpInertiaSpeed: 800
+  springForce: 500
   dampingForce: 20

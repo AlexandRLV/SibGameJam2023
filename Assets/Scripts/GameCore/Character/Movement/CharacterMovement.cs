@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Common;
 using GameCore.Camera;
+using GameCore.Character.Animation;
 using GameCore.Character.Movement.States;
 using GameCore.Input;
 using GameCore.StateMachine;
@@ -9,27 +10,29 @@ using UnityEngine;
 
 namespace GameCore.Character.Movement
 {
-    public class CharacterMovement : MonoBehaviour
+    public class CharacterMovement : MonoBehaviour, IAnimationSource
     {
         public bool IsGrounded { get; private set; }
-        public bool IsDead { get; private set; }
         public bool IsControlledByPlayer { get; private set; }
         public InputState InputState { get; private set; }
         public CharacterMoveValues MoveValues { get; private set; }
         public Rigidbody Rigidbody => _rigidbody;
         public CharacterParameters Parameters => _parameters;
         public Collider Collider => _collider;
+
+        public AnimationType CurrentAnimation => _stateMachine.CurrentState.AnimationType;
+        public float AnimationSpeed => IsControlledByPlayer ? InputState.moveVector.magnitude : 0f;
         
         [Header("References")]
         [SerializeField] private Rigidbody _rigidbody;
         [SerializeField] private CapsuleCollider _collider;
+        [SerializeField] private CharacterVisuals _visuals;
         [SerializeField] private CharacterParameters _parameters;
 
         [Header("Floating")]
         [SerializeField] private LayerMask _groundMask;
         [SerializeField] private float _floatingHeight;
         [SerializeField] private bool _applySpring;
-        [SerializeField] private float _appliedYForce;
         
         [Header("State machine")]
         [SerializeField] private bool _debugStateChanges;
@@ -40,7 +43,8 @@ namespace GameCore.Character.Movement
         private bool _isSpeedModified;
         
         private GameCamera _gameCamera;
-        private Vector3 _movement;
+        [SerializeField] private Vector3 _input;
+        [SerializeField] private Vector3 _movement;
 
 #region Internal methods
         private void Awake()
@@ -56,37 +60,50 @@ namespace GameCore.Character.Movement
             {
                 States = new List<MovementStateBase>
                 {
+                    new MovementIdleWaitState(this),
                     new MovementWalkState(this),
-                    new MovementJumpState(this),
-                    new MovementDeadState(this)
+                    new MovementKnockdownState(this),
+                    new MovementCrouchState(this),
+                    new MovementInteractState(this),
                 }
             };
+            
+            if (_parameters.canJump)
+                _stateMachine.States.Add(new MovementJumpState(this));
             
             _stateMachine.ForceSetState(MovementStateType.Walk, _debugStateChanges);
             Unposess();
 
             _collider.height -= _floatingHeight;
             _collider.center += Vector3.up * (_floatingHeight * 0.5f);
+            
+            _visuals.Initialize(this);
+        }
+
+        private void Update()
+        {
+            _stateMachine.CheckStates(_debugStateChanges);
         }
 
         private void FixedUpdate()
         {
+            _currentState = _stateMachine.CurrentState.Type;
             CheckGrounded();
-            RotateToCamera();
 
             float gravity = Physics.gravity.y * _parameters.gravityMultiplier * _rigidbody.mass;
             _rigidbody.AddForce(Vector3.up * gravity);
             
-            _stateMachine.CheckStates(_debugStateChanges);
-            _stateMachine.FixedUpdate();
+            _stateMachine.Update();
         }
 
         private void CheckGrounded()
         {
-            _appliedYForce = 0f;
+            bool hitTriggers = Physics.queriesHitTriggers;
+            Physics.queriesHitTriggers = false;
             float checkHeight = _floatingHeight * 1.5f * MoveValues.FloatingHeightMultiplier;
             var groundCheckOrigin = transform.position + Vector3.up * checkHeight;
             Physics.Raycast(groundCheckOrigin, Vector3.down, out var hit, _floatingHeight * 3f, _groundMask);
+            Physics.queriesHitTriggers = hitTriggers;
 
             if (hit.colliderInstanceID == 0)
             {
@@ -111,19 +128,9 @@ namespace GameCore.Character.Movement
             float rayDirVelocity = Vector3.Dot(Vector3.down, _rigidbody.velocity);
             float yDelta = hit.distance - checkHeight;
             float springForce = yDelta * _parameters.springForce - rayDirVelocity * _parameters.dampingForce;
-            _appliedYForce = springForce;
 
             springForce *= _rigidbody.mass;
             _rigidbody.AddForce(Vector3.down * springForce);
-        }
-        
-        private void RotateToCamera()
-        {
-            if (!IsControlledByPlayer) return;
-            if (_movement.magnitude < 0.1f) return;
-
-            float targetY = _gameCamera.FollowTarget.transform.eulerAngles.y;
-            _rigidbody.rotation = Quaternion.Euler(0f, targetY, 0f);
         }
 
         private IEnumerator BuffTimer(float multiplier, float buffDuration)
@@ -162,9 +169,13 @@ namespace GameCore.Character.Movement
         
         public void Move(Vector2 input)
         {
+            _input = input;
             var rotation = _gameCamera.FollowTarget.transform.FlatRotation();
             _movement = rotation * new Vector3(input.x, 0f, input.y);
             _rigidbody.velocity = Vector3.Lerp(_rigidbody.velocity, _movement, _parameters.lerpInertiaSpeed * Time.deltaTime);
+            
+            if (_rigidbody.velocity.magnitude < 0.1f) return;
+            _rigidbody.rotation = Quaternion.LookRotation(_rigidbody.velocity.FlatVector(), Vector3.up);
         }
 
         public void MoveInAir(Vector2 input)
@@ -177,6 +188,9 @@ namespace GameCore.Character.Movement
 
             horizontalVelocity = Vector3.Lerp(horizontalVelocity, _movement, _parameters.lerpInertiaSpeed * Time.deltaTime);
             _rigidbody.velocity = new Vector3(horizontalVelocity.x, verticalVelocity, horizontalVelocity.z);
+            
+            if (horizontalVelocity.magnitude < 0.1f) return;
+            _rigidbody.rotation = Quaternion.LookRotation(horizontalVelocity, Vector3.up);
         }
 
         public void ChangeMovementSpeed(float multiplier, float duration)

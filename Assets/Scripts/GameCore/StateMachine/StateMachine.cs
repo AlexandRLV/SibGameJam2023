@@ -18,11 +18,6 @@ namespace GameCore.StateMachine
         {
             CurrentState.Update();
         }
-		
-        internal void FixedUpdate()
-        {
-            CurrentState.FixedUpdate();
-        }
 
         internal void CheckStates(bool debug)
         {
