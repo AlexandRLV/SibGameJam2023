@@ -19,9 +19,9 @@ MonoBehaviour:
     AfterOpaque: 1
     Source: 1
     NormalSamples: 1
-    Intensity: 1
+    Intensity: 0.03
     DirectLightingStrength: 0.25
-    Radius: 0.2
+    Radius: 1.05
     SampleCount: 4
 --- !u!114 &11400000
 MonoBehaviour:
@@ -72,7 +72,7 @@ MonoBehaviour:
   m_ShadowTransparentReceive: 1
   m_RenderingMode: 0
   m_DepthPrimingMode: 0
-  m_AccurateGbufferNormals: 0
+  m_AccurateGbufferNormals: 1
   m_ClusteredRendering: 0
   m_TileSize: 32
   m_IntermediateTextureMode: 0
