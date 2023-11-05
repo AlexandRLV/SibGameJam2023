@@ -36,6 +36,5 @@ namespace GameCore.StateMachine
         public virtual void OnExit(TStateType nextState) { }
 		
         public virtual void Update() { }
-        public virtual void FixedUpdate() { }
     }
 }

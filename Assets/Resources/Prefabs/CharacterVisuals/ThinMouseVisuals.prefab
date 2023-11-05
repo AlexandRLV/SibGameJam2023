@@ -48,6 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _target: {fileID: 3215906167145858746}
   _animationPlayer: {fileID: 322080167619513253}
+  _moveToZero: 0
 --- !u!114 &322080167619513253
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -133,6 +134,10 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: e6f05d198924d794882419b65e821314, type: 2}
+    - target: {fileID: 5866666021909216657, guid: 1f52b874ad219934f932ec9a35fa7161, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1f52b874ad219934f932ec9a35fa7161, type: 3}
 --- !u!4 &3215906167145858746 stripped

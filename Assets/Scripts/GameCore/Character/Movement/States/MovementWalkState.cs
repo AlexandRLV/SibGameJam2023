@@ -17,7 +17,7 @@ namespace GameCore.Character.Movement.States
             return movement.IsGrounded;
         }
 
-        public override void FixedUpdate()
+        public override void Update()
         {
             if (!movement.IsControlledByPlayer) return;
             

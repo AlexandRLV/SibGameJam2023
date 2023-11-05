@@ -42,10 +42,10 @@ namespace GameCore.Character.Movement.States
             return nextState != MovementStateType.Walk || _jumpTimer < 0f;
         }
 
-        public override void FixedUpdate()
+        public override void Update()
         {
             _jumpTimer -= Time.deltaTime;
-            if (_isJumping)
+            if (_isJumping && _jumpTimer < 0f)
             {
                 if (movement.Rigidbody.velocity.y < 0f)
                     _isJumping = false;
@@ -61,6 +61,6 @@ namespace GameCore.Character.Movement.States
             movement.MoveInAir(input);
         }
 
-        private bool JumpPressed() => movement.IsControlledByPlayer && movement.InputState.jump.IsHold();
+        private bool JumpPressed() => movement.IsControlledByPlayer && movement.InputState.jump.IsDown();
     }
 }

@@ -61,11 +61,13 @@ namespace GameCore.Character.Movement
                 States = new List<MovementStateBase>
                 {
                     new MovementWalkState(this),
-                    new MovementJumpState(this),
                     new MovementKnockdownState(this),
                     new MovementCrouchState(this),
                 }
             };
+            
+            if (_parameters.canJump)
+                _stateMachine.States.Add(new MovementJumpState(this));
             
             _stateMachine.ForceSetState(MovementStateType.Walk, _debugStateChanges);
             Unposess();
@@ -90,7 +92,7 @@ namespace GameCore.Character.Movement
             float gravity = Physics.gravity.y * _parameters.gravityMultiplier * _rigidbody.mass;
             _rigidbody.AddForce(Vector3.up * gravity);
             
-            _stateMachine.FixedUpdate();
+            _stateMachine.Update();
         }
 
         private void CheckGrounded()

@@ -1,4 +1,5 @@
 ﻿using GameCore.Character.Animation;
+using UnityEngine;
 
 namespace GameCore.Character.Movement.States
 {
@@ -18,7 +19,17 @@ namespace GameCore.Character.Movement.States
 
         public override bool CanExit(MovementStateType nextState)
         {
-            return !movement.MoveValues.IsKnockdown;
+            return movement.MoveValues.KnockdownTime <= 0f;
+        }
+
+        public override void OnExit(MovementStateType nextState)
+        {
+            movement.MoveValues.IsKnockdown = false;
+        }
+
+        public override void Update()
+        {
+            movement.MoveValues.KnockdownTime -= Time.deltaTime;
         }
     }
 }

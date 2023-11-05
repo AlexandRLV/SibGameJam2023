@@ -32,7 +32,7 @@ namespace GameCore.Character.Movement.States
             moveValues.FloatingHeightMultiplier = 1f;
         }
 
-        public override void FixedUpdate()
+        public override void Update()
         {
             if (!movement.IsControlledByPlayer) return;
             
