@@ -37,6 +37,13 @@ namespace UI.WindowsSystem.WindowTypes
             if (!_initialized) return;
             
             CheckPause();
+
+            if (_roundController.Stage is not (RoundStage.FatMouse or RoundStage.ThinMouse))
+            {
+                _timerLabel.gameObject.SetActive(false);
+                return;
+            }
+            
             CheckPulseTimer();
 
             int seconds = Mathf.RoundToInt(_roundController.Timer);
