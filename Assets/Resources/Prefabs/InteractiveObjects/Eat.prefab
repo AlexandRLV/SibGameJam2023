@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3311036976455044363}
   - component: {fileID: 4821678551956766361}
   - component: {fileID: 762115786618380553}
-  - component: {fileID: 3547531081306884209}
+  - component: {fileID: 5402058600409131366}
   m_Layer: 0
   m_Name: Eat
   m_TagString: Untagged
@@ -93,12 +93,12 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 38184494314143285}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.95
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3547531081306884209
+--- !u!114 &5402058600409131366
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -107,8 +107,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 38184494314143285}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b71a7c3bce25483c866967af4820e581, type: 3}
+  m_Script: {fileID: 11500000, guid: d91f190f60dd47de92b506cba08b20b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sound: 1
   speedMultiplier: 5
-  speedMultiplierDuration: 5
+  speedMultiplierDuration: 10
