@@ -69,16 +69,16 @@ Material:
     - SoftEdgeFalloff: 0
     - SoftEdgeSize: 28
     - _LightScalar: 1
-    - _OutlineWidth: 0.15
+    - _OutlineWidth: 0.104
     - _QueueControl: 0
     - _QueueOffset: 0
     - _RampLevels: 2
-    - _RimStep: 0.65
-    - _RimStepSmooth: 0.4
-    - _ShadowStep: 0.5
-    - _ShadowStepSmooth: 0.04
-    - _SpecularStep: 0.6
-    - _SpecularStepSmooth: 0.05
+    - _RimStep: 0
+    - _RimStepSmooth: 1
+    - _ShadowStep: 0.921
+    - _ShadowStepSmooth: 0
+    - _SpecularStep: 0.705
+    - _SpecularStepSmooth: 0
     m_Colors:
     - HardEdgeColor: {r: 1, g: 1, b: 1, a: 0}
     - SoftEdgeColor: {r: 1, g: 1, b: 1, a: 0}
