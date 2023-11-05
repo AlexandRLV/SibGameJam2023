@@ -73,12 +73,12 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _RampLevels: 2
-    - _RimStep: 0
-    - _RimStepSmooth: 0
-    - _ShadowStep: 0.5
-    - _ShadowStepSmooth: 0.04
-    - _SpecularStep: 0.13
-    - _SpecularStepSmooth: 0.05
+    - _RimStep: 0.636
+    - _RimStepSmooth: 0.647
+    - _ShadowStep: 0.763
+    - _ShadowStepSmooth: 0.024
+    - _SpecularStep: 0
+    - _SpecularStepSmooth: 0
     m_Colors:
     - HardEdgeColor: {r: 1, g: 1, b: 1, a: 0}
     - SoftEdgeColor: {r: 1, g: 1, b: 1, a: 0}
@@ -87,7 +87,7 @@ Material:
     - _EmissColor: {r: 0.7490196, g: 0.7490196, b: 0.7490196, a: 0}
     - _HighColor: {r: 2, g: 2, b: 2, a: 0}
     - _LowColor: {r: 0.8408964, g: 0.8408964, b: 0.8408964, a: 0}
-    - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
-    - _RimColor: {r: 1, g: 1, b: 1, a: 1}
+    - _OutlineColor: {r: 0.3679245, g: 0.12669098, b: 0.33035728, a: 1}
+    - _RimColor: {r: 0.5660378, g: 0, b: 0.18629093, a: 1}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
