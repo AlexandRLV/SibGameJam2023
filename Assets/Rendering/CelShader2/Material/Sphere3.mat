@@ -23,17 +23,18 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats:
     - Step1: 1
     - _Gloss: 10
     - _OutlineWidth: 0.13
     - _RimPower: 2.2
-    - _RimStep: 0.7
+    - _RimStep: 0.631
     - _RimStepSmooth: 0.72
     - _ShadowStep: 0.6
     - _ShadowStepSmooth: 0.04
-    - _SpecularStep: 0.15
-    - _SpecularStepSmooth: 0.05
+    - _SpecularStep: 0
+    - _SpecularStepSmooth: 0
     - _Step: 0.432
     - _Step1: 0.537
     - _Step2: 0.018

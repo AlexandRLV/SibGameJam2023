@@ -56,6 +56,7 @@ MonoBehaviour:
   clickSound: {fileID: 8300000, guid: c59d12d48decbe24cbfe5a51480ed69f, type: 3}
   buffSound: {fileID: 8300000, guid: c59d12d48decbe24cbfe5a51480ed69f, type: 3}
   deathSound: {fileID: 8300000, guid: c59d12d48decbe24cbfe5a51480ed69f, type: 3}
+  fadingTime: 5
 --- !u!82 &2885077913043915090
 AudioSource:
   m_ObjectHideFlags: 0
@@ -159,7 +160,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2885077913043915088}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
@@ -255,7 +256,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2885077913043915088}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
