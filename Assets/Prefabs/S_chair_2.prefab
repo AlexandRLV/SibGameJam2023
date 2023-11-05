@@ -62,8 +62,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.7287405, y: 1.5592822, z: 1.7435722}
-  m_Center: {x: 0.008264661, y: 0.7861405, z: 0.006788254}
+  m_Size: {x: 2.0508404, y: 2.1101308, z: 1.966726}
+  m_Center: {x: -0.0028330546, y: 1.0615652, z: 0.0085146}
 --- !u!1 &7335129358111910114
 GameObject:
   m_ObjectHideFlags: 0
@@ -173,7 +173,6 @@ GameObject:
   - component: {fileID: 6500657977702554906}
   - component: {fileID: 5465005756328176359}
   - component: {fileID: 4277645820626362653}
-  - component: {fileID: 1017408564314082545}
   m_Layer: 0
   m_Name: small_chair2_legs
   m_TagString: Untagged
@@ -246,17 +245,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &1017408564314082545
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8372700604625798426}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 9128871925072567736, guid: 5e4bb6cbc522f2545b8a77fc8847eac3, type: 3}
