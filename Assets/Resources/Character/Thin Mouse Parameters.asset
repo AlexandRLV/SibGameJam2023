@@ -16,8 +16,8 @@ MonoBehaviour:
   crouchSpeedMultiplier: 0.6
   crouchHeightMultiplier: 0.4
   sneakSpeedMultiplier: 0.8
-  standStillTimeToStartAnimation: 0
-  standStillAnimationTime: 0
+  standStillTimeToStartAnimation: 5
+  standStillAnimationTime: 2
   cameraHeight: 1.5
   canJump: 1
   jumpHeight: 3
