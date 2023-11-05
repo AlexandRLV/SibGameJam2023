@@ -1,5 +1,6 @@
 using Common;
 using GameCore.Character.Movement;
+using GameCore.Sounds;
 using LocalMessages;
 using System.Collections;
 using System.Collections.Generic;
@@ -20,12 +21,12 @@ public class EnemyController : MonoBehaviour
     [SerializeField] float questionTimeAfterDetect;
     [SerializeField] Color normalConeColor, alertConeColor;
 
-    [SerializeField] float remainingTimeToAlert;
-    [SerializeField] float remainingTimeToShowQuestion;
-    [SerializeField] bool isPlayerDeteted = false;
-    [SerializeField] bool isAlert = false;
+    float remainingTimeToAlert;
+    float remainingTimeToShowQuestion;
+    bool isPlayerDeteted = false;
+    bool isAlert = false;
 
-
+    /*
     [Header("Patrolling Type")]
 
     [Header("NoWalk Type")]
@@ -33,16 +34,22 @@ public class EnemyController : MonoBehaviour
     [SerializeField] float rotationRate;
     [SerializeField] float rotationSpeed;
     [SerializeField] float minAngle, maxAngle;
-
+    */
     float timer;
     bool canTurn;
 
     EnemyTargetScaner enemyScan;
     EnemyMovement enemyMovement;
     EnemyFOV enemyFOV;
-    [SerializeField]Transform currentTarget;
+    Transform currentTarget;
     LocalMessageBroker _messageBroker;
     MarkController markController;
+    SoundService soundService => GameContainer.Common.Resolve<SoundService>();
+
+    private void Awake()
+    {
+        if (MovementType.noWalk == movementType) Init(null);
+    }
 
     public void Init(List<Waypoint> movePoints)
     {
@@ -62,7 +69,7 @@ public class EnemyController : MonoBehaviour
     private void FixedUpdate()
     {
         if (isAlert) return;
-
+        print("FixedUpdate");
         currentTarget = enemyScan.GetNearestTarget();
 
         if (currentTarget != null)
@@ -86,10 +93,12 @@ public class EnemyController : MonoBehaviour
 
     private void Update()
     {
-        if (isPlayerDeteted && !isAlert)
+        if (isAlert) return;
+        
+        if (isPlayerDeteted && isAlert == false)
         {
-            CountRemainingTimeToAlert();
             markController.SetQuestionMark();
+            CountRemainingTimeToAlert();
             remainingTimeToShowQuestion = questionTimeAfterDetect;
         }
         else
@@ -102,7 +111,7 @@ public class EnemyController : MonoBehaviour
     private void LateUpdate()
     {
         enemyFOV.DrawFOV(enemyScan.ViewDistance, enemyScan.ViewAngle, enemyScan.ObstacleLayer);
-        if(Camera.main != null) markController.LookAt(Camera.main.transform);
+        if (Camera.main != null) markController.LookAt(Camera.main.transform);
     }
 
     private void OnPlayerDetected(ref PlayerDetectedMessage value)
@@ -110,7 +119,6 @@ public class EnemyController : MonoBehaviour
         isAlert = true;
         enemyMovement.MoveToTarget(value.PlayerPosition);
         enemyFOV.SetColor(alertConeColor);
-        markController.ResetMarks();
         markController.SetExclamationMark();
     }
 
@@ -130,6 +138,7 @@ public class EnemyController : MonoBehaviour
         if (remainingTimeToAlert < 0)
         {
             StartAlert();
+            
         }
     }
 
@@ -149,10 +158,9 @@ public class EnemyController : MonoBehaviour
 
     public void StartAlert()
     {
+        soundService.PlaySound(SoundType.Buff);
         var message = new PlayerDetectedMessage();
         message.PlayerPosition = currentTarget.position;
         _messageBroker.Trigger(ref message);
     }
-
-    
 }
