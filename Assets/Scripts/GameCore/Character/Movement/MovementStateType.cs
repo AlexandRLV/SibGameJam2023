@@ -2,9 +2,11 @@
 {
     public enum MovementStateType
     {
+        IdleWait,
         Walk,
         Jump,
         Knockdown,
         Crouch,
+        Interact,
     }
 }

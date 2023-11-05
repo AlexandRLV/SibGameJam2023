@@ -2,6 +2,8 @@ using Common;
 using GameCore.Player;
 using System.Collections;
 using System.Collections.Generic;
+using GameCore.Character.Movement;
+using LocalMessages;
 using UnityEngine;
 
 public class EnemyTargetScaner : MonoBehaviour
