@@ -181,7 +181,6 @@ namespace GameCore.Character.Movement
 
         public void ChangeMovementSpeed(float multiplier, float duration)
         {
-            print("IsModified:" + _isSpeedModified);
             if (!_isSpeedModified)
             {
                 MoveValues.SpeedMultiplier *= multiplier;

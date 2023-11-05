@@ -19,7 +19,9 @@ namespace GameCore
                     GameContainer.InGame.Register(this);
             }
             else
+            {
                 StartCoroutine(Register());
+            }
         }
 
         private IEnumerator Register()

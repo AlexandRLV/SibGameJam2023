@@ -1,4 +1,3 @@
-using System;
 using Common;
 using GameCore.Character.Movement;
 using GameCore.InteractiveObjects;
