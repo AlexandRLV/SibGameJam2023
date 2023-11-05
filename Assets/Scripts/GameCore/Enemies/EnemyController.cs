@@ -125,6 +125,6 @@ public class EnemyController : MonoBehaviour
 
     private void OnDestroy()
     {
-        _messageBroker.Unsubscrive<PlayerDetectedMessage>(OnPlayerDetected);
+        _messageBroker.Unsubscribe<PlayerDetectedMessage>(OnPlayerDetected);
     }
 }
