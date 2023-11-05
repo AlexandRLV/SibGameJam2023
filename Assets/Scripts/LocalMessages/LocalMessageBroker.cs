@@ -35,7 +35,7 @@ namespace LocalMessages
             container.listeners.Add(callback);
         }
 
-        public void Unsubscrive<T>(ActionRef<T> callback) where T : struct
+        public void Unsubscribe<T>(ActionRef<T> callback) where T : struct
         {
             var type = typeof(T);
             if (!_handlers.TryGetValue(type, out var iContainer))
