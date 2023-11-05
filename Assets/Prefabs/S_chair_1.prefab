@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5577789839668602920}
   - component: {fileID: 1420554341802293990}
   - component: {fileID: 936041404507814435}
-  - component: {fileID: 1264557114701802435}
+  - component: {fileID: 7392361177616337484}
   m_Layer: 0
   m_Name: small_chair1_legs
   m_TagString: Untagged
@@ -84,7 +84,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &1264557114701802435
+--- !u!64 &7392361177616337484
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -109,7 +109,7 @@ GameObject:
   - component: {fileID: 572151933252766460}
   - component: {fileID: 8266647353635836334}
   - component: {fileID: 7673235869320397052}
-  - component: {fileID: 899524159527151632}
+  - component: {fileID: 5607157912032739136}
   m_Layer: 0
   m_Name: small_chair1_base
   m_TagString: Untagged
@@ -182,7 +182,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &899524159527151632
+--- !u!64 &5607157912032739136
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -205,6 +205,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8285910241192204688}
+  - component: {fileID: 8022219717889972762}
+  - component: {fileID: 3871095725144207497}
   m_Layer: 0
   m_Name: S_chair_1
   m_TagString: Untagged
@@ -229,3 +231,32 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -75, z: 0}
+--- !u!54 &8022219717889972762
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8770381879862362922}
+  serializedVersion: 2
+  m_Mass: 100
+  m_Drag: 10
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 1
+--- !u!65 &3871095725144207497
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8770381879862362922}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.7369208, y: 1.5592822, z: 1.9859804}
+  m_Center: {x: 0.03979981, y: 0.7861405, z: -0.011669815}
