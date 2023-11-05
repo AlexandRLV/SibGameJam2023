@@ -102,7 +102,7 @@ public class EnemyController : MonoBehaviour
     private void LateUpdate()
     {
         enemyFOV.DrawFOV(enemyScan.ViewDistance, enemyScan.ViewAngle, enemyScan.ObstacleLayer);
-        markController.LookAt(Camera.main.transform);
+        if(Camera.main != null) markController.LookAt(Camera.main.transform);
     }
 
     private void OnPlayerDetected(ref PlayerDetectedMessage value)
@@ -110,6 +110,7 @@ public class EnemyController : MonoBehaviour
         isAlert = true;
         enemyMovement.MoveToTarget(value.PlayerPosition);
         enemyFOV.SetColor(alertConeColor);
+        markController.ResetMarks();
         markController.SetExclamationMark();
     }
 
