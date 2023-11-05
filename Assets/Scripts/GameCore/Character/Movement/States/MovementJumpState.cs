@@ -33,7 +33,7 @@ namespace GameCore.Character.Movement.States
                                          * 1.1f) * rigidbody.mass;
             
             rigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            _jumpTimer = Const.Character.MinJumpTime;
+            _jumpTimer = parameters.jumpTime;
             _isJumping = true;
         }
 
@@ -45,11 +45,8 @@ namespace GameCore.Character.Movement.States
         public override void Update()
         {
             _jumpTimer -= Time.deltaTime;
-            if (_isJumping && _jumpTimer < 0f)
-            {
-                if (movement.Rigidbody.velocity.y < 0f)
-                    _isJumping = false;
-            }
+            if (_jumpTimer < 0f)
+                _isJumping = false;
             
             if (!movement.IsControlledByPlayer) return;
             var input = movement.InputState.moveVector;
