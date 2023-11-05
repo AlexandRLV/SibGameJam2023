@@ -18,6 +18,7 @@ namespace GameCore.InteractiveObjects
         {
             _soundService.PlaySound(sound);
             Movement.ChangeMovementSpeed(speedMultiplier, speedMultiplierDuration);
+            Destroy(gameObject);
         }
 
         protected override void OnPlayerEnter()
