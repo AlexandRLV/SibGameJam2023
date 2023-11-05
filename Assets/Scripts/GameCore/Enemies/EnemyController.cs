@@ -17,9 +17,11 @@ public class EnemyController : MonoBehaviour
     [Header("Main")]
     [SerializeField] MovementType movementType = MovementType.waypointsSequentalPatrolling;
     [SerializeField] float timeToAlert;
+    [SerializeField] float questionTimeAfterDetect;
     [SerializeField] Color normalConeColor, alertConeColor;
 
     [SerializeField] float remainingTimeToAlert;
+    [SerializeField] float remainingTimeToShowQuestion;
     [SerializeField] bool isPlayerDeteted = false;
     [SerializeField] bool isAlert = false;
 
@@ -47,6 +49,7 @@ public class EnemyController : MonoBehaviour
         enemyScan = GetComponent<EnemyTargetScaner>();
         enemyMovement = GetComponent<EnemyMovement>();
         enemyFOV = GetComponentInChildren<EnemyFOV>();
+        markController = GetComponentInChildren<MarkController>();
         enemyMovement.movePoints = movePoints;
         currentTarget = null;
         enemyFOV.Init(enemyScan.ViewAngle);
@@ -86,16 +89,20 @@ public class EnemyController : MonoBehaviour
         if (isPlayerDeteted && !isAlert)
         {
             CountRemainingTimeToAlert();
+            markController.SetQuestionMark();
+            remainingTimeToShowQuestion = questionTimeAfterDetect;
         }
         else
         {
             remainingTimeToAlert = timeToAlert;
+            CountRemainingTimeToShowQuestion();
         }
     }
 
     private void LateUpdate()
     {
         enemyFOV.DrawFOV(enemyScan.ViewDistance, enemyScan.ViewAngle, enemyScan.ObstacleLayer);
+        markController.LookAt(Camera.main.transform);
     }
 
     private void OnPlayerDetected(ref PlayerDetectedMessage value)
@@ -103,6 +110,7 @@ public class EnemyController : MonoBehaviour
         isAlert = true;
         enemyMovement.MoveToTarget(value.PlayerPosition);
         enemyFOV.SetColor(alertConeColor);
+        markController.SetExclamationMark();
     }
 
     public void FoundPlayer(CharacterMovement movement)
@@ -122,7 +130,15 @@ public class EnemyController : MonoBehaviour
         {
             StartAlert();
         }
+    }
 
+    private void CountRemainingTimeToShowQuestion()
+    {
+        if (remainingTimeToShowQuestion < 0)
+        {
+            markController.ResetMarks();
+        }
+        else remainingTimeToShowQuestion -= Time.deltaTime;
     }
 
     private void OnDestroy()
@@ -136,4 +152,6 @@ public class EnemyController : MonoBehaviour
         message.PlayerPosition = currentTarget.position;
         _messageBroker.Trigger(ref message);
     }
+
+    
 }
