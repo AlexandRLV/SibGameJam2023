@@ -34,7 +34,6 @@ namespace Startup
         {
             new InGameUIInitializer(),
             new CharacterInitializer(),
-            new InteractiveObjectsInitializer(),
         };
         
         public bool InGame { get; private set; }

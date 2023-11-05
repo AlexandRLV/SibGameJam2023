@@ -12,10 +12,7 @@ namespace GameCore.Character.Movement
         // Knockdown
         public bool IsKnockdown;
         public float KnockdownTime;
-
-        public EatableObject EatableObject;
-        public PrisonController PrisonController;
-
-        public InteractableObject CurrentInteractable;
+        
+        public InteractiveObject CurrentInteractiveObject;
     }
 }
