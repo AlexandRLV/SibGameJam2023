@@ -61,98 +61,87 @@ public class EnemyTargetScaner : MonoBehaviour
     private void FindVisibleTarget()
     {
         if (GameContainer.InGame == null) return;
-        var player = GameContainer.InGame.Resolve<Player>();
-        if (player == null) return;
+        var player = GameContainer.InGame.Resolve<GamePlayer>();
+        if (player == null || player.CurrentCharacter == null) return;
 
-        var characters = player.Characters;
+        var collider = player.CurrentCharacter.Collider;
+        // Detect without obstacles
+        Vector3 targetSize = collider.bounds.size;
+        Transform target = collider.transform;
 
-        foreach (var character in characters)
+        Vector3 toPlayer = target.transform.position - eyePos;
+
+        if (Mathf.Abs(toPlayer.y + heightOffset) > maxHeightDifference)
         {
-            var collider = character.GetComponentInChildren<Collider>();
-            // Detect without obstacles
-            Vector3 targetSize = collider.bounds.size;
-            Transform target = collider.transform;
+            return;
+        }
 
-            Vector3 toPlayer = target.transform.position - eyePos;
-
-            if (Mathf.Abs(toPlayer.y + heightOffset) > maxHeightDifference)
+        if (Vector3.Distance(transform.position, target.position) < alertRadius)
+        {
+            if (!targetList.Contains(target))
             {
-                return;
+                targetList.Add(target);
             }
+            
+            return;
+        }
 
-            if (Vector3.Distance(transform.position, target.position) < alertRadius)
+        Vector3 dirToTarget = (target.position - transform.position).normalized;
+
+        // Detect include obstacles
+        // Detect if any Obstacle come in path
+        if (Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2)
+        {
+            targetSize.y -= 0.05f; // Manual offset in size so that raycast won't go above the mesh
+
+            float offsetX = targetSize.x / 2;
+            float offsetY = targetSize.y / 2;
+
+            int rayCastIteration = 0;
+
+            for (int j = 0; j < 3; j++) // Row of RayCast
             {
-                if (!targetList.Contains(target))
+                for (int k = 0; k < 5; k++) // Column of RayCast
                 {
-                    targetList.Add(target);
-                }
-                    
+                    Vector3 targetPosition = target.position + new Vector3(offsetX, offsetY, 0);
 
-                continue;
-            }
+                    float distToTarget = Vector3.Distance(transform.position, target.position);
 
-            Vector3 dirToTarget = (target.position - transform.position).normalized;
+                    dirToTarget = (targetPosition - transform.position).normalized;
 
-            // Detect include obstacles
-            // Detect if any Obstacle come in path
-            if (Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2)
-            {
-                targetSize.y -= 0.05f; // Manual offset in size so that raycast won't go above the mesh
-
-                float offsetX = targetSize.x / 2;
-                float offsetY = targetSize.y / 2;
-
-                int rayCastIteration = 0;
-
-                for (int j = 0; j < 3; j++) // Row of RayCast
-                {
-                    for (int k = 0; k < 5; k++) // Column of RayCast
+                    if (!Physics.Raycast(transform.position, dirToTarget, out hit, distToTarget, obstacleLayer))
                     {
-                        Vector3 targetPosition = target.position + new Vector3(offsetX, offsetY, 0);
-
-                        float distToTarget = Vector3.Distance(transform.position, target.position);
-
-                        dirToTarget = (targetPosition - transform.position).normalized;
-
-                        if (!Physics.Raycast(transform.position, dirToTarget, out hit, distToTarget, obstacleLayer))
-                        {
 
 #if UNITY_EDITOR
-                            if (showGizmos)
-                                Debug.DrawLine(transform.position, targetPosition, Color.green); // Debug RayCast
+                        if (showGizmos)
+                            Debug.DrawLine(transform.position, targetPosition, Color.green); // Debug RayCast
 #endif
 
-                            if (!targetList.Contains(target))
-                            {
-                                targetList.Add(target);
-                            }
-
-                            goto EndOfLoop; // Target is detected no need to go further, so jump out of the Main loop
-                        }
-                        else
+                        if (!targetList.Contains(target))
                         {
-#if UNITY_EDITOR
-                            if (showGizmos)
-                                Debug.DrawLine(transform.position, targetPosition, Color.red); // Debug RayCast
-#endif
+                            targetList.Add(target);
                         }
 
-                        offsetY -= targetSize.y / 4;
+                        return; // Target is detected no need to go further, so jump out of the Main loop
                     }
+#if UNITY_EDITOR
+                    if (showGizmos)
+                        Debug.DrawLine(transform.position, targetPosition, Color.red); // Debug RayCast
+#endif
 
-                    rayCastIteration++;
-                    offsetY = targetSize.y / 2;
-                    offsetX -= targetSize.x / 2;
-
+                    offsetY -= targetSize.y / 4;
                 }
 
-                if (rayCastIteration >= 3 && targetList.Contains(target))
-                {
-                    targetList.Remove(target);
-                }
+                rayCastIteration++;
+                offsetY = targetSize.y / 2;
+                offsetX -= targetSize.x / 2;
 
             }
-        EndOfLoop:;
+
+            if (rayCastIteration >= 3 && targetList.Contains(target))
+            {
+                targetList.Remove(target);
+            }
         }
     }
 
