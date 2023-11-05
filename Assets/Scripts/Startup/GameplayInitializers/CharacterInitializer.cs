@@ -15,16 +15,16 @@ namespace Startup.GameplayInitializers
         {
             var inputState = new InputState();
             GameContainer.InGame.Register(inputState);
-            
+
             var inputSourcePrefab = Resources.Load<DesktopInputSource>("Input/DesktopInputSource");
             Object.Instantiate(inputSourcePrefab);
-            
+
             var spawns = GameContainer.InGame.Resolve<PlayerSpawns>();
-            
+
             var littleMousePrefab = Resources.Load<CharacterMovement>("Prefabs/Characters/Little Mouse Character");
             var littleMouse = Object.Instantiate(littleMousePrefab);
             littleMouse.transform.SetPositionAndRotation(spawns.SpawnPoints[0].position, spawns.SpawnPoints[0].rotation);
-            
+
             var bigMousePrefab = Resources.Load<CharacterMovement>("Prefabs/Characters/Big Mouse Character");
             var bigMouse = Object.Instantiate(bigMousePrefab);
             bigMouse.transform.SetPositionAndRotation(spawns.SpawnPoints[1].position, spawns.SpawnPoints[1].rotation);
@@ -32,15 +32,15 @@ namespace Startup.GameplayInitializers
             var gameCameraPrefab = Resources.Load<GameCamera>("Prefabs/GameCamera");
             var gameCamera = Object.Instantiate(gameCameraPrefab);
             GameContainer.InGame.Register(gameCamera);
-            
+
             var playerPrefab = Resources.Load<Player>("Prefabs/Player");
             var player = Object.Instantiate(playerPrefab);
             player.RegisterPosessableMovement(littleMouse);
             player.RegisterPosessableMovement(bigMouse);
             player.Initialize();
-            
+
             GameContainer.InGame.Register(player);
-            
+
             yield return null;
         }
 

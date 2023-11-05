@@ -12,6 +12,7 @@ namespace GameCore.Character.Interaction
         private NotificationsManager _notificationsManager;
 
         private EatableObject _currentEatableObject;
+        private PrisonController _prisonDoorController;
 
         private void Start()
         {
@@ -20,10 +21,19 @@ namespace GameCore.Character.Interaction
 
         private void Update()
         {
-            if (characterMovement.IsControlledByPlayer && _currentEatableObject &&
+            if (characterMovement.IsControlledByPlayer &&
                 characterMovement.InputState.interact.IsDown())
             {
-                _currentEatableObject.Interact();
+                if (_currentEatableObject != null)
+                {
+                    characterMovement.ChangeMovementSpeed(_currentEatableObject.SpeedMultiplier,
+                    _currentEatableObject.SpeedMultiplierDuration);
+                }
+                else if (_prisonDoorController != null)
+                {
+                    _prisonDoorController.OpenDoor();
+                }
+
             }
         }
 
@@ -32,9 +42,11 @@ namespace GameCore.Character.Interaction
             if (other.TryGetComponent(out EatableObject eatableObject))
             {
                 _currentEatableObject = eatableObject;
-                eatableObject.OnInteracted += () =>
-                    characterMovement.ChangeMovementSpeed(_currentEatableObject.SpeedMultiplier,
-                        eatableObject.SpeedMultiplierDuration);
+
+            }
+            else if (other.TryGetComponent(out PrisonController prisonDoor))
+            {
+                _prisonDoorController = prisonDoor;
             }
         }
 
@@ -44,7 +56,15 @@ namespace GameCore.Character.Interaction
 
         private void OnTriggerExit(Collider other)
         {
-            _currentEatableObject = null;
+            if (other.TryGetComponent(out EatableObject eatableObject))
+            {
+                _currentEatableObject = null;
+
+            }
+            else if (other.TryGetComponent(out PrisonController prisonDoor))
+            {
+                _prisonDoorController = null;
+            }
         }
     }
 }

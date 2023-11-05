@@ -83,16 +83,16 @@ public class EnemyTargetScaner : MonoBehaviour
             // Detect if any Obstacle come in path
             if (Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2)
             {
-                targetSize.y -= 0.05f; //---------Manual offset in size so that raycast won't go above the mesh
+                targetSize.y -= 0.05f; // Manual offset in size so that raycast won't go above the mesh
 
                 float offsetX = targetSize.x / 2;
                 float offsetY = targetSize.y / 2;
 
                 int rayCastIteration = 0;
 
-                for (int j = 0; j < 3; j++) //----------Row of RayCast
+                for (int j = 0; j < 3; j++) // Row of RayCast
                 {
-                    for (int k = 0; k < 5; k++) //----------Column of RayCast
+                    for (int k = 0; k < 5; k++) // Column of RayCast
                     {
                         Vector3 targetPosition = target.position + new Vector3(offsetX, offsetY, 0);
 
@@ -105,7 +105,7 @@ public class EnemyTargetScaner : MonoBehaviour
 
 #if UNITY_EDITOR
                             if (showGizmos)
-                                Debug.DrawLine(transform.position, targetPosition, Color.green);//----------------------------------------------Debug RayCast
+                                Debug.DrawLine(transform.position, targetPosition, Color.green); // Debug RayCast
 #endif
 
                             if (!targetList.Contains(target))
@@ -113,13 +113,13 @@ public class EnemyTargetScaner : MonoBehaviour
                                 targetList.Add(target);
                             }
 
-                            goto EndOfLoop; //---------Target is detected no need to go further, so jump out of the Main loop
+                            goto EndOfLoop; // Target is detected no need to go further, so jump out of the Main loop
                         }
                         else
                         {
 #if UNITY_EDITOR
                             if (showGizmos)
-                                Debug.DrawLine(transform.position, targetPosition, Color.red);//----------------------------------------------Debug RayCast
+                                Debug.DrawLine(transform.position, targetPosition, Color.red); // Debug RayCast
 #endif
                         }
 
@@ -150,7 +150,7 @@ public class EnemyTargetScaner : MonoBehaviour
         {
             Transform target = targetList[i];
 
-            //Null Check---------------------------------------------
+            //Null Check-
             if (target == null)
             {
                 targetList.RemoveAt(i);
@@ -163,34 +163,31 @@ public class EnemyTargetScaner : MonoBehaviour
                 continue;
             }
 
-            //Out of View Radius---------------------------------------------
+            //Out of View Radius
             if (Vector3.Distance(transform.position, target.position) > viewRadius)
             {
                 targetList.Remove(target);
                 continue;
             }
 
-            //Inside Alert Radius---------------------------------------------
+            //Inside Alert Radius
             if (Vector3.Distance(transform.position, target.position) < alertRadius) continue;
 
-            //HeightCheck---------------------------------------------
+            //HeightCheck
             Vector3 toPlayer = target.transform.position - eyePos;
             if (Mathf.Abs(toPlayer.y + heightOffset) > maxHeightDifference)
             {
                 targetList.Remove(target);
             }
 
-            //Out of FOV---------------------------------------------
+            //Out of FOV
             Vector3 dirToTarget = (target.position - transform.position).normalized;
 
             if (Vector3.Angle(transform.forward, dirToTarget) > viewAngle / 2)
             {
                 targetList.Remove(target);
             }
-
-
         }
-
     }
 
     private void AddCustomtargetToList()
