@@ -4,16 +4,16 @@ using UnityEngine;
 
 public enum MovementType
 {
-    waypointsSequentakPatrolling
+    waypointsSequentalPatrolling
 }
 
 public class EnemyController : MonoBehaviour
 {
-    [SerializeField] MovementType movementType = MovementType.waypointsSequentakPatrolling;
+    [SerializeField] MovementType movementType = MovementType.waypointsSequentalPatrolling;
 
     EnemyTargetScaner enemyScan;
     EnemyMovement enemyMovement;
-    [SerializeField]Transform currentTarget;
+    [SerializeField] Transform currentTarget;
 
     public void Init(List<Waypoint> movePoints)
     {
@@ -27,10 +27,10 @@ public class EnemyController : MonoBehaviour
     {
         currentTarget = enemyScan.GetNearestTarget();
 
-        if (MovementType.waypointsSequentakPatrolling == movementType)
+        if (MovementType.waypointsSequentalPatrolling == movementType)
         {
-            if(currentTarget != null) 
-            { 
+            if (currentTarget != null)
+            {
                 enemyMovement.MoveToTarget(currentTarget);
             }
             else enemyMovement.SequentalWaypointsMovement();
