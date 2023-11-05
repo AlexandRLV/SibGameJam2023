@@ -45,6 +45,9 @@ namespace GameCore.Common
         {
             if (Stage == RoundStage.None) return;
             
+            if (UnityEngine.Input.GetKeyDown(KeyCode.U))
+                _player.PosessAnother();
+            
             Timer -= Time.deltaTime;
             if (Timer > 0f) return;
 

@@ -29,6 +29,9 @@ namespace GameCore.Player
         public void PosessFatMouse() => PosessCharacter(_fatMouseCharacter);
         public void PosessThinMouse() => PosessCharacter(_thinMouseCharacter);
 
+        public void PosessAnother() =>
+            PosessCharacter(CurrentCharacter == _fatMouseCharacter ? _thinMouseCharacter : _fatMouseCharacter);
+
         public void UnposessAll()
         {
             if (CurrentCharacter != null)
