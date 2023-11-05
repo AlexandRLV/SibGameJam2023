@@ -2,57 +2,49 @@
 using Common;
 using GameCore.Camera;
 using GameCore.Character.Movement;
-using GameCore.Input;
 using UnityEngine;
 
 namespace GameCore.Player
 {
     public class GamePlayer : MonoBehaviour
     {
-        public List<CharacterMovement> Characters => _characters;
-        
-        private InputState _inputState;
+        public CharacterMovement CurrentCharacter { get; private set; }
+
         private GameCamera _gameCamera;
 
-        private CharacterMovement _currentCharacter;
         private CharacterMovement _fatMouseCharacter;
         private CharacterMovement _thinMouseCharacter;
-        private List<CharacterMovement> _characters = new();
 
         public void Initialize(CharacterMovement fatMouse, CharacterMovement thinMouse)
         {
             _fatMouseCharacter = fatMouse;
             _thinMouseCharacter = thinMouse;
-
-            _characters = new List<CharacterMovement>
-            {
-                _fatMouseCharacter,
-                _thinMouseCharacter
-            };
                 
-            _inputState = GameContainer.InGame.Resolve<InputState>();
             _gameCamera = GameContainer.InGame.Resolve<GameCamera>();
+            
+            _fatMouseCharacter.Unposess();
+            _thinMouseCharacter.Unposess();
         }
 
         public void PosessFatMouse() => PosessCharacter(_fatMouseCharacter);
         public void PosessThinMouse() => PosessCharacter(_thinMouseCharacter);
 
-        public void UnPosessAll()
+        public void UnposessAll()
         {
-            if (_currentCharacter != null)
-                _currentCharacter.Unposess();
+            if (CurrentCharacter != null)
+                CurrentCharacter.Unposess();
 
-            _currentCharacter = null;
+            CurrentCharacter = null;
         }
 
         private void PosessCharacter(CharacterMovement movement)
         {
-            if (_currentCharacter != null)
-                _currentCharacter.Unposess();
+            if (CurrentCharacter != null)
+                CurrentCharacter.Unposess();
 
-            _currentCharacter = movement;
-            _currentCharacter.Posess();
-            _gameCamera.SetTarget(_currentCharacter.transform);
+            CurrentCharacter = movement;
+            CurrentCharacter.Posess();
+            _gameCamera.SetTarget(CurrentCharacter.transform);
         }
     }
 }

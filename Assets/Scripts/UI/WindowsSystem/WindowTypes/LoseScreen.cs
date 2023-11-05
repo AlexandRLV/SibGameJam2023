@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace UI.WindowsSystem.WindowTypes
 {
-    public class LoseGameWindow : WindowBase
+    public class LoseScreen : WindowBase
     {
         [SerializeField] private TextMeshProUGUI _reasonLabel;
         [SerializeField] private Button _restartButton;

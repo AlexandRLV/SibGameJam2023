@@ -52,7 +52,7 @@ namespace GameCore.Common
             {
                 var message = new ChangeRoundMessage();
                 _messageBroker.Trigger(ref message);
-                Timer = _settings.roundLengthMinutes;
+                Timer = _settings.RoundLengthSeconds;
                 Stage = RoundStage.ThinMouse;
                 _player.PosessThinMouse();
             }
@@ -69,10 +69,10 @@ namespace GameCore.Common
         private void LoseGame(LoseGameReason reason)
         {
             Stage = RoundStage.None;
-            _player.UnPosessAll();
+            _player.UnposessAll();
 
             var windowsSystem = GameContainer.Common.Resolve<WindowsSystem>();
-            var loseGameWindow = windowsSystem.CreateWindow<LoseGameWindow>();
+            var loseGameWindow = windowsSystem.CreateWindow<LoseScreen>();
             loseGameWindow.Initialize(reason);
         }
     }
