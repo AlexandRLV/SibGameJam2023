@@ -61,14 +61,14 @@ public class EnemyTargetScaner : MonoBehaviour
     private void FindVisibleTarget()
     {
         if (GameContainer.InGame == null) return;
-        var player = GameContainer.InGame.Resolve<Player>();
+        var player = GameContainer.InGame.Resolve<GamePlayer>();
         if (player == null) return;
 
         var characters = player.Characters;
 
         foreach (var character in characters)
         {
-            var collider = character.GetComponentInChildren<Collider>();
+            var collider = character.Collider;
             // Detect without obstacles
             Vector3 targetSize = collider.bounds.size;
             Transform target = collider.transform;

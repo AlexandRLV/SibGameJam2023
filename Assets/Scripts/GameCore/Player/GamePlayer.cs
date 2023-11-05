@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace GameCore.Player
 {
-    public class Player : MonoBehaviour
+    public class GamePlayer : MonoBehaviour
     {
         public List<CharacterMovement> Characters => _characters;
         
@@ -15,30 +15,34 @@ namespace GameCore.Player
         private GameCamera _gameCamera;
 
         private CharacterMovement _currentCharacter;
+        private CharacterMovement _fatMouseCharacter;
+        private CharacterMovement _thinMouseCharacter;
         private List<CharacterMovement> _characters = new();
 
-        public void RegisterPosessableMovement(CharacterMovement movement)
+        public void Initialize(CharacterMovement fatMouse, CharacterMovement thinMouse)
         {
-            _characters.Add(movement);
-        }
+            _fatMouseCharacter = fatMouse;
+            _thinMouseCharacter = thinMouse;
 
-        public void Initialize()
-        {
+            _characters = new List<CharacterMovement>
+            {
+                _fatMouseCharacter,
+                _thinMouseCharacter
+            };
+                
             _inputState = GameContainer.InGame.Resolve<InputState>();
             _gameCamera = GameContainer.InGame.Resolve<GameCamera>();
-            if (_characters.Count == 0) return;
-            
-            PosessCharacter(_characters[0]);
         }
 
-        private void Update()
-        {
-            if (!_inputState.changeCharacter.IsDown()) return;
+        public void PosessFatMouse() => PosessCharacter(_fatMouseCharacter);
+        public void PosessThinMouse() => PosessCharacter(_thinMouseCharacter);
 
-            int currentIndex = _characters.IndexOf(_currentCharacter);
-            currentIndex++;
-            currentIndex %= _characters.Count;
-            PosessCharacter(_characters[currentIndex]);
+        public void UnPosessAll()
+        {
+            if (_currentCharacter != null)
+                _currentCharacter.Unposess();
+
+            _currentCharacter = null;
         }
 
         private void PosessCharacter(CharacterMovement movement)
