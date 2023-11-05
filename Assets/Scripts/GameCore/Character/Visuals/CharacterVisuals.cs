@@ -4,9 +4,7 @@ namespace GameCore.Character.Animation
 {
     public class CharacterVisuals : MonoBehaviour
     {
-        [SerializeField] private Transform _target;
         [SerializeField] private AnimationPlayer _animationPlayer;
-        [SerializeField] private bool _moveToZero;
 
         private bool _initialized;
         private IAnimationSource _animationSource;
@@ -19,11 +17,6 @@ namespace GameCore.Character.Animation
 
         private void Update()
         {
-            if (_moveToZero)
-            {
-                _target.localPosition = Vector3.zero;
-                _target.localRotation = Quaternion.identity;
-            }
             if (!_initialized) return;
 
             var currentAnimation = _animationSource.CurrentAnimation;
