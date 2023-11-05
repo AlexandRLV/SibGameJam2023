@@ -215,7 +215,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   showGizmos: 1
   eyeCenter: {fileID: 7302715815675941150}
-  alertRadius: 5
+  alertRadius: 2
   viewDistance: 25
   viewAngle: 90
   heightOffset: 1
@@ -243,10 +243,14 @@ MonoBehaviour:
   timeToAlert: 0
   normalConeColor: {r: 1, g: 0.5615011, b: 0, a: 0.5882353}
   alertConeColor: {r: 1, g: 0, b: 0, a: 0.5882353}
+  remainingTimeToAlert: 0
+  isPlayerDeteted: 0
+  isAlert: 0
   rotationRate: 0
   rotationSpeed: 0
   minAngle: 0
   maxAngle: 0
+  currentTarget: {fileID: 0}
 --- !u!54 &7302715816161827797
 Rigidbody:
   m_ObjectHideFlags: 0

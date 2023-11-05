@@ -3,6 +3,7 @@ using GameCore.Character.Movement;
 using LocalMessages;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public enum MovementType
@@ -17,10 +18,10 @@ public class EnemyController : MonoBehaviour
     [SerializeField] MovementType movementType = MovementType.waypointsSequentalPatrolling;
     [SerializeField] float timeToAlert;
     [SerializeField] Color normalConeColor, alertConeColor;
-    
-    float remainingTimeToAlert;
-    bool isPlayerDeteted = false;
-    bool isAlert = false;
+
+    [SerializeField] float remainingTimeToAlert;
+    [SerializeField] bool isPlayerDeteted = false;
+    [SerializeField] bool isAlert = false;
 
 
     [Header("Patrolling Type")]
@@ -37,8 +38,9 @@ public class EnemyController : MonoBehaviour
     EnemyTargetScaner enemyScan;
     EnemyMovement enemyMovement;
     EnemyFOV enemyFOV;
-    Transform currentTarget;
+    [SerializeField]Transform currentTarget;
     LocalMessageBroker _messageBroker;
+    MarkController markController;
 
     public void Init(List<Waypoint> movePoints)
     {
@@ -85,7 +87,10 @@ public class EnemyController : MonoBehaviour
         {
             CountRemainingTimeToAlert();
         }
-        else remainingTimeToAlert = timeToAlert;
+        else
+        {
+            remainingTimeToAlert = timeToAlert;
+        }
     }
 
     private void LateUpdate()
@@ -115,16 +120,20 @@ public class EnemyController : MonoBehaviour
 
         if (remainingTimeToAlert < 0)
         {
-            
-            var message = new PlayerDetectedMessage();
-            message.PlayerPosition = currentTarget.position;
-            _messageBroker.Trigger(ref message);
+            StartAlert();
         }
-            
+
     }
 
     private void OnDestroy()
     {
         _messageBroker.Unsubscribe<PlayerDetectedMessage>(OnPlayerDetected);
+    }
+
+    public void StartAlert()
+    {
+        var message = new PlayerDetectedMessage();
+        message.PlayerPosition = currentTarget.position;
+        _messageBroker.Trigger(ref message);
     }
 }
