@@ -60,9 +60,11 @@ namespace GameCore.Character.Movement
             {
                 States = new List<MovementStateBase>
                 {
+                    new MovementIdleWaitState(this),
                     new MovementWalkState(this),
                     new MovementKnockdownState(this),
                     new MovementCrouchState(this),
+                    new MovementInteractState(this),
                 }
             };
             
@@ -87,7 +89,7 @@ namespace GameCore.Character.Movement
         {
             _currentState = _stateMachine.CurrentState.Type;
             CheckGrounded();
-            RotateToCamera();
+            // RotateToCamera();
 
             float gravity = Physics.gravity.y * _parameters.gravityMultiplier * _rigidbody.mass;
             _rigidbody.AddForce(Vector3.up * gravity);
