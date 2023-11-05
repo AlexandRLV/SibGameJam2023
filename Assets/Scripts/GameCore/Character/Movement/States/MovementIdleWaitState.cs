@@ -17,6 +17,9 @@ namespace GameCore.Character.Movement.States
 
         public override bool CanEnter(MovementStateType prevState)
         {
+            if (parameters.standStillAnimationTime == 0f || parameters.standStillTimeToStartAnimation == 0f)
+                return false;
+            
             return !movement.IsControlledByPlayer || movement.InputState.moveVector == Vector2.zero;
         }
 

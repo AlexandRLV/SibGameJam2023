@@ -1,42 +1,57 @@
 using System.Collections;
-using System.Collections.Generic;
+using GameCore.Character.Animation;
+using GameCore.InteractiveObjects;
 using UnityEngine;
 
-public class PrisonController : MonoBehaviour
+namespace GameCore.Prison.Objects
 {
-    [SerializeField] float openSpeed = 10;
-    [SerializeField] float timeToOpen = 1;
-    [SerializeField] Vector3 openingDirection = Vector3.down;
-    [SerializeField] Transform door;
-    float openingTime;
-    bool isOpened = false;
-
-    [SerializeField] PrisonMouseController[] mouseControllers;
-
-    private void Awake()
+    public class PrisonController : InteractiveObject
     {
-        mouseControllers = GetComponentsInChildren<PrisonMouseController>();
-    }
+        [SerializeField] float openSpeed = 10;
+        [SerializeField] float timeToOpen = 1;
+        [SerializeField] Vector3 openingDirection = Vector3.down;
+        [SerializeField] Transform door;
+        float _openingTime;
+        bool _isOpened;
+        public override AnimationType InteractAnimation { get; } = AnimationType.OpenDoor;
 
-    public void OpenDoor()
-    {
-        if (door == null || mouseControllers.Length == 0) return;
-        if (!isOpened) StartCoroutine(OpenDoorCoroutine());
-    }
+        [SerializeField] PrisonMouseController[] mouseControllers;
 
-    private IEnumerator OpenDoorCoroutine()
-    {
-        isOpened = true;
-        while (openingTime < timeToOpen)
+        public PrisonController(AnimationType interactAnimation)
         {
-            openingTime += Time.deltaTime;
-            door.transform.Translate(openingDirection * openSpeed * Time.deltaTime);
-            yield return new WaitForSeconds(Time.deltaTime);
+            InteractAnimation = interactAnimation;
         }
 
-        foreach (PrisonMouseController controller in mouseControllers)
+        private void Awake()
         {
-            controller.isReleased = true;
+            mouseControllers = GetComponentsInChildren<PrisonMouseController>();
+        }
+
+        private void OpenDoor()
+        {
+            if (door == null || mouseControllers.Length == 0) return;
+            if (!_isOpened) StartCoroutine(OpenDoorCoroutine());
+        }
+
+        private IEnumerator OpenDoorCoroutine()
+        {
+            _isOpened = true;
+            while (_openingTime < timeToOpen)
+            {
+                _openingTime += Time.deltaTime;
+                door.transform.Translate(openingDirection * (openSpeed * Time.deltaTime));
+                yield return new WaitForSeconds(Time.deltaTime);
+            }
+
+            foreach (PrisonMouseController controller in mouseControllers)
+            {
+                controller.isReleased = true;
+            }
+        }
+
+        public override void Interact()
+        {
+            OpenDoor();
         }
     }
 }

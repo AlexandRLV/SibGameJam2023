@@ -72,7 +72,6 @@ namespace GameCore.Character.Movement
                 _stateMachine.States.Add(new MovementJumpState(this));
             
             _stateMachine.ForceSetState(MovementStateType.Walk, _debugStateChanges);
-            Unposess();
 
             _collider.height -= _floatingHeight;
             _collider.center += Vector3.up * (_floatingHeight * 0.5f);
@@ -133,16 +132,16 @@ namespace GameCore.Character.Movement
             _rigidbody.AddForce(Vector3.down * springForce);
         }
 
-        private IEnumerator BuffTimer(float multiplier, float buffDuration)
+        private IEnumerator BuffTimer(float buffDuration)
         {
             float countdownValue = buffDuration;
             while (countdownValue > 0)
             {
-                yield return new WaitForSeconds(1.0f);
-                countdownValue--;
+                yield return null;
+                countdownValue -= Time.deltaTime;
             }
 
-            MoveValues.SpeedMultiplier /= multiplier;
+            MoveValues.SpeedMultiplier = 1f;
             _isSpeedModified = false;
         }
 #endregion
@@ -150,6 +149,7 @@ namespace GameCore.Character.Movement
 #region Public methods
         public void Posess()
         {
+            gameObject.SetActive(true);
             InputState = GameContainer.InGame.Resolve<InputState>();
             IsControlledByPlayer = true;
             _rigidbody.drag = 0f;
@@ -160,11 +160,9 @@ namespace GameCore.Character.Movement
 
         public void Unposess()
         {
+            gameObject.SetActive(false);
             InputState = null;
             IsControlledByPlayer = false;
-            
-            _rigidbody.velocity = Vector3.zero.WithY(_rigidbody.velocity.y);
-            _rigidbody.drag = 5f;
         }
         
         public void Move(Vector2 input)
@@ -197,9 +195,9 @@ namespace GameCore.Character.Movement
         {
             if (!_isSpeedModified)
             {
-                MoveValues.SpeedMultiplier *= multiplier;
+                MoveValues.SpeedMultiplier = multiplier;
                 _isSpeedModified = true;
-                StartCoroutine(BuffTimer(multiplier, duration));
+                StartCoroutine(BuffTimer(duration));
             }
         }
 #endregion

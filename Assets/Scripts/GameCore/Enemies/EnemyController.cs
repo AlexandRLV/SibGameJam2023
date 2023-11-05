@@ -3,6 +3,7 @@ using GameCore.Character.Movement;
 using LocalMessages;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public enum MovementType
@@ -16,11 +17,13 @@ public class EnemyController : MonoBehaviour
     [Header("Main")]
     [SerializeField] MovementType movementType = MovementType.waypointsSequentalPatrolling;
     [SerializeField] float timeToAlert;
+    [SerializeField] float questionTimeAfterDetect;
     [SerializeField] Color normalConeColor, alertConeColor;
-    
-    float remainingTimeToAlert;
-    bool isPlayerDeteted = false;
-    bool isAlert = false;
+
+    [SerializeField] float remainingTimeToAlert;
+    [SerializeField] float remainingTimeToShowQuestion;
+    [SerializeField] bool isPlayerDeteted = false;
+    [SerializeField] bool isAlert = false;
 
 
     [Header("Patrolling Type")]
@@ -37,14 +40,16 @@ public class EnemyController : MonoBehaviour
     EnemyTargetScaner enemyScan;
     EnemyMovement enemyMovement;
     EnemyFOV enemyFOV;
-    Transform currentTarget;
+    [SerializeField]Transform currentTarget;
     LocalMessageBroker _messageBroker;
+    MarkController markController;
 
     public void Init(List<Waypoint> movePoints)
     {
         enemyScan = GetComponent<EnemyTargetScaner>();
         enemyMovement = GetComponent<EnemyMovement>();
         enemyFOV = GetComponentInChildren<EnemyFOV>();
+        markController = GetComponentInChildren<MarkController>();
         enemyMovement.movePoints = movePoints;
         currentTarget = null;
         enemyFOV.Init(enemyScan.ViewAngle);
@@ -84,13 +89,20 @@ public class EnemyController : MonoBehaviour
         if (isPlayerDeteted && !isAlert)
         {
             CountRemainingTimeToAlert();
+            markController.SetQuestionMark();
+            remainingTimeToShowQuestion = questionTimeAfterDetect;
         }
-        else remainingTimeToAlert = timeToAlert;
+        else
+        {
+            remainingTimeToAlert = timeToAlert;
+            CountRemainingTimeToShowQuestion();
+        }
     }
 
     private void LateUpdate()
     {
         enemyFOV.DrawFOV(enemyScan.ViewDistance, enemyScan.ViewAngle, enemyScan.ObstacleLayer);
+        markController.LookAt(Camera.main.transform);
     }
 
     private void OnPlayerDetected(ref PlayerDetectedMessage value)
@@ -98,6 +110,7 @@ public class EnemyController : MonoBehaviour
         isAlert = true;
         enemyMovement.MoveToTarget(value.PlayerPosition);
         enemyFOV.SetColor(alertConeColor);
+        markController.SetExclamationMark();
     }
 
     public void FoundPlayer(CharacterMovement movement)
@@ -115,16 +128,30 @@ public class EnemyController : MonoBehaviour
 
         if (remainingTimeToAlert < 0)
         {
-            
-            var message = new PlayerDetectedMessage();
-            message.PlayerPosition = currentTarget.position;
-            _messageBroker.Trigger(ref message);
+            StartAlert();
         }
-            
+    }
+
+    private void CountRemainingTimeToShowQuestion()
+    {
+        if (remainingTimeToShowQuestion < 0)
+        {
+            markController.ResetMarks();
+        }
+        else remainingTimeToShowQuestion -= Time.deltaTime;
     }
 
     private void OnDestroy()
     {
         _messageBroker.Unsubscribe<PlayerDetectedMessage>(OnPlayerDetected);
     }
+
+    public void StartAlert()
+    {
+        var message = new PlayerDetectedMessage();
+        message.PlayerPosition = currentTarget.position;
+        _messageBroker.Trigger(ref message);
+    }
+
+    
 }
