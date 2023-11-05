@@ -10,6 +10,8 @@ namespace GameCore.Character.Movement
         [SerializeField] [Range(0f, 1f)] public float crouchSpeedMultiplier;
         [SerializeField] [Range(0f, 1f)] public float crouchHeightMultiplier;
         [SerializeField] [Range(0f, 1f)] public float sneakSpeedMultiplier;
+        [SerializeField] public float standStillTimeToStartAnimation;
+        [SerializeField] public float standStillAnimationTime;
 
         [Header("Camera")]
         [SerializeField] public float cameraHeight;
@@ -19,6 +21,10 @@ namespace GameCore.Character.Movement
         [SerializeField] public float jumpHeight;
         [SerializeField] public float inAirSpeed;
         [SerializeField] public float gravityMultiplier;
+        [SerializeField] public float jumpTime = 0.3f;
+
+        [Header("Interaction")]
+        [SerializeField] public float interactTime;
 
         [Header("Inertia")]
         [SerializeField] public float lerpInertiaSpeed;

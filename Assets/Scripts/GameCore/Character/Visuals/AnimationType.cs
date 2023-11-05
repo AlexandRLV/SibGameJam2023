@@ -8,6 +8,7 @@
         Fall,
         Crouch,
         OpenDoor,
+        LeverPull,
         Eat,
         Hit,
         Knockdown,

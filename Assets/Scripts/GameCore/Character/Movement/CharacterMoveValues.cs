@@ -1,4 +1,7 @@
-﻿namespace GameCore.Character.Movement
+﻿using GameCore.Character.Interaction;
+using GameCore.InteractiveObjects;
+
+namespace GameCore.Character.Movement
 {
     public class CharacterMoveValues
     {
@@ -9,5 +12,7 @@
         // Knockdown
         public bool IsKnockdown;
         public float KnockdownTime;
+        
+        public InteractiveObject CurrentInteractiveObject;
     }
 }

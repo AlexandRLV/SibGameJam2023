@@ -6,7 +6,7 @@ namespace GameCore.Character.Movement.States
 {
     public class MovementWalkState : MovementStateBase
     {
-        public override AnimationType AnimationType => _standStillTime > Const.Character.StandStillTime ? AnimationType.IdleWait : AnimationType.Walk;
+        public override AnimationType AnimationType => AnimationType.Walk;
         public override MovementStateType Type => MovementStateType.Walk;
 
         private float _standStillTime;
@@ -18,6 +18,17 @@ namespace GameCore.Character.Movement.States
         public override bool CanEnter(MovementStateType prevState)
         {
             return movement.IsGrounded;
+        }
+
+        public override bool CanExit(MovementStateType nextState)
+        {
+            return nextState != MovementStateType.IdleWait ||
+                   _standStillTime > parameters.standStillTimeToStartAnimation;
+        }
+
+        public override void OnEnter(MovementStateType prevState)
+        {
+            _standStillTime = 0f;
         }
 
         public override void Update()

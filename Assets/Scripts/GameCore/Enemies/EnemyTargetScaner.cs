@@ -2,7 +2,10 @@ using Common;
 using GameCore.Player;
 using System.Collections;
 using System.Collections.Generic;
+using GameCore.Character.Movement;
+using LocalMessages;
 using UnityEngine;
+using UnityEditor;
 
 public class EnemyTargetScaner : MonoBehaviour
 {
@@ -12,7 +15,7 @@ public class EnemyTargetScaner : MonoBehaviour
     [SerializeField] Transform eyeCenter;
 
     [SerializeField] float alertRadius = 8f;
-    [SerializeField] float viewRadius = 10f;
+    [SerializeField] float viewDistance = 10f;
     [SerializeField, Range(0f, 360f)] float viewAngle = 360f;
     [SerializeField] float heightOffset = 1f;
     [SerializeField] float maxHeightDifference = 1f;
@@ -27,6 +30,14 @@ public class EnemyTargetScaner : MonoBehaviour
     Transform customTarget;
     Vector3 eyePos;
     RaycastHit hit;
+
+    #endregion
+
+    #region Properties
+
+    public float ViewAngle => viewAngle;
+    public float ViewDistance => viewDistance;
+    public LayerMask ObstacleLayer => obstacleLayer;
 
     #endregion
 
@@ -50,95 +61,87 @@ public class EnemyTargetScaner : MonoBehaviour
     private void FindVisibleTarget()
     {
         if (GameContainer.InGame == null) return;
-        var player = GameContainer.InGame.Resolve<Player>();
-        if (player == null) return;
+        var player = GameContainer.InGame.Resolve<GamePlayer>();
+        if (player == null || player.CurrentCharacter == null) return;
 
-        var characters = player.Characters;
+        var collider = player.CurrentCharacter.Collider;
+        // Detect without obstacles
+        Vector3 targetSize = collider.bounds.size;
+        Transform target = collider.transform;
 
-        foreach (var character in characters)
+        Vector3 toPlayer = target.transform.position - eyePos;
+
+        if (Mathf.Abs(toPlayer.y + heightOffset) > maxHeightDifference)
         {
-            var collider = character.GetComponentInChildren<Collider>();
-            // Detect without obstacles
-            Vector3 targetSize = collider.bounds.size;
-            Transform target = collider.transform;
+            return;
+        }
 
-            Vector3 toPlayer = target.transform.position - eyePos;
-
-            if (Mathf.Abs(toPlayer.y + heightOffset) > maxHeightDifference)
+        if (Vector3.Distance(transform.position, target.position) < alertRadius)
+        {
+            if (!targetList.Contains(target))
             {
-                return;
+                targetList.Add(target);
             }
+            
+            return;
+        }
 
-            if (Vector3.Distance(transform.position, target.position) < alertRadius)
+        Vector3 dirToTarget = (target.position - transform.position).normalized;
+
+        // Detect include obstacles
+        // Detect if any Obstacle come in path
+        if (Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2)
+        {
+            targetSize.y -= 0.05f; // Manual offset in size so that raycast won't go above the mesh
+
+            float offsetX = targetSize.x / 2;
+            float offsetY = targetSize.y / 2;
+
+            int rayCastIteration = 0;
+
+            for (int j = 0; j < 3; j++) // Row of RayCast
             {
-                if (!targetList.Contains(target))
-                    targetList.Add(target);
-
-                continue;
-            }
-
-            Vector3 dirToTarget = (target.position - transform.position).normalized;
-
-            // Detect include obstacles
-            // Detect if any Obstacle come in path
-            if (Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2)
-            {
-                targetSize.y -= 0.05f; // Manual offset in size so that raycast won't go above the mesh
-
-                float offsetX = targetSize.x / 2;
-                float offsetY = targetSize.y / 2;
-
-                int rayCastIteration = 0;
-
-                for (int j = 0; j < 3; j++) // Row of RayCast
+                for (int k = 0; k < 5; k++) // Column of RayCast
                 {
-                    for (int k = 0; k < 5; k++) // Column of RayCast
+                    Vector3 targetPosition = target.position + new Vector3(offsetX, offsetY, 0);
+
+                    float distToTarget = Vector3.Distance(transform.position, target.position);
+
+                    dirToTarget = (targetPosition - transform.position).normalized;
+
+                    if (!Physics.Raycast(transform.position, dirToTarget, out hit, distToTarget, obstacleLayer))
                     {
-                        Vector3 targetPosition = target.position + new Vector3(offsetX, offsetY, 0);
-
-                        float distToTarget = Vector3.Distance(transform.position, target.position);
-
-                        dirToTarget = (targetPosition - transform.position).normalized;
-
-                        if (!Physics.Raycast(transform.position, dirToTarget, out hit, distToTarget, obstacleLayer))
-                        {
 
 #if UNITY_EDITOR
-                            if (showGizmos)
-                                Debug.DrawLine(transform.position, targetPosition, Color.green); // Debug RayCast
+                        if (showGizmos)
+                            Debug.DrawLine(transform.position, targetPosition, Color.green); // Debug RayCast
 #endif
 
-                            if (!targetList.Contains(target))
-                            {
-                                targetList.Add(target);
-                            }
-
-                            goto EndOfLoop; // Target is detected no need to go further, so jump out of the Main loop
-                        }
-                        else
+                        if (!targetList.Contains(target))
                         {
-#if UNITY_EDITOR
-                            if (showGizmos)
-                                Debug.DrawLine(transform.position, targetPosition, Color.red); // Debug RayCast
-#endif
+                            targetList.Add(target);
                         }
 
-                        offsetY -= targetSize.y / 4;
+                        return; // Target is detected no need to go further, so jump out of the Main loop
                     }
+#if UNITY_EDITOR
+                    if (showGizmos)
+                        Debug.DrawLine(transform.position, targetPosition, Color.red); // Debug RayCast
+#endif
 
-                    rayCastIteration++;
-                    offsetY = targetSize.y / 2;
-                    offsetX -= targetSize.x / 2;
-
+                    offsetY -= targetSize.y / 4;
                 }
 
-                if (rayCastIteration >= 3 && targetList.Contains(target))
-                {
-                    targetList.Remove(target);
-                }
+                rayCastIteration++;
+                offsetY = targetSize.y / 2;
+                offsetX -= targetSize.x / 2;
 
             }
-        EndOfLoop:;
+
+            if (rayCastIteration >= 3 && targetList.Contains(target))
+            {
+                targetList.Remove(target);
+            }
         }
     }
 
@@ -164,7 +167,7 @@ public class EnemyTargetScaner : MonoBehaviour
             }
 
             //Out of View Radius
-            if (Vector3.Distance(transform.position, target.position) > viewRadius)
+            if (Vector3.Distance(transform.position, target.position) > viewDistance)
             {
                 targetList.Remove(target);
                 continue;
@@ -251,8 +254,8 @@ public class EnemyTargetScaner : MonoBehaviour
 
         //Height Check Area
         UnityEditor.Handles.color = Color.yellow;
-        UnityEditor.Handles.DrawWireDisc(transform.position + Vector3.up * maxHeightDifference, Vector3.up, viewRadius);
-        UnityEditor.Handles.DrawWireDisc(transform.position + Vector3.down * maxHeightDifference, Vector3.up, viewRadius);
+        UnityEditor.Handles.DrawWireDisc(transform.position + Vector3.up * maxHeightDifference, Vector3.up, viewDistance);
+        UnityEditor.Handles.DrawWireDisc(transform.position + Vector3.down * maxHeightDifference, Vector3.up, viewDistance);
 
         //Always Detect Radius
         Color r = new Color(0.5f, 0f, 0f, 0.5f);
@@ -261,13 +264,13 @@ public class EnemyTargetScaner : MonoBehaviour
 
         //View Radius
         UnityEditor.Handles.color = Color.white;
-        UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.up, viewRadius);
+        UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.up, viewDistance);
 
         //View Angle
         Color b = new Color(0, 0.5f, 0.7f, 0.2f);
         UnityEditor.Handles.color = b;
         Vector3 rotatedForward = Quaternion.Euler(0, -viewAngle * 0.5f, 0) * transform.forward;
-        UnityEditor.Handles.DrawSolidArc(transform.position, Vector3.up, rotatedForward, viewAngle, viewRadius);
+        UnityEditor.Handles.DrawSolidArc(transform.position, Vector3.up, rotatedForward, viewAngle, viewDistance);
 
         //To Target Line
         Gizmos.color = Color.red;

@@ -40,7 +40,7 @@ public class EnemyMovement : MonoBehaviour
         {
             if (movePoints[currentPointIndex].NeedStay)
             {
-                StartCoroutine(WaitOnPoint(movePoints[currentPointIndex].StayTime));
+                var coroutine = StartCoroutine(WaitOnPoint(movePoints[currentPointIndex].StayTime));
             }
 
             if (clockwiseMovement == true)
@@ -64,9 +64,21 @@ public class EnemyMovement : MonoBehaviour
         }
     }
 
-    public void MoveToTarget(Transform target)
+    /*
+    public IEnumerator NoWalkRotation(float minAngle, float maxAngle, float rotationSpeed)
     {
-        agent.SetDestination(target.position);
+        float randomAngle = Random.Range(minAngle, maxAngle);
+        Vector3 newVector = new Vector3(0, randomAngle, 0f);
+
+        transform.rotation = Quaternion.Lerp(transform.rotation,
+            Quaternion.Euler(newVector), 
+            rotationSpeed * Time.deltaTime);
+    }
+    */
+
+    public void MoveToTarget(Vector3 target)
+    {
+        agent.SetDestination(target);
     }
 
     private IEnumerator WaitOnPoint(float time)

@@ -16,11 +16,15 @@ MonoBehaviour:
   crouchSpeedMultiplier: 0.6
   crouchHeightMultiplier: 0.4
   sneakSpeedMultiplier: 0.8
+  standStillTimeToStartAnimation: 5
+  standStillAnimationTime: 2
   cameraHeight: 1.5
   canJump: 1
-  jumpHeight: 2
+  jumpHeight: 3
   inAirSpeed: 3
   gravityMultiplier: 2
+  jumpTime: 0.3
+  interactTime: 1
   lerpInertiaSpeed: 1000
   springForce: 500
   dampingForce: 20

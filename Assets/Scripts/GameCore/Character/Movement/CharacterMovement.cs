@@ -60,9 +60,11 @@ namespace GameCore.Character.Movement
             {
                 States = new List<MovementStateBase>
                 {
+                    new MovementIdleWaitState(this),
                     new MovementWalkState(this),
                     new MovementKnockdownState(this),
                     new MovementCrouchState(this),
+                    new MovementInteractState(this),
                 }
             };
             
@@ -70,7 +72,6 @@ namespace GameCore.Character.Movement
                 _stateMachine.States.Add(new MovementJumpState(this));
             
             _stateMachine.ForceSetState(MovementStateType.Walk, _debugStateChanges);
-            Unposess();
 
             _collider.height -= _floatingHeight;
             _collider.center += Vector3.up * (_floatingHeight * 0.5f);
@@ -87,7 +88,6 @@ namespace GameCore.Character.Movement
         {
             _currentState = _stateMachine.CurrentState.Type;
             CheckGrounded();
-            RotateToCamera();
 
             float gravity = Physics.gravity.y * _parameters.gravityMultiplier * _rigidbody.mass;
             _rigidbody.AddForce(Vector3.up * gravity);
@@ -97,9 +97,12 @@ namespace GameCore.Character.Movement
 
         private void CheckGrounded()
         {
+            bool hitTriggers = Physics.queriesHitTriggers;
+            Physics.queriesHitTriggers = false;
             float checkHeight = _floatingHeight * 1.5f * MoveValues.FloatingHeightMultiplier;
             var groundCheckOrigin = transform.position + Vector3.up * checkHeight;
             Physics.Raycast(groundCheckOrigin, Vector3.down, out var hit, _floatingHeight * 3f, _groundMask);
+            Physics.queriesHitTriggers = hitTriggers;
 
             if (hit.colliderInstanceID == 0)
             {
@@ -128,26 +131,17 @@ namespace GameCore.Character.Movement
             springForce *= _rigidbody.mass;
             _rigidbody.AddForce(Vector3.down * springForce);
         }
-        
-        private void RotateToCamera()
-        {
-            if (!IsControlledByPlayer) return;
-            if (_movement.magnitude < 0.1f) return;
 
-            float targetY = _gameCamera.FollowTarget.transform.eulerAngles.y;
-            _rigidbody.rotation = Quaternion.Euler(0f, targetY, 0f);
-        }
-
-        private IEnumerator BuffTimer(float multiplier, float buffDuration)
+        private IEnumerator BuffTimer(float buffDuration)
         {
             float countdownValue = buffDuration;
             while (countdownValue > 0)
             {
-                yield return new WaitForSeconds(1.0f);
-                countdownValue--;
+                yield return null;
+                countdownValue -= Time.deltaTime;
             }
 
-            MoveValues.SpeedMultiplier /= multiplier;
+            MoveValues.SpeedMultiplier = 1f;
             _isSpeedModified = false;
         }
 #endregion
@@ -155,6 +149,7 @@ namespace GameCore.Character.Movement
 #region Public methods
         public void Posess()
         {
+            gameObject.SetActive(true);
             InputState = GameContainer.InGame.Resolve<InputState>();
             IsControlledByPlayer = true;
             _rigidbody.drag = 0f;
@@ -165,11 +160,9 @@ namespace GameCore.Character.Movement
 
         public void Unposess()
         {
+            gameObject.SetActive(false);
             InputState = null;
             IsControlledByPlayer = false;
-            
-            _rigidbody.velocity = Vector3.zero.WithY(_rigidbody.velocity.y);
-            _rigidbody.drag = 5f;
         }
         
         public void Move(Vector2 input)
@@ -202,9 +195,9 @@ namespace GameCore.Character.Movement
         {
             if (!_isSpeedModified)
             {
-                MoveValues.SpeedMultiplier *= multiplier;
+                MoveValues.SpeedMultiplier = multiplier;
                 _isSpeedModified = true;
-                StartCoroutine(BuffTimer(multiplier, duration));
+                StartCoroutine(BuffTimer(duration));
             }
         }
 #endregion

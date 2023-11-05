@@ -37,7 +37,7 @@ namespace GameCore.Character.Animation
             if (_currentAnimation == stateId && !force) return;
 
             _currentAnimation = stateId;
-            _animator.CrossFade(stateId, 0.2f);
+            _animator.CrossFade(stateId, 0.1f);
         }
 
         public void SetSpeed(float speed)
