@@ -89,7 +89,6 @@ namespace GameCore.Character.Movement
         {
             _currentState = _stateMachine.CurrentState.Type;
             CheckGrounded();
-            // RotateToCamera();
 
             float gravity = Physics.gravity.y * _parameters.gravityMultiplier * _rigidbody.mass;
             _rigidbody.AddForce(Vector3.up * gravity);
@@ -99,9 +98,12 @@ namespace GameCore.Character.Movement
 
         private void CheckGrounded()
         {
+            bool hitTriggers = Physics.queriesHitTriggers;
+            Physics.queriesHitTriggers = false;
             float checkHeight = _floatingHeight * 1.5f * MoveValues.FloatingHeightMultiplier;
             var groundCheckOrigin = transform.position + Vector3.up * checkHeight;
             Physics.Raycast(groundCheckOrigin, Vector3.down, out var hit, _floatingHeight * 3f, _groundMask);
+            Physics.queriesHitTriggers = hitTriggers;
 
             if (hit.colliderInstanceID == 0)
             {
@@ -129,15 +131,6 @@ namespace GameCore.Character.Movement
 
             springForce *= _rigidbody.mass;
             _rigidbody.AddForce(Vector3.down * springForce);
-        }
-        
-        private void RotateToCamera()
-        {
-            if (!IsControlledByPlayer) return;
-            if (_movement.magnitude < 0.1f) return;
-
-            float targetY = _gameCamera.FollowTarget.transform.eulerAngles.y;
-            _rigidbody.rotation = Quaternion.Euler(0f, targetY, 0f);
         }
 
         private IEnumerator BuffTimer(float multiplier, float buffDuration)
