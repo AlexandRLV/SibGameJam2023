@@ -21,11 +21,11 @@ namespace Startup.GameplayInitializers
 
             var spawns = GameContainer.InGame.Resolve<PlayerSpawns>();
 
-            var littleMousePrefab = Resources.Load<CharacterMovement>("Prefabs/Characters/Little Mouse Character");
+            var littleMousePrefab = Resources.Load<CharacterMovement>("Prefabs/Characters/ThinMouseCharacter");
             var littleMouse = Object.Instantiate(littleMousePrefab);
             littleMouse.transform.SetPositionAndRotation(spawns.SpawnPoints[0].position, spawns.SpawnPoints[0].rotation);
 
-            var bigMousePrefab = Resources.Load<CharacterMovement>("Prefabs/Characters/Big Mouse Character");
+            var bigMousePrefab = Resources.Load<CharacterMovement>("Prefabs/Characters/FatMouseCharacter");
             var bigMouse = Object.Instantiate(bigMousePrefab);
             bigMouse.transform.SetPositionAndRotation(spawns.SpawnPoints[1].position, spawns.SpawnPoints[1].rotation);
 

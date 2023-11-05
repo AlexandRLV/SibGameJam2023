@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5ad7b981199448e185415db1b2328ce1, type: 3}
-  m_Name: Little Mouse Parameters
+  m_Name: Thin Mouse Parameters
   m_EditorClassIdentifier: 
   speed: 5
   crouchSpeedMultiplier: 0.6
@@ -21,6 +21,7 @@ MonoBehaviour:
   jumpHeight: 3
   inAirSpeed: 3
   gravityMultiplier: 2
+  jumpForceApplyDelay: 0.04
   lerpInertiaSpeed: 10
-  springForce: 200
+  springForce: 500
   dampingForce: 20

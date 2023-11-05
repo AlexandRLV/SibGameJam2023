@@ -1,0 +1,24 @@
+﻿using GameCore.Character.Animation;
+
+namespace GameCore.Character.Movement.States
+{
+    public class MovementKnockdownState : MovementStateBase
+    {
+        public override AnimationType AnimationType => AnimationType.Knockdown;
+        public override MovementStateType Type => MovementStateType.Knockdown;
+        
+        public MovementKnockdownState(CharacterMovement characterMovement) : base(characterMovement)
+        {
+        }
+
+        public override bool CanEnter(MovementStateType prevState)
+        {
+            return movement.MoveValues.IsKnockdown;
+        }
+
+        public override bool CanExit(MovementStateType nextState)
+        {
+            return !movement.MoveValues.IsKnockdown;
+        }
+    }
+}

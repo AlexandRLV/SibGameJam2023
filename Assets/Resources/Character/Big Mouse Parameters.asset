@@ -21,6 +21,7 @@ MonoBehaviour:
   jumpHeight: 1
   inAirSpeed: 1
   gravityMultiplier: 2.5
+  jumpForceApplyDelay: 0
   lerpInertiaSpeed: 8
-  springForce: 300
+  springForce: 500
   dampingForce: 20

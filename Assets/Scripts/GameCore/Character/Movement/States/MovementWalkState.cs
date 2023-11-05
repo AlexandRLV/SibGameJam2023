@@ -5,11 +5,9 @@ namespace GameCore.Character.Movement.States
 {
     public class MovementWalkState : MovementStateBase
     {
-        public override AnimationType AnimationType => _isMoving ? AnimationType.Walk : AnimationType.Idle;
+        public override AnimationType AnimationType => AnimationType.Walk;
         public override MovementStateType Type => MovementStateType.Walk;
 
-        private bool _isMoving;
-        
         public MovementWalkState(CharacterMovement characterMovement) : base(characterMovement)
         {
         }

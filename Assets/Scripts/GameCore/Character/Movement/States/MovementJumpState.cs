@@ -23,6 +23,7 @@ namespace GameCore.Character.Movement.States
 
         public override void OnEnter(MovementStateType prevState)
         {
+            _isJumping = false;
             if (!JumpPressed() || !parameters.canJump) return;
             
             float jumpForce = Mathf.Sqrt(-2f
@@ -33,6 +34,7 @@ namespace GameCore.Character.Movement.States
             
             rigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             _jumpTimer = Const.Character.MinJumpTime;
+            _isJumping = true;
         }
 
         public override bool CanExit(MovementStateType nextState)
@@ -43,6 +45,11 @@ namespace GameCore.Character.Movement.States
         public override void FixedUpdate()
         {
             _jumpTimer -= Time.deltaTime;
+            if (_isJumping)
+            {
+                if (movement.Rigidbody.velocity.y < 0f)
+                    _isJumping = false;
+            }
             
             if (!movement.IsControlledByPlayer) return;
             var input = movement.InputState.moveVector;

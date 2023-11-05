@@ -5,5 +5,7 @@
         public float SpeedMultiplier;
         public float JumpHeightMultiplier;
         public float FloatingHeightMultiplier;
+
+        public bool IsKnockdown;
     }
 }

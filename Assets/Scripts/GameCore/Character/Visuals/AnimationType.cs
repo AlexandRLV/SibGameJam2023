@@ -2,12 +2,14 @@
 {
     public enum AnimationType
     {
-        Idle,
+        IdleWait,
         Walk,
         Jump,
         Fall,
-        Dead,
-        CrouchIdle,
-        CrouchWalk,
+        Crouch,
+        OpenDoor,
+        Eat,
+        Hit,
+        Knockdown,
     }
 }

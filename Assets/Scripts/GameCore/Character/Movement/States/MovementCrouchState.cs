@@ -5,10 +5,8 @@ namespace GameCore.Character.Movement.States
 {
     public class MovementCrouchState : MovementStateBase
     {
-        public override AnimationType AnimationType => _isMoving ? AnimationType.CrouchIdle : AnimationType.CrouchWalk;
+        public override AnimationType AnimationType => AnimationType.Crouch;
         public override MovementStateType Type => MovementStateType.Crouch;
-
-        private bool _isMoving;
         
         public MovementCrouchState(CharacterMovement characterMovement) : base(characterMovement)
         {
