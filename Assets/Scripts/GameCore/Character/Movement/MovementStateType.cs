@@ -4,7 +4,7 @@
     {
         Walk,
         Jump,
-        Dead,
+        Knockdown,
         Crouch,
     }
 }

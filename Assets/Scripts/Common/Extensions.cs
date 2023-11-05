@@ -21,5 +21,11 @@ namespace Common
             float eulerY = transform.eulerAngles.y;
             return Quaternion.Euler(0f, eulerY, 0f);
         }
+
+        public static Vector3 FlatVector(this Vector3 value)
+        {
+            value.y = 0f;
+            return value;
+        }
     }
 }
