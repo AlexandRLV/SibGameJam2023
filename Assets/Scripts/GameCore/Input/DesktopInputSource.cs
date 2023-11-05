@@ -28,6 +28,9 @@ namespace GameCore.Input
             if (UnityEngine.Input.GetKey(_keySettings.leftMoveKey))
                 movement.x -= 1f;
 
+            if (movement.magnitude > 1f)
+                movement = movement.normalized;
+            
             _inputState.moveVector = movement;
             _inputState.camera =
                 new Vector2(UnityEngine.Input.GetAxis("Mouse X"), UnityEngine.Input.GetAxis("Mouse Y"));

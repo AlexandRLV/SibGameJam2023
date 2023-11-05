@@ -5,5 +5,9 @@
         public float SpeedMultiplier;
         public float JumpHeightMultiplier;
         public float FloatingHeightMultiplier;
+
+        // Knockdown
+        public bool IsKnockdown;
+        public float KnockdownTime;
     }
 }
