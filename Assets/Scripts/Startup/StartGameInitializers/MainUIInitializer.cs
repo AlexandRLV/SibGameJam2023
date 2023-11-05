@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using Common;
+using LocalMessages;
 using UI;
 using UI.NotificationsSystem;
 using UI.WindowsSystem;
@@ -12,6 +13,9 @@ namespace Startup.Initializers
     {
         public IEnumerator Initialize()
         {
+            var _messageBrocker = new LocalMessageBroker();
+            GameContainer.Common.Register(_messageBrocker);
+
             var uiRootPrefab = Resources.Load<UIRoot>("UI/UIRoot");
             var uiRoot = Object.Instantiate(uiRootPrefab);
             GameContainer.Common.Register(uiRoot);
