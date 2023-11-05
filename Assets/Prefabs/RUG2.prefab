@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 431863450609890220}
   - component: {fileID: 3625839774224137225}
   - component: {fileID: 1564267880672676035}
+  - component: {fileID: 7812289487971242736}
   m_Layer: 0
   m_Name: RUG2
   m_TagString: Untagged
@@ -83,3 +84,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &7812289487971242736
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1059921691769301270}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 1675819272633288088, guid: eedb89bf13f1a7e45b7ec0ade58e04a1, type: 3}
