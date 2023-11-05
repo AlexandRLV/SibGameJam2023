@@ -7,5 +7,9 @@ public class MarkController : MonoBehaviour
     [SerializeField] GameObject questionMark;
     [SerializeField] GameObject exclamationMark;
 
-    
+    private void Start()
+    {
+        questionMark.SetActive(false);
+        exclamationMark.SetActive(false);
+    }
 }

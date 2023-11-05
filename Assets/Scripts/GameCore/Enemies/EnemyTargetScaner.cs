@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using GameCore.Character.Movement;
 using LocalMessages;
 using UnityEngine;
+using UnityEditor;
 
 public class EnemyTargetScaner : MonoBehaviour
 {
@@ -82,7 +83,10 @@ public class EnemyTargetScaner : MonoBehaviour
             if (Vector3.Distance(transform.position, target.position) < alertRadius)
             {
                 if (!targetList.Contains(target))
+                {
                     targetList.Add(target);
+                }
+                    
 
                 continue;
             }
