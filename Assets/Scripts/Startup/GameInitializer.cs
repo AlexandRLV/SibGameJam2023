@@ -17,6 +17,7 @@ namespace Startup
         private static List<IInitializer> _startupInitializers = new()
         {
             new MainUIInitializer(),
+            new SoundServiceInitializer(),
         };
         
         private static List<IInitializer> _mainMenuInitializers = new()
