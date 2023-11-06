@@ -5,21 +5,25 @@ using GameCore.Camera;
 using Startup.GameplayInitializers;
 using Startup.Initializers;
 using UI;
+using UI.WindowsSystem;
+using UI.WindowsSystem.WindowTypes;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Startup
 {
     [DefaultExecutionOrder(-1000)]
     public class GameInitializer : MonoBehaviour
     {
+        private const string MainMenuSceneName = "MainMenuScene";
         private static bool _initialized;
-        
+
         private static List<IInitializer> _startupInitializers = new()
         {
             new MainUIInitializer(),
             new SoundServiceInitializer(),
         };
-        
+
         private static List<IInitializer> _mainMenuInitializers = new()
         {
             new MainMenuInitializer(),
@@ -36,11 +40,11 @@ namespace Startup
             new CharacterInitializer(),
             new RoundInitializer(),
         };
-        
+
         public bool InGame { get; private set; }
 
         [SerializeField] private bool _initializeRightToGame;
-        
+
         private void Awake()
         {
             if (_initialized)
@@ -48,9 +52,16 @@ namespace Startup
                 Destroy(gameObject);
                 return;
             }
-            
+
+            var currentScene = SceneManager.GetActiveScene();
+            if (currentScene.name != MainMenuSceneName)
+            {
+                Debug.LogError($"Пожалуйста, зайдите в игру со сцены {MainMenuSceneName}");
+                return;
+            }
+
             DontDestroyOnLoad(gameObject);
-            
+
             GameContainer.Common = new Container();
             GameContainer.Common.Register(this);
 
@@ -71,13 +82,29 @@ namespace Startup
             StartCoroutine(StartGameCoroutine());
         }
 
-        public void StopGame()
+        public void StopGame(bool toMainMenu = true)
         {
+            var windowsSystem = GameContainer.Common.Resolve<WindowsSystem>();
+            windowsSystem.DestroyAll();
+            
             DisposeList(_gameplayInitializers);
             DisposeList(_gameMapInitializers);
 
             GameContainer.InGame = null;
             InGame = false;
+            
+            if (!toMainMenu) return;
+            
+            windowsSystem.CreateWindow<MainMenu>();
+        }
+
+        public void RestartGame()
+        {
+            var loadingScreen = GameContainer.Common.Resolve<LoadingScreen>();
+            loadingScreen.Active = true;
+            
+            StopGame(false);
+            StartGame();
         }
 
         private IEnumerator InitializeGameCoroutine()
@@ -104,10 +131,6 @@ namespace Startup
 
             loadingScreen.Active = false;
             InGame = true;
-            
-            // TODO: remove when game will be initialized normally
-            if (_initializeRightToGame)
-                Camera.main.gameObject.AddComponent<AudioListener>();
         }
 
         private IEnumerator InitializeList(List<IInitializer> initializers)

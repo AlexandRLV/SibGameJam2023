@@ -9,7 +9,7 @@ namespace Startup.GameplayInitializers
         
         public IEnumerator Initialize()
         {
-            var asyncOperation = SceneManager.LoadSceneAsync(SceneName, LoadSceneMode.Additive);
+            var asyncOperation = SceneManager.LoadSceneAsync(SceneName);
             yield return asyncOperation;
         }
 
