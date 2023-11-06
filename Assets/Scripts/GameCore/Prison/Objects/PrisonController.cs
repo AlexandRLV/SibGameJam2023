@@ -45,7 +45,7 @@ namespace GameCore.Prison.Objects
             {
                 
                 _openingTime += Time.deltaTime;
-                door.eulerAngles = Vector3.Slerp(door.eulerAngles, openRot, Time.deltaTime * smooth);
+                door.eulerAngles = Vector3.Lerp(door.eulerAngles, openRot, Time.deltaTime * smooth);
                 yield return new WaitForSeconds(Time.deltaTime);
             }
 
@@ -57,11 +57,15 @@ namespace GameCore.Prison.Objects
 
         public override void Interact()
         {
+            if (IsUsed) return;
+            IsUsed = true;
             OpenDoor();
         }
         protected override void OnPlayerEnter()
         {
             Movement.MoveValues.CurrentInteractiveObject = this;
+            if (IsSeen) return;
+            IsSeen = true;
             switch (RoundController.Stage)
             {
                 case RoundStage.ThinMouse:

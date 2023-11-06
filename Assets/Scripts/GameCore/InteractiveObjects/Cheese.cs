@@ -22,6 +22,7 @@ namespace GameCore.InteractiveObjects
 
         protected override void OnPlayerEnter()
         {
+            Movement.MoveValues.CurrentInteractiveObject = this;
             if (IsSeen) return;
             IsSeen = true;
             switch (RoundController.Stage)
@@ -33,7 +34,6 @@ namespace GameCore.InteractiveObjects
                     SoundService.PlaySound(SoundType.FatCheese);
                     break;
             }
-            Movement.MoveValues.CurrentInteractiveObject = this;
         }
 
         protected override void OnPlayerStay()

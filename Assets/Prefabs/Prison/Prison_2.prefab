@@ -643,6 +643,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -5165542448561273986, guid: 9490bad4d192f0b4398dcec8176c3245, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: f42be6bebb045cf40a60d7d50ccc8cba, type: 2}
     - target: {fileID: -4216859302048453862, guid: 9490bad4d192f0b4398dcec8176c3245, type: 3}
       propertyPath: m_RootOrder
       value: 6
@@ -714,24 +718,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: 9490bad4d192f0b4398dcec8176c3245, type: 3}
   m_PrefabInstance: {fileID: 4849186619695433906}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1371388463879847407 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: -3439656086709832355, guid: 9490bad4d192f0b4398dcec8176c3245, type: 3}
-  m_PrefabInstance: {fileID: 4849186619695433906}
-  m_PrefabAsset: {fileID: 0}
---- !u!65 &2643385758855973075
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1371388463879847407}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 5.415864, y: 3.8877397, z: 0.2828279}
-  m_Center: {x: 2.5854614, y: 0, z: 0.0000038146973}
 --- !u!1 &2559019809039667233 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6974021370799282323, guid: 9490bad4d192f0b4398dcec8176c3245, type: 3}

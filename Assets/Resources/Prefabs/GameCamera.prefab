@@ -423,3 +423,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _followTarget: {fileID: 5491789496747559762}
+  _camera: {fileID: 4285045109144200875}

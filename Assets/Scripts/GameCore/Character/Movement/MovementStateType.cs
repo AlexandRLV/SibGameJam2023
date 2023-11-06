@@ -8,5 +8,6 @@
         Knockdown,
         Crouch,
         Interact,
+        Hit,
     }
 }

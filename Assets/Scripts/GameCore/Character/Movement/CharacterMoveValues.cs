@@ -8,8 +8,8 @@ namespace GameCore.Character.Movement
         public float JumpHeightMultiplier;
         public float FloatingHeightMultiplier;
 
-        // Knockdown
         public bool IsKnockdown;
+        public bool IsHit;
         
         public InteractiveObject CurrentInteractiveObject;
     }

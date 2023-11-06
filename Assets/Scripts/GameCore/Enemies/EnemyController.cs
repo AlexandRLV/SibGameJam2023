@@ -5,6 +5,8 @@ using GameCore.Sounds;
 using LocalMessages;
 using System.Collections;
 using System.Collections.Generic;
+using GameCore.Camera;
+using GameCore.Enemies;
 using UnityEditor;
 using UnityEngine;
 
@@ -50,6 +52,8 @@ public class EnemyController : MonoBehaviour
     SoundService soundService => GameContainer.Common.Resolve<SoundService>();
     RoundController roundController => GameContainer.InGame.Resolve<RoundController>();
 
+    private bool _hasSeenCharacter;
+
     private void Awake()
     {
         if (MovementType.noWalk == movementType) Init(null);
@@ -57,7 +61,7 @@ public class EnemyController : MonoBehaviour
 
     public void Init(List<Waypoint> movePoints)
     {
-        enemyScan = GetComponent<EnemyTargetScaner>();
+        enemyScan = GetComponentInChildren<EnemyTargetScaner>();
         enemyMovement = GetComponent<EnemyMovement>();
         enemyFOV = GetComponentInChildren<EnemyFOV>();
         markController = GetComponentInChildren<MarkController>();
@@ -78,8 +82,9 @@ public class EnemyController : MonoBehaviour
 
         if (currentTarget != null)
         {
-            if (!isPlayerDeteted)
+            if (!isPlayerDeteted && !_hasSeenCharacter)
             {
+                _hasSeenCharacter = true;
                 if (roundController.Stage == RoundStage.ThinMouse)
                 {
                     soundService.PlaySound(SoundType.ThinDetect);
@@ -127,7 +132,8 @@ public class EnemyController : MonoBehaviour
     private void LateUpdate()
     {
         enemyFOV.DrawFOV(enemyScan.ViewDistance, enemyScan.ViewAngle, enemyScan.ObstacleLayer);
-        if (Camera.main != null) markController.LookAt(Camera.main.transform);
+        var cameraService = GameContainer.InGame.Resolve<GameCamera>();
+        if (cameraService != null && cameraService.Camera != null) markController.LookAt(cameraService.Camera);
     }
 
     private void OnPlayerDetected(ref PlayerDetectedMessage value)
@@ -136,8 +142,13 @@ public class EnemyController : MonoBehaviour
         enemyMovement.MoveToTarget(value.PlayerPosition);
         enemyFOV.SetColor(alertConeColor);
         markController.SetExclamationMark();
-    }
 
+        var lookIk = GetComponentInChildren<LookAtIK>();
+        if (lookIk != null)
+        {
+            lookIk.SetTarget(value.PlayerPosition);
+        }
+    }
     
     public void FoundPlayer(CharacterMovement movement)
     {
