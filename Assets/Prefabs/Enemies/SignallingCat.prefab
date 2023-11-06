@@ -537,6 +537,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -326027466751115926, guid: 8c8fcab42434be543bdf96cda0f970ae, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 7b8f2c3254e7ef6449e44c8617ed4df5, type: 2}
+    - target: {fileID: -326027466751115926, guid: 8c8fcab42434be543bdf96cda0f970ae, type: 3}
+      propertyPath: m_Materials.Array.data[2]
+      value: 
+      objectReference: {fileID: 2100000, guid: ffc9d295b49155944857335c724a306f, type: 2}
     - target: {fileID: 919132149155446097, guid: 8c8fcab42434be543bdf96cda0f970ae, type: 3}
       propertyPath: m_Name
       value: Cat1
@@ -756,7 +764,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05083a3b7ffa4f4abb5be55040328d2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _lookAtIK: {fileID: 16328388037473829}
   _head: {fileID: 6898415260344934229}
   _lookAtDistance: 10
   _lookAtRange: 5
