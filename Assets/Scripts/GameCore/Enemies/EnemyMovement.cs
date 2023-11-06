@@ -66,18 +66,6 @@ public class EnemyMovement : MonoBehaviour
         }
     }
 
-    /*
-    public IEnumerator NoWalkRotation(float minAngle, float maxAngle, float rotationSpeed)
-    {
-        float randomAngle = Random.Range(minAngle, maxAngle);
-        Vector3 newVector = new Vector3(0, randomAngle, 0f);
-
-        transform.rotation = Quaternion.Lerp(transform.rotation,
-            Quaternion.Euler(newVector), 
-            rotationSpeed * Time.deltaTime);
-    }
-    */
-
     public void MoveToTarget(Vector3 target)
     {
         if (currentCoroutine != null)

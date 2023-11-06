@@ -20,7 +20,7 @@ MonoBehaviour:
   standStillAnimationTime: 2
   cameraHeight: 1.5
   canJump: 1
-  jumpHeight: 3
+  jumpHeight: 2
   inAirSpeed: 3
   gravityMultiplier: 2
   jumpTime: 0.3
