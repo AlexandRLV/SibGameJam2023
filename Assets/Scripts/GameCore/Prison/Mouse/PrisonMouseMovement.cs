@@ -25,7 +25,6 @@ public class PrisonMouseMovement : MonoBehaviour, IAnimationSource
         agent = GetComponent<NavMeshAgent>();
         visuals.Initialize(this);
         FindRandomPointInPrison();
-        evacuationPoint = EvacuationPointController.Instance.EvacuationPoint.position;
     }
 
     public void PrisonMovement()

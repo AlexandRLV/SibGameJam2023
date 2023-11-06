@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: PatrollingCat 1
+  m_Controller: {fileID: 9100000, guid: e6f05d198924d794882419b65e821314, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 224049755818347896, guid: 1f52b874ad219934f932ec9a35fa7161, type: 3}
+    m_OverrideClip: {fileID: -1493924411846384755, guid: 2797386e227874640847a96288460832, type: 3}
+  - m_OriginalClip: {fileID: -7026202947451740863, guid: 1f52b874ad219934f932ec9a35fa7161, type: 3}
+    m_OverrideClip: {fileID: 3492639699418507161, guid: 2797386e227874640847a96288460832, type: 3}
+  - m_OriginalClip: {fileID: -448483621666653641, guid: 1f52b874ad219934f932ec9a35fa7161, type: 3}
+    m_OverrideClip: {fileID: -782126337830406099, guid: 93c89d14e82a4d84d9d2abbf8d93294b, type: 3}
+  - m_OriginalClip: {fileID: 1567630707781143929, guid: 1f52b874ad219934f932ec9a35fa7161, type: 3}
+    m_OverrideClip: {fileID: 9101268858230010502, guid: 2797386e227874640847a96288460832, type: 3}
+  - m_OriginalClip: {fileID: -2254124530976709086, guid: 1f52b874ad219934f932ec9a35fa7161, type: 3}
+    m_OverrideClip: {fileID: -5841481888653876480, guid: 2797386e227874640847a96288460832, type: 3}
+  - m_OriginalClip: {fileID: -3904858370818502398, guid: 1f52b874ad219934f932ec9a35fa7161, type: 3}
+    m_OverrideClip: {fileID: 6789094261050687589, guid: 2797386e227874640847a96288460832, type: 3}
+  - m_OriginalClip: {fileID: 8164392599236117747, guid: 1f52b874ad219934f932ec9a35fa7161, type: 3}
+    m_OverrideClip: {fileID: -946762286549138204, guid: 2797386e227874640847a96288460832, type: 3}
+  - m_OriginalClip: {fileID: 7921031285886407512, guid: 1f52b874ad219934f932ec9a35fa7161, type: 3}
+    m_OverrideClip: {fileID: -304651727408511328, guid: 93c89d14e82a4d84d9d2abbf8d93294b, type: 3}
