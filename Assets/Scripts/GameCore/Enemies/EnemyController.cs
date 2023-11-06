@@ -19,6 +19,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField] MovementType movementType = MovementType.waypointsSequentalPatrolling;
     [SerializeField] float timeToAlert;
     [SerializeField] float questionTimeAfterDetect;
+    [SerializeField] float moveSpeed = 3.5f;
     [SerializeField] Color normalConeColor, alertConeColor;
 
     float remainingTimeToAlert;
@@ -58,6 +59,7 @@ public class EnemyController : MonoBehaviour
         enemyFOV = GetComponentInChildren<EnemyFOV>();
         markController = GetComponentInChildren<MarkController>();
         enemyMovement.movePoints = movePoints;
+        enemyMovement.Init(float moveSpeed);
         currentTarget = null;
         enemyFOV.Init(enemyScan.ViewAngle);
         enemyFOV.SetColor(normalConeColor);
