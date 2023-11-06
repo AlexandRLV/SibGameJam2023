@@ -538,7 +538,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sound: 0
-  doorOpenAngle: 90
+  doorOpenAngle: -90
   door: {fileID: 7431188922129203851}
   timeToOpen: 1
   mouseControllers: []
@@ -643,6 +643,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -5165542448561273986, guid: 9490bad4d192f0b4398dcec8176c3245, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: f42be6bebb045cf40a60d7d50ccc8cba, type: 2}
     - target: {fileID: -4216859302048453862, guid: 9490bad4d192f0b4398dcec8176c3245, type: 3}
       propertyPath: m_RootOrder
       value: 6

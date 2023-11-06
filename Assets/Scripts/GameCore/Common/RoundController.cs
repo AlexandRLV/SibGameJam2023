@@ -39,6 +39,8 @@ namespace GameCore.Common
 
         private LocalMessageBroker _messageBroker;
         private GamePlayer _player;
+        private LoseGameReason _loseGameReason;
+        
         bool evacuationActivated = false;
 
         private void Start()
@@ -57,7 +59,10 @@ namespace GameCore.Common
 
         private void OnPlayerDead(ref PlayerDeadMessage value)
         {
-            LoseGame(LoseGameReason.Dead);
+            Timer = _settings.playerDetectedToLoseSeconds;
+            Stage = RoundStage.WaitToLose;
+            _player.UnposessAll();
+            _loseGameReason = LoseGameReason.Dead;
         }
 
         private void OnPlayerWin(ref PlayerWinMessage value)
@@ -75,6 +80,7 @@ namespace GameCore.Common
         {
             _messageBroker.Unsubscribe<PlayerDetectedMessage>(OnPlayerDetected);
             _messageBroker.Unsubscribe<PlayerWinMessage>(OnPlayerWin);
+            _messageBroker.Unsubscribe<PlayerDeadMessage>(OnPlayerDead);
         }
 
         private void OnPlayerDetected(ref PlayerDetectedMessage value)
@@ -82,6 +88,7 @@ namespace GameCore.Common
             Timer = _settings.playerDetectedToLoseSeconds;
             Stage = RoundStage.WaitToLose;
             _player.UnposessAll();
+            _loseGameReason = LoseGameReason.Catched;
         }
 
         public void CatchCactus()
@@ -96,26 +103,7 @@ namespace GameCore.Common
 
         private void Update()
         {
-            if (UnityEngine.Input.GetKeyDown(KeyCode.T))
-            {
-                Stage = RoundStage.None;
-                _player.UnposessAll();
-
-                var windowsSystem = GameContainer.Common.Resolve<WindowsSystem>();
-                windowsSystem.CreateWindow<WinScreen>();
-                return;
-            }
-
-            if (UnityEngine.Input.GetKeyDown(KeyCode.H))
-            {
-                LoseGame(LoseGameReason.Catched);
-                return;
-            }
-
             if (Stage == RoundStage.None) return;
-
-            if (UnityEngine.Input.GetKeyDown(KeyCode.U))
-                _player.PosessAnother();
 
             Timer -= Time.deltaTime;
 
@@ -143,15 +131,18 @@ namespace GameCore.Common
             }
             else if (Stage == RoundStage.ThinMouse)
             {
-                LoseGame(LoseGameReason.TimeOut);
+                _loseGameReason = LoseGameReason.TimeOut;
+                Timer = _settings.playerDetectedToLoseSeconds;
+                Stage = RoundStage.WaitToLose;
+                _player.UnposessAll();
             }
             else if (Stage == RoundStage.WaitToLose)
             {
-                LoseGame(LoseGameReason.Catched);
+                LoseGame();
             }
         }
 
-        private void LoseGame(LoseGameReason reason)
+        private void LoseGame()
         {
             SoundService.StopSound();
             SoundService.PlayMusic(MusicType.Lose);
@@ -160,7 +151,7 @@ namespace GameCore.Common
 
             var windowsSystem = GameContainer.Common.Resolve<WindowsSystem>();
             var loseGameWindow = windowsSystem.CreateWindow<LoseScreen>();
-            loseGameWindow.Initialize(reason);
+            loseGameWindow.Initialize(_loseGameReason);
         }
     }
 }

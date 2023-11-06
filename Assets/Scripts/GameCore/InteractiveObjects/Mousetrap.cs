@@ -13,7 +13,7 @@ namespace GameCore.InteractiveObjects
             
             SoundService.PlayRandomSound(SoundType.Mousetrap1, SoundType.Mousetrap2, SoundType.Mousetrap3);
             Destroy(cheese);
-            Movement.MoveValues.IsKnockdown = true;
+            Movement.MoveValues.IsHit = true;
             Movement.Damage();
             IsUsed = true;
         }
