@@ -6,7 +6,7 @@ namespace GameCore.InteractiveObjects
 {
     public class SignalizationLaser : BaseTriggerObject
     {
-        [SerializeField] private LaserFloor laserFloor;
+        [SerializeField] private LaserGroup laserGroup;
 
         private void Start()
         {
@@ -16,7 +16,7 @@ namespace GameCore.InteractiveObjects
 
         private void OnLaserDestroyed(ref LaserDestroyMessage value)
         {
-            if (value.LaserFloor == laserFloor) Destroy(gameObject);
+            if (value.LaserGroup == laserGroup) Destroy(gameObject);
         }
 
         protected override void OnPlayerEnter()

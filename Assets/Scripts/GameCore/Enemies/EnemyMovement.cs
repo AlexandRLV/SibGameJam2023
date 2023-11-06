@@ -21,9 +21,10 @@ public class EnemyMovement : MonoBehaviour
 
     #endregion
 
-    void Start()
+    public void Init(float moveSpeed)
     {
         agent = GetComponent<NavMeshAgent>();
+        agent.speed = moveSpeed;
     }
 
     public void SequentalWaypointsMovement()
@@ -62,6 +63,36 @@ public class EnemyMovement : MonoBehaviour
                     return;
                 }
                 currentPointIndex--;
+            }
+        }
+    }
+
+    public void ClockwiseWaypointsMovement()
+    {
+        if (canMove == false) return;
+
+        if (movePoints.Count == 0)
+            return;
+
+        if (Vector3.Distance(transform.position, movePoints[currentPointIndex].transform.position) > 2f)
+        {
+            agent.SetDestination(movePoints[currentPointIndex].transform.position);
+        }
+        else
+        {
+            if (movePoints[currentPointIndex].NeedStay)
+            {
+                var coroutine = StartCoroutine(WaitOnPoint(movePoints[currentPointIndex].StayTime));
+                currentCoroutine = coroutine;
+            }
+
+            if (currentPointIndex == movePoints.Count - 1)
+            {
+                currentPointIndex = 0;
+            }
+            else
+            {
+                currentPointIndex++;
             }
         }
     }

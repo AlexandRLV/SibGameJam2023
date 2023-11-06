@@ -1,6 +1,8 @@
 using System.Collections;
 using GameCore.Character.Animation;
+using GameCore.Common;
 using GameCore.InteractiveObjects;
+using GameCore.Sounds;
 using UnityEngine;
 
 namespace GameCore.Prison.Objects
@@ -13,15 +15,9 @@ namespace GameCore.Prison.Objects
         [SerializeField] Transform door;
         float _openingTime;
         bool _isOpened;
-        public override AnimationType InteractAnimation { get; } = AnimationType.OpenDoor;
+        public override AnimationType InteractAnimation => AnimationType.OpenDoor;
 
         [SerializeField] PrisonMouseController[] mouseControllers;
-
-        public PrisonController(AnimationType interactAnimation)
-        {
-            InteractAnimation = interactAnimation;
-        }
-
         private void Awake()
         {
             mouseControllers = GetComponentsInChildren<PrisonMouseController>();
@@ -52,6 +48,19 @@ namespace GameCore.Prison.Objects
         public override void Interact()
         {
             OpenDoor();
+        }
+        protected override void OnPlayerEnter()
+        {
+            Movement.MoveValues.CurrentInteractiveObject = this;
+            switch (RoundController.Stage)
+            {
+                case RoundStage.ThinMouse:
+                    SoundService.PlaySound(SoundType.ThinHostage);
+                    break;
+                case RoundStage.FatMouse:
+                    SoundService.PlaySound(SoundType.FatHostage);
+                    break;
+            }
         }
     }
 }
