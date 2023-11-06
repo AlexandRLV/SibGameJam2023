@@ -67,6 +67,46 @@ public class EnemyMovement : MonoBehaviour
         }
     }
 
+    public void ClockwiseWaypointsMovement()
+    {
+        if (canMove == false) return;
+
+        if (movePoints.Count == 0)
+            return;
+
+        if (Vector3.Distance(transform.position, movePoints[currentPointIndex].transform.position) > 2f)
+        {
+            agent.SetDestination(movePoints[currentPointIndex].transform.position);
+        }
+        else
+        {
+            if (movePoints[currentPointIndex].NeedStay)
+            {
+                var coroutine = StartCoroutine(WaitOnPoint(movePoints[currentPointIndex].StayTime));
+                currentCoroutine = coroutine;
+            }
+
+            if (clockwiseMovement == true)
+            {
+                if (currentPointIndex == movePoints.Count - 1)
+                {
+                    clockwiseMovement = false;
+                    return;
+                }
+                currentPointIndex++;
+            }
+            else if (clockwiseMovement == false)
+            {
+                if (currentPointIndex == 0)
+                {
+                    clockwiseMovement = true;
+                    return;
+                }
+                currentPointIndex--;
+            }
+        }
+    }
+
     public void MoveToTarget(Vector3 target)
     {
         if (currentCoroutine != null)

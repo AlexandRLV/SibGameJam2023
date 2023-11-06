@@ -160,7 +160,7 @@ public class EnemyController : MonoBehaviour
 
     public void StartAlert()
     {
-        soundService.PlaySound(SoundType.Buff);
+        soundService.PlaySound(SoundType.Death);
         var message = new PlayerDetectedMessage();
         message.PlayerPosition = currentTarget.position;
         _messageBroker.Trigger(ref message);
