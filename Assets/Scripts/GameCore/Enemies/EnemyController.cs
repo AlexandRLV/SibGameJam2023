@@ -2,9 +2,7 @@ using Common;
 using GameCore.Character.Movement;
 using GameCore.Sounds;
 using LocalMessages;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 public enum MovementType
@@ -31,7 +29,7 @@ public class EnemyController : MonoBehaviour
     [Header("Patrolling Type")]
 
     [Header("NoWalk Type")]
-    [Tooltip("Как часто объект поворачивает голову в разные стороны, в сек")]
+    [Tooltip("пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅ пїЅпїЅпїЅ")]
     [SerializeField] float rotationRate;
     [SerializeField] float rotationSpeed;
     [SerializeField] float minAngle, maxAngle;
@@ -160,7 +158,7 @@ public class EnemyController : MonoBehaviour
 
     public void StartAlert()
     {
-        soundService.PlaySound(SoundType.Buff);
+        soundService.PlaySound(SoundType.Alert);
         var message = new PlayerDetectedMessage();
         message.PlayerPosition = currentTarget.position;
         _messageBroker.Trigger(ref message);
