@@ -86,16 +86,18 @@ namespace Startup
         {
             var windowsSystem = GameContainer.Common.Resolve<WindowsSystem>();
             windowsSystem.DestroyAll();
+
+            if (toMainMenu)
+            {
+                SceneManager.LoadScene(MainMenuSceneName);
+                windowsSystem.CreateWindow<MainMenu>();
+            }
             
             DisposeList(_gameplayInitializers);
             DisposeList(_gameMapInitializers);
 
             GameContainer.InGame = null;
             InGame = false;
-            
-            if (!toMainMenu) return;
-            
-            windowsSystem.CreateWindow<MainMenu>();
         }
 
         public void RestartGame()

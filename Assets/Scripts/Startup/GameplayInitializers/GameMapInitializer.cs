@@ -15,7 +15,8 @@ namespace Startup.GameplayInitializers
 
         public void Dispose()
         {
-            SceneManager.UnloadSceneAsync(SceneName);
+            if (SceneManager.GetSceneByName(SceneName).isLoaded)
+                SceneManager.UnloadSceneAsync(SceneName);
         }
     }
 }
