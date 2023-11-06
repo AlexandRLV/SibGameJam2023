@@ -5,7 +5,7 @@ namespace Startup.GameplayInitializers
 {
     public class GameMapInitializer : IInitializer
     {
-        private const string SceneName = "CharacterScene";
+        private const string SceneName = "Level_01";
         
         public IEnumerator Initialize()
         {

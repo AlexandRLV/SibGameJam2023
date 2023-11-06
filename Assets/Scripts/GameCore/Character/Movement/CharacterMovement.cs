@@ -33,18 +33,13 @@ namespace GameCore.Character.Movement
         [SerializeField] private LayerMask _groundMask;
         [SerializeField] private float _floatingHeight;
         [SerializeField] private bool _applySpring;
-        
-        [Header("State machine")]
-        [SerializeField] private bool _debugStateChanges;
-        [SerializeField] private MovementStateType _currentState;
 
         private StateMachine<MovementStateBase, MovementStateType> _stateMachine;
 
         private bool _isSpeedModified;
         
         private GameCamera _gameCamera;
-        [SerializeField] private Vector3 _input;
-        [SerializeField] private Vector3 _movement;
+        private Vector3 _movement;
 
 #region Internal methods
         private void Awake()
@@ -71,7 +66,7 @@ namespace GameCore.Character.Movement
             if (_parameters.canJump)
                 _stateMachine.States.Add(new MovementJumpState(this));
             
-            _stateMachine.ForceSetState(MovementStateType.Walk, _debugStateChanges);
+            _stateMachine.ForceSetState(MovementStateType.Walk);
 
             _collider.height -= _floatingHeight;
             _collider.center += Vector3.up * (_floatingHeight * 0.5f);
@@ -81,12 +76,11 @@ namespace GameCore.Character.Movement
 
         private void Update()
         {
-            _stateMachine.CheckStates(_debugStateChanges);
+            _stateMachine.CheckStates();
         }
 
         private void FixedUpdate()
         {
-            _currentState = _stateMachine.CurrentState.Type;
             CheckGrounded();
 
             float gravity = Physics.gravity.y * _parameters.gravityMultiplier * _rigidbody.mass;
@@ -164,19 +158,8 @@ namespace GameCore.Character.Movement
             InputState = null;
             IsControlledByPlayer = false;
         }
-        
-        public void Move(Vector2 input)
-        {
-            _input = input;
-            var rotation = _gameCamera.FollowTarget.transform.FlatRotation();
-            _movement = rotation * new Vector3(input.x, 0f, input.y);
-            _rigidbody.velocity = Vector3.Lerp(_rigidbody.velocity, _movement, _parameters.lerpInertiaSpeed * Time.deltaTime);
-            
-            if (_rigidbody.velocity.magnitude < 0.1f) return;
-            _rigidbody.rotation = Quaternion.LookRotation(_rigidbody.velocity.FlatVector(), Vector3.up);
-        }
 
-        public void MoveInAir(Vector2 input)
+        public void Move(Vector2 input)
         {
             var rotation = _gameCamera.FollowTarget.transform.FlatRotation();
             _movement = rotation * new Vector3(input.x, 0f, input.y);

@@ -28,6 +28,10 @@ namespace Startup.GameplayInitializers
             var bigMousePrefab = Resources.Load<CharacterMovement>("Prefabs/Characters/FatMouseCharacter");
             var fatMouse = Object.Instantiate(bigMousePrefab);
             fatMouse.transform.SetPositionAndRotation(spawns.SpawnPoints[1].position, spawns.SpawnPoints[1].rotation);
+            
+            var gameCameraPrefab = Resources.Load<GameCamera>("Prefabs/GameCamera");
+            var gameCamera = Object.Instantiate(gameCameraPrefab);
+            GameContainer.InGame.Register(gameCamera);
 
             var playerPrefab = Resources.Load<GamePlayer>("Prefabs/Player");
             var player = Object.Instantiate(playerPrefab);
