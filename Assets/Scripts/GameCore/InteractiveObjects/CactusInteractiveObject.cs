@@ -37,7 +37,7 @@ public class CactusInteractiveObject : InteractiveObject
             {
                 Debug.Log("isFinished");
                 isFinished = true;
-                GetComponent<MeshRenderer>().enabled = false;
+                gameObject.SetActive(false);
                 return;
             }
         }
