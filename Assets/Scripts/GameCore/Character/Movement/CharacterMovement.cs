@@ -24,6 +24,7 @@ namespace GameCore.Character.Movement
         public CharacterParameters Parameters => _parameters;
         public Collider Collider => _collider;
         public StepSounds StepSounds => _stepSounds;
+        public GameObject KnockdownEffect => _knockdownEffect;
 
         public AnimationType CurrentAnimation => _stateMachine.CurrentState.AnimationType;
         public float AnimationSpeed => IsControlledByPlayer ? InputState.moveVector.magnitude : 0f;
@@ -34,6 +35,7 @@ namespace GameCore.Character.Movement
         [SerializeField] private CharacterVisuals _visuals;
         [SerializeField] private CharacterParameters _parameters;
         [SerializeField] private StepSounds _stepSounds;
+        [SerializeField] private GameObject _knockdownEffect;
 
         [Header("Floating")]
         [SerializeField] private LayerMask _groundMask;
@@ -50,6 +52,8 @@ namespace GameCore.Character.Movement
 #region Internal methods
         private void Awake()
         {
+            _knockdownEffect.SetActive(false);
+            
             MoveValues = new CharacterMoveValues
             {
                 SpeedMultiplier = 1f,
