@@ -1352,7 +1352,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 758210672}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.0764475, y: 1.531, z: 30.921648}
+  m_LocalPosition: {x: -48.9, y: 1.531, z: -48.2}
   m_LocalScale: {x: 0.5, y: 3, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1372,6 +1372,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sound: 8
+  mainCollider: {fileID: 758210674}
+  a: {x: 0, y: 0, z: 0}
+  b: {x: 0, y: 0, z: 0}
 --- !u!1001 &848214957
 PrefabInstance:
   m_ObjectHideFlags: 0
