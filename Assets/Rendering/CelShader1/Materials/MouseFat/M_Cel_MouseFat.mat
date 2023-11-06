@@ -58,7 +58,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - HardEdgeAlpha: 0
+    - HardEdgeAlpha: 0.641
     - HardEdgeFalloff: 0
     - HardEdgeSize: 0.4
     - SoftEdgeAlpha: 0
