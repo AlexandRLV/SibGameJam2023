@@ -98,7 +98,7 @@ namespace UI.WindowsSystem.WindowTypes
 
         private void CheckPause()
         {
-            if (Input.GetKeyDown(KeyCode.P))
+            if (Input.GetKeyDown(KeyCode.Escape))
                 GameContainer.Common.Resolve<WindowsSystem>().CreateWindow<GamePause>();
         }
 

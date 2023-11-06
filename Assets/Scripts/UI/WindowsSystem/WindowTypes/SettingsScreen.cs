@@ -12,7 +12,6 @@ namespace UI.WindowsSystem.WindowTypes
         [SerializeField] private Slider _sensitivitySlider;
         [SerializeField] private Toggle _invertXToggle;
         [SerializeField] private Toggle _invertYToggle;
-        [SerializeField] private Button _cancelButton;
         [SerializeField] private Button _saveButton;
 
         private WindowsSystem _windowsSystem;
@@ -29,11 +28,6 @@ namespace UI.WindowsSystem.WindowTypes
             _invertYToggle.isOn = _cameraSettings.invertY;
 
             _volumeSlider.value = AudioListener.volume;
-            
-            _cancelButton.onClick.AddListener(() =>
-            {
-                _windowsSystem.DestroyWindow<SettingsScreen>();
-            });
             
             _saveButton.onClick.AddListener(Save);
         }
