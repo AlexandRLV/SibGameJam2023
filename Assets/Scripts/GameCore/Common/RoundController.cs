@@ -1,6 +1,7 @@
 ﻿using Common;
 using GameCore.Common.Messages;
 using GameCore.Player;
+using GameCore.Sounds;
 using LocalMessages;
 using UI.WindowsSystem;
 using UI.WindowsSystem.WindowTypes;
@@ -10,21 +11,40 @@ namespace GameCore.Common
 {
     public class RoundController : MonoBehaviour
     {
+        private SoundService SoundService => GameContainer.Common.Resolve<SoundService>();
         public float Timer { get; private set; }
-        public RoundStage Stage { get; private set; }
+        private RoundStage _stage;
+
+        public RoundStage Stage
+        {
+            get => _stage;
+            private set
+            {
+                _stage = value;
+                switch (value)
+                {
+                    case RoundStage.FatMouse:
+                        SoundService.PlayMusic(MusicType.FatCharacter);
+                        break;
+                    case RoundStage.ThinMouse:
+                        SoundService.PlayMusic(MusicType.ThinCharacter);
+                        break;
+                }
+            }
+        }
+
         public RoundData Data { get; private set; }
-        
+
         [SerializeField] private RoundSettings _settings;
 
         private LocalMessageBroker _messageBroker;
         private GamePlayer _player;
-        
+
         private void Start()
         {
             Data = new RoundData();
             Timer = _settings.RoundLengthSeconds;
             Stage = RoundStage.FatMouse;
-            
             _messageBroker = GameContainer.Common.Resolve<LocalMessageBroker>();
             _messageBroker.Subscribe<PlayerDetectedMessage>(OnPlayerDetected);
             _messageBroker.Subscribe<PlayerWinMessage>(OnPlayerWin);
@@ -41,6 +61,7 @@ namespace GameCore.Common
 
         private void OnPlayerWin(ref PlayerWinMessage value)
         {
+            SoundService.PlayMusic(MusicType.Win);
             Stage = RoundStage.None;
             _player.UnposessAll();
 
@@ -84,12 +105,12 @@ namespace GameCore.Common
                 LoseGame(LoseGameReason.Catched);
                 return;
             }
-            
+
             if (Stage == RoundStage.None) return;
-            
+
             if (UnityEngine.Input.GetKeyDown(KeyCode.U))
                 _player.PosessAnother();
-            
+
             Timer -= Time.deltaTime;
             if (Timer > 0f) return;
 
@@ -113,6 +134,7 @@ namespace GameCore.Common
 
         private void LoseGame(LoseGameReason reason)
         {
+            SoundService.PlayMusic(MusicType.Lose);
             Stage = RoundStage.None;
             _player.UnposessAll();
 

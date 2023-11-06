@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 2885077913043915093}
   - component: {fileID: 2885077913043915090}
   - component: {fileID: -7369235803005903889}
-  - component: {fileID: 5285737975460290374}
   m_Layer: 0
   m_Name: SoundService
   m_TagString: Untagged
@@ -48,11 +47,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   soundsSource: {fileID: 2885077913043915090}
-  firstTrackSource: {fileID: -7369235803005903889}
-  secondTrackSource: {fileID: 5285737975460290374}
-  tracks:
-  - {fileID: 8300000, guid: 6451fb98498b24249b11df555ffa23e1, type: 3}
-  - {fileID: 8300000, guid: e23a1f9e37f42724d87813c967ef3185, type: 3}
+  trackSource: {fileID: -7369235803005903889}
+  menuTrack: {fileID: 8300000, guid: d1bf112c305d694459992bc4e0c3f371, type: 3}
+  thinTrack: {fileID: 8300000, guid: e23a1f9e37f42724d87813c967ef3185, type: 3}
+  fatTrack: {fileID: 8300000, guid: 6451fb98498b24249b11df555ffa23e1, type: 3}
+  loseTrack: {fileID: 8300000, guid: 24330e2a6fbc727408e71fc7fdc67cc3, type: 3}
+  winTrack: {fileID: 8300000, guid: da4a383297de424428882ff80f350832, type: 3}
   buffSound: {fileID: 8300000, guid: c59d12d48decbe24cbfe5a51480ed69f, type: 3}
   alertSound: {fileID: 8300000, guid: e36308b47fd27f545a80f7978319ecda, type: 3}
   thinAboutFat: {fileID: 8300000, guid: 9eaa242ba4f4b9c44ae671c8f8afde7b, type: 3}
@@ -70,7 +70,6 @@ MonoBehaviour:
   fatDetect: {fileID: 8300000, guid: 38909d2f43d5cb14e87d2effe67ae7c7, type: 3}
   fatPanel: {fileID: 8300000, guid: 61a453d328855794790b280d37be41bd, type: 3}
   fatHostage: {fileID: 8300000, guid: ddd91022b90ad4942b915cddfbbd2fce, type: 3}
-  fadingTime: 5
 --- !u!82 &2885077913043915090
 AudioSource:
   m_ObjectHideFlags: 0
