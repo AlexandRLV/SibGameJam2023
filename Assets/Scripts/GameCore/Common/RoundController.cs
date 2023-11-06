@@ -50,7 +50,7 @@ namespace GameCore.Common
             _messageBroker.Subscribe<PlayerDetectedMessage>(OnPlayerDetected);
             _messageBroker.Subscribe<PlayerWinMessage>(OnPlayerWin);
             _messageBroker.Subscribe<PlayerDeadMessage>(OnPlayerDead);
-            
+
             _player = GameContainer.InGame.Resolve<GamePlayer>();
             _player.PosessFatMouse();
         }
@@ -62,6 +62,7 @@ namespace GameCore.Common
 
         private void OnPlayerWin(ref PlayerWinMessage value)
         {
+            SoundService.StopSound();
             SoundService.PlayMusic(MusicType.Win);
             Stage = RoundStage.None;
             _player.UnposessAll();
@@ -125,6 +126,7 @@ namespace GameCore.Common
                 _messageBroker.Trigger(ref message);
                 evacuationActivated = true;
             }
+
             if (Timer > 0f) return;
 
             if (Stage == RoundStage.FatMouse)
@@ -138,7 +140,6 @@ namespace GameCore.Common
                 evacuationMessage.active = false;
                 _messageBroker.Trigger(ref message);
                 evacuationActivated = false;
-
             }
             else if (Stage == RoundStage.ThinMouse)
             {
@@ -152,6 +153,7 @@ namespace GameCore.Common
 
         private void LoseGame(LoseGameReason reason)
         {
+            SoundService.StopSound();
             SoundService.PlayMusic(MusicType.Lose);
             Stage = RoundStage.None;
             _player.UnposessAll();
