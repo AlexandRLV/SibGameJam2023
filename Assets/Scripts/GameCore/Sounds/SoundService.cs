@@ -6,9 +6,23 @@ namespace GameCore.Sounds
 {
     public enum SoundType
     {
-        ButtonClick,
         Buff,
-        Death,
+        Alert,
+        AboutFat,
+        ThinCats1,
+        ThinCats2,
+        ThinCheese,
+        ThinDetect,
+        ThinPanel,
+        ThinCactus,
+        ThinHostage,
+        FatCats1,
+        FatCats2,
+        FatCats3,
+        FatCheese,
+        FatDetect,
+        FatPanel,
+        FatHostage
     }
 
     public class SoundService : MonoBehaviour
@@ -18,10 +32,28 @@ namespace GameCore.Sounds
         [SerializeField] private AudioSource secondTrackSource;
 
         [SerializeField] private AudioClip[] tracks;
-
-        [SerializeField] private AudioClip clickSound;
+        
         [SerializeField] private AudioClip buffSound;
-        [SerializeField] private AudioClip deathSound;
+        [SerializeField] private AudioClip alertSound;
+        
+        [Header("Cool Character")]
+        [SerializeField] private AudioClip thinAboutFat;
+        [SerializeField] private AudioClip thinCats1;
+        [SerializeField] private AudioClip thinCats2;
+        [SerializeField] private AudioClip thinCheese;
+        [SerializeField] private AudioClip thinDetect;
+        [SerializeField] private AudioClip thinPanel;
+        [SerializeField] private AudioClip thinCactus;
+        [SerializeField] private AudioClip thinHostage;
+
+        [Header("Fat Character")]
+        [SerializeField] private AudioClip fatCats1;
+        [SerializeField] private AudioClip fatCats2;
+        [SerializeField] private AudioClip fatCats3;
+        [SerializeField] private AudioClip fatCheese;
+        [SerializeField] private AudioClip fatDetect;
+        [SerializeField] private AudioClip fatPanel;
+        [SerializeField] private AudioClip fatHostage;
 
         [SerializeField] float fadingTime = 5.0f;
 
@@ -32,10 +64,24 @@ namespace GameCore.Sounds
         private void Start()
         {
             _sounds = new Dictionary<SoundType, AudioClip>();
-            _sounds.Add(SoundType.ButtonClick, clickSound);
             _sounds.Add(SoundType.Buff, buffSound);
-            _sounds.Add(SoundType.Death, deathSound);
-            PlayMusic();
+            _sounds.Add(SoundType.AboutFat, thinAboutFat);
+            _sounds.Add(SoundType.ThinCats1, thinCats1);
+            _sounds.Add(SoundType.ThinCats2, thinCats2);
+            _sounds.Add(SoundType.ThinCheese, thinCheese);
+            _sounds.Add(SoundType.ThinDetect, thinDetect);
+            _sounds.Add(SoundType.ThinPanel, thinPanel);
+            _sounds.Add(SoundType.ThinCactus, thinCactus);
+            _sounds.Add(SoundType.ThinHostage, thinHostage);
+            _sounds.Add(SoundType.FatCats1, fatCats1);
+            _sounds.Add(SoundType.FatCats2, fatCats2);
+            _sounds.Add(SoundType.FatCats3, fatCats3);
+            _sounds.Add(SoundType.FatCheese, fatCheese);
+            _sounds.Add(SoundType.FatDetect, fatDetect);
+            _sounds.Add(SoundType.FatPanel, fatPanel);
+            _sounds.Add(SoundType.FatHostage, fatHostage);
+            _sounds.Add(SoundType.Alert, alertSound);
+            PlayMusic(); 
         }
 
         public void PlaySound(SoundType soundType)
