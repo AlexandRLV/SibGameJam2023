@@ -18,7 +18,12 @@ namespace GameCore.InteractiveObjects
 
         protected override void OnPlayerExit()
         {
-            Movement.MoveValues.CurrentInteractiveObject = null;
+            if (Movement.MoveValues.CurrentInteractiveObject == this)
+            {
+                Movement.MoveValues.CurrentInteractiveObject = null;
+            }
+
+
         }
     }
 }
