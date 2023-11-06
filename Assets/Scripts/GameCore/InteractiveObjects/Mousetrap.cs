@@ -14,9 +14,12 @@ namespace GameCore.InteractiveObjects
         public override void Interact()
         {
             if (IsUsed) return;
+            
             SoundService.PlayRandomSound(SoundType.Mousetrap1, SoundType.Mousetrap2, SoundType.Mousetrap3);
             Destroy(cheese);
             Movement.ChangeMovementSpeed(speedMultiplier, speedMultiplierDuration);
+            Movement.MoveValues.IsKnockdown = true;
+            Movement.Damage();
             IsUsed = true;
         }
     }

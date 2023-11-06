@@ -62,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 981c34f4183aef049895fe8c648fe35a, type: 2}
+  - {fileID: 2100000, guid: dc8e4781314546c40a59783223531826, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -197,7 +197,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9e6a4898e5b19884695fc5dcc6e6e517, type: 2}
+  - {fileID: 2100000, guid: 1cac6779bf031a84b9f4af6963955073, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -294,7 +294,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 981c34f4183aef049895fe8c648fe35a, type: 2}
+  - {fileID: 2100000, guid: dc8e4781314546c40a59783223531826, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -378,7 +378,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 981c34f4183aef049895fe8c648fe35a, type: 2}
+  - {fileID: 2100000, guid: dc8e4781314546c40a59783223531826, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -463,7 +463,6 @@ MonoBehaviour:
   sound: 0
   speedMultiplier: 3
   speedMultiplierDuration: 10
-  distance: 2
   cheese: {fileID: 2704320168887727470}
 --- !u!65 &3903089768020801295
 BoxCollider:
@@ -540,7 +539,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c917ffdc620fca947900c4d232559311, type: 2}
+  - {fileID: 2100000, guid: 9016b6ddb08d3374992fca344bd43977, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -637,7 +636,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 981c34f4183aef049895fe8c648fe35a, type: 2}
+  - {fileID: 2100000, guid: dc8e4781314546c40a59783223531826, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
