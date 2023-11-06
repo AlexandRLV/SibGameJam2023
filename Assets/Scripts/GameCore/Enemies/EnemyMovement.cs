@@ -21,9 +21,10 @@ public class EnemyMovement : MonoBehaviour
 
     #endregion
 
-    void Start()
+    public void Init(float moveSpeed)
     {
         agent = GetComponent<NavMeshAgent>();
+        agent.speed = moveSpeed;
     }
 
     public void SequentalWaypointsMovement()
@@ -66,17 +67,35 @@ public class EnemyMovement : MonoBehaviour
         }
     }
 
-    /*
-    public IEnumerator NoWalkRotation(float minAngle, float maxAngle, float rotationSpeed)
+    public void ClockwiseWaypointsMovement()
     {
-        float randomAngle = Random.Range(minAngle, maxAngle);
-        Vector3 newVector = new Vector3(0, randomAngle, 0f);
+        if (canMove == false) return;
 
-        transform.rotation = Quaternion.Lerp(transform.rotation,
-            Quaternion.Euler(newVector), 
-            rotationSpeed * Time.deltaTime);
+        if (movePoints.Count == 0)
+            return;
+
+        if (Vector3.Distance(transform.position, movePoints[currentPointIndex].transform.position) > 2f)
+        {
+            agent.SetDestination(movePoints[currentPointIndex].transform.position);
+        }
+        else
+        {
+            if (movePoints[currentPointIndex].NeedStay)
+            {
+                var coroutine = StartCoroutine(WaitOnPoint(movePoints[currentPointIndex].StayTime));
+                currentCoroutine = coroutine;
+            }
+
+            if (currentPointIndex == movePoints.Count - 1)
+            {
+                currentPointIndex = 0;
+            }
+            else
+            {
+                currentPointIndex++;
+            }
+        }
     }
-    */
 
     public void MoveToTarget(Vector3 target)
     {

@@ -1,5 +1,5 @@
-using Common;
 using GameCore.Character.Animation;
+using GameCore.Common;
 using GameCore.Sounds;
 using UnityEngine;
 
@@ -10,13 +10,11 @@ namespace GameCore.InteractiveObjects
         [SerializeField] private float speedMultiplier;
         [SerializeField] private float speedMultiplierDuration;
 
-        private SoundService _soundService = GameContainer.Common.Resolve<SoundService>();
-
         public override AnimationType InteractAnimation => AnimationType.Eat;
 
         public override void Interact()
         {
-            _soundService.PlaySound(sound);
+            SoundService.PlaySound(sound);
             Movement.ChangeMovementSpeed(speedMultiplier, speedMultiplierDuration);
             Destroy(gameObject);
         }
@@ -24,6 +22,15 @@ namespace GameCore.InteractiveObjects
         protected override void OnPlayerEnter()
         {
             Movement.MoveValues.CurrentInteractiveObject = this;
+            switch (RoundController.Stage)
+            {
+                case RoundStage.ThinMouse:
+                    SoundService.PlaySound(SoundType.ThinCheese);
+                    break;
+                case RoundStage.FatMouse:
+                    SoundService.PlaySound(SoundType.FatCheese);
+                    break;
+            }
         }
 
         protected override void OnPlayerStay()

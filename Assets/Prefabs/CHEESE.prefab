@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 2842165460170176732}
   - component: {fileID: 1215617823097550713}
   - component: {fileID: 3979575348467336115}
-  - component: {fileID: 5300802928931756925}
-  - component: {fileID: 2261466387910393732}
+  - component: {fileID: 6733843743491848346}
+  - component: {fileID: 2840014026524394219}
+  - component: {fileID: 5059552526758686252}
   m_Layer: 0
   m_Name: CHEESE
   m_TagString: Untagged
@@ -29,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 3187060630337331814}
   m_LocalRotation: {x: -0.5, y: 0.5, z: 0.5, w: 0.5}
   m_LocalPosition: {x: 22.032078, y: 0.05059208, z: -26.410843}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
@@ -85,7 +86,35 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &5300802928931756925
+--- !u!114 &6733843743491848346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3187060630337331814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d91f190f60dd47de92b506cba08b20b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sound: 0
+  speedMultiplier: 1.5
+  speedMultiplierDuration: 20
+--- !u!65 &2840014026524394219
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3187060630337331814}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 5.005764, y: 4.707218, z: 2.7511182}
+  m_Center: {x: -0.23406792, y: -0.29450035, z: 1.3749669}
+--- !u!64 &5059552526758686252
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -99,17 +128,3 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -2719439086681959747, guid: b226a8f0536721b45958252c5ff3d0c3, type: 3}
---- !u!114 &2261466387910393732
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3187060630337331814}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b71a7c3bce25483c866967af4820e581, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speedMultiplier: 1.5
-  speedMultiplierDuration: 5
