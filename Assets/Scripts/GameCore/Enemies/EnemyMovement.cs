@@ -1,9 +1,10 @@
+using GameCore.Character.Animation;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyMovement : MonoBehaviour
+public class EnemyMovement : MonoBehaviour, IAnimationSource
 {
     #region Public Variables
 
@@ -18,13 +19,19 @@ public class EnemyMovement : MonoBehaviour
     bool canMove = true;
     NavMeshAgent agent;
     [SerializeField] Coroutine currentCoroutine;
+    float animationSpeed; 
+    public AnimationType CurrentAnimation => AnimationType.Walk;
+    [SerializeField] float walkAnimationSpeed;
+    [SerializeField] CharacterVisuals visuals;
 
+    public float AnimationSpeed => animationSpeed;
     #endregion
 
     public void Init(float moveSpeed)
     {
         agent = GetComponent<NavMeshAgent>();
         agent.speed = moveSpeed;
+        visuals.Initialize(this);
     }
 
     public void SequentalWaypointsMovement()
@@ -36,6 +43,7 @@ public class EnemyMovement : MonoBehaviour
 
         if (Vector3.Distance(transform.position, movePoints[currentPointIndex].transform.position) > 2f)
         {
+            animationSpeed = walkAnimationSpeed;
             agent.SetDestination(movePoints[currentPointIndex].transform.position);
         }
         else
@@ -76,6 +84,7 @@ public class EnemyMovement : MonoBehaviour
 
         if (Vector3.Distance(transform.position, movePoints[currentPointIndex].transform.position) > 2f)
         {
+            animationSpeed = 1f;
             agent.SetDestination(movePoints[currentPointIndex].transform.position);
         }
         else
@@ -104,13 +113,20 @@ public class EnemyMovement : MonoBehaviour
             StopCoroutine(currentCoroutine);
             currentCoroutine = null;
         }
+        animationSpeed = 1f;
         agent.SetDestination(target);
+        if(Vector3.Distance(transform.position, target) < 1.5f)
+        {
+            animationSpeed = 0f;
+        }
     }
 
     private IEnumerator WaitOnPoint(float time)
     {
         canMove = false;
+        animationSpeed = 0f;
         yield return new WaitForSeconds(time);
+        animationSpeed = walkAnimationSpeed;
         canMove = true;
     }
 }
