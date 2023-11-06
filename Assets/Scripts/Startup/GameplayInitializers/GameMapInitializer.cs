@@ -9,13 +9,14 @@ namespace Startup.GameplayInitializers
         
         public IEnumerator Initialize()
         {
-            var asyncOperation = SceneManager.LoadSceneAsync(SceneName, LoadSceneMode.Additive);
+            var asyncOperation = SceneManager.LoadSceneAsync(SceneName);
             yield return asyncOperation;
         }
 
         public void Dispose()
         {
-            SceneManager.UnloadSceneAsync(SceneName);
+            if (SceneManager.GetSceneByName(SceneName).isLoaded)
+                SceneManager.UnloadSceneAsync(SceneName);
         }
     }
 }
