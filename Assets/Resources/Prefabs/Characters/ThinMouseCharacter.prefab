@@ -113,15 +113,12 @@ MonoBehaviour:
   _collider: {fileID: 2933814764234794317}
   _visuals: {fileID: 4872261158444813920}
   _parameters: {fileID: 11400000, guid: 5545bec0f887cab46b2b62fc0b69096d, type: 2}
+  _stepSounds: {fileID: 1301252545632786316}
   _groundMask:
     serializedVersion: 2
     m_Bits: 449
   _floatingHeight: 0.5
   _applySpring: 1
-  _debugStateChanges: 0
-  _currentState: 0
-  _input: {x: 0, y: 0, z: 0}
-  _movement: {x: 0, y: 0, z: 0}
 --- !u!1001 &6300560544596087457
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -179,6 +176,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7f27f8dfd9e704b43ace8ba30a4affe0, type: 3}
+--- !u!114 &1301252545632786316 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5007699480347018541, guid: 7f27f8dfd9e704b43ace8ba30a4affe0, type: 3}
+  m_PrefabInstance: {fileID: 6300560544596087457}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8989581eac64431bd6b89d72dae0265, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &3510037630129377755 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7477733287228621690, guid: 7f27f8dfd9e704b43ace8ba30a4affe0, type: 3}

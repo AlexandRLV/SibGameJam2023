@@ -6,6 +6,7 @@ using GameCore.Character.Animation;
 using GameCore.Character.Movement.States;
 using GameCore.Common.Messages;
 using GameCore.Input;
+using GameCore.Sounds;
 using GameCore.StateMachine;
 using LocalMessages;
 using UnityEngine;
@@ -22,6 +23,7 @@ namespace GameCore.Character.Movement
         public Rigidbody Rigidbody => _rigidbody;
         public CharacterParameters Parameters => _parameters;
         public Collider Collider => _collider;
+        public StepSounds StepSounds => _stepSounds;
 
         public AnimationType CurrentAnimation => _stateMachine.CurrentState.AnimationType;
         public float AnimationSpeed => IsControlledByPlayer ? InputState.moveVector.magnitude : 0f;
@@ -31,6 +33,7 @@ namespace GameCore.Character.Movement
         [SerializeField] private CapsuleCollider _collider;
         [SerializeField] private CharacterVisuals _visuals;
         [SerializeField] private CharacterParameters _parameters;
+        [SerializeField] private StepSounds _stepSounds;
 
         [Header("Floating")]
         [SerializeField] private LayerMask _groundMask;
