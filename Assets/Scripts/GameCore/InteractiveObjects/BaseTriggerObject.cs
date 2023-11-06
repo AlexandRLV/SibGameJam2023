@@ -1,5 +1,6 @@
-using GameCore.Character.Animation;
+using Common;
 using GameCore.Character.Movement;
+using GameCore.Common;
 using GameCore.Sounds;
 using UnityEngine;
 
@@ -10,6 +11,9 @@ namespace GameCore.InteractiveObjects
         [SerializeField] protected SoundType sound;
 
         protected CharacterMovement Movement;
+        
+        protected RoundController RoundController => GameContainer.InGame.Resolve<RoundController>();
+        protected SoundService SoundService => GameContainer.Common.Resolve<SoundService>();
 
         protected void OnTriggerEnter(Collider other)
         {
