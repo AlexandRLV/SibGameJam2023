@@ -1,6 +1,7 @@
 ﻿using Common;
 using GameCore.Common.Messages;
 using GameCore.Player;
+using GameCore.Sounds;
 using LocalMessages;
 using UI.WindowsSystem;
 using UI.WindowsSystem.WindowTypes;
@@ -10,8 +11,28 @@ namespace GameCore.Common
 {
     public class RoundController : MonoBehaviour
     {
+        private SoundService SoundService => GameContainer.Common.Resolve<SoundService>();
         public float Timer { get; private set; }
-        public RoundStage Stage { get; private set; }
+        private RoundStage _stage;
+
+        public RoundStage Stage
+        {
+            get => _stage;
+            private set
+            {
+                _stage = value;
+                switch (value)
+                {
+                    case RoundStage.FatMouse:
+                        SoundService.PlayMusic(MusicType.FatCharacter);
+                        break;
+                    case RoundStage.ThinMouse:
+                        SoundService.PlayMusic(MusicType.ThinCharacter);
+                        break;
+                }
+            }
+        }
+
         public RoundData Data { get; private set; }
 
         [SerializeField] private RoundSettings _settings;
@@ -36,6 +57,7 @@ namespace GameCore.Common
 
         private void OnPlayerWin(ref PlayerWinMessage value)
         {
+            SoundService.PlayMusic(MusicType.Win);
             Stage = RoundStage.None;
             _player.UnposessAll();
 
@@ -125,6 +147,7 @@ namespace GameCore.Common
 
         private void LoseGame(LoseGameReason reason)
         {
+            SoundService.PlayMusic(MusicType.Lose);
             Stage = RoundStage.None;
             _player.UnposessAll();
 

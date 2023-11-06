@@ -26,6 +26,7 @@ namespace GameCore.InteractiveObjects
         protected override void OnPlayerEnter()
         {
             if (IsUsed) return;
+            IsUsed = true;
             Movement.MoveValues.CurrentInteractiveObject = this;
             switch (RoundController.Stage)
             {

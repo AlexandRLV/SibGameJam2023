@@ -17,8 +17,6 @@ namespace GameCore.InteractiveObjects
             Movement.MoveValues.IsKnockdown = true;
             Movement.MoveValues.KnockdownTime = 5.0f;
             Destroy(cheese);
-            var direction = Movement.transform.position - transform.position;
-            Movement.transform.position += direction.normalized * distance;
             Movement.ChangeMovementSpeed(speedMultiplier, speedMultiplierDuration);
             IsUsed = true;
         }
