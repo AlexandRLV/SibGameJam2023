@@ -896,6 +896,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _startGameButton: {fileID: 2305585231941925046}
   _leaveButton: {fileID: 2305585232311349276}
+  _titlesButton: {fileID: 476444278302923595}
   _settingsButton: {fileID: 6846951357678368605}
 --- !u!1 &2707099513287069060
 GameObject:

@@ -13,6 +13,9 @@ namespace GameCore.Character.Movement
         [SerializeField] public float standStillTimeToStartAnimation;
         [SerializeField] public float standStillAnimationTime;
 
+        [Header("Lives")]
+        [SerializeField] public int lives;
+
         [Header("Camera")]
         [SerializeField] public float cameraHeight;
         

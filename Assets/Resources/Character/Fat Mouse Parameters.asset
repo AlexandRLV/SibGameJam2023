@@ -18,6 +18,7 @@ MonoBehaviour:
   sneakSpeedMultiplier: 0.8
   standStillTimeToStartAnimation: 5
   standStillAnimationTime: 2
+  lives: 3
   cameraHeight: 1.5
   canJump: 0
   jumpHeight: 1

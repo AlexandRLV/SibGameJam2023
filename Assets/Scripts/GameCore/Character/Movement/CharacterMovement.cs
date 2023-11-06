@@ -4,8 +4,10 @@ using Common;
 using GameCore.Camera;
 using GameCore.Character.Animation;
 using GameCore.Character.Movement.States;
+using GameCore.Common.Messages;
 using GameCore.Input;
 using GameCore.StateMachine;
+using LocalMessages;
 using UnityEngine;
 
 namespace GameCore.Character.Movement
@@ -16,6 +18,7 @@ namespace GameCore.Character.Movement
         public bool IsControlledByPlayer { get; private set; }
         public InputState InputState { get; private set; }
         public CharacterMoveValues MoveValues { get; private set; }
+        public CharacterLives Lives { get; private set; }
         public Rigidbody Rigidbody => _rigidbody;
         public CharacterParameters Parameters => _parameters;
         public Collider Collider => _collider;
@@ -50,6 +53,11 @@ namespace GameCore.Character.Movement
                 JumpHeightMultiplier = 1f,
                 FloatingHeightMultiplier = 1f,
             };
+
+            Lives = new CharacterLives
+            {
+                Lives = _parameters.lives
+            };
             
             _stateMachine = new StateMachine<MovementStateBase, MovementStateType>
             {
@@ -76,6 +84,11 @@ namespace GameCore.Character.Movement
 
         private void Update()
         {
+            if (UnityEngine.Input.GetKeyDown(KeyCode.N))
+            {
+                Damage();
+            }
+            
             _stateMachine.CheckStates();
         }
 
@@ -141,6 +154,17 @@ namespace GameCore.Character.Movement
 #endregion
 
 #region Public methods
+        public void Damage()
+        {
+            Lives.Lives--;
+            Lives.LivesChanged?.Invoke();
+            
+            if (Lives.Lives > 0) return;
+
+            var message = new PlayerDeadMessage();
+            GameContainer.Common.Resolve<LocalMessageBroker>().Trigger(ref message);
+        }
+        
         public void Posess()
         {
             gameObject.SetActive(true);
