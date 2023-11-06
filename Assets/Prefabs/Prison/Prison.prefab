@@ -538,10 +538,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sound: 0
-  openSpeed: 10
-  timeToOpen: 1
-  openingDirection: {x: 0, y: 0, z: -1}
+  doorOpenAngle: -90
   door: {fileID: 7431188922129203851}
+  timeToOpen: 1
   mouseControllers: []
 --- !u!65 &1390679494905540955
 BoxCollider:
@@ -554,8 +553,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.5379937, y: 3.5139582, z: 5.7370257}
-  m_Center: {x: -4.31664, y: 1.6260983, z: 0.01025331}
+  m_Size: {x: 2.4944453, y: 3.5139582, z: 5.7370257}
+  m_Center: {x: -4.2948656, y: 1.6260983, z: 0.010253429}
 --- !u!1 &1390679495034054303
 GameObject:
   m_ObjectHideFlags: 0
@@ -588,6 +587,51 @@ Transform:
   m_Father: {fileID: 1390679494905540953}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5958974472868714670
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5415500960362824608}
+  - component: {fileID: 4449733932357291604}
+  m_Layer: 0
+  m_Name: DoorCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5415500960362824608
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5958974472868714670}
+  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -2.7974784, y: 2.2500005, z: 3.6352642}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 446262389405361064}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &4449733932357291604
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5958974472868714670}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 5.415864, y: 3.8877397, z: 0.2828279}
+  m_Center: {x: 2.5854614, y: 0, z: 0.0000038146973}
 --- !u!1001 &4849186619695433906
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -1,4 +1,5 @@
 using System.Collections;
+using Common;
 using GameCore.Character.Animation;
 using GameCore.Common;
 using GameCore.InteractiveObjects;
@@ -9,24 +10,32 @@ namespace GameCore.Prison.Objects
 {
     public class PrisonController : InteractiveObject
     {
-        [SerializeField] float openSpeed = 10;
-        [SerializeField] float timeToOpen = 1;
-        [SerializeField] Vector3 openingDirection = Vector3.down;
+        Vector3 defaultRot, openRot;
+        float smooth = 2.0f;
+        [SerializeField] float doorOpenAngle = 90f;
         [SerializeField] Transform door;
         float _openingTime;
-        bool _isOpened;
+        [SerializeField] float timeToOpen = 2f;
+        bool _isOpened = false;
         public override AnimationType InteractAnimation => AnimationType.OpenDoor;
 
         [SerializeField] PrisonMouseController[] mouseControllers;
         private void Awake()
         {
             mouseControllers = GetComponentsInChildren<PrisonMouseController>();
+            defaultRot = door.eulerAngles;
+            openRot = new Vector3(defaultRot.x, defaultRot.y + doorOpenAngle, defaultRot.z);
         }
 
         private void OpenDoor()
         {
             if (door == null || mouseControllers.Length == 0) return;
-            if (!_isOpened) StartCoroutine(OpenDoorCoroutine());
+            if (!_isOpened)
+            {
+                StartCoroutine(OpenDoorCoroutine());
+                var roundController = GameContainer.InGame.Resolve<RoundController>();
+                roundController.SaveMouse();
+            }
         }
 
         private IEnumerator OpenDoorCoroutine()
@@ -34,8 +43,9 @@ namespace GameCore.Prison.Objects
             _isOpened = true;
             while (_openingTime < timeToOpen)
             {
+                
                 _openingTime += Time.deltaTime;
-                door.transform.Translate(openingDirection * (openSpeed * Time.deltaTime));
+                door.eulerAngles = Vector3.Slerp(door.eulerAngles, openRot, Time.deltaTime * smooth);
                 yield return new WaitForSeconds(Time.deltaTime);
             }
 

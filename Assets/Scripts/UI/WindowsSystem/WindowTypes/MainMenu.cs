@@ -9,21 +9,22 @@ namespace UI.WindowsSystem.WindowTypes
     {
         [SerializeField] private Button _startGameButton;
         [SerializeField] private Button _leaveButton;
+        [SerializeField] private Button _titlesButton;
         [SerializeField] private Button _settingsButton;
         
         private void Awake()
         {
-            var soundService = GameContainer.Common.Resolve<SoundService>();
+            var soundService = GameContainer.Common.Resolve<SoundService>();    
             soundService.PlayMusic(MusicType.Menu);
             _startGameButton.onClick.AddListener(StartGame);
             _leaveButton.onClick.AddListener(LeaveGame);
             _settingsButton.onClick.AddListener(OpenSettings);
+            _titlesButton.onClick.AddListener(OpenTitles);
         }
 
         private void OpenSettings()
         {
-            var windowsSystem = GameContainer.Common.Resolve<WindowsSystem>();
-            windowsSystem.CreateWindow<SettingsScreen>();
+            GameContainer.Common.Resolve<WindowsSystem>().CreateWindow<SettingsScreen>();
         }
 
         private void StartGame()
@@ -31,6 +32,11 @@ namespace UI.WindowsSystem.WindowTypes
             var windowsSystem = GameContainer.Common.Resolve<WindowsSystem>();
             windowsSystem.CreateWindow<IntroScreen>();
             windowsSystem.DestroyWindow<MainMenu>();
+        }
+
+        private void OpenTitles()
+        {
+            GameContainer.Common.Resolve<WindowsSystem>().CreateWindow<TitlesScreen>();
         }
 
         private void LeaveGame()

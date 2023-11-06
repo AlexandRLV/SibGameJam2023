@@ -18,6 +18,7 @@ MonoBehaviour:
   sneakSpeedMultiplier: 0.8
   standStillTimeToStartAnimation: 5
   standStillAnimationTime: 2
+  lives: 3
   cameraHeight: 1.5
   canJump: 0
   jumpHeight: 1
@@ -26,6 +27,7 @@ MonoBehaviour:
   jumpTime: 0.3
   interactTime: 0.5
   canPush: 1
+  knockdownTime: 3
   lerpInertiaSpeed: 800
   springForce: 500
   dampingForce: 20

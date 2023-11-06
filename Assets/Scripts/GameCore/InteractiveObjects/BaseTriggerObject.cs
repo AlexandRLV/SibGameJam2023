@@ -12,6 +12,7 @@ namespace GameCore.InteractiveObjects
 
         protected CharacterMovement Movement;
         public bool IsUsed { get; protected set; }
+        public bool IsSeen { get; protected set; }
         protected RoundController RoundController => GameContainer.InGame.Resolve<RoundController>();
         protected SoundService SoundService => GameContainer.Common.Resolve<SoundService>();
 

@@ -35,11 +35,17 @@ namespace GameCore.Character.Movement.States
             rigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             _jumpTimer = parameters.jumpTime;
             _isJumping = true;
+            movement.StepSounds.Jump();
         }
 
         public override bool CanExit(MovementStateType nextState)
         {
             return nextState != MovementStateType.Walk || _jumpTimer < 0f;
+        }
+
+        public override void OnExit(MovementStateType nextState)
+        {
+            movement.StepSounds.Land();
         }
 
         public override void Update()
