@@ -18,6 +18,7 @@ namespace Startup.Initializers
 
             var uiRootPrefab = Resources.Load<UIRoot>("UI/UIRoot");
             var uiRoot = Object.Instantiate(uiRootPrefab);
+            Object.DontDestroyOnLoad(uiRoot);
             GameContainer.Common.Register(uiRoot);
             
             var gameWindows = Resources.Load<GameWindows>("WindowsSystem/Game Windows");
