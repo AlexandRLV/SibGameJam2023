@@ -58,16 +58,16 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - HardEdgeAlpha: 0
+    - HardEdgeAlpha: 0.247
     - HardEdgeFalloff: 0
-    - HardEdgeSize: 0.4
+    - HardEdgeSize: 0.44
     - SoftEdgeAlpha: 0
     - SoftEdgeFalloff: 0
     - SoftEdgeSize: 28
     - _LightScalar: 1
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _RampLevels: 2
+    - _RampLevels: 7.3
     m_Colors:
     - HardEdgeColor: {r: 1, g: 1, b: 1, a: 0}
     - SoftEdgeColor: {r: 1, g: 1, b: 1, a: 0}
