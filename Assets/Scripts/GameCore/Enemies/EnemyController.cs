@@ -78,6 +78,17 @@ public class EnemyController : MonoBehaviour
 
         if (currentTarget != null)
         {
+            if (!isPlayerDeteted)
+            {
+                if (roundController.Stage == RoundStage.ThinMouse)
+                {
+                    soundService.PlaySound(SoundType.ThinDetect);
+                }
+                else if (roundController.Stage == RoundStage.FatMouse)
+                {
+                    soundService.PlaySound(SoundType.FatDetect);
+                }
+            }
             isPlayerDeteted = true;
         }
         else
@@ -105,16 +116,6 @@ public class EnemyController : MonoBehaviour
             markController.SetQuestionMark();
             CountRemainingTimeToAlert();
             remainingTimeToShowQuestion = questionTimeAfterDetect;
-
-            if (roundController.Stage == RoundStage.ThinMouse)
-            {
-                soundService.PlaySound(SoundType.ThinDetect);
-            }
-            else if (roundController.Stage == RoundStage.FatMouse)
-            {
-                soundService.PlaySound(SoundType.FatDetect);
-            }
-
         }
         else
         {

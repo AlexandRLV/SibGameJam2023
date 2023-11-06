@@ -21,7 +21,7 @@ namespace GameCore.Character.Movement.States
             if (!movement.IsControlledByPlayer) return false;
             if (!movement.InputState.interact.IsDown()) return false;
 
-            return movement.MoveValues.CurrentInteractiveObject != null;
+            return moveValues.CurrentInteractiveObject != null;
         }
 
         public override bool CanExit(MovementStateType nextState)
@@ -31,19 +31,16 @@ namespace GameCore.Character.Movement.States
 
         public override void OnEnter(MovementStateType prevState)
         {
-            _animationType = movement.MoveValues.CurrentInteractiveObject.InteractAnimation;
+            _animationType = moveValues.CurrentInteractiveObject.InteractAnimation;
 
             _timer = parameters.interactTime;
-            movement.MoveValues.CurrentInteractiveObject.Interact();
+            moveValues.CurrentInteractiveObject.Interact();
         }
 
         public override void Update()
         {
             _timer -= Time.deltaTime;
-            if (movement.IsGrounded)
-                movement.Move(Vector2.zero);
-            else
-                movement.MoveInAir(Vector2.zero);
+            movement.Move(Vector2.zero);
         }
     }
 }
