@@ -1,13 +1,17 @@
 using Common;
 using GameCore.Character.Movement;
+using GameCore.Common;
 using GameCore.Sounds;
 using LocalMessages;
+using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public enum MovementType
 {
     waypointsSequentalPatrolling,
+    clockwise,
     noWalk
 }
 
@@ -29,7 +33,7 @@ public class EnemyController : MonoBehaviour
     [Header("Patrolling Type")]
 
     [Header("NoWalk Type")]
-    [Tooltip("пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅ пїЅпїЅпїЅ")]
+    [Tooltip("Как часто объект поворачивает голову в разные стороны, в сек")]
     [SerializeField] float rotationRate;
     [SerializeField] float rotationSpeed;
     [SerializeField] float minAngle, maxAngle;
@@ -44,6 +48,7 @@ public class EnemyController : MonoBehaviour
     LocalMessageBroker _messageBroker;
     MarkController markController;
     SoundService soundService => GameContainer.Common.Resolve<SoundService>();
+    RoundController roundController => GameContainer.InGame.Resolve<RoundController>();
 
     private void Awake()
     {
@@ -57,7 +62,7 @@ public class EnemyController : MonoBehaviour
         enemyFOV = GetComponentInChildren<EnemyFOV>();
         markController = GetComponentInChildren<MarkController>();
         enemyMovement.movePoints = movePoints;
-        enemyMovement.Init( moveSpeed);
+        enemyMovement.Init(moveSpeed);
         currentTarget = null;
         enemyFOV.Init(enemyScan.ViewAngle);
         enemyFOV.SetColor(normalConeColor);
@@ -84,22 +89,33 @@ public class EnemyController : MonoBehaviour
             {
                 enemyMovement.SequentalWaypointsMovement();
             }
-            else if (MovementType.noWalk == movementType)
+            else if (MovementType.clockwise == movementType)
             {
-
+                enemyMovement.ClockwiseWaypointsMovement();
             }
+            
         }
     }
 
     private void Update()
     {
         if (isAlert) return;
-        
+
         if (isPlayerDeteted && isAlert == false)
         {
             markController.SetQuestionMark();
             CountRemainingTimeToAlert();
             remainingTimeToShowQuestion = questionTimeAfterDetect;
+
+            if (roundController.Stage == RoundStage.ThinMouse)
+            {
+                soundService.PlaySound(SoundType.ThinDetect);
+            }
+            else if (roundController.Stage == RoundStage.FatMouse)
+            {
+                soundService.PlaySound(SoundType.FatDetect);
+            }
+
         }
         else
         {
@@ -122,6 +138,7 @@ public class EnemyController : MonoBehaviour
         markController.SetExclamationMark();
     }
 
+    /*
     public void FoundPlayer(CharacterMovement movement)
     {
         var message = new PlayerDetectedMessage
@@ -130,6 +147,7 @@ public class EnemyController : MonoBehaviour
         };
         _messageBroker.Trigger(ref message);
     }
+    */
 
     private void CountRemainingTimeToAlert()
     {
@@ -138,7 +156,7 @@ public class EnemyController : MonoBehaviour
         if (remainingTimeToAlert < 0)
         {
             StartAlert();
-            
+
         }
     }
 
