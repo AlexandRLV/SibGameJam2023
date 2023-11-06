@@ -50,6 +50,8 @@ public class EnemyController : MonoBehaviour
     SoundService soundService => GameContainer.Common.Resolve<SoundService>();
     RoundController roundController => GameContainer.InGame.Resolve<RoundController>();
 
+    private bool _hasSeenCharacter;
+
     private void Awake()
     {
         if (MovementType.noWalk == movementType) Init(null);
@@ -78,8 +80,9 @@ public class EnemyController : MonoBehaviour
 
         if (currentTarget != null)
         {
-            if (!isPlayerDeteted)
+            if (!isPlayerDeteted && !_hasSeenCharacter)
             {
+                _hasSeenCharacter = true;
                 if (roundController.Stage == RoundStage.ThinMouse)
                 {
                     soundService.PlaySound(SoundType.ThinDetect);

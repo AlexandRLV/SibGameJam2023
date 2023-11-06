@@ -57,11 +57,15 @@ namespace GameCore.Prison.Objects
 
         public override void Interact()
         {
+            if (IsUsed) return;
+            IsUsed = true;
             OpenDoor();
         }
         protected override void OnPlayerEnter()
         {
             Movement.MoveValues.CurrentInteractiveObject = this;
+            if (IsSeen) return;
+            IsSeen = true;
             switch (RoundController.Stage)
             {
                 case RoundStage.ThinMouse:

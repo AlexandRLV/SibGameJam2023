@@ -137,15 +137,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6331899346160908039, guid: e8136eb66c4a35342bf53b62b63375ed, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.002222222
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6331899346160908039, guid: e8136eb66c4a35342bf53b62b63375ed, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.0022222225
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6331899346160908039, guid: e8136eb66c4a35342bf53b62b63375ed, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.0022222227
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6331899346160908039, guid: e8136eb66c4a35342bf53b62b63375ed, type: 3}
       propertyPath: m_LocalPosition.x
@@ -249,6 +249,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6349801643916709001, guid: 5822cfe44f7abc6408fb970e6f6c36df, type: 3}
+      propertyPath: _overrideController
+      value: 
+      objectReference: {fileID: 22100000, guid: 237ab15dff70973458dd9d1e8b61cf82, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5822cfe44f7abc6408fb970e6f6c36df, type: 3}
 --- !u!4 &953472512042963295 stripped
