@@ -538,7 +538,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sound: 0
-  doorOpenAngle: -90
+  doorOpenAngle: 90
   door: {fileID: 7431188922129203851}
   timeToOpen: 1
   mouseControllers: []
