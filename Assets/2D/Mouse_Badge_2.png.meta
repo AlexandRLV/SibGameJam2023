@@ -1,9 +1,5 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:Assets/2D/CAT_PICTURE_4.png.meta
-guid: 027ce465132ac9c45bc5bf96b882147c
-========
-guid: c73664b9109564443846e03ccddbd345
->>>>>>>> remotes/origin/artWakami:Assets/2D/fail_example_2.png.meta
+guid: a3ea20c55940aaf46a326d709618c89b
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}

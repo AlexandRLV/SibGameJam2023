@@ -1,26 +1,29 @@
-using GameCore.Character.Animation;
 using GameCore.Sounds;
 using UnityEngine;
 
 namespace GameCore.InteractiveObjects
 {
-    public class Mousetrap : InteractiveObject
+    public class Mousetrap : BaseTriggerObject
     {
-        [SerializeField] private float speedMultiplier;
-        [SerializeField] private float speedMultiplierDuration;
         [SerializeField] private GameObject cheese;
-        public override AnimationType InteractAnimation => AnimationType.Hit;
 
-        public override void Interact()
+        protected override void OnPlayerEnter()
         {
             if (IsUsed) return;
             
             SoundService.PlayRandomSound(SoundType.Mousetrap1, SoundType.Mousetrap2, SoundType.Mousetrap3);
             Destroy(cheese);
-            Movement.ChangeMovementSpeed(speedMultiplier, speedMultiplierDuration);
             Movement.MoveValues.IsKnockdown = true;
             Movement.Damage();
             IsUsed = true;
+        }
+
+        protected override void OnPlayerStay()
+        {
+        }
+
+        protected override void OnPlayerExit()
+        {
         }
     }
 }
