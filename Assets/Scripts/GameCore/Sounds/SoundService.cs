@@ -90,6 +90,11 @@ namespace GameCore.Sounds
             if (currentSound) soundsSource.PlayOneShot(currentSound);
         }
 
+        public void StopSound()
+        {
+            soundsSource.Stop();
+        }
+
         private AudioClip GetRandomTrack()
         {
             return tracks[Random.Range(0, tracks.Length)];

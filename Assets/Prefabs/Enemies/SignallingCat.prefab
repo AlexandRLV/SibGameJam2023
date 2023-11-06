@@ -177,9 +177,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76317510c5fd0be40b52addbb2493c06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementType: 1
+  movementType: 2
   timeToAlert: 3
   questionTimeAfterDetect: 5
+  moveSpeed: 3.5
   normalConeColor: {r: 1, g: 0.56078434, b: 0, a: 0.5882353}
   alertConeColor: {r: 1, g: 0, b: 0, a: 0.5882353}
 --- !u!54 &7302715816161827797
@@ -196,7 +197,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 126
   m_CollisionDetection: 1
 --- !u!195 &7302715816161827802
 NavMeshAgent:

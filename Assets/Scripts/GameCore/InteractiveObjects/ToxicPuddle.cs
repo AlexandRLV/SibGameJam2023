@@ -14,12 +14,12 @@ namespace GameCore.InteractiveObjects
 
         protected override void OnPlayerStay()
         {
-           
+            Movement.ChangeMovementSpeed(speedMultiplier, speedMultiplierDuration);
         }
 
         protected override void OnPlayerExit()
         {
-           
+            throw new System.NotImplementedException();
         }
     }
 }
