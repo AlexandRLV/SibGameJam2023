@@ -45,7 +45,7 @@ namespace GameCore.Prison.Objects
             {
                 
                 _openingTime += Time.deltaTime;
-                door.eulerAngles = Vector3.Slerp(door.eulerAngles, openRot, Time.deltaTime * smooth);
+                door.eulerAngles = Vector3.Lerp(door.eulerAngles, openRot, Time.deltaTime * smooth);
                 yield return new WaitForSeconds(Time.deltaTime);
             }
 
