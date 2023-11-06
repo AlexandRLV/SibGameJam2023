@@ -10,7 +10,6 @@ namespace GameCore.Character.Movement
 
         // Knockdown
         public bool IsKnockdown;
-        public float KnockdownTime;
         
         public InteractiveObject CurrentInteractiveObject;
     }

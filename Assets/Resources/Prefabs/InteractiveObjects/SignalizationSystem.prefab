@@ -112,7 +112,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sound: 2
-  laserFloor: 0
+  laserGroup: 0
 --- !u!1 &832306220633453769
 GameObject:
   m_ObjectHideFlags: 0
@@ -556,7 +556,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sound: 0
-  laserFloor: 0
+  laserGroup: 0
 --- !u!1 &6818345715728601977
 GameObject:
   m_ObjectHideFlags: 0
@@ -721,7 +721,7 @@ PrefabInstance:
     - target: {fileID: -1504981713932161579, guid: c7c69c59cdcd2ff4cbde136c282668c1, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 257d0eafe48ee0546bdde73c78055a4e, type: 2}
+      objectReference: {fileID: 2100000, guid: 6b319810fd0df9247801bb2fbd76fd27, type: 2}
     - target: {fileID: -927199367670048503, guid: c7c69c59cdcd2ff4cbde136c282668c1, type: 3}
       propertyPath: m_Name
       value: Electrical_panel
