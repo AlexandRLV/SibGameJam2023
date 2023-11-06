@@ -27,7 +27,7 @@ MonoBehaviour:
   jumpTime: 0.3
   interactTime: 0.5
   canPush: 1
-  knockdownTime: 3
+  hitTime: 0.5
   lerpInertiaSpeed: 800
   springForce: 500
   dampingForce: 20

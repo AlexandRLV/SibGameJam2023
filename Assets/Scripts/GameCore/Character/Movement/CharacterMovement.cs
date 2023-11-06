@@ -75,6 +75,7 @@ namespace GameCore.Character.Movement
                     new MovementKnockdownState(this),
                     new MovementCrouchState(this),
                     new MovementInteractState(this),
+                    new MovementHitState(this),
                 }
             };
             
@@ -168,13 +169,13 @@ namespace GameCore.Character.Movement
             
             if (Lives.Lives > 0) return;
 
+            MoveValues.IsKnockdown = true;
             var message = new PlayerDeadMessage();
             GameContainer.Common.Resolve<LocalMessageBroker>().Trigger(ref message);
         }
         
         public void Posess()
         {
-            gameObject.SetActive(true);
             InputState = GameContainer.InGame.Resolve<InputState>();
             IsControlledByPlayer = true;
             _rigidbody.drag = 0f;
@@ -185,7 +186,6 @@ namespace GameCore.Character.Movement
 
         public void Unposess()
         {
-            gameObject.SetActive(false);
             InputState = null;
             IsControlledByPlayer = false;
         }
