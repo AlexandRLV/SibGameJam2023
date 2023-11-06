@@ -21,9 +21,10 @@ public class EnemyMovement : MonoBehaviour
 
     #endregion
 
-    void Start()
+    public void Init(float moveSpeed)
     {
         agent = GetComponent<NavMeshAgent>();
+        agent.speed = moveSpeed;
     }
 
     public void SequentalWaypointsMovement()
