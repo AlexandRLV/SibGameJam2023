@@ -252,26 +252,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 61c1a8153772bd543b5868f2f63d7c62, type: 3}
   m_PrefabInstance: {fileID: 8773486495919119337}
   m_PrefabAsset: {fileID: 0}
---- !u!95 &1063266500651531083
-Animator:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8430956936068802232}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 2797386e227874640847a96288460832, type: 3}
-  m_Controller: {fileID: 22100000, guid: f26641b2e3a6f18468c048aa1e9ee265, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!82 &1544985982294527599
 AudioSource:
   m_ObjectHideFlags: 0
@@ -279,12 +259,12 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8430956936068802232}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.704
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -328,7 +308,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -368,6 +348,26 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!95 &1063266500651531083
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8430956936068802232}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 2797386e227874640847a96288460832, type: 3}
+  m_Controller: {fileID: 22100000, guid: f26641b2e3a6f18468c048aa1e9ee265, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &5795462785930931808
 MonoBehaviour:
   m_ObjectHideFlags: 0
