@@ -40,10 +40,7 @@ namespace GameCore.Character.Movement.States
         public override void Update()
         {
             _timer -= Time.deltaTime;
-            if (movement.IsGrounded)
-                movement.Move(Vector2.zero);
-            else
-                movement.MoveInAir(Vector2.zero);
+            movement.Move(Vector2.zero);
         }
     }
 }

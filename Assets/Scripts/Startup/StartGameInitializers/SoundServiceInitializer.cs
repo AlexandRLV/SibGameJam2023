@@ -11,6 +11,7 @@ namespace Startup.GameplayInitializers
         {
             var soundServicePrefab = Resources.Load<SoundService>("Audio/SoundService");
             var soundService = Object.Instantiate(soundServicePrefab);
+            Object.DontDestroyOnLoad(soundService);
             GameContainer.Common.Register(soundService);
             yield return null;
         }

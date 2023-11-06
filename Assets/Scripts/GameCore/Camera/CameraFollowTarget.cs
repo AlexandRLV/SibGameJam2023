@@ -8,10 +8,8 @@ namespace GameCore.Camera
     public class CameraFollowTarget : MonoBehaviour
     {
         public float Height { get; set; }
-        
-        [SerializeField] private bool _invertX;
-        [SerializeField] private bool _invertY;
-        [SerializeField] private float _sensitivity;
+
+        [SerializeField] private CameraSettings _cameraSettings;
 
         [SerializeField] private float _minAngle;
         [SerializeField] private float _maxAngle;
@@ -46,11 +44,11 @@ namespace GameCore.Camera
             transform.position = _target.position + Vector3.up * Height;
 
             // X and Y swapped because mouse movement along X axis means camera rotation around Y axis and so on
-            float angleX = -_inputState.camera.y * _sensitivity;
-            float angleY = _inputState.camera.x * _sensitivity;
+            float angleX = -_inputState.camera.y * _cameraSettings.sensitivity;
+            float angleY = _inputState.camera.x * _cameraSettings.sensitivity;
 
-            if (_invertX) angleX *= -1;
-            if (_invertY) angleY *= -1;
+            if (_cameraSettings.invertX) angleX *= -1;
+            if (_cameraSettings.invertY) angleY *= -1;
 
             var euler = transform.eulerAngles;
             euler.x += angleX;

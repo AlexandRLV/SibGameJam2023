@@ -11,7 +11,7 @@ namespace GameCore.InteractiveObjects
         [SerializeField] protected SoundType sound;
 
         protected CharacterMovement Movement;
-        
+        public bool IsUsed { get; protected set; }
         protected RoundController RoundController => GameContainer.InGame.Resolve<RoundController>();
         protected SoundService SoundService => GameContainer.Common.Resolve<SoundService>();
 
@@ -31,7 +31,8 @@ namespace GameCore.InteractiveObjects
 
         protected void OnTriggerExit(Collider other)
         {
-            if (!other.TryGetComponent(out CharacterMovement _)) return;
+            var movement = other.GetComponentInParent<CharacterMovement>();
+            if (movement == null) return;
             OnPlayerExit();
             Movement = null;
         }

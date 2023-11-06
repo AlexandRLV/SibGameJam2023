@@ -10,17 +10,22 @@ namespace GameCore.InteractiveObjects
     public class SignalizationLever : InteractiveObject
     {
         [SerializeField] private LaserGroup laserGroup;
-        
+
         public override AnimationType InteractAnimation => AnimationType.LeverPull;
 
         public override void Interact()
         {
+            if (IsUsed) return;
             var message = new LaserDestroyMessage();
             message.LaserGroup = laserGroup;
             GameContainer.Common.Resolve<LocalMessageBroker>().Trigger(ref message);
+            Movement.MoveValues.CurrentInteractiveObject = null;
+            IsUsed = true;
         }
+
         protected override void OnPlayerEnter()
         {
+            if (IsUsed) return;
             Movement.MoveValues.CurrentInteractiveObject = this;
             switch (RoundController.Stage)
             {
@@ -32,6 +37,5 @@ namespace GameCore.InteractiveObjects
                     break;
             }
         }
-        
     }
 }
