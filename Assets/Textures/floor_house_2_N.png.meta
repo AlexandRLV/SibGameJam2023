@@ -1,9 +1,5 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:Assets/2D/CAT_PICTURE_4.png.meta
-guid: 027ce465132ac9c45bc5bf96b882147c
-========
-guid: c73664b9109564443846e03ccddbd345
->>>>>>>> remotes/origin/artWakami:Assets/2D/fail_example_2.png.meta
+guid: 682c39951d5cf53479b9435bbc1449b7
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -11,7 +7,7 @@ TextureImporter:
   mipmaps:
     mipMapMode: 0
     enableMipMap: 1
-    sRGBTexture: 1
+    sRGBTexture: 0
     linearTexture: 0
     fadeOut: 0
     borderMipMap: 0
@@ -57,7 +53,7 @@ TextureImporter:
   alphaUsage: 1
   alphaIsTransparency: 0
   spriteTessellationDetail: -1
-  textureType: 0
+  textureType: 1
   textureShape: 1
   singleChannelComponent: 0
   flipbookRows: 1
