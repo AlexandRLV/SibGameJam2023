@@ -1,5 +1,4 @@
-﻿using GameCore.Character.Interaction;
-using GameCore.InteractiveObjects;
+﻿using GameCore.InteractiveObjects;
 
 namespace GameCore.Character.Movement
 {

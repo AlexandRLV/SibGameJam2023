@@ -25,6 +25,7 @@ namespace GameCore.Character.Movement
 
         [Header("Interaction")]
         [SerializeField] public float interactTime;
+        [SerializeField] public bool canPush;
 
         [Header("Inertia")]
         [SerializeField] public float lerpInertiaSpeed;

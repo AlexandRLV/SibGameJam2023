@@ -1,15 +1,17 @@
 ﻿using Common;
 using GameCore.Character.Animation;
+using GameCore.InteractiveObjects;
 using UnityEngine;
 
 namespace GameCore.Character.Movement.States
 {
     public class MovementWalkState : MovementStateBase
     {
-        public override AnimationType AnimationType => AnimationType.Walk;
+        public override AnimationType AnimationType => _isPushing ? AnimationType.Push : AnimationType.Walk;
         public override MovementStateType Type => MovementStateType.Walk;
 
         private float _standStillTime;
+        private bool _isPushing;
 
         public MovementWalkState(CharacterMovement characterMovement) : base(characterMovement)
         {
@@ -49,6 +51,26 @@ namespace GameCore.Character.Movement.States
             
             input *= speed;
             movement.Move(input);
+
+            if (!parameters.canPush)
+            {
+                _isPushing = false;
+                return;
+            }
+
+            if (UnityEngine.Input.GetKey(KeyCode.X))
+            {
+                int x = 0;
+            }
+
+            if (!Physics.Raycast(movement.transform.position + Vector3.up, movement.transform.forward, out var hit, 0.5f))
+            {
+                _isPushing = false;
+                return;
+            }
+
+            var pushable = hit.collider.GetComponent<PushableObject>();
+            _isPushing = pushable != null;
         }
     }
 }
