@@ -21,8 +21,8 @@ MonoBehaviour:
   lives: 3
   cameraHeight: 1.5
   canJump: 1
-  jumpHeight: 3
-  inAirSpeed: 1
+  jumpHeight: 1.5
+  inAirSpeed: 3.5
   gravityMultiplier: 2.5
   jumpTime: 0.3
   interactTime: 0.5

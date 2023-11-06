@@ -179,6 +179,7 @@ namespace GameCore.Character.Movement
             InputState = GameContainer.InGame.Resolve<InputState>();
             IsControlledByPlayer = true;
             _rigidbody.drag = 0f;
+            _rigidbody.isKinematic = false;
 
             _gameCamera = GameContainer.InGame.Resolve<GameCamera>();
             _gameCamera.FollowTarget.Height = _parameters.cameraHeight;
@@ -188,6 +189,8 @@ namespace GameCore.Character.Movement
         {
             InputState = null;
             IsControlledByPlayer = false;
+            _rigidbody.isKinematic = true;
+            _rigidbody.velocity = Vector3.zero;
         }
 
         public void Move(Vector2 input)

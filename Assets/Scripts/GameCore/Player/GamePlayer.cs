@@ -13,24 +13,24 @@ namespace GameCore.Player
         private GameCamera _gameCamera;
 
         private CharacterMovement _fatMouseCharacter;
-        private CharacterMovement _thinMouseCharacter;
+        // private CharacterMovement _thinMouseCharacter;
 
-        public void Initialize(CharacterMovement fatMouse, CharacterMovement thinMouse)
+        public void Initialize(CharacterMovement fatMouse)
         {
             _fatMouseCharacter = fatMouse;
-            _thinMouseCharacter = thinMouse;
+            // _thinMouseCharacter = thinMouse;
                 
             _gameCamera = GameContainer.InGame.Resolve<GameCamera>();
             
             _fatMouseCharacter.Unposess();
-            _thinMouseCharacter.Unposess();
+            // _thinMouseCharacter.Unposess();
         }
 
         public void PosessFatMouse() => PosessCharacter(_fatMouseCharacter);
-        public void PosessThinMouse() => PosessCharacter(_thinMouseCharacter);
+        // public void PosessThinMouse() => PosessCharacter(_thinMouseCharacter);
 
-        public void PosessAnother() =>
-            PosessCharacter(CurrentCharacter == _fatMouseCharacter ? _thinMouseCharacter : _fatMouseCharacter);
+        // public void PosessAnother() =>
+        //     PosessCharacter(CurrentCharacter == _fatMouseCharacter ? _thinMouseCharacter : _fatMouseCharacter);
 
         public void UnposessAll()
         {
