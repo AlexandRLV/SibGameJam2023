@@ -3,7 +3,7 @@ using Common;
 using GameCore.Sounds;
 using UnityEngine;
 
-namespace Startup.GameplayInitializers
+namespace Startup.StartGameInitializers
 {
     public class SoundServiceInitializer : IInitializer
     {
