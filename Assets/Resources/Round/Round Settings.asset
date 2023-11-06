@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Round Settings
   m_EditorClassIdentifier: 
   roundLengthMinutes: 1
-  playerDetectedToLoseSeconds: 5
+  playerDetectedToLoseSeconds: 2
