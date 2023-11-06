@@ -1,4 +1,5 @@
 ﻿using Common;
+using GameCore.Sounds;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +13,8 @@ namespace UI.WindowsSystem.WindowTypes
         
         private void Awake()
         {
+            var soundService = GameContainer.Common.Resolve<SoundService>();
+            soundService.PlayMusic(MusicType.Menu);
             _startGameButton.onClick.AddListener(StartGame);
             _leaveButton.onClick.AddListener(LeaveGame);
             _settingsButton.onClick.AddListener(OpenSettings);

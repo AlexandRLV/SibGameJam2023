@@ -33,7 +33,7 @@ public class EnemyController : MonoBehaviour
     [Header("Patrolling Type")]
 
     [Header("NoWalk Type")]
-    [Tooltip("Как часто объект поворачивает голову в разные стороны, в сек")]
+    [Tooltip("пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅ пїЅпїЅпїЅ")]
     [SerializeField] float rotationRate;
     [SerializeField] float rotationSpeed;
     [SerializeField] float minAngle, maxAngle;
@@ -176,7 +176,6 @@ public class EnemyController : MonoBehaviour
 
     public void StartAlert()
     {
-        soundService.StopSound();
         soundService.PlaySound(SoundType.Alert);
         var message = new PlayerDetectedMessage();
         message.PlayerPosition = currentTarget.position;
