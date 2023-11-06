@@ -175,6 +175,7 @@ public class EnemyController : MonoBehaviour
 
     public void StartAlert()
     {
+        soundService.StopSound();
         soundService.PlaySound(SoundType.Alert);
         var message = new PlayerDetectedMessage();
         message.PlayerPosition = currentTarget.position;
