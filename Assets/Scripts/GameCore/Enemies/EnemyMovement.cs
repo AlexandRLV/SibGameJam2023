@@ -86,23 +86,13 @@ public class EnemyMovement : MonoBehaviour
                 currentCoroutine = coroutine;
             }
 
-            if (clockwiseMovement == true)
+            if (currentPointIndex == movePoints.Count - 1)
             {
-                if (currentPointIndex == movePoints.Count - 1)
-                {
-                    clockwiseMovement = false;
-                    return;
-                }
-                currentPointIndex++;
+                currentPointIndex = 0;
             }
-            else if (clockwiseMovement == false)
+            else
             {
-                if (currentPointIndex == 0)
-                {
-                    clockwiseMovement = true;
-                    return;
-                }
-                currentPointIndex--;
+                currentPointIndex++;
             }
         }
     }

@@ -101,7 +101,7 @@ GameObject:
   - component: {fileID: 6630842377191326700}
   - component: {fileID: 1566770389562551327}
   m_Layer: 6
-  m_Name: PatrollingCat
+  m_Name: PatrollingCatSequental
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -180,17 +180,9 @@ MonoBehaviour:
   movementType: 0
   timeToAlert: 3
   questionTimeAfterDetect: 5
+  moveSpeed: 3.5
   normalConeColor: {r: 1, g: 0.56078434, b: 0, a: 0.5882353}
   alertConeColor: {r: 1, g: 0, b: 0, a: 0.5882353}
-  remainingTimeToAlert: 0
-  remainingTimeToShowQuestion: 0
-  isPlayerDeteted: 0
-  isAlert: 0
-  rotationRate: 0
-  rotationSpeed: 0
-  minAngle: 0
-  maxAngle: 0
-  currentTarget: {fileID: 0}
 --- !u!54 &7302715816161827797
 Rigidbody:
   m_ObjectHideFlags: 0
