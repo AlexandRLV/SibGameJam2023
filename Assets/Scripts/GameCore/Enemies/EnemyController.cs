@@ -59,7 +59,7 @@ public class EnemyController : MonoBehaviour
         enemyFOV = GetComponentInChildren<EnemyFOV>();
         markController = GetComponentInChildren<MarkController>();
         enemyMovement.movePoints = movePoints;
-        enemyMovement.Init(float moveSpeed);
+        enemyMovement.Init( moveSpeed);
         currentTarget = null;
         enemyFOV.Init(enemyScan.ViewAngle);
         enemyFOV.SetColor(normalConeColor);
