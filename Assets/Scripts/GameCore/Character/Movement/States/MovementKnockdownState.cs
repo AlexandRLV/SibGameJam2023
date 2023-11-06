@@ -8,8 +8,6 @@ namespace GameCore.Character.Movement.States
         public override AnimationType AnimationType => AnimationType.Knockdown;
         public override MovementStateType Type => MovementStateType.Knockdown;
 
-        private float _timer;
-        
         public MovementKnockdownState(CharacterMovement characterMovement) : base(characterMovement)
         {
         }
@@ -21,25 +19,17 @@ namespace GameCore.Character.Movement.States
 
         public override bool CanExit(MovementStateType nextState)
         {
-            return _timer <= 0f;
+            return !moveValues.IsKnockdown;
         }
 
         public override void OnEnter(MovementStateType prevState)
         {
-            _timer = parameters.knockdownTime;
             movement.KnockdownEffect.SetActive(true);
             movement.KnockdownEffect.GetComponent<ParticleSystem>().Play();
         }
 
-        public override void OnExit(MovementStateType nextState)
-        {
-            moveValues.IsKnockdown = false;
-            movement.KnockdownEffect.SetActive(false);
-        }
-
         public override void Update()
         {
-            _timer -= Time.deltaTime;
             movement.Move(Vector2.zero);
         }
     }
