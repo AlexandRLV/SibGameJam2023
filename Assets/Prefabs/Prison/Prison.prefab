@@ -538,10 +538,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sound: 0
-  openSpeed: 10
-  timeToOpen: 1
-  openingDirection: {x: 0, y: 0, z: -1}
+  doorOpenAngle: 90
   door: {fileID: 7431188922129203851}
+  timeToOpen: 1
   mouseControllers: []
 --- !u!65 &1390679494905540955
 BoxCollider:
@@ -554,8 +553,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.5379937, y: 3.5139582, z: 5.7370257}
-  m_Center: {x: -4.31664, y: 1.6260983, z: 0.01025331}
+  m_Size: {x: 2.4944453, y: 3.5139582, z: 5.7370257}
+  m_Center: {x: -4.2948656, y: 1.6260983, z: 0.010253429}
 --- !u!1 &1390679495034054303
 GameObject:
   m_ObjectHideFlags: 0
