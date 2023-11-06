@@ -1,7 +1,9 @@
 using Common;
 using GameCore.Character.Animation;
 using GameCore.Common;
+using GameCore.Common.Messages;
 using GameCore.InteractiveObjects;
+using LocalMessages;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -42,7 +44,6 @@ public class CactusInteractiveObject : InteractiveObject
                 Debug.Log("isFinished");
                 isFinished = true;
                 gameObject.SetActive(false);
-
                 return;
             }
         }
