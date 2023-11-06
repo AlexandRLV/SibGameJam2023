@@ -61,6 +61,11 @@ namespace GameCore.Common
             Data.CactusCatched = true;
         }
 
+        public void SaveMouse()
+        {
+            Data.MouseFree += 1;
+        }
+
         private void Update()
         {
             if (UnityEngine.Input.GetKeyDown(KeyCode.T))
