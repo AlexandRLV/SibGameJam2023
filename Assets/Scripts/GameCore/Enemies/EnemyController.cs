@@ -74,7 +74,6 @@ public class EnemyController : MonoBehaviour
     private void FixedUpdate()
     {
         if (isAlert) return;
-        print("FixedUpdate");
         currentTarget = enemyScan.GetNearestTarget();
 
         if (currentTarget != null)
@@ -138,7 +137,7 @@ public class EnemyController : MonoBehaviour
         markController.SetExclamationMark();
     }
 
-    /*
+    
     public void FoundPlayer(CharacterMovement movement)
     {
         var message = new PlayerDetectedMessage
@@ -147,7 +146,7 @@ public class EnemyController : MonoBehaviour
         };
         _messageBroker.Trigger(ref message);
     }
-    */
+    
 
     private void CountRemainingTimeToAlert()
     {

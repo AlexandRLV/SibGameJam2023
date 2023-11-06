@@ -51,7 +51,7 @@ public class EnemyTargetScaner : MonoBehaviour
             return;
         }
 
-        eyePos = eyeCenter.localPosition;
+        eyePos = eyeCenter.position;
 
         FindVisibleTarget();
         RemoveTargetFromList();
