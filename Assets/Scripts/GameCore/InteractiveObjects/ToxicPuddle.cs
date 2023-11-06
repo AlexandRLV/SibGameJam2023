@@ -19,7 +19,7 @@ namespace GameCore.InteractiveObjects
 
         protected override void OnPlayerExit()
         {
-            throw new System.NotImplementedException();
+            
         }
     }
 }

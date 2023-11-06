@@ -26,6 +26,7 @@ namespace GameCore.InteractiveObjects
             var message = new PlayerDetectedMessage();
             message.PlayerPosition = Movement.transform.position;
             GameContainer.Common.Resolve<LocalMessageBroker>().Trigger(ref message);
+            SoundService.StopMusic();
             SoundService.PlaySound(SoundType.Alert);
             IsUsed = true;
         }
