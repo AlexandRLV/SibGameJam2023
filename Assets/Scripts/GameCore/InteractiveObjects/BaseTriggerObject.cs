@@ -11,7 +11,7 @@ namespace GameCore.InteractiveObjects
         [SerializeField] protected SoundType sound;
 
         protected CharacterMovement Movement;
-        
+        public bool IsUsed { get; protected set; }
         protected RoundController RoundController => GameContainer.InGame.Resolve<RoundController>();
         protected SoundService SoundService => GameContainer.Common.Resolve<SoundService>();
 
