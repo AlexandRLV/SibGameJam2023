@@ -2,6 +2,6 @@ namespace GameCore.InteractiveObjects
 {
     public struct LaserDestroyMessage
     {
-        public LaserFloor LaserFloor;
+        public LaserGroup LaserGroup;
     }
 }
