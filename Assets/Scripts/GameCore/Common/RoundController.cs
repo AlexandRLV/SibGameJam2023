@@ -12,6 +12,7 @@ namespace GameCore.Common
     {
         public float Timer { get; private set; }
         public RoundStage Stage { get; private set; }
+        public RoundData Data { get; private set; }
         
         [SerializeField] private RoundSettings _settings;
 
@@ -20,29 +21,64 @@ namespace GameCore.Common
         
         private void Start()
         {
+            Data = new RoundData();
             Timer = _settings.RoundLengthSeconds;
             Stage = RoundStage.FatMouse;
             
             _messageBroker = GameContainer.Common.Resolve<LocalMessageBroker>();
             _messageBroker.Subscribe<PlayerDetectedMessage>(OnPlayerDetected);
-
+            _messageBroker.Subscribe<PlayerWinMessage>(OnPlayerWin);
+            
             _player = GameContainer.InGame.Resolve<GamePlayer>();
             _player.PosessFatMouse();
+        }
+
+        private void OnPlayerWin(ref PlayerWinMessage value)
+        {
+            Stage = RoundStage.None;
+            _player.UnposessAll();
+
+            var windowsSystem = GameContainer.Common.Resolve<WindowsSystem>();
+            windowsSystem.CreateWindow<WinScreen>();
         }
 
         private void OnDestroy()
         {
             _messageBroker.Unsubscribe<PlayerDetectedMessage>(OnPlayerDetected);
+            _messageBroker.Unsubscribe<PlayerWinMessage>(OnPlayerWin);
         }
 
         private void OnPlayerDetected(ref PlayerDetectedMessage value)
         {
             Timer = _settings.playerDetectedToLoseSeconds;
             Stage = RoundStage.WaitToLose;
+            _player.UnposessAll();
+        }
+
+        public void CatchCactus()
+        {
+            Data.CactusCatched = true;
+            Timer = 30f;
         }
 
         private void Update()
         {
+            if (UnityEngine.Input.GetKeyDown(KeyCode.T))
+            {
+                Stage = RoundStage.None;
+                _player.UnposessAll();
+
+                var windowsSystem = GameContainer.Common.Resolve<WindowsSystem>();
+                windowsSystem.CreateWindow<WinScreen>();
+                return;
+            }
+
+            if (UnityEngine.Input.GetKeyDown(KeyCode.H))
+            {
+                LoseGame(LoseGameReason.Catched);
+                return;
+            }
+            
             if (Stage == RoundStage.None) return;
             
             if (UnityEngine.Input.GetKeyDown(KeyCode.U))

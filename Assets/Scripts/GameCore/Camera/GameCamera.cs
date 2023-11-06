@@ -1,5 +1,4 @@
-﻿using Cinemachine;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace GameCore.Camera
 {
@@ -7,7 +6,6 @@ namespace GameCore.Camera
     {
         public CameraFollowTarget FollowTarget => _followTarget;
         
-        [SerializeField] private CinemachineVirtualCamera _virtualCamera;
         [SerializeField] private CameraFollowTarget _followTarget;
 
         public void SetTarget(Transform target)

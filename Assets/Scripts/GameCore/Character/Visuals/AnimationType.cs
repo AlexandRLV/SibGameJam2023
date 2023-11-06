@@ -12,5 +12,6 @@
         Eat,
         Hit,
         Knockdown,
+        Push,
     }
 }

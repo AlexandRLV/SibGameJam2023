@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace GameCore.StateMachine
 {
@@ -19,7 +18,7 @@ namespace GameCore.StateMachine
             CurrentState.Update();
         }
 
-        internal void CheckStates(bool debug)
+        internal void CheckStates()
         {
             foreach (var nextState in States)
             {
@@ -28,8 +27,6 @@ namespace GameCore.StateMachine
 				
                 if (!nextState.AllowEnterFrom(_currentType) || !nextState.CanEnter(_currentType)) continue;
                 if (!CurrentState.CanExit(nextState.Type) || !CurrentState.AllowExitTo(nextType)) continue;
-				
-                if (debug) Debug.Log($"Switching state to {nextType.ToString()}");
 
                 CurrentState.OnExit(nextState.Type);
                 nextState.OnEnter(_currentType);
@@ -39,7 +36,7 @@ namespace GameCore.StateMachine
             }
         }
 
-        internal void ForceSetState(TStateType stateType, bool debug = false)
+        internal void ForceSetState(TStateType stateType)
         {
             if (CurrentState != null && _comparer.Equals(CurrentState.Type, stateType))
                 return;
@@ -57,8 +54,6 @@ namespace GameCore.StateMachine
                 {
                     state.OnEnter(default);
                 }
-
-                if (debug) Debug.Log($"Switching state to {stateType.ToString()}");
 				
                 CurrentState = state;
                 _currentType = stateType;

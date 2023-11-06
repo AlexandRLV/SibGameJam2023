@@ -58,5 +58,16 @@ namespace UI.WindowsSystem
 
             _loadedWindows.Remove(type);
         }
+
+        public void DestroyAll()
+        {
+            foreach (var loadedWindow in _loadedWindows)
+            {
+                if (loadedWindow.Value != null && loadedWindow.Value.gameObject != null)
+                    Object.Destroy(loadedWindow.Value.gameObject);
+            }
+            
+            _loadedWindows.Clear();
+        }
     }
 }
