@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5ad7b981199448e185415db1b2328ce1, type: 3}
-  m_Name: Big Mouse Parameters
+  m_Name: Fat Mouse Parameters
   m_EditorClassIdentifier: 
   speed: 3.5
   crouchSpeedMultiplier: 0.6
@@ -25,6 +25,7 @@ MonoBehaviour:
   gravityMultiplier: 2.5
   jumpTime: 0.3
   interactTime: 0.5
+  canPush: 1
   lerpInertiaSpeed: 800
   springForce: 500
   dampingForce: 20

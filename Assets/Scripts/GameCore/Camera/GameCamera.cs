@@ -1,5 +1,4 @@
-﻿using Common;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace GameCore.Camera
 {
@@ -8,11 +7,6 @@ namespace GameCore.Camera
         public CameraFollowTarget FollowTarget => _followTarget;
         
         [SerializeField] private CameraFollowTarget _followTarget;
-
-        private void Awake()
-        {
-            GameContainer.InGame.Register(this);
-        }
 
         public void SetTarget(Transform target)
         {

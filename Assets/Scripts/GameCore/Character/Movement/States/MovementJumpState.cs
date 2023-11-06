@@ -55,7 +55,7 @@ namespace GameCore.Character.Movement.States
 
             input *= parameters.inAirSpeed;
             
-            movement.MoveInAir(input);
+            movement.Move(input);
         }
 
         private bool JumpPressed() => movement.IsControlledByPlayer && movement.InputState.jump.IsDown();

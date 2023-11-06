@@ -16,7 +16,8 @@ namespace GameCore.Character.Animation
             { AnimationType.Eat, Animator.StringToHash("Eat") },
             { AnimationType.Hit, Animator.StringToHash("Hit") },
             { AnimationType.Knockdown, Animator.StringToHash("Knockdown") },
-            { AnimationType.LeverPull , Animator.StringToHash("LeverPull")}
+            { AnimationType.LeverPull , Animator.StringToHash("LeverPull") },
+            { AnimationType.Push , Animator.StringToHash("Push") },
         };
 
         private static readonly int SpeedId = Animator.StringToHash("Speed");
