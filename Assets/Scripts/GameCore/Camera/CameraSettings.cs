@@ -1,7 +1,15 @@
-﻿namespace GameCore.Camera
+﻿using UnityEngine;
+
+namespace GameCore.Camera
 {
-    internal class CameraSettings
+    [CreateAssetMenu(fileName = "Camera Settings")]
+    public class CameraSettings : ScriptableObject
     {
-        
+        [SerializeField] public bool invertX;
+        [SerializeField] public bool invertY;
+
+        [SerializeField] public float minSensitivity;
+        [SerializeField] public float maxSensitivity;
+        [SerializeField] public float sensitivity;
     }
 }
