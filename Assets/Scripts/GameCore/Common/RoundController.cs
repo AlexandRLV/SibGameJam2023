@@ -39,6 +39,7 @@ namespace GameCore.Common
 
         private LocalMessageBroker _messageBroker;
         private GamePlayer _player;
+        bool evacuationActivated = false;
 
         private void Start()
         {
@@ -85,7 +86,11 @@ namespace GameCore.Common
         public void CatchCactus()
         {
             Data.CactusCatched = true;
-            Timer = 30f;
+        }
+
+        public void SaveMouse()
+        {
+            Data.MouseFree += 1;
         }
 
         private void Update()
@@ -112,6 +117,14 @@ namespace GameCore.Common
                 _player.PosessAnother();
 
             Timer -= Time.deltaTime;
+
+            if (Timer < 30f && (Stage == RoundStage.FatMouse || Stage == RoundStage.ThinMouse) && !evacuationActivated)
+            {
+                var message = new ActivateEvacuationMessage();
+                message.active = true;
+                _messageBroker.Trigger(ref message);
+                evacuationActivated = true;
+            }
             if (Timer > 0f) return;
 
             if (Stage == RoundStage.FatMouse)
@@ -121,6 +134,11 @@ namespace GameCore.Common
                 Timer = _settings.RoundLengthSeconds;
                 Stage = RoundStage.ThinMouse;
                 _player.PosessThinMouse();
+                var evacuationMessage = new ActivateEvacuationMessage();
+                evacuationMessage.active = false;
+                _messageBroker.Trigger(ref message);
+                evacuationActivated = false;
+
             }
             else if (Stage == RoundStage.ThinMouse)
             {
