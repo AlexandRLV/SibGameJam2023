@@ -1,9 +1,5 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:Assets/2D/fail_example_2.png.meta
-guid: c73664b9109564443846e03ccddbd345
-========
-guid: 027ce465132ac9c45bc5bf96b882147c
->>>>>>>> main:Assets/2D/CAT_PICTURE_4.png.meta
+guid: b03792e7693784b4a8b00335b1cc76cf
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
