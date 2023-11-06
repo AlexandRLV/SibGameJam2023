@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af74162c1169409a9bfeed2e9181a2cb, type: 3}
   m_Name: Round Settings
   m_EditorClassIdentifier: 
-  roundLengthMinutes: 10
+  roundLengthMinutes: 1
   playerDetectedToLoseSeconds: 5

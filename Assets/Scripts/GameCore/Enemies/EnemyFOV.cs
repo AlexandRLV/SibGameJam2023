@@ -12,7 +12,7 @@ public class EnemyFOV : MonoBehaviour
     {
         MeshFilter_ = GetComponent<MeshFilter>();
         VisionConeMesh = new Mesh();
-        transform.rotation = Quaternion.Euler (0.0f, viewAngle/2, 0.0f);
+        transform.localRotation = Quaternion.Euler (0.0f, viewAngle/2, 0.0f);
     }
 
     public void SetColor(Color newColor)
