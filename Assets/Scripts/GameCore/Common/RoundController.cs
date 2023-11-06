@@ -55,6 +55,12 @@ namespace GameCore.Common
             _player.UnposessAll();
         }
 
+        public void CatchCactus()
+        {
+            Data.CactusCatched = true;
+            Timer = 30f;
+        }
+
         private void Update()
         {
             if (UnityEngine.Input.GetKeyDown(KeyCode.T))
