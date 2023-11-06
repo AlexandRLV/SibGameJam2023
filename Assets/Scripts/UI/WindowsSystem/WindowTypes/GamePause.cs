@@ -10,6 +10,7 @@ namespace UI.WindowsSystem.WindowTypes
     {
         [SerializeField] private Button _continueButton;
         [SerializeField] private Button _backToMenuButton;
+        [SerializeField] private Button _settingsButton;
 
         private void Start()
         {
@@ -27,6 +28,14 @@ namespace UI.WindowsSystem.WindowTypes
                 GameContainer.Common.Resolve<GameInitializer>().StopGame();
                 GameContainer.Common.Resolve<WindowsSystem>().DestroyWindow<GamePause>();
             });
+            
+            _settingsButton.onClick.AddListener(OpenSettings);
+        }
+
+        private void OpenSettings()
+        {
+            var windowsSystem = GameContainer.Common.Resolve<WindowsSystem>();
+            windowsSystem.CreateWindow<SettingsScreen>();
         }
 
         private void OnDestroy()
