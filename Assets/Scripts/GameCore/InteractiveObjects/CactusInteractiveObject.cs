@@ -1,4 +1,6 @@
+using Common;
 using GameCore.Character.Animation;
+using GameCore.Common;
 using GameCore.InteractiveObjects;
 using System.Collections;
 using System.Collections.Generic;
@@ -16,6 +18,8 @@ public class CactusInteractiveObject : InteractiveObject
 
     public override void Interact()
     {
+        var roundController = GameContainer.InGame.Resolve<RoundController>();
+        roundController.CatchCactus();
         startScale = transform.localScale;
         endScale = Vector3.zero;
         a = transform.position;
@@ -38,6 +42,7 @@ public class CactusInteractiveObject : InteractiveObject
                 Debug.Log("isFinished");
                 isFinished = true;
                 gameObject.SetActive(false);
+
                 return;
             }
         }
