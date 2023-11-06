@@ -19,6 +19,7 @@ namespace GameCore.InteractiveObjects
             var message = new LaserDestroyMessage();
             message.LaserGroup = laserGroup;
             GameContainer.Common.Resolve<LocalMessageBroker>().Trigger(ref message);
+            Movement.MoveValues.CurrentInteractiveObject = null;
             IsUsed = true;
         }
 

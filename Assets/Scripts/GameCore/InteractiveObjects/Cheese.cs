@@ -14,14 +14,6 @@ namespace GameCore.InteractiveObjects
 
         public override void Interact()
         {
-            SoundService.PlaySound(sound);
-            Movement.ChangeMovementSpeed(speedMultiplier, speedMultiplierDuration);
-            Destroy(gameObject);
-        }
-
-        protected override void OnPlayerEnter()
-        {
-            Movement.MoveValues.CurrentInteractiveObject = this;
             switch (RoundController.Stage)
             {
                 case RoundStage.ThinMouse:
@@ -31,6 +23,14 @@ namespace GameCore.InteractiveObjects
                     SoundService.PlaySound(SoundType.FatCheese);
                     break;
             }
+
+            Movement.ChangeMovementSpeed(speedMultiplier, speedMultiplierDuration);
+            Destroy(gameObject);
+        }
+
+        protected override void OnPlayerEnter()
+        {
+            Movement.MoveValues.CurrentInteractiveObject = this;
         }
 
         protected override void OnPlayerStay()

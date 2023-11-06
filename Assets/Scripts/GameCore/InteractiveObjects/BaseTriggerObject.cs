@@ -31,7 +31,8 @@ namespace GameCore.InteractiveObjects
 
         protected void OnTriggerExit(Collider other)
         {
-            if (!other.TryGetComponent(out CharacterMovement _)) return;
+            var movement = other.GetComponentInParent<CharacterMovement>();
+            if (movement == null) return;
             OnPlayerExit();
             Movement = null;
         }
