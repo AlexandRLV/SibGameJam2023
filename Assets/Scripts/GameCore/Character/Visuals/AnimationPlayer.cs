@@ -15,7 +15,7 @@ namespace GameCore.Character.Animation
             { AnimationType.OpenDoor, Animator.StringToHash("OpenDoor") },
             { AnimationType.Eat, Animator.StringToHash("Eat") },
             { AnimationType.Hit, Animator.StringToHash("Hit") },
-            { AnimationType.Knockdown, Animator.StringToHash("Knockdown") },
+            { AnimationType.Knockdown, Animator.StringToHash("Knockout") },
             { AnimationType.LeverPull , Animator.StringToHash("LeverPull") },
             { AnimationType.Push , Animator.StringToHash("Push") },
         };

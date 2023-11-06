@@ -26,9 +26,9 @@ namespace GameCore.InteractiveObjects
 
         protected override void OnPlayerEnter()
         {
+            Movement.MoveValues.CurrentInteractiveObject = this;
             if (IsSeen) return;
             IsSeen = true;
-            Movement.MoveValues.CurrentInteractiveObject = this;
             switch (RoundController.Stage)
             {
                 case RoundStage.ThinMouse:
