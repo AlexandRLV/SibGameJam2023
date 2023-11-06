@@ -21,7 +21,12 @@ namespace GameCore.Sounds
         FatCheese,
         FatDetect,
         FatPanel,
-        FatHostage
+        FatHostage,
+        Eating,
+        Mousetrap1,
+        Mousetrap2,
+        Mousetrap3,
+        Panel
     }
 
     public enum MusicType
@@ -46,6 +51,11 @@ namespace GameCore.Sounds
 
         [SerializeField] private AudioClip buffSound;
         [SerializeField] private AudioClip alertSound;
+        [SerializeField] private AudioClip eatingSound;
+        [SerializeField] private AudioClip mousetrapSound1;
+        [SerializeField] private AudioClip mousetrapSound2;
+        [SerializeField] private AudioClip mousetrapSound3;
+        [SerializeField] private AudioClip panelSound;
 
         [Header("Cool Character")] [SerializeField]
         private AudioClip thinAboutFat;
@@ -70,7 +80,7 @@ namespace GameCore.Sounds
 
         //[SerializeField] float fadingTime = 5.0f;
 
-        private Coroutine _fadingCoroutine;
+        // Coroutine _fadingCoroutine;
 
         private Dictionary<SoundType, AudioClip> _sounds;
         private Dictionary<MusicType, AudioClip> _tracks;
@@ -80,6 +90,11 @@ namespace GameCore.Sounds
             _sounds = new Dictionary<SoundType, AudioClip>();
             _tracks = new Dictionary<MusicType, AudioClip>();
             _sounds.Add(SoundType.Buff, buffSound);
+            _sounds.Add(SoundType.Eating, eatingSound);
+            _sounds.Add(SoundType.Mousetrap1, mousetrapSound1);
+            _sounds.Add(SoundType.Mousetrap2, mousetrapSound2);
+            _sounds.Add(SoundType.Mousetrap3, mousetrapSound3);
+            _sounds.Add(SoundType.Panel, panelSound);
             _sounds.Add(SoundType.AboutFat, thinAboutFat);
             _sounds.Add(SoundType.ThinCats1, thinCats1);
             _sounds.Add(SoundType.ThinCats2, thinCats2);
@@ -123,6 +138,12 @@ namespace GameCore.Sounds
         public void StopMusic()
         {
             trackSource.Stop();
+        }
+
+        public void PlayRandomSound(params SoundType[] sounds)
+        {
+            int randomNumber = Random.Range(0, sounds.Length);
+            PlaySound(sounds[randomNumber]);
         }
 
         // private AudioClip GetRandomTrack()

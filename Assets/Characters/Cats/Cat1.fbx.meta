@@ -91,7 +91,35 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.26908076
+        functionName: Step
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: e8989581eac64431bd6b89d72dae0265, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.5130597
+        functionName: Step
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: e8989581eac64431bd6b89d72dae0265, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.7369403
+        functionName: Step
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: e8989581eac64431bd6b89d72dae0265, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.9925373
+        functionName: Step
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: e8989581eac64431bd6b89d72dae0265, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
@@ -161,7 +189,7 @@ ModelImporter:
   autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1
-  avatarSetup: 0
+  avatarSetup: 1
   addHumanoidExtraRootOnlyWhenUsingAvatar: 1
   additionalBone: 0
   userData: 

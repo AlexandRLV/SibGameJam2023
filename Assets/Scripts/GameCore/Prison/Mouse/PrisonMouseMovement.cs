@@ -25,7 +25,6 @@ public class PrisonMouseMovement : MonoBehaviour, IAnimationSource
         agent = GetComponent<NavMeshAgent>();
         visuals.Initialize(this);
         FindRandomPointInPrison();
-        evacuationPoint = EvacuationPointController.Instance.EvacuationPoint.position;
     }
 
     public void PrisonMovement()
@@ -45,11 +44,7 @@ public class PrisonMouseMovement : MonoBehaviour, IAnimationSource
 
     public void EvacuationMovement()
     {
-        if (Vector3.Distance(transform.position, evacuationPoint) > pointMovementRange)
-        {
-            animationSpeed = 1f;
-            agent.SetDestination(evacuationPoint);
-        }
+        
     }
 
     private void FindRandomPointInPrison()

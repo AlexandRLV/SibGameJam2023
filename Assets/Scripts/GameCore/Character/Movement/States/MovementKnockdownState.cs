@@ -7,6 +7,8 @@ namespace GameCore.Character.Movement.States
     {
         public override AnimationType AnimationType => AnimationType.Knockdown;
         public override MovementStateType Type => MovementStateType.Knockdown;
+
+        private float _timer;
         
         public MovementKnockdownState(CharacterMovement characterMovement) : base(characterMovement)
         {
@@ -19,17 +21,26 @@ namespace GameCore.Character.Movement.States
 
         public override bool CanExit(MovementStateType nextState)
         {
-            return moveValues.KnockdownTime <= 0f;
+            return _timer <= 0f;
+        }
+
+        public override void OnEnter(MovementStateType prevState)
+        {
+            _timer = parameters.knockdownTime;
+            if (movement.KnockdownEffect != null)
+                movement.KnockdownEffect.SetActive(true);
         }
 
         public override void OnExit(MovementStateType nextState)
         {
             moveValues.IsKnockdown = false;
+            if (movement.KnockdownEffect != null)
+                movement.KnockdownEffect.SetActive(true);
         }
 
         public override void Update()
         {
-            moveValues.KnockdownTime -= Time.deltaTime;
+            _timer -= Time.deltaTime;
         }
     }
 }

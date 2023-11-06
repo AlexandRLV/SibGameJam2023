@@ -13,18 +13,17 @@ namespace GameCore.Prison.Objects
         Vector3 defaultRot, openRot;
         float smooth = 2.0f;
         [SerializeField] float doorOpenAngle = 90f;
-        [SerializeField] Vector3 openingDirection = Vector3.down;
         [SerializeField] Transform door;
         float _openingTime;
         [SerializeField] float timeToOpen = 2f;
-        bool _isOpened;
+        bool _isOpened = false;
         public override AnimationType InteractAnimation => AnimationType.OpenDoor;
 
         [SerializeField] PrisonMouseController[] mouseControllers;
         private void Awake()
         {
             mouseControllers = GetComponentsInChildren<PrisonMouseController>();
-            defaultRot = transform.eulerAngles;
+            defaultRot = door.eulerAngles;
             openRot = new Vector3(defaultRot.x, defaultRot.y + doorOpenAngle, defaultRot.z);
         }
 
@@ -44,8 +43,9 @@ namespace GameCore.Prison.Objects
             _isOpened = true;
             while (_openingTime < timeToOpen)
             {
+                
                 _openingTime += Time.deltaTime;
-                transform.eulerAngles = Vector3.Slerp(transform.eulerAngles, openRot, Time.deltaTime * smooth);
+                door.eulerAngles = Vector3.Slerp(door.eulerAngles, openRot, Time.deltaTime * smooth);
                 yield return new WaitForSeconds(Time.deltaTime);
             }
 

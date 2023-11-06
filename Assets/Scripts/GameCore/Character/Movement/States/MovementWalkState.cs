@@ -58,12 +58,7 @@ namespace GameCore.Character.Movement.States
                 return;
             }
 
-            if (UnityEngine.Input.GetKey(KeyCode.X))
-            {
-                int x = 0;
-            }
-
-            if (!Physics.Raycast(movement.transform.position + Vector3.up, movement.transform.forward, out var hit, 0.5f))
+            if (!Physics.Raycast(movement.transform.position + Vector3.up, movement.transform.forward, out var hit, 1f))
             {
                 _isPushing = false;
                 return;
