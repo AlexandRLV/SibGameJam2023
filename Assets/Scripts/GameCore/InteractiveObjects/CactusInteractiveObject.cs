@@ -1,4 +1,6 @@
+using Common;
 using GameCore.Character.Animation;
+using GameCore.Common;
 using GameCore.InteractiveObjects;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,7 +10,7 @@ public class CactusInteractiveObject : InteractiveObject
 {
     public override AnimationType InteractAnimation => AnimationType.Eat;
     [SerializeField] Collider mainCollider;
-    Vector3 a, b;
+    [SerializeField]Vector3 a, b;
     Vector3 startScale;
     Vector3 endScale;
     bool canStart = false;
@@ -16,6 +18,8 @@ public class CactusInteractiveObject : InteractiveObject
 
     public override void Interact()
     {
+        var roundController = GameContainer.InGame.Resolve<RoundController>();
+        roundController.CatchCactus();
         startScale = transform.localScale;
         endScale = Vector3.zero;
         a = transform.position;
@@ -31,13 +35,14 @@ public class CactusInteractiveObject : InteractiveObject
             a = transform.position;
             b = Movement.gameObject.transform.position;
             transform.position = Vector3.Lerp(a, b, Time.deltaTime * 2f);
-            transform.localScale = Vector3.Lerp(startScale, endScale, Time.deltaTime * 2f);
+            transform.localScale = Vector3.Lerp(startScale, endScale, Time.deltaTime * 20f);
 
-            if (Vector3.Distance(a,b) < Mathf.Epsilon)
+            if (Vector3.Distance(a,b) < 0.5f)
             {
                 Debug.Log("isFinished");
                 isFinished = true;
-                GetComponent<MeshRenderer>().enabled = false;
+                gameObject.SetActive(false);
+
                 return;
             }
         }

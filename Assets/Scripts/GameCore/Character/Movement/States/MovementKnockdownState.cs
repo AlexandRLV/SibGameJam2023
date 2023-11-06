@@ -14,22 +14,22 @@ namespace GameCore.Character.Movement.States
 
         public override bool CanEnter(MovementStateType prevState)
         {
-            return movement.MoveValues.IsKnockdown;
+            return moveValues.IsKnockdown;
         }
 
         public override bool CanExit(MovementStateType nextState)
         {
-            return movement.MoveValues.KnockdownTime <= 0f;
+            return moveValues.KnockdownTime <= 0f;
         }
 
         public override void OnExit(MovementStateType nextState)
         {
-            movement.MoveValues.IsKnockdown = false;
+            moveValues.IsKnockdown = false;
         }
 
         public override void Update()
         {
-            movement.MoveValues.KnockdownTime -= Time.deltaTime;
+            moveValues.KnockdownTime -= Time.deltaTime;
         }
     }
 }
