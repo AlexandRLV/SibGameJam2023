@@ -28,9 +28,15 @@ namespace GameCore.Common
             _messageBroker = GameContainer.Common.Resolve<LocalMessageBroker>();
             _messageBroker.Subscribe<PlayerDetectedMessage>(OnPlayerDetected);
             _messageBroker.Subscribe<PlayerWinMessage>(OnPlayerWin);
+            _messageBroker.Subscribe<PlayerDeadMessage>(OnPlayerDead);
             
             _player = GameContainer.InGame.Resolve<GamePlayer>();
             _player.PosessFatMouse();
+        }
+
+        private void OnPlayerDead(ref PlayerDeadMessage value)
+        {
+            LoseGame(LoseGameReason.Dead);
         }
 
         private void OnPlayerWin(ref PlayerWinMessage value)

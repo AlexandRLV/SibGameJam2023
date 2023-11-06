@@ -2,6 +2,8 @@
 using System.Text;
 using Common;
 using GameCore.Common;
+using GameCore.Common.Messages;
+using LocalMessages;
 using TMPro;
 using UnityEngine;
 
@@ -15,10 +17,20 @@ namespace UI.WindowsSystem.WindowTypes
         [SerializeField] private float _pulseIntensityMax;
         [SerializeField] private TextMeshProUGUI _timerLabel;
 
+        [SerializeField] private float _infoPanelShowTime;
+        [SerializeField] private GameObject _infoPanel;
+
+        [SerializeField] private GameObject[] _fatMouseLayoutObjects;
+        [SerializeField] private GameObject[] _thinMouseLayoutObjects;
+
         private bool _initialized;
         private int _seconds;
         private StringBuilder _stringBuilder;
+
+        private float _infoPanelTimer;
+        
         private RoundController _roundController;
+        private LocalMessageBroker _messageBroker;
         
         private IEnumerator Start()
         {
@@ -30,11 +42,32 @@ namespace UI.WindowsSystem.WindowTypes
             
             _roundController = GameContainer.InGame.Resolve<RoundController>();
             _initialized = true;
+
+            _messageBroker = GameContainer.Common.Resolve<LocalMessageBroker>();
+            _messageBroker.Subscribe<ChangeRoundMessage>(OnRoundChanged);
+            SetLayout(false);
+
+            _infoPanelTimer = _infoPanelShowTime;
         }
 
         private void Update()
         {
             if (!_initialized) return;
+
+            if (_infoPanelTimer > 0f)
+            {
+                _infoPanelTimer -= Time.deltaTime;
+                if (_infoPanelTimer <= 0f)
+                {
+                    _infoPanel.SetActive(false);
+                }
+            }
+
+            if (Input.GetKeyDown(KeyCode.Tab))
+            {
+                _infoPanel.SetActive(!_infoPanel.activeSelf);
+                _infoPanelTimer = 0f;
+            }
             
             CheckPause();
 
@@ -55,7 +88,6 @@ namespace UI.WindowsSystem.WindowTypes
             seconds %= 60;
             
             _stringBuilder.Clear();
-            _stringBuilder.Append("Time left: ");
             _stringBuilder.Append(minutes);
             _stringBuilder.Append(":");
             if (seconds < 10) _stringBuilder.Append("0");
@@ -83,6 +115,24 @@ namespace UI.WindowsSystem.WindowTypes
             t = Mathf.Lerp(_pulseIntensityMin, _pulseIntensityMax, t);
             
             _timerLabel.transform.localScale = Vector3.one * t;
+        }
+
+        private void OnRoundChanged(ref ChangeRoundMessage value)
+        {
+            SetLayout(_roundController.Stage == RoundStage.ThinMouse);
+        }
+
+        private void SetLayout(bool isThinMouse)
+        {
+            foreach (var layoutObject in _fatMouseLayoutObjects)
+            {
+                layoutObject.SetActive(!isThinMouse);
+            }
+            
+            foreach (var layoutObject in _thinMouseLayoutObjects)
+            {
+                layoutObject.SetActive(isThinMouse);
+            }
         }
     }
 }
