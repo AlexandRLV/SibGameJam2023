@@ -16,6 +16,7 @@ namespace GameCore.InteractiveObjects
         public override void Interact()
         {
             if (IsUsed) return;
+            SoundService.PlaySound(SoundType.Panel);
             var message = new LaserDestroyMessage();
             message.LaserGroup = laserGroup;
             GameContainer.Common.Resolve<LocalMessageBroker>().Trigger(ref message);
@@ -25,8 +26,8 @@ namespace GameCore.InteractiveObjects
 
         protected override void OnPlayerEnter()
         {
-            if (IsUsed) return;
-            IsUsed = true;
+            if (IsSeen) return;
+            IsSeen = true;
             Movement.MoveValues.CurrentInteractiveObject = this;
             switch (RoundController.Stage)
             {
