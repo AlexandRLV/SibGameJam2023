@@ -187,13 +187,13 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 142107822887324089}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
-  m_Pitch: 1
+  m_Volume: 0.801
+  m_Pitch: -0.26
   Loop: 0
   Mute: 0
   Spatialize: 0
@@ -201,7 +201,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 10
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -236,7 +236,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -266,7 +266,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0.661
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -1381,8 +1381,8 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 6618613381191070905, guid: 93c89d14e82a4d84d9d2abbf8d93294b, type: 3}
-  - {fileID: -4336816391132444110, guid: 93c89d14e82a4d84d9d2abbf8d93294b, type: 3}
+  - {fileID: 2100000, guid: 7b8f2c3254e7ef6449e44c8617ed4df5, type: 2}
+  - {fileID: 2100000, guid: 7b8f2c3254e7ef6449e44c8617ed4df5, type: 2}
   - {fileID: 5388720018748454767, guid: 93c89d14e82a4d84d9d2abbf8d93294b, type: 3}
   - {fileID: 6124711822311567175, guid: 93c89d14e82a4d84d9d2abbf8d93294b, type: 3}
   - {fileID: -3821694275875168052, guid: 93c89d14e82a4d84d9d2abbf8d93294b, type: 3}

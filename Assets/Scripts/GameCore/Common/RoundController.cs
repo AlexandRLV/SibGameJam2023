@@ -119,15 +119,20 @@ namespace GameCore.Common
 
             if (Stage == RoundStage.FatMouse)
             {
-                var message = new ChangeRoundMessage();
-                _messageBroker.Trigger(ref message);
-                Timer = _settings.RoundLengthSeconds;
-                Stage = RoundStage.ThinMouse;
-                _player.PosessThinMouse();
-                var evacuationMessage = new ActivateEvacuationMessage();
-                evacuationMessage.active = false;
-                _messageBroker.Trigger(ref message);
-                evacuationActivated = false;
+                // var message = new ChangeRoundMessage();
+                // _messageBroker.Trigger(ref message);
+                // Timer = _settings.RoundLengthSeconds;
+                // Stage = RoundStage.ThinMouse;
+                // _player.PosessThinMouse();
+                // var evacuationMessage = new ActivateEvacuationMessage();
+                // evacuationMessage.active = false;
+                // _messageBroker.Trigger(ref message);
+                // evacuationActivated = false;
+                
+                _loseGameReason = LoseGameReason.TimeOut;
+                Timer = _settings.playerDetectedToLoseSeconds;
+                Stage = RoundStage.WaitToLose;
+                _player.UnposessAll();
             }
             else if (Stage == RoundStage.ThinMouse)
             {
