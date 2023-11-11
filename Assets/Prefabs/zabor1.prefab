@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 315646135369333060}
   - component: {fileID: 6950879577440212519}
   - component: {fileID: 6927660756519906322}
-  - component: {fileID: 2226490077986879046}
+  - component: {fileID: 5950762312295476456}
   m_Layer: 0
   m_Name: base
   m_TagString: Untagged
@@ -167,8 +167,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &2226490077986879046
-MeshCollider:
+--- !u!65 &5950762312295476456
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -177,10 +177,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -1388485733357891733, guid: 9080ac8d90eb0fb46ae22fecd9a05a1e, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 0.74741346, y: 8.706547, z: 6.8586035}
+  m_Center: {x: -0.08351591, y: 3.891293, z: 3.4292886}
 --- !u!1 &5910412901072170057
 GameObject:
   m_ObjectHideFlags: 0
@@ -226,7 +225,6 @@ GameObject:
   - component: {fileID: 5007746678312462153}
   - component: {fileID: 392392350851620283}
   - component: {fileID: 6961180114914639361}
-  - component: {fileID: 2918059415813434185}
   m_Layer: 0
   m_Name: planka
   m_TagString: Untagged
@@ -299,17 +297,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &2918059415813434185
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6158168449104965217}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -4731711353757827695, guid: 9080ac8d90eb0fb46ae22fecd9a05a1e, type: 3}
