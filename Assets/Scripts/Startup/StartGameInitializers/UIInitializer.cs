@@ -9,12 +9,10 @@ using UnityEngine;
 
 namespace Startup.Initializers
 {
-    public class MainUIInitializer : IInitializer
+    public class UIInitializer : IInitializer
     {
         public IEnumerator Initialize()
         {
-            var _messageBrocker = new LocalMessageBroker();
-            GameContainer.Common.Register(_messageBrocker);
 
             var uiRootPrefab = Resources.Load<UIRoot>("UI/UIRoot");
             var uiRoot = Object.Instantiate(uiRootPrefab);
@@ -34,6 +32,8 @@ namespace Startup.Initializers
             var notificationsManagerPrefab = Resources.Load<NotificationsManager>("UI/NotificationsScreen");
             var notificationsManager = Object.Instantiate(notificationsManagerPrefab, uiRoot.NotificationsParent);
             GameContainer.Common.Register(notificationsManager);
+            
+            windowsSystem.CreateWindow<MainMenu>();
 
             yield return null;
         }

@@ -13,6 +13,7 @@ namespace Startup.StartGameInitializers
             var soundService = Object.Instantiate(soundServicePrefab);
             Object.DontDestroyOnLoad(soundService);
             GameContainer.Common.Register(soundService);
+            
             yield return null;
         }
 
