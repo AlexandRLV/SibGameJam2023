@@ -3,7 +3,7 @@ using NetFrame.WriteAndRead;
 
 namespace Networking.Dataframes
 {
-    public struct RoomsRequestDataframe : INetworkDataframe
+    public struct PlayerInfoReceivedDataframe : INetworkDataframe
     {
         public void Write(NetFrameWriter writer)
         {

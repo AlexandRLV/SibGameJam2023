@@ -10,17 +10,24 @@ namespace Networking
 {
     public class GameClient : MonoBehaviour
     {
+        public string Name { get; set; }
+        
         public bool IsConnected { get; private set; }
         
         private NetFrameClient _client;
         private ClientParameters _parameters;
 
-        public void Initialize(ClientParameters parameters)
+        private void Update()
         {
-            _parameters = parameters;
+            _client?.Run();
+        }
+
+        public void Initialize()
+        {
+            _parameters = GameContainer.Common.Resolve<ClientParameters>();
             _client = GameContainer.Common.Resolve<NetFrameClient>();
 
-            _client.ConnectionSuccessful += OnConnectionSuccessfull;
+            _client.ConnectionSuccessful += OnConnectionSuccessful;
             _client.ConnectedFailed += OnConnectionFailed;
             _client.Disconnected += OnDisconnected;
         }
@@ -37,13 +44,13 @@ namespace Networking
 
         public void Shutdown()
         {
-            _client.ConnectionSuccessful -= OnConnectionSuccessfull;
+            _client.ConnectionSuccessful -= OnConnectionSuccessful;
             _client.ConnectedFailed -= OnConnectionFailed;
             _client.Disconnected -= OnDisconnected;
             _client.Disconnect();
         }
 
-        private void OnConnectionSuccessfull()
+        private void OnConnectionSuccessful()
         {
             IsConnected = true;
             var message = new ConnectedMessage();
@@ -71,5 +78,7 @@ namespace Networking
         }
 
         private void OnDestroy() => Shutdown();
+
+        private void OnApplicationQuit() => Shutdown();
     }
 }

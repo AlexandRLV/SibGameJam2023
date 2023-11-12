@@ -10,5 +10,6 @@ namespace Startup
         [SerializeField] public string ipAddress;
         [SerializeField] public bool isLocal;
         [SerializeField] public int port;
+        [SerializeField] public float roomsRequestInterval;
     }
 }

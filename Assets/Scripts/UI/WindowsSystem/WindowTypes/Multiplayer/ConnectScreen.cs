@@ -18,14 +18,28 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer
         [SerializeField] private Button _connectButton;
         [SerializeField] private Button _cancelButton;
 
+        private NetFrameClient _client;
+        private LocalMessageBroker _messageBroker;
+
         private void Awake()
         {
             _connectButton.onClick.AddListener(Connect);
             _cancelButton.onClick.AddListener(Cancel);
 
-            var messageBroker = GameContainer.Common.Resolve<LocalMessageBroker>();
-            messageBroker.Subscribe<ConnectedMessage>(OnConnected);
-            messageBroker.Subscribe<ConnectionFailedMessage>(OnConnectionFailed);
+            _client = GameContainer.Common.Resolve<NetFrameClient>();
+            _client.Subscribe<PlayerInfoReceivedDataframe>(ProcessPlayerInfoReceived);
+
+            _messageBroker = GameContainer.Common.Resolve<LocalMessageBroker>();
+            _messageBroker.Subscribe<ConnectedMessage>(OnConnected);
+            _messageBroker.Subscribe<ConnectionFailedMessage>(OnConnectionFailed);
+        }
+
+        private void OnDestroy()
+        {
+            _client.Unsubscribe<PlayerInfoReceivedDataframe>(ProcessPlayerInfoReceived);
+
+            _messageBroker.Unsubscribe<ConnectedMessage>(OnConnected);
+            _messageBroker.Unsubscribe<ConnectionFailedMessage>(OnConnectionFailed);
         }
 
         private void Connect()
@@ -36,27 +50,37 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer
 
         private void Cancel()
         {
+            var gameClient = GameContainer.Common.Resolve<GameClient>();
+            gameClient.Disconnect();
+            
             var windowsSystem = GameContainer.Common.Resolve<WindowsSystem>();
+            windowsSystem.CreateWindow<MainMenu>();
             windowsSystem.DestroyWindow(this);
         }
 
         private void OnConnected(ref ConnectedMessage message)
         {
+            var gameClient = GameContainer.Common.Resolve<GameClient>();
+            gameClient.Name = _nicknameText.text;
+            
             var dataframe = new PlayerInfoDataframe
             {
-                name = _nicknameText.text
+                name = 123
             };
             GameContainer.Common.Resolve<NetFrameClient>().Send(ref dataframe);
-            
-            var windowsSystem = GameContainer.Common.Resolve<WindowsSystem>();
-            windowsSystem.CreateWindow<RoomsListScreen>();
-            windowsSystem.DestroyWindow(this);
         }
 
         private void OnConnectionFailed(ref ConnectionFailedMessage message)
         {
             var notificationsManager = GameContainer.Common.Resolve<NotificationsManager>();
             notificationsManager.ShowNotification($"Connection failed: {message.reason}", NotificationsManager.NotificationType.Center);
+        }
+
+        private void ProcessPlayerInfoReceived(PlayerInfoReceivedDataframe dataframe)
+        {
+            var windowsSystem = GameContainer.Common.Resolve<WindowsSystem>();
+            windowsSystem.CreateWindow<RoomsListScreen>();
+            windowsSystem.DestroyWindow(this);
         }
     }
 }

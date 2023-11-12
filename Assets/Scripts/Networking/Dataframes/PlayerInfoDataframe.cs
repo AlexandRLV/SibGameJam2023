@@ -5,16 +5,16 @@ namespace Networking.Dataframes
 {
     public struct PlayerInfoDataframe : INetworkDataframe
     {
-        public string name;
+        public int name;
         
         public void Write(NetFrameWriter writer)
         {
-            writer.WriteString(name);
+            writer.WriteInt(name);
         }
 
         public void Read(NetFrameReader reader)
         {
-            name = reader.ReadString();
+            name = reader.ReadInt();
         }
     }
 }

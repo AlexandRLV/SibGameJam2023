@@ -3,6 +3,7 @@ using Common;
 using Networking;
 using LocalMessages;
 using NetFrame.Client;
+using NetFrame.Utils;
 using UnityEngine;
 
 namespace Startup.StartGameInitializers
@@ -13,21 +14,28 @@ namespace Startup.StartGameInitializers
         
         public IEnumerator Initialize()
         {
-            var messageBrocker = new LocalMessageBroker();
-            GameContainer.Common.Register(messageBrocker);
+            // Инициализация сетевых сообщений
+            NetFrameDataframeCollection.Initialize();
+    
+            // Создание и регистрация локальной системы сообщений
+            var messageBroker = new LocalMessageBroker();
+            GameContainer.Common.Register(messageBroker);
 
+            // Создание сетевого клиента
             var netClient = new NetFrameClient();
             GameContainer.Common.Register(netClient);
 
+            // Создание внутриигрового клиента
             var parameters = Resources.Load<ClientParameters>("Client Parameters");
+            GameContainer.Common.Register(parameters);
+            
             var gameClientGO = new GameObject();
             _gameClient = gameClientGO.AddComponent<GameClient>();
-            _gameClient.Initialize(parameters);
+            _gameClient.Initialize();
             
             Object.DontDestroyOnLoad(gameClientGO);
-            
             GameContainer.Common.Register(_gameClient);
-            
+
             yield return null;
         }
 

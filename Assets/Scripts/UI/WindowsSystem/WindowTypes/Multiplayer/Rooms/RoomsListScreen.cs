@@ -1,7 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Timers;
 using Common;
 using NetFrame.Client;
+using Networking;
 using Networking.Dataframes;
+using Startup;
 using UI.NotificationsSystem;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -21,9 +24,13 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
         [SerializeField] private RoomListItem _roomListItemPrefab;
         [SerializeField] private Transform _roomListItemsParent;
 
+        private float _roomsRequestTimer;
+
         private NetFrameClient _client;
         private NotificationsManager _notificationsManager;
         private WindowsSystem _windowsSystem;
+        private ClientParameters _clientParameters;
+        
         private List<RoomListItem> _createdRooms;
 
         private void Awake()
@@ -38,9 +45,6 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
             _client.Subscribe<JoinedRoomDataframe>(ProcessJoinedRoom);
             _client.Subscribe<JoinRoomFailedDataframe>(ProcessJoinFailed);
 
-            var request = new RoomsRequestDataframe();
-            _client.Send(ref request);
-
             _joinRoomPopup.OnJoinPressed += JoinSelectedRoom;
             _joinRoomPopup.OnClosePressed += CloseJoinRoom;
 
@@ -53,14 +57,28 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
             CloseCreateRoom();
             CloseJoinRoom();
             _roomListItemPrefab.gameObject.SetActive(false);
+
+            _clientParameters = GameContainer.Common.Resolve<ClientParameters>();
+        }
+
+        private void Update()
+        {
+            _roomsRequestTimer -= Time.deltaTime;
+            if (_roomsRequestTimer > 0f) return;
+            
+            var request = new RoomsRequestDataframe();
+            _client.Send(ref request);
+            _roomsRequestTimer = _clientParameters.roomsRequestInterval;
         }
 
         private void OnDestroy()
         {
-            var client = GameContainer.Common.Resolve<NetFrameClient>();
-            client.Unsubscribe<RoomsListDataframe>(SetRooms);
-            client.Unsubscribe<JoinedRoomDataframe>(ProcessJoinedRoom);
-            client.Unsubscribe<JoinRoomFailedDataframe>(ProcessJoinFailed);
+            _client.Unsubscribe<RoomsListDataframe>(SetRooms);
+            _client.Unsubscribe<JoinedRoomDataframe>(ProcessJoinedRoom);
+            _client.Unsubscribe<JoinRoomFailedDataframe>(ProcessJoinFailed);
+
+            var gameClient = GameContainer.Common.Resolve<GameClient>();
+            gameClient.Disconnect();
         }
 
         private void SetRooms(RoomsListDataframe dataframe)
@@ -96,6 +114,7 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
                 if (room == _joinRoomPopup.SelectedRoom)
                     CloseJoinRoom();
                 
+                _createdRooms.Remove(room);
                 Destroy(room.gameObject);
             }
 
@@ -105,7 +124,11 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
                 room.gameObject.SetActive(true);
                 room.SetFromInfo(roomInfo);
                 room.OnRoomSelected = JoinRoom;
+                _createdRooms.Add(room);
             }
+            
+            ListPool<RoomInfoDataframe>.Release(roomsToCreate);
+            ListPool<RoomListItem>.Release(roomsToDelete);
         }
 
         private void JoinSelectedRoom()
@@ -178,6 +201,7 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
 
         private void Close()
         {
+            _windowsSystem.CreateWindow<ConnectScreen>();
             _windowsSystem.DestroyWindow(this);
         }
     }

@@ -10,8 +10,8 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
         public Action OnJoinPressed;
         public Action OnClosePressed;
 
-        public RoomListItem SelectedRoom { get; private set; }
         public string EnteredPassword => _passwordInput.text;
+        public RoomListItem SelectedRoom { get; private set; }
         
         [SerializeField] private TextMeshProUGUI _roomNameText;
         [SerializeField] private TextMeshProUGUI _ownerNameText;

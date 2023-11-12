@@ -100,7 +100,6 @@ namespace Startup
         private IEnumerator InitializeGameCoroutine()
         {
             yield return InitializeList(_startupInitializers);
-            yield return StartGameCoroutine();
         }
 
         private IEnumerator StartGameCoroutine()
