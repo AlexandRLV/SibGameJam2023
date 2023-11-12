@@ -59,6 +59,21 @@ namespace UI.WindowsSystem
             _loadedWindows.Remove(type);
         }
 
+        public void DestroyWindow<T>(T window) where T : WindowBase
+        {
+            var type = typeof(T);
+            if (!_loadedWindows.TryGetValue(type, out var loadedWindow))
+                return;
+
+            if (loadedWindow != window)
+                throw new ArgumentException($"Trying to destroy {type.Name} window, but saved different object!");
+            
+            if (loadedWindow != null && loadedWindow.gameObject != null)
+                Object.Destroy(loadedWindow.gameObject);
+
+            _loadedWindows.Remove(type);
+        }
+
         public void DestroyAll()
         {
             foreach (var loadedWindow in _loadedWindows)

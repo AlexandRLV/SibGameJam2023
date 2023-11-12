@@ -20,13 +20,13 @@ namespace UI.WindowsSystem.WindowTypes
             _continueButton.onClick.AddListener(() =>
             {
                 GameContainer.InGame.Resolve<GameCamera>().FollowTarget.SetInPause(false);
-                GameContainer.Common.Resolve<WindowsSystem>().DestroyWindow<GamePause>();
+                GameContainer.Common.Resolve<WindowsSystem>().DestroyWindow(this);
             });
             
             _backToMenuButton.onClick.AddListener(() =>
             {
                 GameContainer.Common.Resolve<GameInitializer>().StopGame();
-                GameContainer.Common.Resolve<WindowsSystem>().DestroyWindow<GamePause>();
+                GameContainer.Common.Resolve<WindowsSystem>().DestroyWindow(this);
             });
             
             _settingsButton.onClick.AddListener(OpenSettings);

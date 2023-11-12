@@ -35,7 +35,7 @@ namespace UI.WindowsSystem.WindowTypes
         {
             var windowsSystem = GameContainer.Common.Resolve<WindowsSystem>();
             windowsSystem.CreateWindow<IntroScreen>();
-            windowsSystem.DestroyWindow<MainMenu>();
+            windowsSystem.DestroyWindow(this);
         }
 
         private void OpenTitles()
@@ -47,7 +47,7 @@ namespace UI.WindowsSystem.WindowTypes
         {
             var windowsSystem = GameContainer.Common.Resolve<WindowsSystem>();
             windowsSystem.CreateWindow<ConnectScreen>();
-            windowsSystem.DestroyWindow<MainMenu>();
+            windowsSystem.DestroyWindow(this);
         }
 
         private void LeaveGame()

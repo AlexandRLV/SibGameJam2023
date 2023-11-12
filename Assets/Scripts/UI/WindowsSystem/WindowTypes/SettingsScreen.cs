@@ -43,7 +43,7 @@ namespace UI.WindowsSystem.WindowTypes
 
             AudioListener.volume = _volumeSlider.value;
             
-            _windowsSystem.DestroyWindow<SettingsScreen>();
+            _windowsSystem.DestroyWindow(this);
         }
     }
 }

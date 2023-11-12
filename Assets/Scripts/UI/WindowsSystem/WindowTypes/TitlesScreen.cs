@@ -30,7 +30,7 @@ namespace UI.WindowsSystem.WindowTypes
 
         private void Close()
         {
-            GameContainer.Common.Resolve<WindowsSystem>().DestroyWindow<TitlesScreen>();
+            GameContainer.Common.Resolve<WindowsSystem>().DestroyWindow(this);
         }
     }
 }

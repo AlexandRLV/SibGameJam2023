@@ -6,6 +6,7 @@ using Networking.Dataframes;
 using Networking.LocalMessages;
 using TMPro;
 using UI.NotificationsSystem;
+using UI.WindowsSystem.WindowTypes.Multiplayer.Rooms;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -36,7 +37,7 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer
         private void Cancel()
         {
             var windowsSystem = GameContainer.Common.Resolve<WindowsSystem>();
-            windowsSystem.DestroyWindow<ConnectScreen>();
+            windowsSystem.DestroyWindow(this);
         }
 
         private void OnConnected(ref ConnectedMessage message)
@@ -49,7 +50,7 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer
             
             var windowsSystem = GameContainer.Common.Resolve<WindowsSystem>();
             windowsSystem.CreateWindow<RoomsListScreen>();
-            windowsSystem.DestroyWindow<ConnectScreen>();
+            windowsSystem.DestroyWindow(this);
         }
 
         private void OnConnectionFailed(ref ConnectionFailedMessage message)
