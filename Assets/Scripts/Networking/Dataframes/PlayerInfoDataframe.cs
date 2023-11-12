@@ -3,7 +3,7 @@ using NetFrame.WriteAndRead;
 
 namespace Networking.Dataframes
 {
-    public struct ClientInfoDataframe : INetworkDataframe
+    public struct PlayerInfoDataframe : INetworkDataframe
     {
         public string name;
         
