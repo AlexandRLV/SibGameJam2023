@@ -27,6 +27,7 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer
             _cancelButton.onClick.AddListener(Cancel);
 
             _client = GameContainer.Common.Resolve<NetFrameClient>();
+            _client.Subscribe<PlayerInfoRequestDataframe>(SendPlayerInfo);
             _client.Subscribe<PlayerInfoReceivedDataframe>(ProcessPlayerInfoReceived);
 
             _messageBroker = GameContainer.Common.Resolve<LocalMessageBroker>();
@@ -36,6 +37,7 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer
 
         private void OnDestroy()
         {
+            _client.Unsubscribe<PlayerInfoRequestDataframe>(SendPlayerInfo);
             _client.Unsubscribe<PlayerInfoReceivedDataframe>(ProcessPlayerInfoReceived);
 
             _messageBroker.Unsubscribe<ConnectedMessage>(OnConnected);
@@ -62,18 +64,21 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer
         {
             var gameClient = GameContainer.Common.Resolve<GameClient>();
             gameClient.Name = _nicknameText.text;
-            
-            var dataframe = new PlayerInfoDataframe
-            {
-                name = 123
-            };
-            GameContainer.Common.Resolve<NetFrameClient>().Send(ref dataframe);
         }
 
         private void OnConnectionFailed(ref ConnectionFailedMessage message)
         {
             var notificationsManager = GameContainer.Common.Resolve<NotificationsManager>();
             notificationsManager.ShowNotification($"Connection failed: {message.reason}", NotificationsManager.NotificationType.Center);
+        }
+
+        private void SendPlayerInfo(PlayerInfoRequestDataframe obj)
+        {
+            var dataframe = new PlayerInfoDataframe
+            {
+                name = _nicknameText.text
+            };
+            _client.Send(ref dataframe);
         }
 
         private void ProcessPlayerInfoReceived(PlayerInfoReceivedDataframe dataframe)

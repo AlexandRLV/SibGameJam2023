@@ -401,8 +401,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 14
-  m_fontSizeBase: 14
+  m_fontSize: 46
+  m_fontSizeBase: 46
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -958,8 +958,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 14
-  m_fontSizeBase: 14
+  m_fontSize: 46
+  m_fontSizeBase: 46
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1406,7 +1406,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Content: {fileID: 1770979326318652944}
-  m_Horizontal: 1
+  m_Horizontal: 0
   m_Vertical: 1
   m_MovementType: 1
   m_Elasticity: 0.1
@@ -2006,7 +2006,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8778e3e61574eacadf3e52089d077d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _roomsRequestInterval: 0
   _joinRoomPopup: {fileID: 6120560175632499025}
   _createRoomPopup: {fileID: 4100127214298152403}
   _createRoomButton: {fileID: 3224930261367380106}
@@ -2081,7 +2080,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4974353568748884082
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2128,7 +2127,7 @@ MonoBehaviour:
   _passwordLabel: {fileID: 6744026691315817981}
   _passwordInput: {fileID: 4508930605172310504}
   _joinButton: {fileID: 4078659351576574396}
-  _closeButton: {fileID: 0}
+  _closeButton: {fileID: 4227512148719579940}
 --- !u!1 &3013533869573959799
 GameObject:
   m_ObjectHideFlags: 0
@@ -2613,8 +2612,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 14
-  m_fontSizeBase: 14
+  m_fontSize: 46
+  m_fontSizeBase: 46
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2882,7 +2881,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1982594468567461002
 RectTransform:
   m_ObjectHideFlags: 0
