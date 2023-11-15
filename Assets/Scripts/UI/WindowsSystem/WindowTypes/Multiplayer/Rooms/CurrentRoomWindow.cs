@@ -19,6 +19,8 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
         [SerializeField] private GameObject _player2ReadyState;
         [SerializeField] private GameObject _player2NotReadyState;
 
+        [SerializeField] private GameStartTimerPopup _gameStartTimerPopup;
+
         [SerializeField] private Button _readyButton;
         [SerializeField] private Button _notReadyButton;
         [SerializeField] private Button _leaveButton;
@@ -27,7 +29,6 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
         private WindowsSystem _windowsSystem;
         private GameClient _gameClient;
 
-        private int _roomId;
         private int _localId;
 
         private void Awake()
@@ -45,6 +46,10 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
             _client.Subscribe<PlayerReadyStateDataframe>(OnPlayerReadyStateChanged);
             _client.Subscribe<PlayerJoinedRoomDataframe>(OnPlayerJoinedRoom);
             _client.Subscribe<JoinedRoomDataframe>(OnJoinedRoom);
+            _client.Subscribe<RoomPrepareToPlayDataframe>(PrepareToPlay);
+
+            _gameStartTimerPopup.OnTimerEnd += StartGame;
+            _gameStartTimerPopup.gameObject.SetActive(false);
         }
 
         private void OnDestroy()
@@ -54,12 +59,12 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
             _client.Unsubscribe<PlayerReadyStateDataframe>(OnPlayerReadyStateChanged);
             _client.Unsubscribe<PlayerJoinedRoomDataframe>(OnPlayerJoinedRoom);
             _client.Unsubscribe<JoinedRoomDataframe>(OnJoinedRoom);
+            _client.Unsubscribe<RoomPrepareToPlayDataframe>(PrepareToPlay);
         }
 
         public void Setup(RoomInfoDataframe room)
         {
             Debug.Log($"Set up current room, id: {room.roomId}, player1: {room.ownerName}, player2: {room.guestName}");
-            _roomId = room.roomId;
             _roomNameText.text = room.name;
             _player1Text.text = room.ownerName;
             _player2Text.text = room.guestName;
@@ -88,7 +93,6 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
             Debug.Log("Sending i'm ready");
             var dataframe = new PlayerReadyStateDataframe
             {
-                roomId = _roomId,
                 ready = true,
             };
             _client.Send(ref dataframe);
@@ -99,7 +103,6 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
             Debug.Log("Sending i'm not ready");
             var dataframe = new PlayerReadyStateDataframe
             {
-                roomId = _roomId,
                 ready = false,
             };
             _client.Send(ref dataframe);
@@ -108,10 +111,7 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
         private void LeaveRoom()
         {
             Debug.Log("Leaving room");
-            var dataframe = new LeaveRoomDataframe
-            {
-                roomId = _roomId,
-            };
+            var dataframe = new LeaveRoomDataframe();
             _client.Send(ref dataframe);
 
             _windowsSystem.DestroyWindow(this);
@@ -161,6 +161,20 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
         {
             Debug.Log("Self joined room - owner transfership?");
             Setup(dataframe.roomInfo);
+        }
+
+        private void PrepareToPlay(RoomPrepareToPlayDataframe dataframe)
+        {
+            Debug.Log("Game starting in 3 seconds");
+            _gameStartTimerPopup.gameObject.SetActive(true);
+            _gameClient.IsMaster = dataframe.isMasterClient;
+        }
+
+        private void StartGame()
+        {
+            Debug.Log("Starting game!");
+            _windowsSystem.DestroyWindow(this);
+            _windowsSystem.CreateWindow<IntroScreen>();
         }
     }
 }

@@ -11,6 +11,7 @@ namespace Networking
     public class GameClient : MonoBehaviour
     {
         public string PlayerName { get; set; }
+        public bool IsMaster { get; set; }
         
         public bool IsConnected { get; private set; }
         

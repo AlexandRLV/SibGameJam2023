@@ -27,10 +27,10 @@ namespace Startup
 
         private static List<IInitializer> _gameplayInitializers = new()
         {
+            new GameMapInitializer(),
+            new RoundInitializer(),
             new InGameUIInitializer(),
             new CharacterInitializer(),
-            new RoundInitializer(),
-            new GameMapInitializer(),
         };
 
         public bool InGame { get; private set; }
