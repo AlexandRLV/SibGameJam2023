@@ -985,7 +985,7 @@ GameObject:
   - component: {fileID: 2305585233161667009}
   - component: {fileID: 9037300060174889404}
   m_Layer: 5
-  m_Name: ConnectScreen
+  m_Name: ConnectWindow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

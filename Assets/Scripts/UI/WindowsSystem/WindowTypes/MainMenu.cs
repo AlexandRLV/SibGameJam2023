@@ -46,7 +46,7 @@ namespace UI.WindowsSystem.WindowTypes
         private void GoOnline()
         {
             var windowsSystem = GameContainer.Common.Resolve<WindowsSystem>();
-            windowsSystem.CreateWindow<ConnectScreen>();
+            windowsSystem.CreateWindow<ConnectWindow>();
             windowsSystem.DestroyWindow(this);
         }
 

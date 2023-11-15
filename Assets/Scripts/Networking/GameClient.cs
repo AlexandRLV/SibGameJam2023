@@ -10,7 +10,7 @@ namespace Networking
 {
     public class GameClient : MonoBehaviour
     {
-        public string Name { get; set; }
+        public string PlayerName { get; set; }
         
         public bool IsConnected { get; private set; }
         

@@ -1961,7 +1961,7 @@ GameObject:
   - component: {fileID: 2305585233161667009}
   - component: {fileID: 1906442844989532019}
   m_Layer: 5
-  m_Name: RoomsListScreen
+  m_Name: RoomsListWindow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

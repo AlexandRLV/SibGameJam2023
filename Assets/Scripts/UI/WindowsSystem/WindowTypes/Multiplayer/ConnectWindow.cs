@@ -12,7 +12,7 @@ using UnityEngine.UI;
 
 namespace UI.WindowsSystem.WindowTypes.Multiplayer
 {
-    public class ConnectScreen : WindowBase
+    public class ConnectWindow : WindowBase
     {
         [SerializeField] private TMP_InputField _nicknameText;
         [SerializeField] private Button _connectButton;
@@ -63,7 +63,7 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer
         private void OnConnected(ref ConnectedMessage message)
         {
             var gameClient = GameContainer.Common.Resolve<GameClient>();
-            gameClient.Name = _nicknameText.text;
+            gameClient.PlayerName = _nicknameText.text;
         }
 
         private void OnConnectionFailed(ref ConnectionFailedMessage message)
@@ -84,7 +84,7 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer
         private void ProcessPlayerInfoReceived(PlayerInfoReceivedDataframe dataframe)
         {
             var windowsSystem = GameContainer.Common.Resolve<WindowsSystem>();
-            windowsSystem.CreateWindow<RoomsListScreen>();
+            windowsSystem.CreateWindow<RoomsListWindow>();
             windowsSystem.DestroyWindow(this);
         }
     }

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Timers;
 using Common;
 using NetFrame.Client;
 using Networking;
@@ -12,7 +11,7 @@ using UnityEngine.UI;
 
 namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
 {
-    public class RoomsListScreen : WindowBase
+    public class RoomsListWindow : WindowBase
     {
         [Header("Common")]
         [SerializeField] private JoinRoomPopup _joinRoomPopup;
@@ -35,6 +34,7 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
 
         private void Awake()
         {
+            Debug.Log("Room list window initialize");
             _createdRooms = new List<RoomListItem>();
 
             _notificationsManager = GameContainer.Common.Resolve<NotificationsManager>();
@@ -73,12 +73,10 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
 
         private void OnDestroy()
         {
+            Debug.Log("Destroy room list window");
             _client.Unsubscribe<RoomsListDataframe>(SetRooms);
             _client.Unsubscribe<JoinedRoomDataframe>(ProcessJoinedRoom);
             _client.Unsubscribe<JoinRoomFailedDataframe>(ProcessJoinFailed);
-
-            var gameClient = GameContainer.Common.Resolve<GameClient>();
-            gameClient.Disconnect();
         }
 
         private void SetRooms(RoomsListDataframe dataframe)
@@ -133,6 +131,7 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
 
         private void JoinSelectedRoom()
         {
+            Debug.Log("Sending request to join room");
             CloseCreateRoom();
             var dataframe = new JoinRoomDataframe
             {
@@ -156,7 +155,8 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
 
         private void ProcessJoinedRoom(JoinedRoomDataframe dataframe)
         {
-            var currentRoom = _windowsSystem.CreateWindow<CurrentRoomScreen>();
+            Debug.Log("Joined room, switching to current room window");
+            var currentRoom = _windowsSystem.CreateWindow<CurrentRoomWindow>();
             currentRoom.Setup(dataframe.roomInfo);
             _windowsSystem.DestroyWindow(this);
         }
@@ -169,7 +169,9 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
                 JoinRoomFailedReason.RoomAlreadyFull => "Комната уже заполнена",
                 JoinRoomFailedReason.RoomWasClosed => "Комната была закрыта"
             };
-
+            
+            Debug.Log($"Join room failed: {reason}");
+            
             if (dataframe.reason != JoinRoomFailedReason.WrongPassword)
                 CloseJoinRoom();
             
@@ -184,6 +186,7 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
 
         private void SendCreateRoom()
         {
+            Debug.Log("Sending create room");
             var dataframe = new CreateRoomDataframe
             {
                 name = _createRoomPopup.RoomName,
@@ -201,7 +204,11 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
 
         private void Close()
         {
-            _windowsSystem.CreateWindow<ConnectScreen>();
+            Debug.Log("Disconnecting");
+            var gameClient = GameContainer.Common.Resolve<GameClient>();
+            gameClient.Disconnect();
+            
+            _windowsSystem.CreateWindow<ConnectWindow>();
             _windowsSystem.DestroyWindow(this);
         }
     }
