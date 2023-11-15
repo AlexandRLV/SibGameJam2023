@@ -114,8 +114,8 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
             };
             _client.Send(ref dataframe);
 
-            _windowsSystem.CreateWindow<RoomsListWindow>();
             _windowsSystem.DestroyWindow(this);
+            _windowsSystem.CreateWindow<RoomsListWindow>();
         }
 
         private void OnPlayerReadyStateChanged(PlayerReadyStateDataframe dataframe)

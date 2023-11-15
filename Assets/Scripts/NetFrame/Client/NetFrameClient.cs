@@ -271,7 +271,15 @@ namespace NetFrame.Client
 
         public void Unsubscribe<T>(Action<T> handler) where T : struct, INetworkDataframe
         {
-            _handlers.TryRemove(typeof(T), out var currentHandler);
+            var type = typeof(T);
+            if (!_handlers.TryGetValue(type, out var currentHandler))
+                return;
+
+            currentHandler = (Action<T>)currentHandler - handler;
+            if (currentHandler == null)
+                _handlers.TryRemove(type, out _);
+            else
+                _handlers.AddOrUpdate(type, currentHandler, (_, _) => currentHandler);
         }
 
         private string GetByTypeName<T>(T dataframe) where T : struct, INetworkDataframe

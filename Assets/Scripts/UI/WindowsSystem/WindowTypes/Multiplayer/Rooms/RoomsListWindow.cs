@@ -208,8 +208,8 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
             var gameClient = GameContainer.Common.Resolve<GameClient>();
             gameClient.Disconnect();
             
-            _windowsSystem.CreateWindow<ConnectWindow>();
             _windowsSystem.DestroyWindow(this);
+            _windowsSystem.CreateWindow<ConnectWindow>();
         }
     }
 }
