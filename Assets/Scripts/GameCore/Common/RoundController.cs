@@ -41,7 +41,7 @@ namespace GameCore.Common
         private GamePlayer _player;
         private LoseGameReason _loseGameReason;
         
-        bool evacuationActivated = false;
+        private bool _evacuationActivated;
 
         private void Start()
         {
@@ -105,29 +105,35 @@ namespace GameCore.Common
         {
             if (Stage == RoundStage.None) return;
 
+            if (UnityEngine.Input.GetKeyDown(KeyCode.U) &&
+                (Stage == RoundStage.FatMouse || Stage == RoundStage.ThinMouse))
+            {
+                _player.PosessAnother();
+            }
+            
             Timer -= Time.deltaTime;
 
-            if (Timer < 30f && (Stage == RoundStage.FatMouse || Stage == RoundStage.ThinMouse) && !evacuationActivated)
+            if (Timer < 30f && (Stage == RoundStage.FatMouse || Stage == RoundStage.ThinMouse) && !_evacuationActivated)
             {
                 var message = new ActivateEvacuationMessage();
                 message.active = true;
                 _messageBroker.Trigger(ref message);
-                evacuationActivated = true;
+                _evacuationActivated = true;
             }
 
             if (Timer > 0f) return;
 
             if (Stage == RoundStage.FatMouse)
             {
-                // var message = new ChangeRoundMessage();
-                // _messageBroker.Trigger(ref message);
-                // Timer = _settings.RoundLengthSeconds;
-                // Stage = RoundStage.ThinMouse;
-                // _player.PosessThinMouse();
-                // var evacuationMessage = new ActivateEvacuationMessage();
-                // evacuationMessage.active = false;
-                // _messageBroker.Trigger(ref message);
-                // evacuationActivated = false;
+                var message = new ChangeRoundMessage();
+                _messageBroker.Trigger(ref message);
+                Timer = _settings.RoundLengthSeconds;
+                Stage = RoundStage.ThinMouse;
+                _player.PosessThinMouse();
+                var evacuationMessage = new ActivateEvacuationMessage();
+                evacuationMessage.active = false;
+                _messageBroker.Trigger(ref message);
+                _evacuationActivated = false;
                 
                 _loseGameReason = LoseGameReason.TimeOut;
                 Timer = _settings.playerDetectedToLoseSeconds;
