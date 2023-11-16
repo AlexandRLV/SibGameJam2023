@@ -14,14 +14,16 @@ namespace GameCore.InteractiveObjects
 
         public override void Interact()
         {
-           SoundService.PlaySound(SoundType.Eating);
-
-            Movement.ChangeMovementSpeed(speedMultiplier, speedMultiplierDuration);
-            Destroy(gameObject);
+            
         }
 
         protected override void OnPlayerEnter()
         {
+            SoundService.PlaySound(SoundType.Eating);
+
+            Movement.ChangeMovementSpeed(speedMultiplier, speedMultiplierDuration);
+            Destroy(gameObject);
+
             Movement.MoveValues.CurrentInteractiveObject = this;
             if (IsSeen) return;
             IsSeen = true;

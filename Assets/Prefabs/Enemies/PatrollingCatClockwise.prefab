@@ -2628,6 +2628,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 7302715816161827803}
     m_Modifications:
     - target: {fileID: 1245934120045851811, guid: f7701e80e6922ba4aab2a08ea41617ba, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
+    - target: {fileID: 1245934120045851811, guid: f7701e80e6922ba4aab2a08ea41617ba, type: 3}
       propertyPath: m_Name
       value: EnemyFOV
       objectReference: {fileID: 0}
@@ -2641,7 +2645,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7791792958368916810, guid: f7701e80e6922ba4aab2a08ea41617ba, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.864
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 7791792958368916810, guid: f7701e80e6922ba4aab2a08ea41617ba, type: 3}
       propertyPath: m_LocalPosition.z
