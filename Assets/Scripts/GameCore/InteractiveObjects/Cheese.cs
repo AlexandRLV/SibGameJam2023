@@ -14,17 +14,15 @@ namespace GameCore.InteractiveObjects
 
         public override void Interact()
         {
-            
+            SoundService.PlaySound(SoundType.Eating);
+            Movement.ChangeMovementSpeed(speedMultiplier, speedMultiplierDuration);
+            Destroy(gameObject);
         }
 
         protected override void OnPlayerEnter()
         {
-            SoundService.PlaySound(SoundType.Eating);
-
-            Movement.ChangeMovementSpeed(speedMultiplier, speedMultiplierDuration);
-            Destroy(gameObject);
-
             Movement.MoveValues.CurrentInteractiveObject = this;
+            Movement.MoveValues.ForceInteract = true;
             if (IsSeen) return;
             IsSeen = true;
             switch (RoundController.Stage)
@@ -36,6 +34,8 @@ namespace GameCore.InteractiveObjects
                     SoundService.PlaySound(SoundType.FatCheese);
                     break;
             }
+
+            
         }
 
         protected override void OnPlayerStay()
