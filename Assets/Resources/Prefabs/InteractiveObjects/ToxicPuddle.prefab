@@ -125,6 +125,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PoisonBubbles_prefab
       objectReference: {fileID: 0}
+    - target: {fileID: 1403208683400386432, guid: ece66553abb4166469d05a1e59da2e40, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8824502050033177032, guid: ece66553abb4166469d05a1e59da2e40, type: 3}
       propertyPath: m_RootOrder
       value: 0
