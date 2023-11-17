@@ -7,12 +7,10 @@ namespace Networking.Dataframes
     {
         public void Write(NetFrameWriter writer)
         {
-            writer.WriteInt(0);
         }
 
         public void Read(NetFrameReader reader)
         {
-            reader.ReadInt();
         }
     }
 }

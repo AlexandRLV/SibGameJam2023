@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Startup.GameplayInitializers
 {
-    public class RoundInitializer : IInitializer
+    public class SinglePlayerRoundInitializer : IInitializer
     {
         public IEnumerator Initialize()
         {

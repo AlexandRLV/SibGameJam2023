@@ -1,10 +1,16 @@
-﻿using UnityEngine;
+﻿using GameCore.Sounds;
+using UnityEngine;
 
 namespace GameCore.Character.Animation
 {
     public class CharacterVisuals : MonoBehaviour
     {
+        public StepSounds StepSounds => _stepSounds;
+        public GameObject KnockdownEffect => _knockdownEffect;
+
         [SerializeField] private AnimationPlayer _animationPlayer;
+        [SerializeField] private StepSounds _stepSounds;
+        [SerializeField] private GameObject _knockdownEffect;
 
         private bool _initialized;
         private IAnimationSource _animationSource;

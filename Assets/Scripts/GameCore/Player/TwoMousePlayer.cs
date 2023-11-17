@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
-using Common;
+﻿using Common;
 using GameCore.Camera;
 using GameCore.Character.Movement;
 using UnityEngine;
 
 namespace GameCore.Player
 {
-    public class GamePlayer : MonoBehaviour
+    public class TwoMousePlayer : MonoBehaviour
     {
         public CharacterMovement CurrentCharacter { get; private set; }
 
@@ -19,7 +18,7 @@ namespace GameCore.Player
         {
             _fatMouseCharacter = fatMouse;
             _thinMouseCharacter = thinMouse;
-                
+            
             _gameCamera = GameContainer.InGame.Resolve<GameCamera>();
             
             _fatMouseCharacter.Unposess();

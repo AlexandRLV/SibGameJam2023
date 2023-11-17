@@ -9,6 +9,7 @@ using NetFrame.Enums;
 using NetFrame.ThreadSafeContainers;
 using NetFrame.Utils;
 using NetFrame.WriteAndRead;
+using UnityEngine;
 
 namespace NetFrame.Client
 {
@@ -231,6 +232,7 @@ namespace NetFrame.Client
         {
             if (_tcpSocket != null && _tcpSocket.Connected)
             {
+                Debug.LogError("Closing tcp socket");
                 _tcpSocket.Close();
 
                 Disconnected?.Invoke();

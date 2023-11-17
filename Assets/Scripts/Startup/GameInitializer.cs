@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Common;
+using Networking;
 using Startup.GameplayInitializers;
+using Startup.GameplayInitializers.Multiplayer;
 using Startup.Initializers;
 using Startup.StartGameInitializers;
 using UI;
@@ -28,12 +30,24 @@ namespace Startup
         private static List<IInitializer> _gameplayInitializers = new()
         {
             new GameMapInitializer(),
-            new RoundInitializer(),
             new InGameUIInitializer(),
-            new CharacterInitializer(),
+            new InputInitializer(),
+        };
+
+        private static List<IInitializer> _singlePlayerInitializers = new()
+        {
+            new SinglePlayerCharacterInitializer(),
+            new SinglePlayerRoundInitializer(),
+        };
+
+        private static List<IInitializer> _multiplayerInitializers = new()
+        {
+            new MultiplayerCharacterInitializer(),
         };
 
         public bool InGame { get; private set; }
+
+        private bool _isGameController;
 
         private void Awake()
         {
@@ -43,6 +57,7 @@ namespace Startup
                 return;
             }
 
+            _isGameController = true;
             var currentScene = SceneManager.GetActiveScene();
             if (currentScene.name != MainMenuSceneName)
             {
@@ -61,6 +76,10 @@ namespace Startup
 
         private void OnDestroy()
         {
+            if (!_isGameController)
+                return;
+            
+            Debug.LogError("On destroy initializer");
             if (InGame) StopGame();
 
             DisposeList(_startupInitializers);
@@ -73,6 +92,7 @@ namespace Startup
 
         public void StopGame(bool toMainMenu = true)
         {
+            Debug.LogError("Stop game");
             var windowsSystem = GameContainer.Common.Resolve<WindowsSystem>();
             windowsSystem.DestroyAll();
 
@@ -110,6 +130,10 @@ namespace Startup
             GameContainer.InGame = new Container();
             
             yield return InitializeList(_gameplayInitializers);
+
+            bool isMultiplayer = GameContainer.Common.Resolve<GameClient>().IsConnected;
+            if (isMultiplayer) yield return InitializeList(_multiplayerInitializers);
+            else yield return InitializeList(_singlePlayerInitializers);
 
             loadingScreen.Active = false;
             InGame = true;

@@ -52,9 +52,6 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer
 
         private void Cancel()
         {
-            var gameClient = GameContainer.Common.Resolve<GameClient>();
-            gameClient.Disconnect();
-            
             var windowsSystem = GameContainer.Common.Resolve<WindowsSystem>();
             windowsSystem.CreateWindow<MainMenu>();
             windowsSystem.DestroyWindow(this);

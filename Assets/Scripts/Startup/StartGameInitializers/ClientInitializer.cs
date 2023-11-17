@@ -29,7 +29,7 @@ namespace Startup.StartGameInitializers
             var parameters = Resources.Load<ClientParameters>("Client Parameters");
             GameContainer.Common.Register(parameters);
             
-            var gameClientGO = new GameObject();
+            var gameClientGO = new GameObject("GameClient");
             _gameClient = gameClientGO.AddComponent<GameClient>();
             _gameClient.Initialize();
             

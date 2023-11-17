@@ -38,7 +38,7 @@ namespace GameCore.Common
         [SerializeField] private RoundSettings _settings;
 
         private LocalMessageBroker _messageBroker;
-        private GamePlayer _player;
+        private TwoMousePlayer _player;
         private LoseGameReason _loseGameReason;
         
         private bool _evacuationActivated;
@@ -53,7 +53,7 @@ namespace GameCore.Common
             _messageBroker.Subscribe<PlayerWinMessage>(OnPlayerWin);
             _messageBroker.Subscribe<PlayerDeadMessage>(OnPlayerDead);
 
-            _player = GameContainer.InGame.Resolve<GamePlayer>();
+            _player = GameContainer.InGame.Resolve<TwoMousePlayer>();
             _player.PosessFatMouse();
         }
 

@@ -47,7 +47,7 @@ public class EnemyTargetScaner : MonoBehaviour
     {
         if (!eyeCenter)
         {
-            Debug.LogError("Center of Scanner not assigned");
+            // Debug.LogError("Center of Scanner not assigned");
             return;
         }
 
@@ -61,7 +61,7 @@ public class EnemyTargetScaner : MonoBehaviour
     private void FindVisibleTarget()
     {
         if (GameContainer.InGame == null) return;
-        var player = GameContainer.InGame.Resolve<GamePlayer>();
+        var player = GameContainer.InGame.Resolve<TwoMousePlayer>();
         if (player == null || player.CurrentCharacter == null) return;
 
         var collider = player.CurrentCharacter.Collider;
