@@ -10,7 +10,7 @@ namespace GameCore.Character.Movement
 
         public bool IsKnockdown;
         public bool IsHit;
-        
+        public bool ForceInteract;
         public InteractiveObject CurrentInteractiveObject;
     }
 }

@@ -19,7 +19,7 @@ namespace GameCore.Character.Movement.States
         public override bool CanEnter(MovementStateType prevState)
         {
             if (!movement.IsControlledByPlayer) return false;
-            if (!movement.InputState.interact.IsDown()) return false;
+            if (!movement.InputState.interact.IsDown() && !moveValues.ForceInteract) return false;
 
             return moveValues.CurrentInteractiveObject != null;
         }
@@ -32,7 +32,7 @@ namespace GameCore.Character.Movement.States
         public override void OnEnter(MovementStateType prevState)
         {
             _animationType = moveValues.CurrentInteractiveObject.InteractAnimation;
-
+            moveValues.ForceInteract = false;
             _timer = parameters.interactTime;
             moveValues.CurrentInteractiveObject.Interact();
         }
