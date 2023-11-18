@@ -10,8 +10,6 @@ namespace UI.WindowsSystem.WindowTypes.Extra
     [DisallowMultipleComponent]
     public class ButtonSoundHolder : MonoBehaviour, IPointerEnterHandler
     {
-        private static SoundType[] _hoverSounds = new[] { SoundType.Hover1, SoundType.Hover2, SoundType.Hover3 };
-        
         private bool _hasButton;
         
         private void Start()
@@ -29,7 +27,7 @@ namespace UI.WindowsSystem.WindowTypes.Extra
         public void OnPointerEnter(PointerEventData eventData)
         {
             if (_hasButton)
-                GameContainer.Common.Resolve<SoundService>().PlayRandomSound(_hoverSounds);
+                GameContainer.Common.Resolve<SoundService>().PlaySound(SoundType.Hover);
         }
     }
 }

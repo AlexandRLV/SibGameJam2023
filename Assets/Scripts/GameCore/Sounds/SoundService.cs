@@ -32,9 +32,7 @@ namespace GameCore.Sounds
         
         // UI Sounds
         Click,
-        Hover1,
-        Hover2,
-        Hover3,
+        Hover,
     }
 
     public enum MusicType
@@ -69,9 +67,7 @@ namespace GameCore.Sounds
         
         [Header("Ui")]
         [SerializeField] private AudioClip clickSound;
-        [SerializeField] private AudioClip hover1Sound;
-        [SerializeField] private AudioClip hover2Sound;
-        [SerializeField] private AudioClip hover3Sound;
+        [SerializeField] private AudioClip hoverSound;
 
         [Header("Thin Character")]
         [SerializeField] private AudioClip thinAboutFat;
@@ -130,9 +126,7 @@ namespace GameCore.Sounds
             
             // UI
             _sounds.Add(SoundType.Click, clickSound);
-            _sounds.Add(SoundType.Hover1, hover1Sound);
-            _sounds.Add(SoundType.Hover2, hover2Sound);
-            _sounds.Add(SoundType.Hover3, hover3Sound);
+            _sounds.Add(SoundType.Hover, hoverSound);
 
             _tracks.Add(MusicType.Menu, menuTrack);
             _tracks.Add(MusicType.ThinCharacter, thinTrack);
