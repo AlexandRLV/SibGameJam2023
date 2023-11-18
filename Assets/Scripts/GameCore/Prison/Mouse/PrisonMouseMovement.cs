@@ -6,39 +6,39 @@ using UnityEngine.AI;
 
 public class PrisonMouseMovement : MonoBehaviour, IAnimationSource
 {
-    [SerializeField] float pointMovementRange;
-    [SerializeField] Transform prisonFloor;
-    [SerializeField] CharacterVisuals visuals;
+    [SerializeField] private float pointMovementRange;
+    [SerializeField] private Transform prisonFloor;
+    [SerializeField] private CharacterVisuals visuals;
 
-    NavMeshAgent agent;
-    Vector3 movePoint;
-    Vector3 evacuationPoint;
-    float animationSpeed;
-    bool findNext = true;
+    private NavMeshAgent _agent;
+    private Vector3 _movePoint;
+    private Vector3 _evacuationPoint;
+    private float _animationSpeed;
+    private bool _findNext = true;
 
     public AnimationType CurrentAnimation => AnimationType.Walk;
 
-    public float AnimationSpeed => animationSpeed;
+    public float AnimationSpeed => _animationSpeed;
 
     public void Init()
     {
-        agent = GetComponent<NavMeshAgent>();
+        _agent = GetComponent<NavMeshAgent>();
         visuals.Initialize(this);
         FindRandomPointInPrison();
     }
 
     public void PrisonMovement()
     {
-        if (Vector3.Distance(movePoint, agent.transform.position) > pointMovementRange)
+        if (Vector3.Distance(_movePoint, _agent.transform.position) > pointMovementRange)
         {
-            animationSpeed = 1f;
-            agent.SetDestination(movePoint);
+            _animationSpeed = 1f;
+            _agent.SetDestination(_movePoint);
         }
-        else if (findNext == true)
+        else if (_findNext)
         {
-            findNext = false;
+            _findNext = false;
             Invoke(nameof(FindRandomPointInPrison), 2f);
-            animationSpeed = 0f;
+            _animationSpeed = 0f;
         }
     }
 
@@ -52,12 +52,12 @@ public class PrisonMouseMovement : MonoBehaviour, IAnimationSource
         if (prisonFloor == null) return;
         Collider collider = prisonFloor.GetComponent<Collider>();
         Vector3 randomPoint = RandomPointInBounds(collider.bounds);
-        movePoint = randomPoint;
+        _movePoint = randomPoint;
     }
 
     private Vector3 RandomPointInBounds(Bounds bounds)
     {
-        findNext = true;
+        _findNext = true;
         return new Vector3(Random.Range(bounds.min.x, bounds.max.x),
                            bounds.max.y,
                            Random.Range(bounds.min.z, bounds.max.z));
