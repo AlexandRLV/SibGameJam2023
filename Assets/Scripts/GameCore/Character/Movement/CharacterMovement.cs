@@ -73,7 +73,6 @@ namespace GameCore.Character.Movement
                     new MovementIdleWaitState(this),
                     new MovementWalkState(this),
                     new MovementKnockdownState(this),
-                    new MovementCrouchState(this),
                     new MovementInteractState(this),
                     new MovementHitState(this),
                 }
