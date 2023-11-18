@@ -8,6 +8,7 @@ namespace GameCore.Player
 {
     public class GamePlayer : MonoBehaviour
     {
+        public bool IsThinMouse => CurrentCharacter == _thinMouseCharacter;
         public CharacterMovement CurrentCharacter { get; private set; }
 
         private GameCamera _gameCamera;

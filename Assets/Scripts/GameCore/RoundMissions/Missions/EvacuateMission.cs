@@ -30,6 +30,7 @@ namespace GameCore.RoundMissions.Missions
 
         public override void Dispose()
         {
+            _messageBroker.Unsubscribe<PlayerEvacuatedMessage>(OnPlayerEvacuated);
         }
 
         private void OnPlayerEvacuated(ref PlayerEvacuatedMessage message)

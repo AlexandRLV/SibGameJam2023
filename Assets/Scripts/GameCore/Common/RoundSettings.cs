@@ -6,7 +6,8 @@ namespace GameCore.Common
     public class RoundSettings : ScriptableObject
     {
         public float RoundLengthSeconds => roundLengthMinutes * 60f;
-        
+
+        [SerializeField] public KeyCode mouseChangeKey;
         [SerializeField] public int roundLengthMinutes;
         [SerializeField] public float playerDetectedToLoseSeconds;
     }

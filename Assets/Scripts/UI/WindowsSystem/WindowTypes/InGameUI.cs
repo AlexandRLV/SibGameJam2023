@@ -47,7 +47,7 @@ namespace UI.WindowsSystem.WindowTypes
             _initialized = true;
 
             _messageBroker = GameContainer.Common.Resolve<LocalMessageBroker>();
-            _messageBroker.Subscribe<ChangeRoundMessage>(OnRoundChanged);
+            _messageBroker.Subscribe<ChangeCharacterMessage>(OnCharacterChanged);
             SetLayout(false);
 
             _infoPanelTimer = _infoPanelShowTime;
@@ -120,9 +120,9 @@ namespace UI.WindowsSystem.WindowTypes
             _timerLabel.transform.localScale = Vector3.one * t;
         }
 
-        private void OnRoundChanged(ref ChangeRoundMessage value)
+        private void OnCharacterChanged(ref ChangeCharacterMessage message)
         {
-            SetLayout(_roundController.Stage == RoundStage.ThinMouse);
+            SetLayout(message.isThinMouse);
         }
 
         private void SetLayout(bool isThinMouse)
