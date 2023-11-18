@@ -2,7 +2,7 @@
 {
     public class RoundData
     {
-        public int MouseFree;
-        public bool CactusCatched;
+        public int AgentsSaved;
+        public bool CactusFound;
     }
 }
