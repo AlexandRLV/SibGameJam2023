@@ -13,7 +13,8 @@ namespace GameCore.InteractiveObjects
             var roundController = GameContainer.InGame.Resolve<RoundController>();
             if (roundController.Stage != RoundStage.FatMouse) return;
 
-            _rigidbody.isKinematic = false;
+            if (Movement.Parameters.canPush)
+                _rigidbody.isKinematic = false;
         }
 
         protected override void OnPlayerStay()

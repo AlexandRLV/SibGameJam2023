@@ -20,7 +20,8 @@ namespace UI.WindowsSystem.WindowTypes
         [SerializeField] private TextMeshProUGUI _missionsText;
         [SerializeField] private float _infoPanelShowTime;
         [SerializeField] private GameObject _infoPanel;
-
+        [SerializeField] private GameObject _poisonIndicator;
+            
         [SerializeField] private GameObject[] _fatMouseLayoutObjects;
         [SerializeField] private GameObject[] _thinMouseLayoutObjects;
 
@@ -34,9 +35,13 @@ namespace UI.WindowsSystem.WindowTypes
         private LocalMessageBroker _messageBroker;
 
         public void SetMissionsText(string text) => _missionsText.text = text;
+
+        public void SetPoisonState(bool state) => _poisonIndicator.SetActive(state);
         
         private IEnumerator Start()
         {
+            SetPoisonState(false);
+            
             _stringBuilder = new StringBuilder();
             while (!GameContainer.InGame.CanResolve<RoundController>())
             {
