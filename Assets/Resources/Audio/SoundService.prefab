@@ -319,8 +319,8 @@ MonoBehaviour:
   mousetrapSound3: {fileID: 8300000, guid: b76decaae9343c448931b726b80c7bfe, type: 3}
   panelSound: {fileID: 8300000, guid: 431c69f78e4a6fe4199a20508a99cf7b, type: 3}
   submissionCompleteSound: {fileID: 8300000, guid: 8946760a47f6a0847905c6aa7e750648, type: 3}
-  clickSound: {fileID: 8300000, guid: 8d1d06d5f415afd4f92ed16e63e92d13, type: 3}
-  hoverSound: {fileID: 8300000, guid: 4f6c939a2b975ab4faf23597b7cc521e, type: 3}
+  clickSound: {fileID: 8300000, guid: 4cb24a5a4660d9943801202f44a06385, type: 3}
+  hoverSound: {fileID: 8300000, guid: b9577e629d8620c468518b25d460737a, type: 3}
   thinAboutFat: {fileID: 8300000, guid: 9eaa242ba4f4b9c44ae671c8f8afde7b, type: 3}
   thinCats1: {fileID: 8300000, guid: 64f0c704fe2964e4c820533e6efdf143, type: 3}
   thinCats2: {fileID: 8300000, guid: e9a59abdcd110484d937ffefc20eeb5a, type: 3}
