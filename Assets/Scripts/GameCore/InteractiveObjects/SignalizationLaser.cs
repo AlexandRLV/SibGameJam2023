@@ -17,26 +17,23 @@ namespace GameCore.InteractiveObjects
 
         private void OnLaserDestroyed(ref LaserDestroyMessage value)
         {
-            if (value.LaserGroup == laserGroup) Destroy(gameObject);
+            if (value.LaserGroup == laserGroup)
+                Destroy(gameObject);
         }
 
         protected override void OnPlayerEnter()
         {
-            if (IsUsed) return;
+            if (IsUsed)
+                return;
+            
             var message = new PlayerDetectedMessage();
             message.PlayerPosition = Movement.transform.position;
             GameContainer.Common.Resolve<LocalMessageBroker>().Trigger(ref message);
+            
             SoundService.StopMusic();
             SoundService.PlaySound(SoundType.Alert);
+            
             IsUsed = true;
-        }
-
-        protected override void OnPlayerStay()
-        {
-        }
-
-        protected override void OnPlayerExit()
-        {
         }
 
         private void OnDestroy()

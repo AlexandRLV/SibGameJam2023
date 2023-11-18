@@ -11,8 +11,10 @@ namespace GameCore.InteractiveObjects
         [SerializeField] protected SoundType sound;
 
         protected CharacterMovement Movement;
+        
         public bool IsUsed { get; protected set; }
         public bool IsSeen { get; protected set; }
+        
         protected RoundController RoundController => GameContainer.InGame.Resolve<RoundController>();
         protected SoundService SoundService => GameContainer.Common.Resolve<SoundService>();
 
@@ -38,10 +40,10 @@ namespace GameCore.InteractiveObjects
             Movement = null;
         }
 
-        protected abstract void OnPlayerEnter();
+        protected virtual void OnPlayerEnter() { }
 
-        protected abstract void OnPlayerStay();
+        protected virtual void OnPlayerStay() { }
 
-        protected abstract void OnPlayerExit();
+        protected virtual void OnPlayerExit() { }
     }
 }

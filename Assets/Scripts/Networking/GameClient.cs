@@ -40,13 +40,11 @@ namespace Networking
 
         public void Disconnect()
         {
-            Debug.LogError("Disconnecting!!!");
             _client.Disconnect();
         }
 
         public void Shutdown()
         {
-            Debug.Log("SHUTDOWN!!");
             _client.ConnectionSuccessful -= OnConnectionSuccessful;
             _client.ConnectedFailed -= OnConnectionFailed;
             _client.Disconnected -= OnDisconnected;
@@ -75,7 +73,6 @@ namespace Networking
 
         private void OnDisconnected()
         {
-            Debug.LogError("On disconnected!");
             IsConnected = false;
             var message = new DisconnectedMessage();
             GameContainer.Common.Resolve<LocalMessageBroker>().Trigger(ref message);

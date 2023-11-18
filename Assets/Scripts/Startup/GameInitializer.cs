@@ -62,6 +62,7 @@ namespace Startup
             if (currentScene.name != MainMenuSceneName)
             {
                 Debug.LogError($"Пожалуйста, зайдите в игру со сцены {MainMenuSceneName}");
+                Application.Quit();
                 return;
             }
 
@@ -79,7 +80,6 @@ namespace Startup
             if (!_isGameController)
                 return;
             
-            Debug.LogError("On destroy initializer");
             if (InGame) StopGame();
 
             DisposeList(_startupInitializers);
@@ -92,7 +92,6 @@ namespace Startup
 
         public void StopGame(bool toMainMenu = true)
         {
-            Debug.LogError("Stop game");
             var windowsSystem = GameContainer.Common.Resolve<WindowsSystem>();
             windowsSystem.DestroyAll();
 

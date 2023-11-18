@@ -114,6 +114,7 @@ MonoBehaviour:
   sound: 0
   speedMultiplier: 0.2
   speedMultiplierDuration: 5
+  damageTimeRate: 3
 --- !u!1001 &5282641005200250701
 PrefabInstance:
   m_ObjectHideFlags: 0

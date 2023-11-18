@@ -12,18 +12,10 @@ namespace GameCore.InteractiveObjects
             Movement.MoveValues.CurrentInteractiveObject = this;
         }
 
-        protected override void OnPlayerStay()
-        {
-        }
-
         protected override void OnPlayerExit()
         {
             if (Movement.MoveValues.CurrentInteractiveObject == this)
-            {
                 Movement.MoveValues.CurrentInteractiveObject = null;
-            }
-
-
         }
     }
 }

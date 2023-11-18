@@ -3,8 +3,7 @@
     public enum RoundStage
     {
         None,
-        FatMouse,
-        ThinMouse,
+        Game,
         WaitToLose,
     }
 }

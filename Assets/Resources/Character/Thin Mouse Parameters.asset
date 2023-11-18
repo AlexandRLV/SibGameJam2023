@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ad7b981199448e185415db1b2328ce1, type: 3}
   m_Name: Thin Mouse Parameters
   m_EditorClassIdentifier: 
-  speed: 4.3
+  speed: 4.5
   crouchSpeedMultiplier: 0.6
   crouchHeightMultiplier: 0.4
   sneakSpeedMultiplier: 0.8
@@ -21,7 +21,7 @@ MonoBehaviour:
   lives: 2
   cameraHeight: 1.5
   canJump: 1
-  jumpHeight: 2
+  jumpHeight: 1.5
   inAirSpeed: 3
   gravityMultiplier: 2
   jumpTime: 0.3

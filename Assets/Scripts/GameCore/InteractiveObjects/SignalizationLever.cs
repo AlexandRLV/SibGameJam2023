@@ -1,6 +1,7 @@
 using Common;
 using GameCore.Character.Animation;
 using GameCore.Common;
+using GameCore.Player;
 using GameCore.Sounds;
 using LocalMessages;
 using UnityEngine;
@@ -27,17 +28,13 @@ namespace GameCore.InteractiveObjects
         protected override void OnPlayerEnter()
         {
             Movement.MoveValues.CurrentInteractiveObject = this;
-            if (IsSeen) return;
+            if (IsSeen)
+                return;
+            
             IsSeen = true;
-            switch (RoundController.Stage)
-            {
-                case RoundStage.ThinMouse:
-                    SoundService.PlaySound(SoundType.ThinPanel);
-                    break;
-                case RoundStage.FatMouse:
-                    SoundService.PlaySound(SoundType.FatPanel);
-                    break;
-            }
+            
+            var player = GameContainer.InGame.Resolve<TwoMousePlayer>();
+            SoundService.PlaySound(player.MouseType == PlayerMouseType.ThinMouse ? SoundType.ThinPanel : SoundType.FatPanel);
         }
     }
 }

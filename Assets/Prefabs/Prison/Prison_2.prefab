@@ -749,6 +749,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1390679495034054302}
     m_Modifications:
+    - target: {fileID: 90089308620017293, guid: 45db56a1b1019484bbc3d09cbfc9e20a, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: e6f05d198924d794882419b65e821314, type: 2}
     - target: {fileID: 567440000448875808, guid: 45db56a1b1019484bbc3d09cbfc9e20a, type: 3}
       propertyPath: prisonFloor
       value: 
@@ -801,6 +805,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5261868450684480987, guid: 45db56a1b1019484bbc3d09cbfc9e20a, type: 3}
+      propertyPath: _overrideController
+      value: 
+      objectReference: {fileID: 22100000, guid: 9916ad1b43b56d34f80009b3b0e79d3d, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 45db56a1b1019484bbc3d09cbfc9e20a, type: 3}
 --- !u!4 &7545927343523147592 stripped

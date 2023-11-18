@@ -9,21 +9,16 @@ namespace GameCore.InteractiveObjects
 
         protected override void OnPlayerEnter()
         {
-            if (IsUsed) return;
+            if (IsUsed)
+                return;
             
             SoundService.PlayRandomSound(SoundType.Mousetrap1, SoundType.Mousetrap2, SoundType.Mousetrap3);
             Destroy(cheese);
+            
             Movement.MoveValues.IsHit = true;
             Movement.Damage();
+            
             IsUsed = true;
-        }
-
-        protected override void OnPlayerStay()
-        {
-        }
-
-        protected override void OnPlayerExit()
-        {
         }
     }
 }

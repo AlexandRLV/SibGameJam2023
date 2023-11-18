@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: PrisonerHatController
+  m_Controller: {fileID: 9100000, guid: e6f05d198924d794882419b65e821314, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 3918165013958783220, guid: 2797386e227874640847a96288460832, type: 3}
+    m_OverrideClip: {fileID: 6728780316176265442, guid: eb3055b54d6ffda48bedbcef08a3308a, type: 3}
+  - m_OriginalClip: {fileID: -448483621666653641, guid: 1f52b874ad219934f932ec9a35fa7161, type: 3}
+    m_OverrideClip: {fileID: 4167324966187137377, guid: eb3055b54d6ffda48bedbcef08a3308a, type: 3}
+  - m_OriginalClip: {fileID: 7921031285886407512, guid: 1f52b874ad219934f932ec9a35fa7161, type: 3}
+    m_OverrideClip: {fileID: -815604112588977169, guid: eb3055b54d6ffda48bedbcef08a3308a, type: 3}
