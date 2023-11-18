@@ -108,7 +108,7 @@ namespace UI.WindowsSystem.WindowTypes
             CheckPulseTimer();
 
             int seconds = Mathf.RoundToInt(_roundController.Timer);
-            if (_seconds == seconds) return;
+            if (_seconds == seconds || seconds < 0) return;
 
             _seconds = seconds;
             
