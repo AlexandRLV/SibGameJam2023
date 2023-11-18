@@ -20,6 +20,8 @@ namespace UI.WindowsSystem.WindowTypes
         [SerializeField] private TextMeshProUGUI _missionsText;
         [SerializeField] private float _infoPanelShowTime;
         [SerializeField] private GameObject _infoPanel;
+
+        [SerializeField] private float _poisonIndicatorHideDelay;
         [SerializeField] private GameObject _poisonIndicator;
             
         [SerializeField] private GameObject[] _fatMouseLayoutObjects;
@@ -30,17 +32,28 @@ namespace UI.WindowsSystem.WindowTypes
         private StringBuilder _stringBuilder;
 
         private float _infoPanelTimer;
+        private float _poisonIndicatorHideTimer;
         
         private RoundController _roundController;
         private LocalMessageBroker _messageBroker;
 
         public void SetMissionsText(string text) => _missionsText.text = text;
 
-        public void SetPoisonState(bool state) => _poisonIndicator.SetActive(state);
+        public void SetPoisonState(bool state, bool hideWithDelay = true)
+        {
+            if (!state && hideWithDelay)
+            {
+                _poisonIndicatorHideTimer = _poisonIndicatorHideDelay;
+                return;
+            }
+            
+            _poisonIndicatorHideTimer = -1f;
+            _poisonIndicator.SetActive(state);
+        }
         
         private IEnumerator Start()
         {
-            SetPoisonState(false);
+            SetPoisonState(false, false);
             
             _stringBuilder = new StringBuilder();
             while (!GameContainer.InGame.CanResolve<RoundController>())
@@ -62,6 +75,13 @@ namespace UI.WindowsSystem.WindowTypes
         {
             if (!_initialized) return;
 
+            if (_poisonIndicatorHideTimer > 0f)
+            {
+                _poisonIndicatorHideTimer -= Time.deltaTime;
+                if (_poisonIndicatorHideTimer <= 0f)
+                    _poisonIndicator.SetActive(false);
+            }
+
             if (_infoPanelTimer > 0f)
             {
                 _infoPanelTimer -= Time.deltaTime;
@@ -79,7 +99,7 @@ namespace UI.WindowsSystem.WindowTypes
             
             CheckPause();
 
-            if (_roundController.Stage is not (RoundStage.FatMouse or RoundStage.ThinMouse))
+            if (_roundController.Stage != RoundStage.Game)
             {
                 _timerLabel.gameObject.SetActive(false);
                 return;

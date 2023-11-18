@@ -7,6 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using GameCore.Camera;
 using GameCore.Enemies;
+using GameCore.Player;
 using UnityEditor;
 using UnityEngine;
 
@@ -85,14 +86,9 @@ public class EnemyController : MonoBehaviour
             if (!isPlayerDeteted && !_hasSeenCharacter)
             {
                 _hasSeenCharacter = true;
-                if (roundController.Stage == RoundStage.ThinMouse)
-                {
-                    soundService.PlaySound(SoundType.ThinDetect);
-                }
-                else if (roundController.Stage == RoundStage.FatMouse)
-                {
-                    soundService.PlaySound(SoundType.FatDetect);
-                }
+                
+                var player = GameContainer.InGame.Resolve<GamePlayer>();
+                soundService.PlaySound(player.MouseType == PlayerMouseType.ThinMouse ? SoundType.ThinDetect : SoundType.FatDetect);
             }
             isPlayerDeteted = true;
         }

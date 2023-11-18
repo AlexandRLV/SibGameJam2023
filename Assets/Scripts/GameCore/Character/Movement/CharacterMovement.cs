@@ -212,7 +212,9 @@ namespace GameCore.Character.Movement
         {
             if (_isSpeedModified) return;
             
-            _visuals.SpeedUp.SetActive(true);
+            if (multiplier > 1f)
+                _visuals.SpeedUp.SetActive(true);
+            
             MoveValues.SpeedMultiplier = multiplier;
             _isSpeedModified = true;
             StartCoroutine(BuffTimer(duration));

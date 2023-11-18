@@ -13,23 +13,7 @@ namespace GameCore.Common
     {
         public float Timer { get; private set; }
 
-        public RoundStage Stage
-        {
-            get => _stage;
-            private set
-            {
-                _stage = value;
-                switch (value)
-                {
-                    case RoundStage.FatMouse:
-                        _soundService.PlayMusic(MusicType.FatCharacter);
-                        break;
-                    case RoundStage.ThinMouse:
-                        _soundService.PlayMusic(MusicType.ThinCharacter);
-                        break;
-                }
-            }
-        }
+        public RoundStage Stage { get; set; }
 
         [SerializeField] private RoundSettings _settings;
 
@@ -38,14 +22,13 @@ namespace GameCore.Common
         private SoundService _soundService;
         
         private LoseGameReason _loseGameReason;
-        private RoundStage _stage;
 
         private void Start()
         {
             _soundService = GameContainer.Common.Resolve<SoundService>();
             
             Timer = _settings.RoundLengthSeconds;
-            Stage = RoundStage.FatMouse;
+            Stage = RoundStage.Game;
 
             _messageBroker = GameContainer.Common.Resolve<LocalMessageBroker>();
             _messageBroker.Subscribe<PlayerDetectedMessage>(OnPlayerDetected);
@@ -53,7 +36,7 @@ namespace GameCore.Common
             _messageBroker.Subscribe<PlayerDeadMessage>(OnPlayerDead);
 
             _player = GameContainer.InGame.Resolve<GamePlayer>();
-            _player.PosessFatMouse();
+            _soundService.PlayMusic(_player.MouseType == PlayerMouseType.ThinMouse ? MusicType.ThinCharacter : MusicType.FatCharacter);
         }
 
         private void OnDestroy()
@@ -68,29 +51,21 @@ namespace GameCore.Common
             if (Stage == RoundStage.None) return;
 
             if (UnityEngine.Input.GetKeyDown(_settings.mouseChangeKey) &&
-                Stage is RoundStage.FatMouse or RoundStage.ThinMouse)
+                Stage == RoundStage.Game)
             {
                 _player.PosessAnother();
                 
                 var message = new ChangeCharacterMessage();
-                message.isThinMouse = _player.IsThinMouse;
+                message.isThinMouse = _player.MouseType == PlayerMouseType.ThinMouse;
                 _messageBroker.Trigger(ref message);
+                
+                _soundService.PlayMusic(_player.MouseType == PlayerMouseType.ThinMouse ? MusicType.ThinCharacter : MusicType.FatCharacter);
             }
             
             Timer -= Time.deltaTime;
             if (Timer > 0f) return;
 
-            if (Stage == RoundStage.FatMouse)
-            {
-                var message = new ChangeCharacterMessage();
-                message.isThinMouse = true;
-                _messageBroker.Trigger(ref message);
-                
-                Timer = _settings.RoundLengthSeconds;
-                Stage = RoundStage.ThinMouse;
-                _player.PosessThinMouse();
-            }
-            else if (Stage == RoundStage.ThinMouse)
+            if (Stage == RoundStage.Game)
             {
                 _loseGameReason = LoseGameReason.TimeOut;
                 Timer = _settings.playerDetectedToLoseSeconds;

@@ -1005,6 +1005,7 @@ MonoBehaviour:
   _missionsText: {fileID: 8450802487852988233}
   _infoPanelShowTime: 10
   _infoPanel: {fileID: 8154932518134503972}
+  _poisonIndicatorHideDelay: 2
   _poisonIndicator: {fileID: 7030541133920147289}
   _fatMouseLayoutObjects:
   - {fileID: 1598495874549333335}

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace GameCore.Sounds
@@ -41,7 +42,8 @@ namespace GameCore.Sounds
     public class SoundService : MonoBehaviour
     {
         [SerializeField] private AudioSource soundsSource;
-        [SerializeField] private AudioSource trackSource;
+        [SerializeField] private AudioSource firstTrackSource;
+        [SerializeField] private AudioSource secondTrackSource;
 
         [SerializeField] private AudioClip menuTrack;
         [SerializeField] private AudioClip thinTrack;
@@ -57,8 +59,8 @@ namespace GameCore.Sounds
         [SerializeField] private AudioClip mousetrapSound3;
         [SerializeField] private AudioClip panelSound;
 
-        [Header("Cool Character")] [SerializeField]
-        private AudioClip thinAboutFat;
+        [Header("Cool Character")]
+        [SerializeField] private AudioClip thinAboutFat;
 
         [SerializeField] private AudioClip thinCats1;
         [SerializeField] private AudioClip thinCats2;
@@ -68,8 +70,8 @@ namespace GameCore.Sounds
         [SerializeField] private AudioClip thinCactus;
         [SerializeField] private AudioClip thinHostage;
 
-        [Header("Fat Character")] [SerializeField]
-        private AudioClip fatCats1;
+        [Header("Fat Character")]
+        [SerializeField] private AudioClip fatCats1;
 
         [SerializeField] private AudioClip fatCats2;
         [SerializeField] private AudioClip fatCats3;
@@ -78,9 +80,9 @@ namespace GameCore.Sounds
         [SerializeField] private AudioClip fatPanel;
         [SerializeField] private AudioClip fatHostage;
 
-        //[SerializeField] float fadingTime = 5.0f;
-
-        // Coroutine _fadingCoroutine;
+        [SerializeField] float fadingTime = 1.0f;
+        
+        private Coroutine _fadingCoroutine;
 
         private Dictionary<SoundType, AudioClip> _sounds;
         private Dictionary<MusicType, AudioClip> _tracks;
@@ -95,7 +97,6 @@ namespace GameCore.Sounds
             _sounds.Add(SoundType.Mousetrap2, mousetrapSound2);
             _sounds.Add(SoundType.Mousetrap3, mousetrapSound3);
             _sounds.Add(SoundType.Panel, panelSound);
-            _sounds.Add(SoundType.AboutFat, thinAboutFat);
             _sounds.Add(SoundType.ThinCats1, thinCats1);
             _sounds.Add(SoundType.ThinCats2, thinCats2);
             _sounds.Add(SoundType.ThinCheese, thinCheese);
@@ -127,17 +128,27 @@ namespace GameCore.Sounds
 
         public void PlayMusic(MusicType musicType)
         {
-            trackSource.clip = _tracks[musicType];
-            trackSource.Play();
+            var clip = _tracks[musicType];
+            if (firstTrackSource.isPlaying)
+            {
+                FadeToMusic(clip);
+            }
+            else
+            {
+                firstTrackSource.clip = clip;
+                firstTrackSource.Play();
+            }
         }
 
         public void StopSound()
         {
             soundsSource.Stop();
         }
+        
         public void StopMusic()
         {
-            trackSource.Stop();
+            firstTrackSource.Stop();
+            secondTrackSource.Stop();
         }
 
         public void PlayRandomSound(params SoundType[] sounds)
@@ -146,55 +157,40 @@ namespace GameCore.Sounds
             PlaySound(sounds[randomNumber]);
         }
 
-        // private AudioClip GetRandomTrack()
-        // {
-        //     return tracks[Random.Range(0, tracks.Length)];
-        // }
-        //
-        // public void PlayMusic()
-        // {
-        //     _fadingCoroutine = StartCoroutine(FadeTracks(GetRandomTrack()));
-        // }
-        //
-        // private void Update()
-        // {
-        //     if (firstTrackSource.clip == null) return;
-        //     if (firstTrackSource.clip.length - firstTrackSource.time <= fadingTime)
-        //     {
-        //         if (_fadingCoroutine != null)
-        //         {
-        //             return;
-        //         }
-        //
-        //         _fadingCoroutine = StartCoroutine(FadeTracks(GetRandomTrack()));
-        //     }
-        // }
-        //
-        // private IEnumerator FadeTracks(AudioClip nextTrack)
-        // {
-        //     secondTrackSource.clip = nextTrack;
-        //     firstTrackSource.volume = 1.0f;
-        //     secondTrackSource.volume = 0.0f;
-        //     secondTrackSource.Play();
-        //
-        //     float time = 0.0f;
-        //     while (time < fadingTime)
-        //     {
-        //         float t = time / fadingTime;
-        //
-        //         firstTrackSource.volume = Mathf.Lerp(1.0f, 0.0f, t);
-        //         secondTrackSource.volume = Mathf.Lerp(0.0f, 1.0f, t);
-        //
-        //         time += Time.deltaTime;
-        //
-        //         yield return null;
-        //     }
-        //
-        //     firstTrackSource.volume = 0.0f;
-        //     secondTrackSource.volume = 1.0f;
-        //     firstTrackSource.Stop();
-        //     (firstTrackSource, secondTrackSource) = (secondTrackSource, firstTrackSource);
-        //     _fadingCoroutine = null;
-        // }
+        private void FadeToMusic(AudioClip clip)
+        {
+            if (_fadingCoroutine != null)
+                StopCoroutine(_fadingCoroutine);
+
+            _fadingCoroutine = StartCoroutine(FadeTracks(clip));
+        }
+        
+        private IEnumerator FadeTracks(AudioClip nextTrack)
+        {
+            secondTrackSource.clip = nextTrack;
+            secondTrackSource.volume = 0.0f;
+            secondTrackSource.Play();
+
+            float firstVolume = firstTrackSource.volume;
+        
+            float time = 0.0f;
+            while (time < fadingTime)
+            {
+                float t = time / fadingTime;
+        
+                firstTrackSource.volume = Mathf.Lerp(firstVolume, 0.0f, t);
+                secondTrackSource.volume = Mathf.Lerp(0.0f, 1.0f, t);
+        
+                time += Time.deltaTime;
+        
+                yield return null;
+            }
+        
+            firstTrackSource.volume = 0.0f;
+            secondTrackSource.volume = 1.0f;
+            firstTrackSource.Stop();
+            (firstTrackSource, secondTrackSource) = (secondTrackSource, firstTrackSource);
+            _fadingCoroutine = null;
+        }
     }
 }
