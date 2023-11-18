@@ -1,6 +1,4 @@
-﻿using Common;
-using GameCore.Common;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace GameCore.InteractiveObjects
 {
@@ -10,15 +8,8 @@ namespace GameCore.InteractiveObjects
         
         protected override void OnPlayerEnter()
         {
-            var roundController = GameContainer.InGame.Resolve<RoundController>();
-            if (roundController.Stage != RoundStage.FatMouse) return;
-
             if (Movement.Parameters.canPush)
                 _rigidbody.isKinematic = false;
-        }
-
-        protected override void OnPlayerStay()
-        {
         }
 
         protected override void OnPlayerExit()

@@ -3,6 +3,7 @@ using Common;
 using GameCore.Character.Animation;
 using GameCore.Common;
 using GameCore.InteractiveObjects;
+using GameCore.Player;
 using GameCore.RoundMissions.LocalMessages;
 using GameCore.Sounds;
 using LocalMessages;
@@ -12,16 +13,18 @@ namespace GameCore.Prison.Objects
 {
     public class PrisonController : InteractiveObject
     {
-        Vector3 defaultRot, openRot;
-        float smooth = 2.0f;
-        [SerializeField] float doorOpenAngle = 90f;
-        [SerializeField] Transform door;
-        float _openingTime;
-        [SerializeField] float timeToOpen = 2f;
-        bool _isOpened = false;
         public override AnimationType InteractAnimation => AnimationType.OpenDoor;
-
-        [SerializeField] PrisonMouseController[] mouseControllers;
+        
+        [SerializeField] private float doorOpenAngle = 90f;
+        [SerializeField] private float timeToOpen = 2f;
+        [SerializeField] private Transform door;
+        [SerializeField] private PrisonMouseController[] mouseControllers;
+        
+        private float smooth = 2.0f;
+        private float _openingTime;
+        private bool _isOpened;
+        private Vector3 defaultRot, openRot;
+        
         private void Awake()
         {
             mouseControllers = GetComponentsInChildren<PrisonMouseController>();
@@ -60,6 +63,7 @@ namespace GameCore.Prison.Objects
         public override void Interact()
         {
             if (IsUsed) return;
+            
             IsUsed = true;
             OpenDoor();
         }
@@ -68,15 +72,9 @@ namespace GameCore.Prison.Objects
             Movement.MoveValues.CurrentInteractiveObject = this;
             if (IsSeen) return;
             IsSeen = true;
-            switch (RoundController.Stage)
-            {
-                case RoundStage.ThinMouse:
-                    SoundService.PlaySound(SoundType.ThinHostage);
-                    break;
-                case RoundStage.FatMouse:
-                    SoundService.PlaySound(SoundType.FatHostage);
-                    break;
-            }
+            
+            var player = GameContainer.InGame.Resolve<GamePlayer>();
+            SoundService.PlaySound(player.MouseType == PlayerMouseType.ThinMouse ? SoundType.ThinHostage : SoundType.FatHostage);
         }
     }
 }

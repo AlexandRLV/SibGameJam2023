@@ -38,8 +38,9 @@ namespace UI.WindowsSystem.WindowTypes.Extra
             
             if (_character.Lives.Lives <= 0)
                 return;
-            
-            _hpItems[_character.Lives.Lives - 1].SetActive(true);
+
+            int hpItemId = Mathf.Min(_hpItems.Length - 1, _character.Lives.Lives - 1);
+            _hpItems[hpItemId].SetActive(true);
         }
 
         private IEnumerator FindPlayer()

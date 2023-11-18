@@ -29,7 +29,7 @@ namespace GameCore.RoundMissions.Missions
 
             Controller.RoundData.AgentsSaved++;
             if (Controller.RoundData.AgentsSaved >= Controller.Data.agentsToSave)
-                IsCompleted = true;
+                Complete();
             
             Controller.UpdateMissionsState();
         }

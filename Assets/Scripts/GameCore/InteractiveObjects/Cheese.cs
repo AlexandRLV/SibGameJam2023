@@ -1,5 +1,6 @@
+using Common;
 using GameCore.Character.Animation;
-using GameCore.Common;
+using GameCore.Player;
 using GameCore.Sounds;
 using UnityEngine;
 
@@ -25,22 +26,9 @@ namespace GameCore.InteractiveObjects
             Movement.MoveValues.ForceInteract = true;
             if (IsSeen) return;
             IsSeen = true;
-            switch (RoundController.Stage)
-            {
-                case RoundStage.ThinMouse:
-                    SoundService.PlaySound(SoundType.ThinCheese);
-                    break;
-                case RoundStage.FatMouse:
-                    SoundService.PlaySound(SoundType.FatCheese);
-                    break;
-            }
-
             
-        }
-
-        protected override void OnPlayerStay()
-        {
-            //throw new System.NotImplementedException();
+            var player = GameContainer.InGame.Resolve<GamePlayer>();
+            SoundService.PlaySound(player.MouseType == PlayerMouseType.ThinMouse ? SoundType.ThinCheese : SoundType.FatCheese);
         }
 
         protected override void OnPlayerExit()
