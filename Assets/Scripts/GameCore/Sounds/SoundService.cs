@@ -27,7 +27,14 @@ namespace GameCore.Sounds
         Mousetrap1,
         Mousetrap2,
         Mousetrap3,
-        Panel
+        Panel,
+        SubmissionComplete,
+        
+        // UI Sounds
+        Click,
+        Hover1,
+        Hover2,
+        Hover3,
     }
 
     public enum MusicType
@@ -58,8 +65,15 @@ namespace GameCore.Sounds
         [SerializeField] private AudioClip mousetrapSound2;
         [SerializeField] private AudioClip mousetrapSound3;
         [SerializeField] private AudioClip panelSound;
+        [SerializeField] private AudioClip submissionCompleteSound;
+        
+        [Header("Ui")]
+        [SerializeField] private AudioClip clickSound;
+        [SerializeField] private AudioClip hover1Sound;
+        [SerializeField] private AudioClip hover2Sound;
+        [SerializeField] private AudioClip hover3Sound;
 
-        [Header("Cool Character")]
+        [Header("Thin Character")]
         [SerializeField] private AudioClip thinAboutFat;
 
         [SerializeField] private AudioClip thinCats1;
@@ -112,6 +126,13 @@ namespace GameCore.Sounds
             _sounds.Add(SoundType.FatPanel, fatPanel);
             _sounds.Add(SoundType.FatHostage, fatHostage);
             _sounds.Add(SoundType.Alert, alertSound);
+            _sounds.Add(SoundType.SubmissionComplete, submissionCompleteSound);
+            
+            // UI
+            _sounds.Add(SoundType.Click, clickSound);
+            _sounds.Add(SoundType.Hover1, hover1Sound);
+            _sounds.Add(SoundType.Hover2, hover2Sound);
+            _sounds.Add(SoundType.Hover3, hover3Sound);
 
             _tracks.Add(MusicType.Menu, menuTrack);
             _tracks.Add(MusicType.ThinCharacter, thinTrack);

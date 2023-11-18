@@ -26,7 +26,7 @@ namespace GameCore.RoundMissions.Missions
         private void OnCactusFound(ref CactusFoundMessage value)
         {
             Controller.RoundData.CactusFound = true;
-            IsCompleted = true;
+            Complete();
             Controller.UpdateMissionsState();
         }
     }

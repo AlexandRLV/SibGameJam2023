@@ -88,6 +88,7 @@ GameObject:
   - component: {fileID: 2305585232311349278}
   - component: {fileID: 2305585232311349277}
   - component: {fileID: 2305585232311349276}
+  - component: {fileID: 4646061103434467001}
   m_Layer: 5
   m_Name: MenuButton
   m_TagString: Untagged
@@ -198,6 +199,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &4646061103434467001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2305585232311349274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d974a7e6dbe8431da07c4b19a0833b30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2305585232862151868
 GameObject:
   m_ObjectHideFlags: 0
@@ -524,8 +537,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff37ceeca12448e78da1e6ed20544852, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mouseFreeText: {fileID: 8031339168930100786}
-  _cactusCatchedText: {fileID: 8141869986642467475}
   _menuButton: {fileID: 2305585232311349276}
 --- !u!1 &4548757085202075747
 GameObject:

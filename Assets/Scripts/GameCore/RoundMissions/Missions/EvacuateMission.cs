@@ -35,7 +35,7 @@ namespace GameCore.RoundMissions.Missions
 
         private void OnPlayerEvacuated(ref PlayerEvacuatedMessage message)
         {
-            IsCompleted = true;
+            Complete();
             Controller.UpdateMissionsState();
         }
     }
