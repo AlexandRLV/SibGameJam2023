@@ -17,6 +17,7 @@ namespace UI.WindowsSystem.WindowTypes
         [SerializeField] private float _pulseIntensityMax;
         [SerializeField] private TextMeshProUGUI _timerLabel;
 
+        [SerializeField] private TextMeshProUGUI _missionsText;
         [SerializeField] private float _infoPanelShowTime;
         [SerializeField] private GameObject _infoPanel;
 
@@ -31,6 +32,8 @@ namespace UI.WindowsSystem.WindowTypes
         
         private RoundController _roundController;
         private LocalMessageBroker _messageBroker;
+
+        public void SetMissionsText(string text) => _missionsText.text = text;
         
         private IEnumerator Start()
         {

@@ -10,8 +10,6 @@ namespace UI.WindowsSystem.WindowTypes
 {
     public class WinScreen : WindowBase
     {
-        [SerializeField] private TextMeshProUGUI _mouseFreeText;
-        [SerializeField] private TextMeshProUGUI _cactusCatchedText;
         [SerializeField] private Button _menuButton;
 
         private void Start()
@@ -21,10 +19,6 @@ namespace UI.WindowsSystem.WindowTypes
             {
                 GameContainer.Common.Resolve<GameInitializer>().StopGame();
             });
-
-            var roundController = GameContainer.InGame.Resolve<RoundController>();
-            _mouseFreeText.text = roundController.Data.MouseFree.ToString();
-            _cactusCatchedText.text = roundController.Data.CactusCatched ? "Кактус найден" : "Кактус не найден";
         }
     }
 }

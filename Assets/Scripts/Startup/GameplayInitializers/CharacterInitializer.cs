@@ -21,9 +21,9 @@ namespace Startup.GameplayInitializers
 
             var spawns = GameContainer.InGame.Resolve<PlayerSpawns>();
 
-            // var littleMousePrefab = Resources.Load<CharacterMovement>("Prefabs/Characters/ThinMouseCharacter");
-            // var thinMouse = Object.Instantiate(littleMousePrefab);
-            // thinMouse.transform.SetPositionAndRotation(spawns.SpawnPoints[0].position, spawns.SpawnPoints[0].rotation);
+            var littleMousePrefab = Resources.Load<CharacterMovement>("Prefabs/Characters/ThinMouseCharacter");
+            var thinMouse = Object.Instantiate(littleMousePrefab);
+            thinMouse.transform.SetPositionAndRotation(spawns.SpawnPoints[0].position, spawns.SpawnPoints[0].rotation);
 
             var bigMousePrefab = Resources.Load<CharacterMovement>("Prefabs/Characters/FatMouseCharacter");
             var fatMouse = Object.Instantiate(bigMousePrefab);
@@ -35,7 +35,7 @@ namespace Startup.GameplayInitializers
 
             var playerPrefab = Resources.Load<GamePlayer>("Prefabs/Player");
             var player = Object.Instantiate(playerPrefab);
-            player.Initialize(fatMouse);
+            player.Initialize(fatMouse, thinMouse);
 
             GameContainer.InGame.Register(player);
 

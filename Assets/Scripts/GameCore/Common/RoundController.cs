@@ -11,9 +11,7 @@ namespace GameCore.Common
 {
     public class RoundController : MonoBehaviour
     {
-        private SoundService SoundService => GameContainer.Common.Resolve<SoundService>();
         public float Timer { get; private set; }
-        private RoundStage _stage;
 
         public RoundStage Stage
         {
@@ -24,33 +22,34 @@ namespace GameCore.Common
                 switch (value)
                 {
                     case RoundStage.FatMouse:
-                        SoundService.PlayMusic(MusicType.FatCharacter);
+                        _soundService.PlayMusic(MusicType.FatCharacter);
                         break;
                     case RoundStage.ThinMouse:
-                        SoundService.PlayMusic(MusicType.ThinCharacter);
+                        _soundService.PlayMusic(MusicType.ThinCharacter);
                         break;
                 }
             }
         }
 
-        public RoundData Data { get; private set; }
-
         [SerializeField] private RoundSettings _settings;
 
         private LocalMessageBroker _messageBroker;
         private GamePlayer _player;
-        private LoseGameReason _loseGameReason;
+        private SoundService _soundService;
         
-        bool evacuationActivated = false;
+        private LoseGameReason _loseGameReason;
+        private RoundStage _stage;
 
         private void Start()
         {
-            Data = new RoundData();
+            _soundService = GameContainer.Common.Resolve<SoundService>();
+            
             Timer = _settings.RoundLengthSeconds;
             Stage = RoundStage.FatMouse;
+
             _messageBroker = GameContainer.Common.Resolve<LocalMessageBroker>();
             _messageBroker.Subscribe<PlayerDetectedMessage>(OnPlayerDetected);
-            _messageBroker.Subscribe<PlayerWinMessage>(OnPlayerWin);
+            _messageBroker.Subscribe<PlayerEvacuatedMessage>(OnPlayerEvacuated);
             _messageBroker.Subscribe<PlayerDeadMessage>(OnPlayerDead);
 
             _player = GameContainer.InGame.Resolve<GamePlayer>();
@@ -65,10 +64,10 @@ namespace GameCore.Common
             _loseGameReason = LoseGameReason.Dead;
         }
 
-        private void OnPlayerWin(ref PlayerWinMessage value)
+        private void OnPlayerEvacuated(ref PlayerEvacuatedMessage value)
         {
-            SoundService.StopSound();
-            SoundService.PlayMusic(MusicType.Win);
+            _soundService.StopSound();
+            _soundService.PlayMusic(MusicType.Win);
             Stage = RoundStage.None;
             _player.UnposessAll();
 
@@ -79,7 +78,7 @@ namespace GameCore.Common
         private void OnDestroy()
         {
             _messageBroker.Unsubscribe<PlayerDetectedMessage>(OnPlayerDetected);
-            _messageBroker.Unsubscribe<PlayerWinMessage>(OnPlayerWin);
+            _messageBroker.Unsubscribe<PlayerEvacuatedMessage>(OnPlayerEvacuated);
             _messageBroker.Unsubscribe<PlayerDeadMessage>(OnPlayerDead);
         }
 
@@ -91,48 +90,26 @@ namespace GameCore.Common
             _loseGameReason = LoseGameReason.Catched;
         }
 
-        public void CatchCactus()
-        {
-            Data.CactusCatched = true;
-        }
-
-        public void SaveMouse()
-        {
-            Data.MouseFree += 1;
-        }
-
         private void Update()
         {
             if (Stage == RoundStage.None) return;
 
-            Timer -= Time.deltaTime;
-
-            if (Timer < 30f && (Stage == RoundStage.FatMouse || Stage == RoundStage.ThinMouse) && !evacuationActivated)
+            if (UnityEngine.Input.GetKeyDown(KeyCode.U) &&
+                Stage is RoundStage.FatMouse or RoundStage.ThinMouse)
             {
-                var message = new ActivateEvacuationMessage();
-                message.active = true;
-                _messageBroker.Trigger(ref message);
-                evacuationActivated = true;
+                _player.PosessAnother();
             }
-
+            
+            Timer -= Time.deltaTime;
             if (Timer > 0f) return;
 
             if (Stage == RoundStage.FatMouse)
             {
-                // var message = new ChangeRoundMessage();
-                // _messageBroker.Trigger(ref message);
-                // Timer = _settings.RoundLengthSeconds;
-                // Stage = RoundStage.ThinMouse;
-                // _player.PosessThinMouse();
-                // var evacuationMessage = new ActivateEvacuationMessage();
-                // evacuationMessage.active = false;
-                // _messageBroker.Trigger(ref message);
-                // evacuationActivated = false;
-                
-                _loseGameReason = LoseGameReason.TimeOut;
-                Timer = _settings.playerDetectedToLoseSeconds;
-                Stage = RoundStage.WaitToLose;
-                _player.UnposessAll();
+                var message = new ChangeRoundMessage();
+                _messageBroker.Trigger(ref message);
+                Timer = _settings.RoundLengthSeconds;
+                Stage = RoundStage.ThinMouse;
+                _player.PosessThinMouse();
             }
             else if (Stage == RoundStage.ThinMouse)
             {
@@ -149,8 +126,8 @@ namespace GameCore.Common
 
         private void LoseGame()
         {
-            SoundService.StopSound();
-            SoundService.PlayMusic(MusicType.Lose);
+            _soundService.StopSound();
+            _soundService.PlayMusic(MusicType.Lose);
             Stage = RoundStage.None;
             _player.UnposessAll();
 

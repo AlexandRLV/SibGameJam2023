@@ -1,52 +1,52 @@
 using Common;
 using GameCore.Character.Animation;
-using GameCore.Common;
-using GameCore.Common.Messages;
 using GameCore.InteractiveObjects;
 using LocalMessages;
-using System.Collections;
-using System.Collections.Generic;
+using GameCore.RoundMissions.LocalMessages;
 using UnityEngine;
 
 public class CactusInteractiveObject : InteractiveObject
 {
     public override AnimationType InteractAnimation => AnimationType.Eat;
-    [SerializeField] Collider mainCollider;
-    [SerializeField]Vector3 a, b;
-    Vector3 startScale;
-    Vector3 endScale;
-    bool canStart = false;
-    bool isFinished = false;
+    
+    [SerializeField] private Collider mainCollider;
+    [SerializeField] private Vector3 a, b;
+
+    private Vector3 _startScale;
+    private Vector3 _endScale;
+    private bool _canStart;
+    private bool _isFinished;
 
     public override void Interact()
     {
-        var roundController = GameContainer.InGame.Resolve<RoundController>();
-        roundController.CatchCactus();
-        startScale = transform.localScale;
-        endScale = Vector3.zero;
+        var message = new CactusFoundMessage();
+        GameContainer.Common.Resolve<LocalMessageBroker>().Trigger(ref message);
+        
+        _startScale = transform.localScale;
+        _endScale = Vector3.zero;
         a = transform.position;
-        canStart = true;
+        _canStart = true;
         mainCollider.isTrigger = true;
     }
 
     private void Update()
     {
-        if (canStart == true && isFinished == false)
+        if (!_canStart || _isFinished) return;
+        if (Movement == null)
         {
-            Debug.Log("hello");
-            a = transform.position;
-            b = Movement.gameObject.transform.position;
-            transform.position = Vector3.Lerp(a, b, Time.deltaTime * 2f);
-            transform.localScale = Vector3.Lerp(startScale, endScale, Time.deltaTime * 20f);
-
-            if (Vector3.Distance(a,b) < 0.5f)
-            {
-                Debug.Log("isFinished");
-                isFinished = true;
-                gameObject.SetActive(false);
-                return;
-            }
+            _isFinished = true;
+            gameObject.SetActive(false);
+            return;
         }
 
+        a = transform.position;
+        b = Movement.gameObject.transform.position;
+        transform.position = Vector3.Lerp(a, b, Time.deltaTime * 2f);
+        transform.localScale = Vector3.Lerp(_startScale, _endScale, Time.deltaTime * 20f);
+
+        if (Vector3.Distance(a, b) > 0.5f) return;
+
+        _isFinished = true;
+        gameObject.SetActive(false);
     }
 }

@@ -3,7 +3,9 @@ using Common;
 using GameCore.Character.Animation;
 using GameCore.Common;
 using GameCore.InteractiveObjects;
+using GameCore.RoundMissions.LocalMessages;
 using GameCore.Sounds;
+using LocalMessages;
 using UnityEngine;
 
 namespace GameCore.Prison.Objects
@@ -30,12 +32,12 @@ namespace GameCore.Prison.Objects
         private void OpenDoor()
         {
             if (door == null || mouseControllers.Length == 0) return;
-            if (!_isOpened)
-            {
-                StartCoroutine(OpenDoorCoroutine());
-                var roundController = GameContainer.InGame.Resolve<RoundController>();
-                roundController.SaveMouse();
-            }
+            if (_isOpened) return;
+            
+            StartCoroutine(OpenDoorCoroutine());
+
+            var message = new AgentSavedMessage();
+            GameContainer.Common.Resolve<LocalMessageBroker>().Trigger(ref message);
         }
 
         private IEnumerator OpenDoorCoroutine()

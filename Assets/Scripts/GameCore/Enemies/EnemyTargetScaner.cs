@@ -237,4 +237,46 @@ public class EnemyTargetScaner : MonoBehaviour
     }
 
     #endregion
+
+    private void OnDrawGizmosSelected()
+    {
+        if (!showGizmos || transform == null) return;
+
+        Gizmos.color = Color.red;
+
+        if (hit.collider != null) Gizmos.DrawSphere(hit.point, 0.15f);
+
+        //Eye Location
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position + Vector3.up * heightOffset, 0.2f);
+
+        //Height Check Area
+        UnityEditor.Handles.color = Color.yellow;
+        UnityEditor.Handles.DrawWireDisc(transform.position + Vector3.up * maxHeightDifference, Vector3.up, viewDistance);
+        UnityEditor.Handles.DrawWireDisc(transform.position + Vector3.down * maxHeightDifference, Vector3.up, viewDistance);
+
+        //Always Detect Radius
+        Color r = new Color(0.5f, 0f, 0f, 0.5f);
+        UnityEditor.Handles.color = r;
+        UnityEditor.Handles.DrawSolidArc(transform.position, Vector3.up, Vector3.forward, 360f, alertRadius);
+
+        //View Radius
+        UnityEditor.Handles.color = Color.white;
+        UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.up, viewDistance);
+
+        //View Angle
+        Color b = new Color(0, 0.5f, 0.7f, 0.2f);
+        UnityEditor.Handles.color = b;
+        Vector3 rotatedForward = Quaternion.Euler(0, -viewAngle * 0.5f, 0) * transform.forward;
+        UnityEditor.Handles.DrawSolidArc(transform.position, Vector3.up, rotatedForward, viewAngle, viewDistance);
+
+        //To Target Line
+        Gizmos.color = Color.red;
+        foreach (Transform t in targetList)
+        {
+            Gizmos.DrawLine(transform.position, t.position);
+            Gizmos.DrawCube(t.position, new Vector3(0.3f, 0.3f, 0.3f));
+        }
+    }
+
 }

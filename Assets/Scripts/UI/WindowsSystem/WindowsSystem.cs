@@ -25,13 +25,29 @@ namespace UI.WindowsSystem
             }
         }
 
+        public bool TryGetWindow<T>(out T window) where T : WindowBase
+        {
+            window = null;
+            var type = typeof(T);
+            if (_loadedWindows.TryGetValue(type, out var baseWindow))
+            {
+                if (baseWindow is not T targetWindow)
+                    throw new ArgumentException($"Error in getting window type {type.Name} - have cached wrong type of window");
+
+                window = targetWindow;
+                return true;
+            }
+
+            return false;
+        }
+
         public T CreateWindow<T>() where T : WindowBase
         {
             var type = typeof(T);
             if (_loadedWindows.TryGetValue(type, out var baseWindow))
             {
                 if (baseWindow is not T targetWindow)
-                    throw new ArgumentException($"Error in getting window type {type.Name} - created wrong type of window");
+                    throw new ArgumentException($"Error in creating window type {type.Name} - already created wrong type of window");
 
                 return targetWindow;
             }

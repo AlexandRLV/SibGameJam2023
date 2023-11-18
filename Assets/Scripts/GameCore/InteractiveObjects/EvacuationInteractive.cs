@@ -25,9 +25,9 @@ public class EvacuationInteractive : BaseTriggerObject
 
     protected override void OnPlayerEnter()
     {
-        var message = new PlayerWinMessage();
-        var _messageBroker = GameContainer.Common.Resolve<LocalMessageBroker>();
-        _messageBroker.Trigger(ref message);
+        var message = new PlayerEvacuatedMessage();
+        var messageBroker = GameContainer.Common.Resolve<LocalMessageBroker>();
+        messageBroker.Trigger(ref message);
 
     }
 

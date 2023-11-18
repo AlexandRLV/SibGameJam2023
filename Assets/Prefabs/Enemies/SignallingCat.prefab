@@ -104,7 +104,7 @@ GameObject:
   - component: {fileID: 2704069181999031591}
   - component: {fileID: 8415528143895689332}
   m_Layer: 0
-  m_Name: EyeCenter (1)
+  m_Name: EyeCenter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -188,7 +188,7 @@ GameObject:
   - component: {fileID: 7302715815675941145}
   - component: {fileID: 2913460481332828367}
   m_Layer: 0
-  m_Name: EyeCenter
+  m_Name: TargetScanner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -299,6 +299,7 @@ GameObject:
   - component: {fileID: 7302715816161827797}
   - component: {fileID: 7302715816161827802}
   - component: {fileID: 7302715816161827796}
+  - component: {fileID: 7423866034230853714}
   m_Layer: 6
   m_Name: SignallingCat
   m_TagString: Untagged
@@ -315,7 +316,7 @@ Transform:
   m_GameObject: {fileID: 7302715816161827805}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 23.84, y: 0.867, z: 4.31}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 16328388037473829}
@@ -409,6 +410,32 @@ MonoBehaviour:
   movePoints: []
   walkAnimationSpeed: 0
   visuals: {fileID: 1216692824806082376}
+--- !u!114 &7423866034230853714
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7302715816161827805}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a7953ca5e83a3644a1e01322c74ea8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  showGizmos: 0
+  eyeCenter: {fileID: 0}
+  alertRadius: 8
+  viewDistance: 10
+  viewAngle: 360
+  heightOffset: 1
+  maxHeightDifference: 1
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  targetList: []
 --- !u!1001 &262440333969586050
 PrefabInstance:
   m_ObjectHideFlags: 0
