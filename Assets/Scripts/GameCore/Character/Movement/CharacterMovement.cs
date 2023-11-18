@@ -156,6 +156,7 @@ namespace GameCore.Character.Movement
                 countdownValue -= Time.deltaTime;
             }
 
+            _visuals.SpeedUp.SetActive(false);
             MoveValues.SpeedMultiplier = 1f;
             _isSpeedModified = false;
         }
@@ -210,12 +211,12 @@ namespace GameCore.Character.Movement
 
         public void ChangeMovementSpeed(float multiplier, float duration)
         {
-            if (!_isSpeedModified)
-            {
-                MoveValues.SpeedMultiplier = multiplier;
-                _isSpeedModified = true;
-                StartCoroutine(BuffTimer(duration));
-            }
+            if (_isSpeedModified) return;
+            
+            _visuals.SpeedUp.SetActive(true);
+            MoveValues.SpeedMultiplier = multiplier;
+            _isSpeedModified = true;
+            StartCoroutine(BuffTimer(duration));
         }
 #endregion
     }

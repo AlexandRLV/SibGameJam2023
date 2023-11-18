@@ -4,7 +4,10 @@ namespace GameCore.Character.Animation
 {
     public class CharacterVisuals : MonoBehaviour
     {
+        public GameObject SpeedUp => _speedUpVFX;
+        
         [SerializeField] private AnimationPlayer _animationPlayer;
+        [SerializeField] private GameObject _speedUpVFX;
 
         private bool _initialized;
         private IAnimationSource _animationSource;
@@ -13,6 +16,9 @@ namespace GameCore.Character.Animation
         {
             _animationSource = source;
             _initialized = true;
+            
+            if (_speedUpVFX != null)
+                _speedUpVFX.SetActive(false);
         }
 
         private void Update()
