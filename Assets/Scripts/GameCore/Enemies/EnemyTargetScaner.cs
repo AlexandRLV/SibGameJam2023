@@ -238,6 +238,7 @@ public class EnemyTargetScaner : MonoBehaviour
 
     #endregion
 
+    /*
     private void OnDrawGizmosSelected()
     {
         if (!showGizmos || transform == null) return;
@@ -277,5 +278,5 @@ public class EnemyTargetScaner : MonoBehaviour
             Gizmos.DrawCube(t.position, new Vector3(0.3f, 0.3f, 0.3f));
         }
     }
-
+    */
 }
