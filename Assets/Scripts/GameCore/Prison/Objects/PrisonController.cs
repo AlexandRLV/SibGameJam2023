@@ -13,23 +13,33 @@ namespace GameCore.Prison.Objects
 {
     public class PrisonController : InteractiveObject
     {
-        public override AnimationType InteractAnimation => AnimationType.OpenDoor;
+        private enum OpenType
+        {
+            Angle,
+            Move,
+        }
+
+        private enum OpenAxis
+        {
+            X, Y, Z,
+        }
         
+        public override AnimationType InteractAnimation => AnimationType.OpenDoor;
+
+        [SerializeField] private OpenType _openType;
+        [SerializeField] private OpenAxis _openAxis;
         [SerializeField] private float doorOpenAngle = 90f;
+        [SerializeField] private float doorOpenDistance = 3f;
         [SerializeField] private float timeToOpen = 2f;
         [SerializeField] private Transform door;
         [SerializeField] private PrisonMouseController[] mouseControllers;
         
         private float smooth = 2.0f;
-        private float _openingTime;
         private bool _isOpened;
-        private Vector3 defaultRot, openRot;
         
         private void Awake()
         {
             mouseControllers = GetComponentsInChildren<PrisonMouseController>();
-            defaultRot = door.eulerAngles;
-            openRot = new Vector3(defaultRot.x, defaultRot.y + doorOpenAngle, defaultRot.z);
         }
 
         private void OpenDoor()
@@ -46,15 +56,49 @@ namespace GameCore.Prison.Objects
         private IEnumerator OpenDoorCoroutine()
         {
             _isOpened = true;
-            while (_openingTime < timeToOpen)
+            if (_openType == OpenType.Angle)
             {
+                var targetEuler = door.eulerAngles;
+                targetEuler += _openAxis switch
+                {
+                    OpenAxis.X => new Vector3(doorOpenAngle, 0f, 0f),
+                    OpenAxis.Y => new Vector3(0f, doorOpenAngle, 0f),
+                    OpenAxis.Z => new Vector3(0f, 0f, doorOpenAngle),
+                };
+                var targetRotation = Quaternion.Euler(targetEuler);
+                var originRotation = door.rotation;
+
+                float timer = 0f;
+                while (timer < timeToOpen)
+                {
+                    timer += Time.deltaTime;
+                    float t = timer / timeToOpen;
+                    door.rotation = Quaternion.Slerp(originRotation, targetRotation, t);
+                    yield return null;
+                }
+            }
+            else if (_openType == OpenType.Move)
+            {
+                var targetPosition = door.position;
+                targetPosition += _openAxis switch
+                {
+                    OpenAxis.X => Vector3.right * doorOpenDistance,
+                    OpenAxis.Y => Vector3.up * doorOpenDistance,
+                    OpenAxis.Z => Vector3.forward * doorOpenDistance
+                };
+                var originPosition = door.position;
                 
-                _openingTime += Time.deltaTime;
-                door.eulerAngles = Vector3.Lerp(door.eulerAngles, openRot, Time.deltaTime * smooth);
-                yield return new WaitForSeconds(Time.deltaTime);
+                float timer = 0f;
+                while (timer < timeToOpen)
+                {
+                    timer += Time.deltaTime;
+                    float t = timer / timeToOpen;
+                    door.position = Vector3.Lerp(originPosition, targetPosition, t);
+                    yield return null;
+                }
             }
 
-            foreach (PrisonMouseController controller in mouseControllers)
+            foreach (var controller in mouseControllers)
             {
                 controller.isReleased = true;
             }

@@ -141,12 +141,12 @@ namespace GameCore.Sounds
             if (currentSound) soundsSource.PlayOneShot(currentSound);
         }
 
-        public void PlayMusic(MusicType musicType)
+        public void PlayMusic(MusicType musicType, bool adjustTime = false)
         {
             var clip = _tracks[musicType];
             if (firstTrackSource.isPlaying)
             {
-                FadeToMusic(clip);
+                FadeToMusic(clip, adjustTime);
             }
             else
             {
@@ -172,35 +172,37 @@ namespace GameCore.Sounds
             PlaySound(sounds[randomNumber]);
         }
 
-        private void FadeToMusic(AudioClip clip)
+        private void FadeToMusic(AudioClip clip, bool adjustTime = false)
         {
             if (_fadingCoroutine != null)
                 StopCoroutine(_fadingCoroutine);
 
-            _fadingCoroutine = StartCoroutine(FadeTracks(clip));
+            _fadingCoroutine = StartCoroutine(FadeTracks(clip, adjustTime));
         }
-        
-        private IEnumerator FadeTracks(AudioClip nextTrack)
+
+        private IEnumerator FadeTracks(AudioClip nextTrack, bool adjustTime = false)
         {
             secondTrackSource.clip = nextTrack;
             secondTrackSource.volume = 0.0f;
             secondTrackSource.Play();
+            if (adjustTime)
+                secondTrackSource.time = firstTrackSource.time;
 
             float firstVolume = firstTrackSource.volume;
-        
+
             float time = 0.0f;
             while (time < fadingTime)
             {
                 float t = time / fadingTime;
-        
+
                 firstTrackSource.volume = Mathf.Lerp(firstVolume, 0.0f, t);
                 secondTrackSource.volume = Mathf.Lerp(0.0f, 1.0f, t);
-        
+
                 time += Time.deltaTime;
-        
+
                 yield return null;
             }
-        
+
             firstTrackSource.volume = 0.0f;
             secondTrackSource.volume = 1.0f;
             firstTrackSource.Stop();
