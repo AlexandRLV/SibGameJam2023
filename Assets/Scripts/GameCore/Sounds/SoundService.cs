@@ -32,9 +32,7 @@ namespace GameCore.Sounds
         
         // UI Sounds
         Click,
-        Hover1,
-        Hover2,
-        Hover3,
+        Hover,
     }
 
     public enum MusicType
@@ -69,9 +67,7 @@ namespace GameCore.Sounds
         
         [Header("Ui")]
         [SerializeField] private AudioClip clickSound;
-        [SerializeField] private AudioClip hover1Sound;
-        [SerializeField] private AudioClip hover2Sound;
-        [SerializeField] private AudioClip hover3Sound;
+        [SerializeField] private AudioClip hoverSound;
 
         [Header("Thin Character")]
         [SerializeField] private AudioClip thinAboutFat;
@@ -130,9 +126,7 @@ namespace GameCore.Sounds
             
             // UI
             _sounds.Add(SoundType.Click, clickSound);
-            _sounds.Add(SoundType.Hover1, hover1Sound);
-            _sounds.Add(SoundType.Hover2, hover2Sound);
-            _sounds.Add(SoundType.Hover3, hover3Sound);
+            _sounds.Add(SoundType.Hover, hoverSound);
 
             _tracks.Add(MusicType.Menu, menuTrack);
             _tracks.Add(MusicType.ThinCharacter, thinTrack);
@@ -147,12 +141,12 @@ namespace GameCore.Sounds
             if (currentSound) soundsSource.PlayOneShot(currentSound);
         }
 
-        public void PlayMusic(MusicType musicType)
+        public void PlayMusic(MusicType musicType, bool adjustTime = false)
         {
             var clip = _tracks[musicType];
             if (firstTrackSource.isPlaying)
             {
-                FadeToMusic(clip);
+                FadeToMusic(clip, adjustTime);
             }
             else
             {
@@ -178,35 +172,37 @@ namespace GameCore.Sounds
             PlaySound(sounds[randomNumber]);
         }
 
-        private void FadeToMusic(AudioClip clip)
+        private void FadeToMusic(AudioClip clip, bool adjustTime = false)
         {
             if (_fadingCoroutine != null)
                 StopCoroutine(_fadingCoroutine);
 
-            _fadingCoroutine = StartCoroutine(FadeTracks(clip));
+            _fadingCoroutine = StartCoroutine(FadeTracks(clip, adjustTime));
         }
-        
-        private IEnumerator FadeTracks(AudioClip nextTrack)
+
+        private IEnumerator FadeTracks(AudioClip nextTrack, bool adjustTime = false)
         {
             secondTrackSource.clip = nextTrack;
             secondTrackSource.volume = 0.0f;
             secondTrackSource.Play();
+            if (adjustTime)
+                secondTrackSource.time = firstTrackSource.time;
 
             float firstVolume = firstTrackSource.volume;
-        
+
             float time = 0.0f;
             while (time < fadingTime)
             {
                 float t = time / fadingTime;
-        
+
                 firstTrackSource.volume = Mathf.Lerp(firstVolume, 0.0f, t);
                 secondTrackSource.volume = Mathf.Lerp(0.0f, 1.0f, t);
-        
+
                 time += Time.deltaTime;
-        
+
                 yield return null;
             }
-        
+
             firstTrackSource.volume = 0.0f;
             secondTrackSource.volume = 1.0f;
             firstTrackSource.Stop();

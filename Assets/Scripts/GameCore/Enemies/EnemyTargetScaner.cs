@@ -238,6 +238,7 @@ public class EnemyTargetScaner : MonoBehaviour
 
     #endregion
 
+    /*
     private void OnDrawGizmosSelected()
     {
         if (!showGizmos || transform == null) return;
@@ -257,8 +258,7 @@ public class EnemyTargetScaner : MonoBehaviour
 
         //Always Detect Radius
         Color r = new Color(0.5f, 0f, 0f, 0.5f);
-        UnityEditor.Handles.color = r;
-        UnityEditor.Handles.DrawSolidArc(transform.position, Vector3.up, Vector3.forward, 360f, alertRadius);
+        Gizmos.DrawWireSphere(transform.position, alertRadius);
 
         //View Radius
         UnityEditor.Handles.color = Color.white;
@@ -278,5 +278,5 @@ public class EnemyTargetScaner : MonoBehaviour
             Gizmos.DrawCube(t.position, new Vector3(0.3f, 0.3f, 0.3f));
         }
     }
-
+    */
 }

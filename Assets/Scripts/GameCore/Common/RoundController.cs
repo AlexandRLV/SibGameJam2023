@@ -59,7 +59,7 @@ namespace GameCore.Common
                 message.isThinMouse = _player.MouseType == PlayerMouseType.ThinMouse;
                 _messageBroker.Trigger(ref message);
                 
-                _soundService.PlayMusic(_player.MouseType == PlayerMouseType.ThinMouse ? MusicType.ThinCharacter : MusicType.FatCharacter);
+                _soundService.PlayMusic(_player.MouseType == PlayerMouseType.ThinMouse ? MusicType.ThinCharacter : MusicType.FatCharacter, true);
             }
             
             Timer -= Time.deltaTime;
