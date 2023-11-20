@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5baf80b4c034efbaa7f4dc72891dfb8, type: 3}
   m_Name: Client Parameters
   m_EditorClassIdentifier: 
-  ipAddress: 
-  isLocal: 1
+  ipAddress: 91.220.109.117
+  isLocal: 0
   port: 8080
   roomsRequestInterval: 3
