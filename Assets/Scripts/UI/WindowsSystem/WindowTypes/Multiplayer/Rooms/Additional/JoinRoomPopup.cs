@@ -15,7 +15,7 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
         
         [SerializeField] private TextMeshProUGUI _roomNameText;
         [SerializeField] private TextMeshProUGUI _ownerNameText;
-        [SerializeField] private GameObject _passwordLabel;
+        [SerializeField] private GameObject _passwordContainer;
         [SerializeField] private TMP_InputField _passwordInput;
         [SerializeField] private Button _joinButton;
         [SerializeField] private Button _closeButton;
@@ -32,8 +32,7 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
             _roomNameText.text = item.Name;
             _ownerNameText.text = item.OwnerName;
             
-            _passwordLabel.SetActive(item.HasPassword);
-            _passwordInput.gameObject.SetActive(item.HasPassword);
+            _passwordContainer.SetActive(item.HasPassword);
         }
 
         public void Clear() => SelectedRoom = null;
