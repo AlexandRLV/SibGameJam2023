@@ -34,8 +34,12 @@ namespace GameCore.Player
 
         private void Update()
         {
+            if (_roundController == null)
+                return;
+            
             if (!UnityEngine.Input.GetKeyDown(_roundController.settings.mouseChangeKey))
                 return;
+            
             if (_roundController.Stage != RoundStage.Game)
                 return;
             
