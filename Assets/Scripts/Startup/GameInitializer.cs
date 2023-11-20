@@ -92,6 +92,9 @@ namespace Startup
 
         public void StopGame(bool toMainMenu = true)
         {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            
             var windowsSystem = GameContainer.Common.Resolve<WindowsSystem>();
             windowsSystem.DestroyAll();
 

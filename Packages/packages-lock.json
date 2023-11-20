@@ -7,6 +7,13 @@
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
+    "com.jeskvo.net-frame": {
+      "version": "https://github.com/CaptainJekson/NetFrame.git?path=/Packages/com.jeskvo.net-frame",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "e948b1ceb80dd982d0161711fb4f187f35df60c4"
+    },
     "com.unity.burst": {
       "version": "1.6.0",
       "depth": 1,

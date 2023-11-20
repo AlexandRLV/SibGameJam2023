@@ -59,6 +59,14 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
             _roomListItemPrefab.gameObject.SetActive(false);
 
             _clientParameters = GameContainer.Common.Resolve<ClientParameters>();
+
+            var roomController = GameContainer.Common.Resolve<RoomController>();
+            if (!roomController.inRoom) return;
+            
+            Debug.Log("Already in room!");
+            var currentRoom = _windowsSystem.CreateWindow<CurrentRoomWindow>();
+            currentRoom.Setup(roomController.currentRoom);
+            _windowsSystem.DestroyWindow(this);
         }
 
         private void Update()
@@ -133,7 +141,7 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
         {
             Debug.Log("Sending request to join room");
             CloseCreateRoom();
-            var dataframe = new JoinRoomDataframe
+            var dataframe = new JoinRoomRequestDataframe
             {
                 roomId = _joinRoomPopup.SelectedRoom.RoomId,
                 password = _joinRoomPopup.EnteredPassword,
@@ -186,6 +194,13 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
 
         private void SendCreateRoom()
         {
+            if (string.IsNullOrWhiteSpace(_createRoomPopup.RoomName))
+            {
+                var notificationsManager = GameContainer.Common.Resolve<NotificationsManager>();
+                notificationsManager.ShowNotification("Введите имя комнаты!", NotificationsManager.NotificationType.Center);
+                return;
+            }
+            
             Debug.Log("Sending create room");
             var dataframe = new CreateRoomDataframe
             {

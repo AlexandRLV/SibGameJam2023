@@ -46,6 +46,13 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer
 
         private void Connect()
         {
+            if (string.IsNullOrWhiteSpace(_nicknameText.text))
+            {
+                var notificationsManager = GameContainer.Common.Resolve<NotificationsManager>();
+                notificationsManager.ShowNotification("Введите никнейм!", NotificationsManager.NotificationType.Center);
+                return;
+            }
+            
             var gameClient = GameContainer.Common.Resolve<GameClient>();
             gameClient.Connect();
         }

@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.jeskvo.net-frame": "https://github.com/CaptainJekson/NetFrame.git?path=/Packages/com.jeskvo.net-frame",
     "com.unity.cinemachine": "2.8.9",
     "com.unity.feature.development": "1.0.1",
     "com.unity.formats.fbx": "4.1.3",

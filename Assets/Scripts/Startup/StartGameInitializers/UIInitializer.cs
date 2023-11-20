@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using Common;
-using LocalMessages;
 using UI;
 using UI.NotificationsSystem;
 using UI.WindowsSystem;
@@ -13,7 +12,6 @@ namespace Startup.Initializers
     {
         public IEnumerator Initialize()
         {
-
             var uiRootPrefab = Resources.Load<UIRoot>("UI/UIRoot");
             var uiRoot = Object.Instantiate(uiRootPrefab);
             Object.DontDestroyOnLoad(uiRoot);

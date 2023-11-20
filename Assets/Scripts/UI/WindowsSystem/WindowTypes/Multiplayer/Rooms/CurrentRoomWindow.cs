@@ -111,8 +111,8 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
         private void LeaveRoom()
         {
             Debug.Log("Leaving room");
-            var dataframe = new LeaveRoomDataframe();
-            _client.Send(ref dataframe);
+            var roomController = GameContainer.Common.Resolve<RoomController>();
+            roomController.LeaveCurrentRoom();
 
             _windowsSystem.DestroyWindow(this);
             _windowsSystem.CreateWindow<RoomsListWindow>();

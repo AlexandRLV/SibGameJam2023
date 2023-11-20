@@ -2,8 +2,11 @@
 using LocalMessages;
 using NetFrame.Client;
 using NetFrame.Enums;
+using Networking.Dataframes;
 using Networking.LocalMessages;
 using Startup;
+using UI.WindowsSystem;
+using UI.WindowsSystem.WindowTypes.Multiplayer.Rooms;
 using UnityEngine;
 
 namespace Networking
@@ -31,6 +34,8 @@ namespace Networking
             _client.ConnectionSuccessful += OnConnectionSuccessful;
             _client.ConnectedFailed += OnConnectionFailed;
             _client.Disconnected += OnDisconnected;
+            
+            _client.Subscribe<PlayerLeftRoomDataframe>(OnPlayerLeftRoom);
         }
 
         public void Connect()
@@ -76,6 +81,18 @@ namespace Networking
             IsConnected = false;
             var message = new DisconnectedMessage();
             GameContainer.Common.Resolve<LocalMessageBroker>().Trigger(ref message);
+        }
+
+        private void OnPlayerLeftRoom(PlayerLeftRoomDataframe dataframe)
+        {
+            Debug.Log("Player left room!");
+            var gameInitializer = GameContainer.Common.Resolve<GameInitializer>();
+            if (!gameInitializer.InGame) return;
+            
+            gameInitializer.StopGame();
+            
+            var windowsSystem = GameContainer.Common.Resolve<WindowsSystem>();
+            windowsSystem.CreateWindow<RoomsListWindow>();
         }
 
         private void OnDestroy() => Shutdown();

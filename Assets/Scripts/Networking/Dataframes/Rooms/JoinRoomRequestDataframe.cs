@@ -3,7 +3,7 @@ using NetFrame.WriteAndRead;
 
 namespace Networking.Dataframes
 {
-    public struct JoinRoomDataframe : INetworkDataframe
+    public struct JoinRoomRequestDataframe : INetworkDataframe
     {
         public int roomId;
         public string password;

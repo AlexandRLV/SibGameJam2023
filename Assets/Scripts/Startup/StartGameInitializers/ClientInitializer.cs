@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Reflection;
 using Common;
 using Networking;
 using LocalMessages;
@@ -15,7 +16,7 @@ namespace Startup.StartGameInitializers
         public IEnumerator Initialize()
         {
             // Инициализация сетевых сообщений
-            NetFrameDataframeCollection.Initialize();
+            NetFrameDataframeCollection.Initialize(Assembly.GetExecutingAssembly());
     
             // Создание и регистрация локальной системы сообщений
             var messageBroker = new LocalMessageBroker();
@@ -32,9 +33,12 @@ namespace Startup.StartGameInitializers
             var gameClientGO = new GameObject("GameClient");
             _gameClient = gameClientGO.AddComponent<GameClient>();
             _gameClient.Initialize();
-            
             Object.DontDestroyOnLoad(gameClientGO);
             GameContainer.Common.Register(_gameClient);
+
+            var roomController = new RoomController();
+            roomController.Initialize();
+            GameContainer.Common.Register(roomController);
 
             yield return null;
         }
