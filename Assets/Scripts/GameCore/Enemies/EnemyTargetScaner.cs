@@ -61,10 +61,10 @@ public class EnemyTargetScaner : MonoBehaviour
     private void FindVisibleTarget()
     {
         if (GameContainer.InGame == null) return;
-        var player = GameContainer.InGame.Resolve<TwoMousePlayer>();
-        if (player == null || player.CurrentCharacter == null) return;
+        var player = GameContainer.InGame.Resolve<IPlayer>();
+        if (player == null || player.CurrentMovement == null) return;
 
-        var collider = player.CurrentCharacter.Collider;
+        var collider = player.CurrentMovement.Collider;
         // Detect without obstacles
         Vector3 targetSize = collider.bounds.size;
         Transform target = collider.transform;

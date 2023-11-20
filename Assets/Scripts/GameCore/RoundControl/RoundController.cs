@@ -14,11 +14,12 @@ namespace GameCore.Common
         public float Timer { get; private set; }
 
         public RoundStage Stage { get; set; }
+        public RoundSettings settings => _settings;
 
         [SerializeField] private RoundSettings _settings;
 
         private LocalMessageBroker _messageBroker;
-        private TwoMousePlayer _player;
+        private IPlayer _player;
         private SoundService _soundService;
         
         private LoseGameReason _loseGameReason;
@@ -34,8 +35,9 @@ namespace GameCore.Common
             _messageBroker.Subscribe<PlayerDetectedMessage>(OnPlayerDetected);
             _messageBroker.Subscribe<PlayerEvacuatedMessage>(OnPlayerEvacuated);
             _messageBroker.Subscribe<PlayerDeadMessage>(OnPlayerDead);
+            _messageBroker.Subscribe<ChangeCharacterMessage>(OnChangeCharacter);
 
-            _player = GameContainer.InGame.Resolve<TwoMousePlayer>();
+            _player = GameContainer.InGame.Resolve<IPlayer>();
             _soundService.PlayMusic(_player.MouseType == PlayerMouseType.ThinMouse ? MusicType.ThinCharacter : MusicType.FatCharacter);
         }
 
@@ -44,23 +46,17 @@ namespace GameCore.Common
             _messageBroker.Unsubscribe<PlayerDetectedMessage>(OnPlayerDetected);
             _messageBroker.Unsubscribe<PlayerEvacuatedMessage>(OnPlayerEvacuated);
             _messageBroker.Unsubscribe<PlayerDeadMessage>(OnPlayerDead);
+            _messageBroker.Unsubscribe<ChangeCharacterMessage>(OnChangeCharacter);
+        }
+
+        private void OnChangeCharacter(ref ChangeCharacterMessage message)
+        {
+            _soundService.PlayMusic(_player.MouseType == PlayerMouseType.ThinMouse ? MusicType.ThinCharacter : MusicType.FatCharacter, true);
         }
 
         private void Update()
         {
             if (Stage == RoundStage.None) return;
-
-            if (UnityEngine.Input.GetKeyDown(_settings.mouseChangeKey) &&
-                Stage == RoundStage.Game)
-            {
-                _player.PosessAnother();
-                
-                var message = new ChangeCharacterMessage();
-                message.isThinMouse = _player.MouseType == PlayerMouseType.ThinMouse;
-                _messageBroker.Trigger(ref message);
-                
-                _soundService.PlayMusic(_player.MouseType == PlayerMouseType.ThinMouse ? MusicType.ThinCharacter : MusicType.FatCharacter, true);
-            }
             
             Timer -= Time.deltaTime;
             if (Timer > 0f) return;
@@ -70,7 +66,7 @@ namespace GameCore.Common
                 _loseGameReason = LoseGameReason.TimeOut;
                 Timer = _settings.playerDetectedToLoseSeconds;
                 Stage = RoundStage.WaitToLose;
-                _player.UnposessAll();
+                _player.Unposess();
             }
             else if (Stage == RoundStage.WaitToLose)
             {
@@ -83,7 +79,7 @@ namespace GameCore.Common
             _soundService.StopSound();
             _soundService.PlayMusic(MusicType.Lose);
             Stage = RoundStage.None;
-            _player.UnposessAll();
+            _player.Unposess();
 
             var windowsSystem = GameContainer.Common.Resolve<WindowsSystem>();
             var loseGameWindow = windowsSystem.CreateWindow<LoseScreen>();
@@ -94,7 +90,7 @@ namespace GameCore.Common
         {
             Timer = _settings.playerDetectedToLoseSeconds;
             Stage = RoundStage.WaitToLose;
-            _player.UnposessAll();
+            _player.Unposess();
             _loseGameReason = LoseGameReason.Catched;
         }
 
@@ -102,7 +98,7 @@ namespace GameCore.Common
         {
             Timer = _settings.playerDetectedToLoseSeconds;
             Stage = RoundStage.WaitToLose;
-            _player.UnposessAll();
+            _player.Unposess();
             _loseGameReason = LoseGameReason.Dead;
         }
 
@@ -111,7 +107,7 @@ namespace GameCore.Common
             _soundService.StopSound();
             _soundService.PlayMusic(MusicType.Win);
             Stage = RoundStage.None;
-            _player.UnposessAll();
+            _player.Unposess();
 
             var windowsSystem = GameContainer.Common.Resolve<WindowsSystem>();
             windowsSystem.CreateWindow<WinScreen>();

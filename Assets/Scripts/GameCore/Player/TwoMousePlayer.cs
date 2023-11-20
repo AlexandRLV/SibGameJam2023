@@ -1,19 +1,50 @@
-﻿using Common;
+﻿using System.Collections;
+using Common;
 using GameCore.Camera;
 using GameCore.Character.Movement;
+using GameCore.Common;
+using GameCore.Common.Messages;
+using LocalMessages;
 using UnityEngine;
 
 namespace GameCore.Player
 {
-    public class TwoMousePlayer : MonoBehaviour
+    public class TwoMousePlayer : MonoBehaviour, IPlayer
     {
         public PlayerMouseType MouseType { get; private set; }
-        public CharacterMovement CurrentCharacter { get; private set; }
+        public CharacterMovement CurrentMovement { get; private set; }
 
+        private RoundController _roundController;
         private GameCamera _gameCamera;
 
         private CharacterMovement _fatMouseCharacter;
         private CharacterMovement _thinMouseCharacter;
+
+        private LocalMessageBroker _messageBroker;
+
+        private IEnumerator Start()
+        {
+            while (!GameContainer.InGame.CanResolve<RoundController>())
+            {
+                yield return null;
+            }
+
+            _roundController = GameContainer.InGame.Resolve<RoundController>();
+        }
+
+        private void Update()
+        {
+            if (!UnityEngine.Input.GetKeyDown(_roundController.settings.mouseChangeKey))
+                return;
+            if (_roundController.Stage != RoundStage.Game)
+                return;
+            
+            PosessAnother();
+                
+            var message = new ChangeCharacterMessage();
+            message.isThinMouse = MouseType == PlayerMouseType.ThinMouse;
+            _messageBroker.Trigger(ref message);
+        }
 
         public void Initialize(CharacterMovement fatMouse, CharacterMovement thinMouse)
         {
@@ -21,35 +52,36 @@ namespace GameCore.Player
             _thinMouseCharacter = thinMouse;
             
             _gameCamera = GameContainer.InGame.Resolve<GameCamera>();
+            _messageBroker = GameContainer.Common.Resolve<LocalMessageBroker>();
             
             _thinMouseCharacter.Unposess();
             PosessCharacter(_fatMouseCharacter);
         }
 
         public void PosessAnother() =>
-            PosessCharacter(CurrentCharacter == _fatMouseCharacter ? _thinMouseCharacter : _fatMouseCharacter);
-
-        public void UnposessAll()
+            PosessCharacter(CurrentMovement == _fatMouseCharacter ? _thinMouseCharacter : _fatMouseCharacter);
+        
+        public void Unposess()
         {
-            if (CurrentCharacter != null)
-                CurrentCharacter.Unposess();
+            if (CurrentMovement != null)
+                CurrentMovement.Unposess();
 
-            CurrentCharacter = null;
+            CurrentMovement = null;
         }
 
         private void PosessCharacter(CharacterMovement movement)
         {
-            if (CurrentCharacter != null)
-                CurrentCharacter.Unposess();
+            if (CurrentMovement != null)
+                CurrentMovement.Unposess();
 
             if (movement == _fatMouseCharacter)
                 MouseType = PlayerMouseType.FatMouse;
             else if (movement == _thinMouseCharacter)
                 MouseType = PlayerMouseType.ThinMouse;
             
-            CurrentCharacter = movement;
-            CurrentCharacter.Posess();
-            _gameCamera.SetTarget(CurrentCharacter.transform);
+            CurrentMovement = movement;
+            CurrentMovement.Posess();
+            _gameCamera.SetTarget(CurrentMovement.transform);
         }
     }
 }

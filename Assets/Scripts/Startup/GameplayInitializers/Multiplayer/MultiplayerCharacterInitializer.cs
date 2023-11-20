@@ -3,6 +3,7 @@ using Common;
 using GameCore;
 using GameCore.Character.Animation;
 using GameCore.Character.Movement;
+using GameCore.Player;
 using GameCore.Player.Network;
 using Networking;
 using UnityEngine;
@@ -34,7 +35,7 @@ namespace Startup.GameplayInitializers.Multiplayer
                 var fatMouseMovement = Object.Instantiate(fatMouseMovementPrefab);
                 fatMouseMovement.transform.SetPositionAndRotation(spawns.SpawnPoints[1].position, spawns.SpawnPoints[1].rotation);
                 fatMouseMovement.Initialize(fatMouseVisuals);
-                localPlayer.Initialize(fatMouseMovement);
+                localPlayer.Initialize(fatMouseMovement, PlayerMouseType.FatMouse);
                 
                 remotePlayer.Initialize(thinMouseVisuals);
             }
@@ -44,12 +45,12 @@ namespace Startup.GameplayInitializers.Multiplayer
                 var thinMouseMovement = Object.Instantiate(littleMousePrefab);
                 thinMouseMovement.transform.SetPositionAndRotation(spawns.SpawnPoints[0].position, spawns.SpawnPoints[0].rotation);
                 thinMouseMovement.Initialize(thinMouseVisuals);
-                localPlayer.Initialize(thinMouseMovement);
+                localPlayer.Initialize(thinMouseMovement, PlayerMouseType.ThinMouse);
                 
                 remotePlayer.Initialize(fatMouseVisuals);
             }
             
-            GameContainer.InGame.Register(localPlayer);
+            GameContainer.InGame.Register<IPlayer>(localPlayer);
             GameContainer.InGame.Register(remotePlayer);
             yield return null;
         }

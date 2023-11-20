@@ -4,6 +4,8 @@ using Common;
 using GameCore.Common;
 using GameCore.Common.Messages;
 using LocalMessages;
+using Networking;
+using Startup;
 using TMPro;
 using UnityEngine;
 
@@ -26,6 +28,7 @@ namespace UI.WindowsSystem.WindowTypes
             
         [SerializeField] private GameObject[] _fatMouseLayoutObjects;
         [SerializeField] private GameObject[] _thinMouseLayoutObjects;
+        [SerializeField] private GameObject[] _objectsToDisableInMultiplayer;
 
         private bool _initialized;
         private int _seconds;
@@ -66,9 +69,27 @@ namespace UI.WindowsSystem.WindowTypes
 
             _messageBroker = GameContainer.Common.Resolve<LocalMessageBroker>();
             _messageBroker.Subscribe<ChangeCharacterMessage>(OnCharacterChanged);
-            SetLayout(false);
 
             _infoPanelTimer = _infoPanelShowTime;
+
+            var gameClient = GameContainer.Common.Resolve<GameClient>();
+            if (!gameClient.IsConnected)
+            {
+                SetLayout(false);
+                yield break;
+            }
+
+            SetLayout(!gameClient.IsMaster);
+            
+            foreach (var disableObject in _objectsToDisableInMultiplayer)
+            {
+                disableObject.SetActive(false);
+            }
+        }
+
+        private void OnDestroy()
+        {
+            _messageBroker.Unsubscribe<ChangeCharacterMessage>(OnCharacterChanged);
         }
 
         private void Update()

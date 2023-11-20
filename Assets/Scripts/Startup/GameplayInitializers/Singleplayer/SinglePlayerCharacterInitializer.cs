@@ -34,7 +34,7 @@ namespace Startup.GameplayInitializers
             var player = Object.Instantiate(playerPrefab);
             player.Initialize(fatMouseMovement, thinMouseMovement);
 
-            GameContainer.InGame.Register(player);
+            GameContainer.InGame.Register<IPlayer>(player);
 
             yield return null;
         }

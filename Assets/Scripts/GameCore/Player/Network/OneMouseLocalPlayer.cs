@@ -7,24 +7,36 @@ using UnityEngine;
 
 namespace GameCore.Player.Network
 {
-    public class OneMouseLocalPlayer : MonoBehaviour
+    public class OneMouseLocalPlayer : MonoBehaviour, IPlayer
     {
+        public PlayerMouseType MouseType { get; private set; }
+        public CharacterMovement CurrentMovement { get; private set; }
+
         [HideInInspector] public bool Teleported;
         [SerializeField] private NetworkParameters _parameters;
 
-        private CharacterMovement _movement;
         private NetFrameClient _client;
         private GameCamera _gameCamera;
 
         private int _tick;
 
-        public void Initialize(CharacterMovement movement)
+        public void Initialize(CharacterMovement movement, PlayerMouseType mouseType)
         {
-            _movement = movement;
-            _movement.Posess();
+            MouseType = mouseType;
+            
+            CurrentMovement = movement;
+            CurrentMovement.Posess();
             
             _gameCamera = GameContainer.InGame.Resolve<GameCamera>();
-            _gameCamera.SetTarget(_movement.transform);
+            _gameCamera.SetTarget(CurrentMovement.transform);
+        }
+
+        public void Unposess()
+        {
+            if (CurrentMovement != null)
+                CurrentMovement.Unposess();
+
+            CurrentMovement = null;
         }
         
         private void Awake()
@@ -57,10 +69,10 @@ namespace GameCore.Player.Network
             {
                 Tick = _tick,
                 Teleported = Teleported,
-                Position = _movement.transform.position,
-                Rotation = _movement.transform.rotation,
-                animationType = _movement.CurrentAnimation,
-                animationSpeed = _movement.AnimationSpeed
+                Position = CurrentMovement.transform.position,
+                Rotation = CurrentMovement.transform.rotation,
+                animationType = CurrentMovement.CurrentAnimation,
+                animationSpeed = CurrentMovement.AnimationSpeed
             };
             _client.Send(ref dataframe);
             Teleported = false;

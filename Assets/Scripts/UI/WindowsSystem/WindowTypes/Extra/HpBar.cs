@@ -10,7 +10,7 @@ namespace UI.WindowsSystem.WindowTypes.Extra
     {
         [SerializeField] private GameObject[] _hpItems;
 
-        private TwoMousePlayer _player;
+        private IPlayer _player;
         private CharacterMovement _character;
         
         private void OnEnable()
@@ -45,16 +45,16 @@ namespace UI.WindowsSystem.WindowTypes.Extra
 
         private IEnumerator FindPlayer()
         {
-            while (!GameContainer.InGame.CanResolve<TwoMousePlayer>())
+            while (!GameContainer.InGame.CanResolve<IPlayer>())
             {
                 yield return null;
             }
-            _player = GameContainer.InGame.Resolve<TwoMousePlayer>();
-            while (_player.CurrentCharacter == null)
+            _player = GameContainer.InGame.Resolve<IPlayer>();
+            while (_player.CurrentMovement == null)
             {
                 yield return null;
             }
-            _character = _player.CurrentCharacter;
+            _character = _player.CurrentMovement;
             _character.Lives.LivesChanged += OnLivesChanged;
             
             UpdateLives();

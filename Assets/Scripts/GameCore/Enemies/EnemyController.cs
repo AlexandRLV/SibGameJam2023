@@ -87,7 +87,7 @@ public class EnemyController : MonoBehaviour
             {
                 _hasSeenCharacter = true;
                 
-                var player = GameContainer.InGame.Resolve<TwoMousePlayer>();
+                var player = GameContainer.InGame.Resolve<IPlayer>();
                 soundService.PlaySound(player.MouseType == PlayerMouseType.ThinMouse ? SoundType.ThinDetect : SoundType.FatDetect);
             }
             isPlayerDeteted = true;

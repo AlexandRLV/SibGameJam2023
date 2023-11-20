@@ -37,12 +37,13 @@ namespace Startup
         private static List<IInitializer> _singlePlayerInitializers = new()
         {
             new SinglePlayerCharacterInitializer(),
-            new SinglePlayerRoundInitializer(),
+            new RoundInitializer(),
         };
 
         private static List<IInitializer> _multiplayerInitializers = new()
         {
             new MultiplayerCharacterInitializer(),
+            new RoundInitializer(),
         };
 
         public bool InGame { get; private set; }

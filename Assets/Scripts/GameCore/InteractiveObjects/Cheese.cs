@@ -28,7 +28,7 @@ namespace GameCore.InteractiveObjects
             if (IsSeen) return;
             IsSeen = true;
             
-            var player = GameContainer.InGame.Resolve<TwoMousePlayer>();
+            var player = GameContainer.InGame.Resolve<IPlayer>();
             SoundService.PlaySound(player.MouseType == PlayerMouseType.ThinMouse ? SoundType.ThinCheese : SoundType.FatCheese);
         }
 
