@@ -3,8 +3,10 @@ using LocalMessages;
 using NetFrame.Client;
 using NetFrame.Enums;
 using Networking.Dataframes;
+using Networking.Dataframes.InGame;
 using Networking.LocalMessages;
 using Startup;
+using UI.NotificationsSystem;
 using UI.WindowsSystem;
 using UI.WindowsSystem.WindowTypes.Multiplayer.Rooms;
 using UnityEngine;
@@ -36,6 +38,7 @@ namespace Networking
             _client.Disconnected += OnDisconnected;
             
             _client.Subscribe<PlayerLeftRoomDataframe>(OnPlayerLeftRoom);
+            _client.Subscribe<GameFinishedDataframe>(OnGameFinished);
         }
 
         public void Connect()
@@ -54,6 +57,9 @@ namespace Networking
             _client.ConnectedFailed -= OnConnectionFailed;
             _client.Disconnected -= OnDisconnected;
             _client.Disconnect();
+            
+            _client.Unsubscribe<PlayerLeftRoomDataframe>(OnPlayerLeftRoom);
+            _client.Unsubscribe<GameFinishedDataframe>(OnGameFinished);
         }
 
         private void OnConnectionSuccessful()
@@ -85,7 +91,27 @@ namespace Networking
 
         private void OnPlayerLeftRoom(PlayerLeftRoomDataframe dataframe)
         {
-            Debug.Log("Player left room!");
+            FinishGameByReason(GameFinishedReason.Leave);
+        }
+
+        private void OnGameFinished(GameFinishedDataframe dataframe)
+        {
+           FinishGameByReason(dataframe.reason);
+        }
+
+        private void FinishGameByReason(GameFinishedReason reason)
+        {
+            string notif = reason switch
+            {
+                GameFinishedReason.Win => "Миссия пройдена!",
+                GameFinishedReason.Lose => "Миссия провалена!",
+                GameFinishedReason.Leave => "Напарник вышел из игры",
+                GameFinishedReason.YouLeft => "Ты вышел из игры",
+            };
+            
+            var notificationsManager = GameContainer.Common.Resolve<NotificationsManager>();
+            notificationsManager.ShowNotification(notif, NotificationsManager.NotificationType.Center);
+            
             var gameInitializer = GameContainer.Common.Resolve<GameInitializer>();
             if (!gameInitializer.InGame) return;
             

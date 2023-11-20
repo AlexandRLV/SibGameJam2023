@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Common;
+using NetFrame.Client;
 using Networking;
+using Networking.Dataframes.InGame;
 using Startup.GameplayInitializers;
 using Startup.GameplayInitializers.Multiplayer;
 using Startup.Initializers;

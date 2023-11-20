@@ -1,5 +1,8 @@
 ﻿using Common;
 using GameCore.Camera;
+using NetFrame.Client;
+using Networking;
+using Networking.Dataframes.InGame;
 using Startup;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,7 +17,9 @@ namespace UI.WindowsSystem.WindowTypes
 
         private void Start()
         {
-            Time.timeScale = 0f;
+            if (!GameContainer.Common.Resolve<GameClient>().IsConnected)
+                Time.timeScale = 0f;
+            
             GameContainer.InGame.Resolve<GameCamera>().FollowTarget.SetInPause(true);
             
             _continueButton.onClick.AddListener(() =>
@@ -25,7 +30,16 @@ namespace UI.WindowsSystem.WindowTypes
             
             _backToMenuButton.onClick.AddListener(() =>
             {
-                GameContainer.Common.Resolve<GameInitializer>().StopGame();
+                if (GameContainer.Common.Resolve<GameClient>().IsConnected)
+                {
+                    var dataframe = new GameFinishedDataframe
+                    {
+                        reason = GameFinishedReason.Lose
+                    };
+                    GameContainer.Common.Resolve<NetFrameClient>().Send(ref dataframe);
+                    return;
+                }
+                
                 GameContainer.Common.Resolve<WindowsSystem>().DestroyWindow(this);
             });
             
@@ -40,7 +54,8 @@ namespace UI.WindowsSystem.WindowTypes
 
         private void OnDestroy()
         {
-            Time.timeScale = 1f;
+            if (!GameContainer.Common.Resolve<GameClient>().IsConnected)
+                Time.timeScale = 1f;
         }
     }
 }
