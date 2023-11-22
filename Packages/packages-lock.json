@@ -12,7 +12,13 @@
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "e948b1ceb80dd982d0161711fb4f187f35df60c4"
+      "hash": "b366c33d1a85c68a6787cbe71439a3b1b1e7c76d"
+    },
+    "com.unity.2d.sprite": {
+      "version": "1.0.0",
+      "depth": 0,
+      "source": "builtin",
+      "dependencies": {}
     },
     "com.unity.burst": {
       "version": "1.6.0",
