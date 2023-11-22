@@ -1,6 +1,7 @@
 using Common;
 using GameCore.Character.Animation;
 using GameCore.Player;
+using GameCore.Player.Network;
 using GameCore.Sounds;
 using UnityEngine;
 
@@ -27,7 +28,7 @@ namespace GameCore.InteractiveObjects
             if (IsSeen) return;
             IsSeen = true;
             
-            var player = GameContainer.InGame.Resolve<GamePlayer>();
+            var player = GameContainer.InGame.Resolve<IPlayer>();
             SoundService.PlaySound(player.MouseType == PlayerMouseType.ThinMouse ? SoundType.ThinCheese : SoundType.FatCheese);
         }
 

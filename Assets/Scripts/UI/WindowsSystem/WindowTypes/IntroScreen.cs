@@ -40,7 +40,7 @@ namespace UI.WindowsSystem.WindowTypes
         private void StartGame()
         {
             var windowSystem = GameContainer.Common.Resolve<WindowsSystem>();
-            windowSystem.DestroyWindow<IntroScreen>();
+            windowSystem.DestroyWindow(this);
             _gameInitializer.StartGame();
         }
     }

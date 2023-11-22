@@ -1,8 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Common;
-using GameCore.Camera;
+using NetFrame.Client;
+using Networking;
+using Networking.Dataframes.InGame;
 using Startup.GameplayInitializers;
+using Startup.GameplayInitializers.Multiplayer;
 using Startup.Initializers;
 using Startup.StartGameInitializers;
 using UI;
@@ -21,30 +24,33 @@ namespace Startup
 
         private static List<IInitializer> _startupInitializers = new()
         {
-            new MainUIInitializer(),
+            new ClientInitializer(),
             new SoundServiceInitializer(),
-        };
-
-        private static List<IInitializer> _mainMenuInitializers = new()
-        {
-            new MainMenuInitializer(),
-        };
-
-        private static List<IInitializer> _gameMapInitializers = new()
-        {
-            new GameMapInitializer(),
+            new UIInitializer(),
         };
 
         private static List<IInitializer> _gameplayInitializers = new()
         {
+            new GameMapInitializer(),
             new InGameUIInitializer(),
-            new CharacterInitializer(),
+            new InputInitializer(),
+        };
+
+        private static List<IInitializer> _singlePlayerInitializers = new()
+        {
+            new SinglePlayerCharacterInitializer(),
+            new RoundInitializer(),
+        };
+
+        private static List<IInitializer> _multiplayerInitializers = new()
+        {
+            new MultiplayerCharacterInitializer(),
             new RoundInitializer(),
         };
 
         public bool InGame { get; private set; }
 
-        [SerializeField] private bool _initializeRightToGame;
+        private bool _isGameController;
 
         private void Awake()
         {
@@ -54,10 +60,12 @@ namespace Startup
                 return;
             }
 
+            _isGameController = true;
             var currentScene = SceneManager.GetActiveScene();
             if (currentScene.name != MainMenuSceneName)
             {
                 Debug.LogError($"Пожалуйста, зайдите в игру со сцены {MainMenuSceneName}");
+                Application.Quit();
                 return;
             }
 
@@ -72,10 +80,12 @@ namespace Startup
 
         private void OnDestroy()
         {
+            if (!_isGameController)
+                return;
+            
             if (InGame) StopGame();
 
             DisposeList(_startupInitializers);
-            DisposeList(_mainMenuInitializers);
         }
 
         public void StartGame()
@@ -85,6 +95,9 @@ namespace Startup
 
         public void StopGame(bool toMainMenu = true)
         {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            
             var windowsSystem = GameContainer.Common.Resolve<WindowsSystem>();
             windowsSystem.DestroyAll();
 
@@ -95,7 +108,6 @@ namespace Startup
             }
             
             DisposeList(_gameplayInitializers);
-            DisposeList(_gameMapInitializers);
 
             GameContainer.InGame = null;
             InGame = false;
@@ -113,11 +125,6 @@ namespace Startup
         private IEnumerator InitializeGameCoroutine()
         {
             yield return InitializeList(_startupInitializers);
-
-            if (!_initializeRightToGame)
-                yield return InitializeList(_mainMenuInitializers);
-            else
-                StartGame();
         }
 
         private IEnumerator StartGameCoroutine()
@@ -127,10 +134,11 @@ namespace Startup
             
             GameContainer.InGame = new Container();
             
-            if (!_initializeRightToGame)
-                yield return InitializeList(_gameMapInitializers);
-
             yield return InitializeList(_gameplayInitializers);
+
+            bool isMultiplayer = GameContainer.Common.Resolve<GameClient>().IsConnected;
+            if (isMultiplayer) yield return InitializeList(_multiplayerInitializers);
+            else yield return InitializeList(_singlePlayerInitializers);
 
             loadingScreen.Active = false;
             InGame = true;

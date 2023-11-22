@@ -33,7 +33,7 @@ namespace GameCore.InteractiveObjects
             
             IsSeen = true;
             
-            var player = GameContainer.InGame.Resolve<GamePlayer>();
+            var player = GameContainer.InGame.Resolve<IPlayer>();
             SoundService.PlaySound(player.MouseType == PlayerMouseType.ThinMouse ? SoundType.ThinPanel : SoundType.FatPanel);
         }
     }

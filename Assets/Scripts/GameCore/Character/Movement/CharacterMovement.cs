@@ -23,8 +23,8 @@ namespace GameCore.Character.Movement
         public Rigidbody Rigidbody => _rigidbody;
         public CharacterParameters Parameters => _parameters;
         public Collider Collider => _collider;
-        public StepSounds StepSounds => _stepSounds;
-        public GameObject KnockdownEffect => _knockdownEffect;
+        public StepSounds StepSounds => _visuals.StepSounds;
+        public GameObject KnockdownEffect => _visuals.KnockdownEffect;
 
         public AnimationType CurrentAnimation => _stateMachine.CurrentState.AnimationType;
         public float AnimationSpeed => IsControlledByPlayer ? InputState.moveVector.magnitude : 0f;
@@ -32,10 +32,7 @@ namespace GameCore.Character.Movement
         [Header("References")]
         [SerializeField] private Rigidbody _rigidbody;
         [SerializeField] private CapsuleCollider _collider;
-        [SerializeField] private CharacterVisuals _visuals;
         [SerializeField] private CharacterParameters _parameters;
-        [SerializeField] private StepSounds _stepSounds;
-        [SerializeField] private GameObject _knockdownEffect;
 
         [Header("Floating")]
         [SerializeField] private LayerMask _groundMask;
@@ -46,49 +43,11 @@ namespace GameCore.Character.Movement
 
         private bool _isSpeedModified;
         
+        private CharacterVisuals _visuals;
         private GameCamera _gameCamera;
         private Vector3 _movement;
 
 #region Internal methods
-        private void Awake()
-        {
-            _knockdownEffect.SetActive(false);
-            
-            MoveValues = new CharacterMoveValues
-            {
-                SpeedMultiplier = 1f,
-                JumpHeightMultiplier = 1f,
-                FloatingHeightMultiplier = 1f,
-            };
-
-            Lives = new CharacterLives
-            {
-                Lives = _parameters.lives
-            };
-            
-            _stateMachine = new StateMachine<MovementStateBase, MovementStateType>
-            {
-                States = new List<MovementStateBase>
-                {
-                    new MovementIdleWaitState(this),
-                    new MovementWalkState(this),
-                    new MovementKnockdownState(this),
-                    new MovementInteractState(this),
-                    new MovementHitState(this),
-                }
-            };
-            
-            if (_parameters.canJump)
-                _stateMachine.States.Add(new MovementJumpState(this));
-            
-            _stateMachine.ForceSetState(MovementStateType.Walk);
-
-            _collider.height -= _floatingHeight;
-            _collider.center += Vector3.up * (_floatingHeight * 0.5f);
-            
-            _visuals.Initialize(this);
-        }
-
         private void Update()
         {
             if (UnityEngine.Input.GetKeyDown(KeyCode.N))
@@ -162,6 +121,48 @@ namespace GameCore.Character.Movement
 #endregion
 
 #region Public methods
+        public void Initialize(CharacterVisuals visuals)
+        {
+            _visuals = visuals;
+            _visuals.transform.SetParent(transform);
+            _visuals.transform.ToLocalZero();
+            _visuals.Initialize(this);
+                    
+            _visuals.KnockdownEffect.SetActive(false);
+                    
+            MoveValues = new CharacterMoveValues
+            {
+                SpeedMultiplier = 1f,
+                JumpHeightMultiplier = 1f,
+                FloatingHeightMultiplier = 1f,
+            };
+
+            Lives = new CharacterLives
+            {
+                Lives = _parameters.lives
+            };
+                    
+            _stateMachine = new StateMachine<MovementStateBase, MovementStateType>
+            {
+                States = new List<MovementStateBase>
+                {
+                    new MovementIdleWaitState(this),
+                    new MovementWalkState(this),
+                    new MovementKnockdownState(this),
+                    new MovementInteractState(this),
+                    new MovementHitState(this),
+                }
+            };
+                    
+            if (_parameters.canJump)
+                _stateMachine.States.Add(new MovementJumpState(this));
+                    
+            _stateMachine.ForceSetState(MovementStateType.Walk);
+
+            _collider.height -= _floatingHeight;
+            _collider.center += Vector3.up * (_floatingHeight * 0.5f);
+        }
+
         public void Damage()
         {
             Lives.Lives--;

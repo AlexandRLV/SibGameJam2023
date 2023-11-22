@@ -28,6 +28,7 @@ namespace UI.WindowsSystem.WindowTypes
             _invertYToggle.isOn = _cameraSettings.invertY;
 
             _volumeSlider.value = AudioListener.volume;
+            _volumeSlider.onValueChanged.AddListener(value => AudioListener.volume = value);
             
             _saveButton.onClick.AddListener(Save);
         }
@@ -43,7 +44,7 @@ namespace UI.WindowsSystem.WindowTypes
 
             AudioListener.volume = _volumeSlider.value;
             
-            _windowsSystem.DestroyWindow<SettingsScreen>();
+            _windowsSystem.DestroyWindow(this);
         }
     }
 }
