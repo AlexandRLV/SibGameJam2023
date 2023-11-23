@@ -86,7 +86,7 @@ public class EnemyController : MonoBehaviour, ICheckPositionObject
         if (_currentTarget != null)
         {
             var player = GameContainer.InGame.Resolve<IPlayer>();
-            DetectPlayer(player.MouseType);
+            DetectPlayer(player.MouseType, true);
 
             if (!_gameClient.IsConnected) return;
             var dataframe = new EnemyDetectPlayerDataframe

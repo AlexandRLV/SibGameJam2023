@@ -72,7 +72,7 @@ namespace GameCore.LevelObjects
             if (dataframe.isDetect)
             {
                 var otherMouseType = _gameClient.IsMaster ? PlayerMouseType.ThinMouse : PlayerMouseType.FatMouse;
-                enemy.DetectPlayer(otherMouseType);
+                enemy.DetectPlayer(otherMouseType, false);
             }
             else
             {
