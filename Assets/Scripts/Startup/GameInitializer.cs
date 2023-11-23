@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Common;
+using Common.DI;
 using NetFrame.Client;
 using Networking;
 using Networking.Dataframes.InGame;

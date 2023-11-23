@@ -1,4 +1,7 @@
 ﻿using System.Collections;
+using Common;
+using Common.DI;
+using GameCore.LevelObjects;
 using UnityEngine.SceneManagement;
 
 namespace Startup.GameplayInitializers
@@ -9,12 +12,18 @@ namespace Startup.GameplayInitializers
         
         public IEnumerator Initialize()
         {
+            var service = new LevelObjectService();
+            GameContainer.InGame.Register(service);
+            
             var asyncOperation = SceneManager.LoadSceneAsync(SceneName);
             yield return asyncOperation;
         }
 
         public void Dispose()
         {
+            var service = GameContainer.InGame.Resolve<LevelObjectService>();
+            service.Dispose();
+            
             if (SceneManager.GetSceneByName(SceneName).isLoaded)
                 SceneManager.UnloadSceneAsync(SceneName);
         }

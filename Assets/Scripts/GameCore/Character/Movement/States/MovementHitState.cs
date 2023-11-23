@@ -1,4 +1,8 @@
-﻿using GameCore.Character.Animation;
+﻿using Common;
+using GameCore.Character.Animation;
+using NetFrame.Client;
+using Networking;
+using Networking.Dataframes.InGame;
 using UnityEngine;
 
 namespace GameCore.Character.Movement.States
@@ -27,20 +31,37 @@ namespace GameCore.Character.Movement.States
         public override void OnEnter(MovementStateType prevState)
         {
             _timer = parameters.hitTime;
-            movement.KnockdownEffect.SetActive(true);
-            movement.KnockdownEffect.GetComponent<ParticleSystem>().Play();
+            movement.SetEffectState(EffectType.Knockdown, true);
+
+            if (!movement.GameClient.IsConnected) return;
+
+            var dataframe = new PlayerEffectStateDataframe
+            {
+                type = EffectType.Knockdown,
+                active = true,
+            };
+            movement.GameClient.Send(ref dataframe);
         }
 
         public override void OnExit(MovementStateType nextState)
         {
             moveValues.IsHit = false;
-            movement.KnockdownEffect.SetActive(false);
+            movement.SetEffectState(EffectType.Knockdown, false);
         }
 
         public override void Update()
         {
             _timer -= Time.deltaTime;
             movement.Move(Vector2.zero);
+            
+            if (!movement.GameClient.IsConnected) return;
+
+            var dataframe = new PlayerEffectStateDataframe
+            {
+                type = EffectType.Knockdown,
+                active = false,
+            };
+            movement.GameClient.Send(ref dataframe);
         }
     }
 }

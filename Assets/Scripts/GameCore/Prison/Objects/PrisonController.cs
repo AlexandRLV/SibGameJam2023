@@ -1,7 +1,7 @@
 using System.Collections;
 using Common;
+using Common.DI;
 using GameCore.Character.Animation;
-using GameCore.Common;
 using GameCore.InteractiveObjects;
 using GameCore.Player;
 using GameCore.RoundMissions.LocalMessages;
@@ -13,18 +13,12 @@ namespace GameCore.Prison.Objects
 {
     public class PrisonController : InteractiveObject
     {
-        private enum OpenType
-        {
-            Angle,
-            Move,
-        }
-
-        private enum OpenAxis
-        {
-            X, Y, Z,
-        }
+        private enum OpenType { Angle, Move, }
+        private enum OpenAxis { X, Y, Z, }
         
         public override AnimationType InteractAnimation => AnimationType.OpenDoor;
+        public override InteractiveObjectType Type => InteractiveObjectType.Prison;
+        public override Vector3 CheckPosition => transform.position;
 
         [SerializeField] private OpenType _openType;
         [SerializeField] private OpenAxis _openAxis;
@@ -40,6 +34,32 @@ namespace GameCore.Prison.Objects
         private void Awake()
         {
             mouseControllers = GetComponentsInChildren<PrisonMouseController>();
+        }
+
+        public override void Interact()
+        {
+            if (IsUsed) return;
+            
+            IsUsed = true;
+            OpenDoor();
+        }
+
+        public override void InteractWithoutPlayer()
+        {
+            if (IsUsed) return;
+            
+            IsUsed = true;
+            OpenDoor();
+        }
+
+        protected override void OnPlayerEnter()
+        {
+            Movement.MoveValues.CurrentInteractiveObject = this;
+            if (IsSeen) return;
+            IsSeen = true;
+            
+            var player = GameContainer.InGame.Resolve<IPlayer>();
+            SoundService.PlaySound(player.MouseType == PlayerMouseType.ThinMouse ? SoundType.ThinHostage : SoundType.FatHostage);
         }
 
         private void OpenDoor()
@@ -102,23 +122,6 @@ namespace GameCore.Prison.Objects
             {
                 controller.isReleased = true;
             }
-        }
-
-        public override void Interact()
-        {
-            if (IsUsed) return;
-            
-            IsUsed = true;
-            OpenDoor();
-        }
-        protected override void OnPlayerEnter()
-        {
-            Movement.MoveValues.CurrentInteractiveObject = this;
-            if (IsSeen) return;
-            IsSeen = true;
-            
-            var player = GameContainer.InGame.Resolve<IPlayer>();
-            SoundService.PlaySound(player.MouseType == PlayerMouseType.ThinMouse ? SoundType.ThinHostage : SoundType.FatHostage);
         }
     }
 }

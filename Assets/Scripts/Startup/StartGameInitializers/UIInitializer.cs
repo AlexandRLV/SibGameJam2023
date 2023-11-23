@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using Common;
+using Common.DI;
 using UI;
 using UI.NotificationsSystem;
 using UI.WindowsSystem;

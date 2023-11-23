@@ -1,4 +1,5 @@
 ﻿using Common;
+using Common.DI;
 using LocalMessages;
 using NetFrame.Client;
 using Networking;
@@ -33,6 +34,14 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer
             _messageBroker = GameContainer.Common.Resolve<LocalMessageBroker>();
             _messageBroker.Subscribe<ConnectedMessage>(OnConnected);
             _messageBroker.Subscribe<ConnectionFailedMessage>(OnConnectionFailed);
+        }
+
+        private void Update()
+        {
+            if (!Input.GetKeyDown(KeyCode.KeypadEnter)) return;
+            if (!_nicknameText.isFocused) return;
+            
+            Connect();
         }
 
         private void OnDestroy()

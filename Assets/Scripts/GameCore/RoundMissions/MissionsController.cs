@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 using Common;
+using Common.DI;
 using GameCore.Common;
 using GameCore.RoundMissions.LocalMessages;
 using GameCore.RoundMissions.Missions;

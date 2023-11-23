@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using Common;
+using Common.DI;
 using GameCore.Character.Movement;
 using GameCore.Player;
 using UnityEngine;

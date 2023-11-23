@@ -1,4 +1,5 @@
 ﻿using Common;
+using Common.DI;
 using GameCore.Camera;
 using NetFrame.Client;
 using Networking;
@@ -36,7 +37,7 @@ namespace UI.WindowsSystem.WindowTypes
                     {
                         reason = GameFinishedReason.Lose
                     };
-                    GameContainer.Common.Resolve<NetFrameClient>().Send(ref dataframe);
+                    GameContainer.Common.Resolve<GameClient>().Send(ref dataframe);
                     return;
                 }
                 

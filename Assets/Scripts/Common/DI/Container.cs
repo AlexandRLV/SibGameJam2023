@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Common
+namespace Common.DI
 {
     public sealed class Container
     {
@@ -18,6 +18,6 @@ namespace Common
 
         public T Resolve<T>() => _registrations.TryGetValue(typeof(T), out object value) ? (T)value : default;
 
-        public bool CanResolve<T>() => _registrations.ContainsKey(typeof(T));
+        public bool HasRegistration<T>() => _registrations.ContainsKey(typeof(T));
     }
 }
