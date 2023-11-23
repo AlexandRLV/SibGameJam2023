@@ -8,7 +8,8 @@ using UnityEngine;
 public class CactusInteractiveObject : InteractiveObject
 {
     public override AnimationType InteractAnimation => AnimationType.Eat;
-    
+    public override InteractiveObjectType Type => InteractiveObjectType.Cactus;
+
     [SerializeField] private Collider mainCollider;
     [SerializeField] private Vector3 a, b;
 
@@ -18,6 +19,18 @@ public class CactusInteractiveObject : InteractiveObject
     private bool _isFinished;
 
     public override void Interact()
+    {
+        var message = new CactusFoundMessage();
+        GameContainer.Common.Resolve<LocalMessageBroker>().Trigger(ref message);
+        
+        _startScale = transform.localScale;
+        _endScale = Vector3.zero;
+        a = transform.position;
+        _canStart = true;
+        mainCollider.isTrigger = true;
+    }
+
+    public override void InteractWithoutPlayer()
     {
         var message = new CactusFoundMessage();
         GameContainer.Common.Resolve<LocalMessageBroker>().Trigger(ref message);

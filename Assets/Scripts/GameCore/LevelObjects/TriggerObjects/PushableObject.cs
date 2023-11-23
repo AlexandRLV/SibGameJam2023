@@ -1,0 +1,81 @@
+﻿using Common;
+using GameCore.LevelObjects;
+using NetFrame.Client;
+using Networking;
+using Networking.Dataframes.InGame;
+using UnityEngine;
+
+namespace GameCore.InteractiveObjects
+{
+    public class PushableObject : BaseTriggerObject
+    {
+        private const int SendUpdateRate = 5;
+        
+        public Vector3 StartPosition { get; private set; }
+        
+        [SerializeField] private Rigidbody _rigidbody;
+
+        private bool _isOnline;
+        private int _tick;
+
+        private NetFrameClient _client;
+        
+        protected override void OnPlayerEnter()
+        {
+            if (!Movement.Parameters.canPush)
+                return;
+            
+            _rigidbody.isKinematic = false;
+            _tick = 0;
+        }
+
+        private void FixedUpdate()
+        {
+            if (!_isOnline) return;
+            if (_rigidbody.isKinematic) return;
+
+            _tick++;
+            if (_tick % SendUpdateRate != 0) return;
+
+            var dataframe = new PushablePositionDataframe
+            {
+                startPosition = StartPosition,
+                position = _rigidbody.position,
+                rotation = _rigidbody.rotation,
+            };
+            _client.Send(ref dataframe);
+        }
+
+        protected override void OnPlayerExit()
+        {
+            if (!_rigidbody.isKinematic && _isOnline)
+            {
+                var dataframe = new PushablePositionDataframe
+                {
+                    startPosition = StartPosition,
+                    position = _rigidbody.position,
+                    rotation = _rigidbody.rotation,
+                };
+                _client.Send(ref dataframe);
+            }
+            _rigidbody.isKinematic = true;
+        }
+
+        private void OnEnable()
+        {
+            GameContainer.InGame.Resolve<InteractiveObjectService>().RegisterPushableObject(this);
+
+            var gameClient = GameContainer.Common.Resolve<GameClient>();
+            _isOnline = gameClient.IsConnected;
+
+            _client = GameContainer.Common.Resolve<NetFrameClient>();
+            StartPosition = transform.position;
+        }
+
+        private void OnDisable()
+        {
+            if (GameContainer.InGame.CanResolve<InteractiveObjectService>())
+                GameContainer.InGame.Resolve<InteractiveObjectService>().UnregisterPushableObject(this);
+        }
+    }
+}

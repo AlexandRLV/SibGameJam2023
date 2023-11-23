@@ -9,15 +9,22 @@ namespace GameCore.InteractiveObjects
 {
     public class Cheese : InteractiveObject
     {
+        public override AnimationType InteractAnimation => AnimationType.Eat;
+        public override InteractiveObjectType Type => InteractiveObjectType.Cheese;
+        
         [SerializeField] private float speedMultiplier;
         [SerializeField] private float speedMultiplierDuration;
-
-        public override AnimationType InteractAnimation => AnimationType.Eat;
 
         public override void Interact()
         {
             SoundService.PlaySound(SoundType.Eating);
             Movement.ChangeMovementSpeed(speedMultiplier, speedMultiplierDuration);
+            Destroy(gameObject);
+        }
+
+        public override void InteractWithoutPlayer()
+        {
+            SoundService.PlaySound(SoundType.Eating);
             Destroy(gameObject);
         }
 

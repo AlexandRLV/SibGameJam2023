@@ -35,6 +35,14 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer
             _messageBroker.Subscribe<ConnectionFailedMessage>(OnConnectionFailed);
         }
 
+        private void Update()
+        {
+            if (!Input.GetKeyDown(KeyCode.KeypadEnter)) return;
+            if (!_nicknameText.isFocused) return;
+            
+            Connect();
+        }
+
         private void OnDestroy()
         {
             _client.Unsubscribe<PlayerInfoRequestDataframe>(SendPlayerInfo);

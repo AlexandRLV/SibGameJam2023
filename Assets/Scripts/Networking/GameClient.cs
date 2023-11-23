@@ -1,4 +1,5 @@
 ﻿using Common;
+using GameCore.LevelObjects;
 using LocalMessages;
 using NetFrame.Client;
 using NetFrame.Enums;

@@ -1,5 +1,8 @@
 ﻿using Common;
 using GameCore.Character.Animation;
+using NetFrame.Client;
+using Networking;
+using Networking.Dataframes.InGame;
 using UnityEngine;
 
 namespace GameCore.Character.Movement.States
@@ -31,10 +34,21 @@ namespace GameCore.Character.Movement.States
 
         public override void OnEnter(MovementStateType prevState)
         {
-            _animationType = moveValues.CurrentInteractiveObject.InteractAnimation;
+            var interactiveObject = moveValues.CurrentInteractiveObject;
+            _animationType = interactiveObject.InteractAnimation;
             moveValues.ForceInteract = false;
             _timer = parameters.interactTime;
-            moveValues.CurrentInteractiveObject.Interact();
+            interactiveObject.Interact();
+
+            var gameClient = GameContainer.Common.Resolve<GameClient>();
+            if (!gameClient.IsConnected) return;
+
+            var dataframe = new InteractedWithObjectDataframe
+            {
+                interactedObject = interactiveObject.Type,
+                objectPosition = interactiveObject.transform.position
+            };
+            GameContainer.Common.Resolve<NetFrameClient>().Send(ref dataframe);
         }
 
         public override void Update()
