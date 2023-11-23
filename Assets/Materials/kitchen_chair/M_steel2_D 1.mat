@@ -8,13 +8,14 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: M_steel2_D 1
-  m_Shader: {fileID: 4800000, guid: 313fcf3aebc04cf4ab4f8c5f2850be7f, type: 3}
-  m_ShaderKeywords: _METALLICSPECGLOSSMAP
+  m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
+  m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
-  stringTagMap: {}
+  stringTagMap:
+    RenderType: Opaque
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
@@ -91,7 +92,7 @@ Material:
     - _GlossMapScale: 0.3
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _Metallic: 0
+    - _Metallic: 1
     - _Mode: 0
     - _OcclusionStrength: 1
     - _OutlineWidth: 0.25
@@ -102,7 +103,7 @@ Material:
     - _RimStepSmooth: 0.4
     - _ShadowStep: 0.5
     - _ShadowStepSmooth: 0.04
-    - _Smoothness: 0.5
+    - _Smoothness: 0.481
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SpecularStep: 0.6
