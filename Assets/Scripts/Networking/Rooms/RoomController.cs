@@ -12,11 +12,9 @@ namespace Networking
         public RoomInfoDataframe currentRoom;
         
         private NetFrameClient _client;
-        private GameClient _gameClient;
 
         public void Initialize()
         {
-            _gameClient = GameContainer.Common.Resolve<GameClient>();
             _client = GameContainer.Common.Resolve<NetFrameClient>();
             _client.Subscribe<JoinedRoomDataframe>(OnJoinedRoom);
         }

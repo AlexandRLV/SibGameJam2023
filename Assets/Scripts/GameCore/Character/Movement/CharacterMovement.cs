@@ -25,7 +25,6 @@ namespace GameCore.Character.Movement
         public CharacterMoveValues MoveValues { get; private set; }
         public CharacterLives Lives { get; private set; }
         public GameClient GameClient { get; private set; }
-        public NetFrameClient Client { get; private set; }
         
         public Rigidbody Rigidbody => _rigidbody;
         public CharacterParameters Parameters => _parameters;
@@ -131,7 +130,7 @@ namespace GameCore.Character.Movement
                 type = EffectType.SpeedUp,
                 active = false,
             };
-            Client.Send(ref dataframe);
+            GameClient.Send(ref dataframe);
         }
 #endregion
 
@@ -146,7 +145,6 @@ namespace GameCore.Character.Movement
             _visuals.KnockdownEffect.SetActive(false);
 
             GameClient = GameContainer.Common.Resolve<GameClient>();
-            Client = GameContainer.Common.Resolve<NetFrameClient>();
                     
             MoveValues = new CharacterMoveValues
             {
@@ -242,7 +240,7 @@ namespace GameCore.Character.Movement
                         type = EffectType.SpeedUp,
                         active = true,
                     };
-                    Client.Send(ref dataframe);
+                    GameClient.Send(ref dataframe);
                 }
             }
             

@@ -24,7 +24,7 @@ namespace UI.WindowsSystem.WindowTypes
                 {
                     reason = GameFinishedReason.Win
                 };
-                GameContainer.Common.Resolve<NetFrameClient>().Send(ref dataframe);
+                GameContainer.Common.Resolve<GameClient>().Send(ref dataframe);
                 return;
             }
             

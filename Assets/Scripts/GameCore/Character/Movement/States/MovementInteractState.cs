@@ -40,16 +40,15 @@ namespace GameCore.Character.Movement.States
             moveValues.ForceInteract = false;
             _timer = parameters.interactTime;
             interactiveObject.Interact();
-
-            var gameClient = GameContainer.Common.Resolve<GameClient>();
-            if (!gameClient.IsConnected) return;
+            
+            if (!movement.GameClient.IsConnected) return;
 
             var dataframe = new InteractedWithObjectDataframe
             {
                 interactedObject = interactiveObject.Type,
                 objectPosition = interactiveObject.transform.position
             };
-            GameContainer.Common.Resolve<NetFrameClient>().Send(ref dataframe);
+            movement.GameClient.Send(ref dataframe);
         }
 
         public override void Update()
