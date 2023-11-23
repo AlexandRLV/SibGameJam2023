@@ -1,4 +1,5 @@
 ﻿using Common;
+using Common.DI;
 using LocalMessages;
 using NetFrame.Client;
 using Networking;

@@ -1,4 +1,5 @@
 using Common;
+using Common.DI;
 using GameCore.Sounds;
 using LocalMessages;
 using UnityEngine;

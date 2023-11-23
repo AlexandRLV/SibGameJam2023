@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using Common;
+using Common.DI;
 using UnityEngine;
 
 namespace GameCore

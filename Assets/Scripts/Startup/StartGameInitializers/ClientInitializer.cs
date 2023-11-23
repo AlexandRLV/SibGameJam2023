@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Reflection;
 using Common;
+using Common.DI;
 using Networking;
 using LocalMessages;
 using NetFrame.Client;

@@ -1,4 +1,5 @@
 ﻿using Common;
+using Common.DI;
 using GameCore.Camera;
 using NetFrame.Client;
 using Networking;

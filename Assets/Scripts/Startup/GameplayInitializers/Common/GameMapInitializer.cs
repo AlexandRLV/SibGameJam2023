@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using Common;
+using Common.DI;
 using GameCore.LevelObjects;
 using UnityEngine.SceneManagement;
 

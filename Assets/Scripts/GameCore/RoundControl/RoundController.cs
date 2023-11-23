@@ -1,4 +1,5 @@
 ﻿using Common;
+using Common.DI;
 using GameCore.Common.Messages;
 using GameCore.Player;
 using GameCore.Sounds;

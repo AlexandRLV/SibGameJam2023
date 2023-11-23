@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using Common;
+using Common.DI;
 using UI.WindowsSystem;
 using UI.WindowsSystem.WindowTypes;
 

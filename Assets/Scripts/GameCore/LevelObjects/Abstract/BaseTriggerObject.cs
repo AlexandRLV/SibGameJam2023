@@ -1,4 +1,5 @@
 using Common;
+using Common.DI;
 using GameCore.Character.Movement;
 using GameCore.Common;
 using GameCore.Sounds;

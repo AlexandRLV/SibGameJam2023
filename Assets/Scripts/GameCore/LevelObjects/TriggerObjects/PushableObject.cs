@@ -1,4 +1,5 @@
 ﻿using Common;
+using Common.DI;
 using GameCore.LevelObjects;
 using NetFrame.Client;
 using Networking;
