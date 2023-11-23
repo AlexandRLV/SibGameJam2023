@@ -2,6 +2,7 @@
 using GameCore.Camera;
 using GameCore.Character.Movement;
 using NetFrame.Client;
+using Networking;
 using Networking.Dataframes.InGame;
 using UnityEngine;
 
@@ -15,7 +16,7 @@ namespace GameCore.Player.Network
         [HideInInspector] public bool Teleported;
         [SerializeField] private NetworkParameters _parameters;
 
-        private NetFrameClient _client;
+        private GameClient _client;
         private GameCamera _gameCamera;
 
         private int _tick;
@@ -41,7 +42,7 @@ namespace GameCore.Player.Network
         
         private void Awake()
         {
-            _client = GameContainer.Common.Resolve<NetFrameClient>();
+            _client = GameContainer.Common.Resolve<GameClient>();
         }
 
         private void FixedUpdate()
@@ -65,6 +66,9 @@ namespace GameCore.Player.Network
 
         private void SendCurrentPosition()
         {
+            if (!_client.IsConnected)
+                return;
+            
             var dataframe = new PlayerPositionDataframe
             {
                 Tick = _tick,

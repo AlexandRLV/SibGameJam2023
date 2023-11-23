@@ -9,6 +9,7 @@ public class CactusInteractiveObject : InteractiveObject
 {
     public override AnimationType InteractAnimation => AnimationType.Eat;
     public override InteractiveObjectType Type => InteractiveObjectType.Cactus;
+    public override Vector3 CheckPosition => transform.position;
 
     [SerializeField] private Collider mainCollider;
     [SerializeField] private Vector3 a, b;

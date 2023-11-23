@@ -7,11 +7,11 @@ using UnityEngine;
 
 namespace GameCore.InteractiveObjects
 {
-    public class PushableObject : BaseTriggerObject
+    public class PushableObject : BaseTriggerObject, ICheckPositionObject
     {
         private const int SendUpdateRate = 5;
         
-        public Vector3 StartPosition { get; private set; }
+        public Vector3 CheckPosition { get; private set; }
         
         [SerializeField] private Rigidbody _rigidbody;
 
@@ -39,7 +39,7 @@ namespace GameCore.InteractiveObjects
 
             var dataframe = new PushablePositionDataframe
             {
-                startPosition = StartPosition,
+                startPosition = CheckPosition,
                 position = _rigidbody.position,
                 rotation = _rigidbody.rotation,
             };
@@ -52,7 +52,7 @@ namespace GameCore.InteractiveObjects
             {
                 var dataframe = new PushablePositionDataframe
                 {
-                    startPosition = StartPosition,
+                    startPosition = CheckPosition,
                     position = _rigidbody.position,
                     rotation = _rigidbody.rotation,
                 };
@@ -69,7 +69,7 @@ namespace GameCore.InteractiveObjects
             _isOnline = gameClient.IsConnected;
 
             _client = GameContainer.Common.Resolve<NetFrameClient>();
-            StartPosition = transform.position;
+            CheckPosition = transform.position;
         }
 
         private void OnDisable()
