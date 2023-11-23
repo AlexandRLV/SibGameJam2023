@@ -11,7 +11,7 @@ namespace Startup.GameplayInitializers
         
         public IEnumerator Initialize()
         {
-            var service = new InteractiveObjectService();
+            var service = new LevelObjectService();
             GameContainer.InGame.Register(service);
             
             var asyncOperation = SceneManager.LoadSceneAsync(SceneName);
@@ -20,7 +20,7 @@ namespace Startup.GameplayInitializers
 
         public void Dispose()
         {
-            var service = GameContainer.InGame.Resolve<InteractiveObjectService>();
+            var service = GameContainer.InGame.Resolve<LevelObjectService>();
             service.Dispose();
             
             if (SceneManager.GetSceneByName(SceneName).isLoaded)

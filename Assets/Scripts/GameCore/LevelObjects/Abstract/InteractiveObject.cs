@@ -25,13 +25,13 @@ namespace GameCore.InteractiveObjects
 
         private void OnEnable()
         {
-            GameContainer.InGame.Resolve<InteractiveObjectService>().RegisterInteractiveObject(this);
+            GameContainer.InGame.Resolve<LevelObjectService>().RegisterInteractiveObject(this);
         }
 
         private void OnDisable()
         {
-            if (GameContainer.InGame.CanResolve<InteractiveObjectService>())
-                GameContainer.InGame.Resolve<InteractiveObjectService>().UnregisterInteractiveObject(this);
+            if (GameContainer.InGame.CanResolve<LevelObjectService>())
+                GameContainer.InGame.Resolve<LevelObjectService>().UnregisterInteractiveObject(this);
         }
     }
 }

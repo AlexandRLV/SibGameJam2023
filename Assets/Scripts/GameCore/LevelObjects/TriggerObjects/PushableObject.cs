@@ -63,7 +63,7 @@ namespace GameCore.InteractiveObjects
 
         private void OnEnable()
         {
-            GameContainer.InGame.Resolve<InteractiveObjectService>().RegisterPushableObject(this);
+            GameContainer.InGame.Resolve<LevelObjectService>().RegisterPushableObject(this);
 
             var gameClient = GameContainer.Common.Resolve<GameClient>();
             _isOnline = gameClient.IsConnected;
@@ -74,8 +74,8 @@ namespace GameCore.InteractiveObjects
 
         private void OnDisable()
         {
-            if (GameContainer.InGame.CanResolve<InteractiveObjectService>())
-                GameContainer.InGame.Resolve<InteractiveObjectService>().UnregisterPushableObject(this);
+            if (GameContainer.InGame.CanResolve<LevelObjectService>())
+                GameContainer.InGame.Resolve<LevelObjectService>().UnregisterPushableObject(this);
         }
     }
 }

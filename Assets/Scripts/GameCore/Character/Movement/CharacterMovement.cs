@@ -9,6 +9,9 @@ using GameCore.Input;
 using GameCore.Sounds;
 using GameCore.StateMachine;
 using LocalMessages;
+using NetFrame.Client;
+using Networking;
+using Networking.Dataframes.InGame;
 using UnityEngine;
 
 namespace GameCore.Character.Movement
@@ -20,11 +23,13 @@ namespace GameCore.Character.Movement
         public InputState InputState { get; private set; }
         public CharacterMoveValues MoveValues { get; private set; }
         public CharacterLives Lives { get; private set; }
+        public GameClient GameClient { get; private set; }
+        public NetFrameClient Client { get; private set; }
+        
         public Rigidbody Rigidbody => _rigidbody;
         public CharacterParameters Parameters => _parameters;
         public Collider Collider => _collider;
         public StepSounds StepSounds => _visuals.StepSounds;
-        public GameObject KnockdownEffect => _visuals.KnockdownEffect;
 
         public AnimationType CurrentAnimation => _stateMachine.CurrentState.AnimationType;
         public float AnimationSpeed => IsControlledByPlayer ? InputState.moveVector.magnitude : 0f;
@@ -66,6 +71,11 @@ namespace GameCore.Character.Movement
             _rigidbody.AddForce(Vector3.up * gravity);
             
             _stateMachine.Update();
+        }
+
+        private void OnDestroy()
+        {
+            Client.Unsubscribe<PlayerEffectStateDataframe>(OnEffectChanged);
         }
 
         private void CheckGrounded()
@@ -114,9 +124,18 @@ namespace GameCore.Character.Movement
                 countdownValue -= Time.deltaTime;
             }
 
-            _visuals.SpeedUp.SetActive(false);
+            SetEffectState(EffectType.SpeedUp, false);
             MoveValues.SpeedMultiplier = 1f;
             _isSpeedModified = false;
+
+            if (!GameClient.IsConnected)
+                yield break;
+            var dataframe = new PlayerEffectStateDataframe
+            {
+                type = EffectType.SpeedUp,
+                active = false,
+            };
+            Client.Send(ref dataframe);
         }
 #endregion
 
@@ -129,6 +148,10 @@ namespace GameCore.Character.Movement
             _visuals.Initialize(this);
                     
             _visuals.KnockdownEffect.SetActive(false);
+
+            GameClient = GameContainer.Common.Resolve<GameClient>();
+            Client = GameContainer.Common.Resolve<NetFrameClient>();
+            Client.Subscribe<PlayerEffectStateDataframe>(OnEffectChanged);
                     
             MoveValues = new CharacterMoveValues
             {
@@ -161,6 +184,11 @@ namespace GameCore.Character.Movement
 
             _collider.height -= _floatingHeight;
             _collider.center += Vector3.up * (_floatingHeight * 0.5f);
+        }
+
+        private void OnEffectChanged(PlayerEffectStateDataframe dataframe)
+        {
+            SetEffectState(dataframe.type, dataframe.active);
         }
 
         public void Damage()
@@ -214,11 +242,36 @@ namespace GameCore.Character.Movement
             if (_isSpeedModified) return;
             
             if (multiplier > 1f)
-                _visuals.SpeedUp.SetActive(true);
+            {
+                SetEffectState(EffectType.SpeedUp, true);
+                
+                if (GameClient.IsConnected)
+                {
+                    var dataframe = new PlayerEffectStateDataframe
+                    {
+                        type = EffectType.SpeedUp,
+                        active = true,
+                    };
+                    Client.Send(ref dataframe);
+                }
+            }
             
             MoveValues.SpeedMultiplier = multiplier;
             _isSpeedModified = true;
             StartCoroutine(BuffTimer(duration));
+        }
+
+        public void SetEffectState(EffectType effect, bool state)
+        {
+            if (effect == EffectType.Knockdown)
+            {
+                _visuals.KnockdownEffect.SetActive(state);
+                if (state) _visuals.KnockdownEffect.GetComponent<ParticleSystem>().Play();
+            }
+            else if (effect == EffectType.SpeedUp)
+            {
+                _visuals.SpeedUp.SetActive(state);
+            }
         }
 #endregion
     }

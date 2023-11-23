@@ -7,14 +7,14 @@ using UnityEngine;
 
 namespace GameCore.LevelObjects
 {
-    public class InteractiveObjectService
+    public class LevelObjectService
     {
         private List<InteractiveObject> _objects = new();
         private List<PushableObject> _pushableObjects = new();
 
         private NetFrameClient _client;
         
-        public InteractiveObjectService()
+        public LevelObjectService()
         {
             _client = GameContainer.Common.Resolve<NetFrameClient>();
             

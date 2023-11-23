@@ -1,4 +1,5 @@
 ﻿using GameCore.Character.Animation;
+using Networking.Dataframes.InGame;
 using UnityEngine;
 
 namespace GameCore.Character.Movement.States
@@ -24,8 +25,14 @@ namespace GameCore.Character.Movement.States
 
         public override void OnEnter(MovementStateType prevState)
         {
-            movement.KnockdownEffect.SetActive(true);
-            movement.KnockdownEffect.GetComponent<ParticleSystem>().Play();
+            if (!movement.GameClient.IsConnected) return;
+
+            var dataframe = new PlayerEffectStateDataframe
+            {
+                type = EffectType.Knockdown,
+                active = true,
+            };
+            movement.Client.Send(ref dataframe);
         }
 
         public override void Update()
