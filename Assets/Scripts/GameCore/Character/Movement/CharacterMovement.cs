@@ -73,11 +73,6 @@ namespace GameCore.Character.Movement
             _stateMachine.Update();
         }
 
-        private void OnDestroy()
-        {
-            Client.Unsubscribe<PlayerEffectStateDataframe>(OnEffectChanged);
-        }
-
         private void CheckGrounded()
         {
             bool hitTriggers = Physics.queriesHitTriggers;
@@ -151,7 +146,6 @@ namespace GameCore.Character.Movement
 
             GameClient = GameContainer.Common.Resolve<GameClient>();
             Client = GameContainer.Common.Resolve<NetFrameClient>();
-            Client.Subscribe<PlayerEffectStateDataframe>(OnEffectChanged);
                     
             MoveValues = new CharacterMoveValues
             {
@@ -184,11 +178,6 @@ namespace GameCore.Character.Movement
 
             _collider.height -= _floatingHeight;
             _collider.center += Vector3.up * (_floatingHeight * 0.5f);
-        }
-
-        private void OnEffectChanged(PlayerEffectStateDataframe dataframe)
-        {
-            SetEffectState(dataframe.type, dataframe.active);
         }
 
         public void Damage()

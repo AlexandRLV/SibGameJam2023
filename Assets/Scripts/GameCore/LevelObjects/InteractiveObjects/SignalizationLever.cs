@@ -11,6 +11,7 @@ namespace GameCore.InteractiveObjects
     {
         public override AnimationType InteractAnimation => AnimationType.LeverPull;
         public override InteractiveObjectType Type => InteractiveObjectType.Lever;
+        public override Vector3 CheckPosition => transform.position;
         
         [SerializeField] private LaserGroup laserGroup;
 

@@ -46,8 +46,8 @@ namespace UI.WindowsSystem.WindowTypes
             _reasonLabel.text = reason switch
             {
                 LoseGameReason.TimeOut => "Время вышло!",
-                LoseGameReason.Catched => "Тебя поймали!",
-                LoseGameReason.Dead => "Ты погиб!"
+                LoseGameReason.Catched => "Агента поймали!",
+                LoseGameReason.Dead => "Агент погиб!"
             };
         }
     }

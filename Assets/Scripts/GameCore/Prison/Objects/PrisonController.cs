@@ -1,7 +1,6 @@
 using System.Collections;
 using Common;
 using GameCore.Character.Animation;
-using GameCore.Common;
 using GameCore.InteractiveObjects;
 using GameCore.Player;
 using GameCore.RoundMissions.LocalMessages;
@@ -18,6 +17,7 @@ namespace GameCore.Prison.Objects
         
         public override AnimationType InteractAnimation => AnimationType.OpenDoor;
         public override InteractiveObjectType Type => InteractiveObjectType.Prison;
+        public override Vector3 CheckPosition => transform.position;
 
         [SerializeField] private OpenType _openType;
         [SerializeField] private OpenAxis _openAxis;

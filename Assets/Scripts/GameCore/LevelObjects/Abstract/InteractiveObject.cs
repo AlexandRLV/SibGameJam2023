@@ -1,13 +1,15 @@
 using Common;
 using GameCore.Character.Animation;
 using GameCore.LevelObjects;
+using UnityEngine;
 
 namespace GameCore.InteractiveObjects
 {
-    public abstract class InteractiveObject : BaseTriggerObject
+    public abstract class InteractiveObject : BaseTriggerObject, ICheckPositionObject
     {
         public abstract AnimationType InteractAnimation { get; }
         public abstract InteractiveObjectType Type { get; }
+        public abstract Vector3 CheckPosition { get; }
         
         public abstract void Interact();
         public abstract void InteractWithoutPlayer();

@@ -11,6 +11,7 @@ namespace GameCore.InteractiveObjects
     {
         public override AnimationType InteractAnimation => AnimationType.Eat;
         public override InteractiveObjectType Type => InteractiveObjectType.Cheese;
+        public override Vector3 CheckPosition => transform.position;
         
         [SerializeField] private float speedMultiplier;
         [SerializeField] private float speedMultiplierDuration;

@@ -3,6 +3,9 @@ using GameCore.Common.Messages;
 using GameCore.Player;
 using GameCore.Sounds;
 using LocalMessages;
+using NetFrame.Client;
+using Networking;
+using Networking.Dataframes.InGame;
 using UI.WindowsSystem;
 using UI.WindowsSystem.WindowTypes;
 using UnityEngine;
@@ -23,6 +26,9 @@ namespace GameCore.Common
         private SoundService _soundService;
         
         private LoseGameReason _loseGameReason;
+        
+        private GameClient _gameClient;
+        private NetFrameClient _client;
 
         private void Start()
         {
@@ -30,6 +36,9 @@ namespace GameCore.Common
             
             Timer = _settings.RoundLengthSeconds;
             Stage = RoundStage.Game;
+            
+            _gameClient = GameContainer.Common.Resolve<GameClient>();
+            _client = GameContainer.Common.Resolve<NetFrameClient>();
 
             _messageBroker = GameContainer.Common.Resolve<LocalMessageBroker>();
             _messageBroker.Subscribe<PlayerDetectedMessage>(OnPlayerDetected);
@@ -49,6 +58,23 @@ namespace GameCore.Common
             _messageBroker.Unsubscribe<ChangeCharacterMessage>(OnChangeCharacter);
         }
 
+        public void LoseGameByReason(LoseGameReason reason, bool send = true)
+        {
+            Timer = _settings.playerDetectedToLoseSeconds;
+            Stage = RoundStage.WaitToLose;
+            _player.Unposess();
+            _loseGameReason = reason;
+            
+            if (!send) return;
+            if (!_gameClient.IsConnected) return;
+
+            var dataframe = new LoseGameDataframe
+            {
+                reason = reason
+            };
+            _client.Send(ref dataframe);
+        }
+
         private void OnChangeCharacter(ref ChangeCharacterMessage message)
         {
             _soundService.PlayMusic(_player.MouseType == PlayerMouseType.ThinMouse ? MusicType.ThinCharacter : MusicType.FatCharacter, true);
@@ -63,10 +89,7 @@ namespace GameCore.Common
 
             if (Stage == RoundStage.Game)
             {
-                _loseGameReason = LoseGameReason.TimeOut;
-                Timer = _settings.playerDetectedToLoseSeconds;
-                Stage = RoundStage.WaitToLose;
-                _player.Unposess();
+                LoseGameByReason(LoseGameReason.TimeOut);
             }
             else if (Stage == RoundStage.WaitToLose)
             {
@@ -88,18 +111,12 @@ namespace GameCore.Common
 
         private void OnPlayerDetected(ref PlayerDetectedMessage value)
         {
-            Timer = _settings.playerDetectedToLoseSeconds;
-            Stage = RoundStage.WaitToLose;
-            _player.Unposess();
-            _loseGameReason = LoseGameReason.Catched;
+            LoseGameByReason(LoseGameReason.Catched);
         }
 
         private void OnPlayerDead(ref PlayerDeadMessage value)
         {
-            Timer = _settings.playerDetectedToLoseSeconds;
-            Stage = RoundStage.WaitToLose;
-            _player.Unposess();
-            _loseGameReason = LoseGameReason.Dead;
+            LoseGameByReason(LoseGameReason.Dead);
         }
 
         private void OnPlayerEvacuated(ref PlayerEvacuatedMessage value)

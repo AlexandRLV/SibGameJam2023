@@ -1,6 +1,8 @@
 ﻿using Common;
+using GameCore.Common;
 using GameCore.LevelObjects;
 using LocalMessages;
+using NetFrame;
 using NetFrame.Client;
 using NetFrame.Enums;
 using Networking.Dataframes;
@@ -40,6 +42,7 @@ namespace Networking
             
             _client.Subscribe<PlayerLeftRoomDataframe>(OnPlayerLeftRoom);
             _client.Subscribe<GameFinishedDataframe>(OnGameFinished);
+            _client.Subscribe<LoseGameDataframe>(OnLoseGame);
         }
 
         public void Connect()
@@ -61,7 +64,10 @@ namespace Networking
             
             _client.Unsubscribe<PlayerLeftRoomDataframe>(OnPlayerLeftRoom);
             _client.Unsubscribe<GameFinishedDataframe>(OnGameFinished);
+            _client.Unsubscribe<LoseGameDataframe>(OnLoseGame);
         }
+
+        public void Send<T>(ref T dataframe) where T : struct, INetworkDataframe => _client.Send(ref dataframe);
 
         private void OnConnectionSuccessful()
         {
@@ -120,6 +126,15 @@ namespace Networking
             
             var windowsSystem = GameContainer.Common.Resolve<WindowsSystem>();
             windowsSystem.CreateWindow<RoomsListWindow>();
+        }
+
+        private void OnLoseGame(LoseGameDataframe dataframe)
+        {
+            if (GameContainer.InGame == null) return;
+            if (!GameContainer.InGame.CanResolve<RoundController>()) return;
+
+            var roundController = GameContainer.InGame.Resolve<RoundController>();
+            roundController.LoseGameByReason(dataframe.reason, false);
         }
 
         private void OnDestroy() => Shutdown();

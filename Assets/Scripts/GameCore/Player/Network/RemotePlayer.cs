@@ -1,5 +1,6 @@
 ﻿using Common;
 using GameCore.Character.Animation;
+using GameCore.Character.Movement;
 using NetFrame.Client;
 using Networking.Dataframes.InGame;
 using UnityEngine;
@@ -26,12 +27,14 @@ namespace GameCore.Player.Network
             _client = GameContainer.Common.Resolve<NetFrameClient>();
             _client.Subscribe<PlayerPositionDataframe>(ProcessPlayerPosition);
             _client.Subscribe<SetCurrentTickDataframe>(SetOwnerTick);
+            _client.Subscribe<PlayerEffectStateDataframe>(SetEffectState);
         }
 
         private void OnDestroy()
         {
             _client.Unsubscribe<PlayerPositionDataframe>(ProcessPlayerPosition);
             _client.Unsubscribe<SetCurrentTickDataframe>(SetOwnerTick);
+            _client.Subscribe<PlayerEffectStateDataframe>(SetEffectState);
         }
 
         private void Update()
@@ -50,6 +53,19 @@ namespace GameCore.Player.Network
         private void SetOwnerTick(SetCurrentTickDataframe dataframe)
         {
             _interpolator.SetOwnerTick(dataframe.tick);
+        }
+
+        private void SetEffectState(PlayerEffectStateDataframe dataframe)
+        {
+            if (dataframe.type == EffectType.Knockdown)
+            {
+                _visuals.KnockdownEffect.SetActive(dataframe.active);
+                if (dataframe.active) _visuals.KnockdownEffect.GetComponent<ParticleSystem>().Play();
+            }
+            else if (dataframe.type == EffectType.SpeedUp)
+            {
+                _visuals.SpeedUp.SetActive(dataframe.active);
+            }
         }
     }
 }
