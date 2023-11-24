@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyFOV : MonoBehaviour
 {
-    private int VisionConeResolution = 50;
+    private int VisionConeResolution = 300;
     Mesh VisionConeMesh;
     MeshFilter MeshFilter_;
 

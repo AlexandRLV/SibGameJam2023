@@ -123,6 +123,8 @@ public class EnemyController : MonoBehaviour, ICheckPositionObject
 
     private void Update()
     {
+        _enemyFOV.DrawFOV(_enemyScan.ViewDistance, _enemyScan.ViewAngle, _enemyScan.ObstacleLayer);
+
         if (_isAlert) return;
 
         if (_isPlayerDetected && _isAlert == false)
@@ -159,7 +161,6 @@ public class EnemyController : MonoBehaviour, ICheckPositionObject
 
     private void LateUpdate()
     {
-        _enemyFOV.DrawFOV(_enemyScan.ViewDistance, _enemyScan.ViewAngle, _enemyScan.ObstacleLayer);
         var cameraService = GameContainer.InGame.Resolve<GameCamera>();
         if (cameraService != null && cameraService.Camera != null) _markController.LookAt(cameraService.Camera);
     }

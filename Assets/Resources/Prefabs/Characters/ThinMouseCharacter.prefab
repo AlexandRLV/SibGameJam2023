@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2933814764234794315}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -45,7 +45,7 @@ CapsuleCollider:
   m_Radius: 0.5
   m_Height: 1.8
   m_Direction: 1
-  m_Center: {x: 0, y: 0.9, z: 0}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2933814764328320536
 GameObject:
   m_ObjectHideFlags: 0
@@ -111,8 +111,6 @@ MonoBehaviour:
   _rigidbody: {fileID: 2933814764328320538}
   _collider: {fileID: 2933814764234794317}
   _parameters: {fileID: 11400000, guid: 5545bec0f887cab46b2b62fc0b69096d, type: 2}
-  _stepSounds: {fileID: 0}
-  _knockdownEffect: {fileID: 0}
   _groundMask:
     serializedVersion: 2
     m_Bits: 449
