@@ -1,5 +1,4 @@
-﻿using Common;
-using Common.DI;
+﻿using Common.DI;
 using NetFrame.Client;
 using Networking.Dataframes;
 using UnityEngine;
@@ -17,6 +16,7 @@ namespace Networking
         {
             _client = GameContainer.Common.Resolve<NetFrameClient>();
             _client.Subscribe<JoinedRoomDataframe>(OnJoinedRoom);
+            _client.Subscribe<PlayerLeftRoomDataframe>(OnLeftRoom);
         }
 
         public void LeaveCurrentRoom()
@@ -32,6 +32,11 @@ namespace Networking
             Debug.Log("Joined room!");
             currentRoom = dataframe.roomInfo;
             inRoom = true;
+        }
+
+        private void OnLeftRoom(PlayerLeftRoomDataframe dataframe)
+        {
+            currentRoom.guestName = "";
         }
     }
 }
