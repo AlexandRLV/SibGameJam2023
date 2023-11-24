@@ -50,7 +50,6 @@ namespace UI.WindowsSystem
                 if (baseWindow is not T targetWindow)
                     throw new ArgumentException($"Error in creating window type {type.Name} - already created wrong type of window");
 
-                Debug.Log("Found existing window");
                 return targetWindow;
             }
             
@@ -73,7 +72,7 @@ namespace UI.WindowsSystem
             
             if (window != null && window.gameObject != null)
                 Object.Destroy(window.gameObject);
-
+            
             _loadedWindows.Remove(type);
         }
 
@@ -81,14 +80,17 @@ namespace UI.WindowsSystem
         {
             var type = typeof(T);
             if (!_loadedWindows.TryGetValue(type, out var loadedWindow))
+            {
+                Debug.Log("Don't have this type of window");
                 return;
+            }
 
             if (loadedWindow != window)
                 throw new ArgumentException($"Trying to destroy {type.Name} window, but saved different object!");
             
             if (loadedWindow != null && loadedWindow.gameObject != null)
                 Object.Destroy(loadedWindow.gameObject);
-
+            
             _loadedWindows.Remove(type);
         }
 

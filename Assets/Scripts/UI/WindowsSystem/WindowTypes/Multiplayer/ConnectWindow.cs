@@ -1,7 +1,7 @@
-﻿using Common;
-using Common.DI;
+﻿using Common.DI;
 using LocalMessages;
 using NetFrame.Client;
+using NetFrame.Enums;
 using Networking;
 using Networking.Dataframes;
 using Networking.LocalMessages;
@@ -22,7 +22,7 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer
         private NetFrameClient _client;
         private LocalMessageBroker _messageBroker;
 
-        private void Awake()
+        private void Start()
         {
             _connectButton.onClick.AddListener(Connect);
             _cancelButton.onClick.AddListener(Cancel);
@@ -30,6 +30,7 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer
             _client = GameContainer.Common.Resolve<NetFrameClient>();
             _client.Subscribe<PlayerInfoRequestDataframe>(SendPlayerInfo);
             _client.Subscribe<PlayerInfoReceivedDataframe>(ProcessPlayerInfoReceived);
+            _client.Subscribe<DisconnectByReasonDataframe>(DisconnectByReason);
 
             _messageBroker = GameContainer.Common.Resolve<LocalMessageBroker>();
             _messageBroker.Subscribe<ConnectedMessage>(OnConnected);
@@ -48,6 +49,7 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer
         {
             _client.Unsubscribe<PlayerInfoRequestDataframe>(SendPlayerInfo);
             _client.Unsubscribe<PlayerInfoReceivedDataframe>(ProcessPlayerInfoReceived);
+            _client.Unsubscribe<DisconnectByReasonDataframe>(DisconnectByReason);
 
             _messageBroker.Unsubscribe<ConnectedMessage>(OnConnected);
             _messageBroker.Unsubscribe<ConnectionFailedMessage>(OnConnectionFailed);
@@ -81,15 +83,25 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer
 
         private void OnConnectionFailed(ref ConnectionFailedMessage message)
         {
+            string reason = message.reason switch
+            {
+                ReasonServerConnectionFailed.AlreadyConnected => "Вы уже подключены",
+                ReasonServerConnectionFailed.ConnectionLost => "Потеряно соединение с сервером",
+                ReasonServerConnectionFailed.ImpossibleToConnect => "Невозможно подключиться к серверу"
+            };
+            
+            Debug.Log($"Connection failed by reason: {reason}");
+            
             var notificationsManager = GameContainer.Common.Resolve<NotificationsManager>();
-            notificationsManager.ShowNotification($"Connection failed: {message.reason}", NotificationsManager.NotificationType.Center);
+            notificationsManager.ShowNotification($"Ошибка подключения: {reason}", NotificationsManager.NotificationType.Center);
         }
 
         private void SendPlayerInfo(PlayerInfoRequestDataframe obj)
         {
             var dataframe = new PlayerInfoDataframe
             {
-                name = _nicknameText.text
+                name = _nicknameText.text,
+                clientVersion = GameClient.ClientVersion,
             };
             _client.Send(ref dataframe);
         }
@@ -99,6 +111,18 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer
             var windowsSystem = GameContainer.Common.Resolve<WindowsSystem>();
             windowsSystem.CreateWindow<RoomsListWindow>();
             windowsSystem.DestroyWindow(this);
+        }
+
+        private void DisconnectByReason(DisconnectByReasonDataframe dataframe)
+        {
+            string reason = dataframe.reason switch
+            {
+                DisconnectReason.ClientVersion => "Версия клиента устарела, пожалуйста, обновите клиент",
+                DisconnectReason.NicknameTaken => "Такой никнейм уже занят, выберите другой!"
+            };
+            
+            var notificationsManager = GameContainer.Common.Resolve<NotificationsManager>();
+            notificationsManager.ShowNotification($"Ошибка подключения: {reason}", NotificationsManager.NotificationType.Center, 3f);
         }
     }
 }

@@ -19,7 +19,7 @@ namespace UI.NotificationsSystem
         [SerializeField] private RectTransform _centerNotificationsParent;
         [SerializeField] private RectTransform _sideNotificationsParent;
 
-        public void ShowNotification(string text, NotificationType type)
+        public void ShowNotification(string text, NotificationType type, float time = -1)
         {
             var parent = type switch
             {
@@ -31,7 +31,9 @@ namespace UI.NotificationsSystem
             var notification = _notificationsPool.GetForTime(_showTime);
             notification.gameObject.SetActive(true);
             notification.transform.SetParent(parent);
-            notification.Initialize(text, _showTime);
+
+            float showTime = time > 0f ? time : _showTime;
+            notification.Initialize(text, showTime);
         }
     }
 }

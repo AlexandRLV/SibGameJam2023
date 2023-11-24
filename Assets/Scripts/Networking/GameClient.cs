@@ -1,7 +1,5 @@
-﻿using Common;
-using Common.DI;
+﻿using Common.DI;
 using GameCore.Common;
-using GameCore.LevelObjects;
 using LocalMessages;
 using NetFrame;
 using NetFrame.Client;
@@ -12,6 +10,7 @@ using Networking.LocalMessages;
 using Startup;
 using UI.NotificationsSystem;
 using UI.WindowsSystem;
+using UI.WindowsSystem.WindowTypes;
 using UI.WindowsSystem.WindowTypes.Multiplayer.Rooms;
 using UnityEngine;
 
@@ -19,6 +18,8 @@ namespace Networking
 {
     public class GameClient : MonoBehaviour
     {
+        public const string ClientVersion = "0.1.0";
+        
         public string PlayerName { get; set; }
         public bool IsMaster { get; set; }
         
@@ -72,6 +73,7 @@ namespace Networking
 
         private void OnConnectionSuccessful()
         {
+            Debug.Log("Connection successfull, sending connected message");
             IsConnected = true;
             var message = new ConnectedMessage();
             GameContainer.Common.Resolve<LocalMessageBroker>().Trigger(ref message);
@@ -83,6 +85,7 @@ namespace Networking
                 return;
             
             IsConnected = false;
+            Debug.Log("Connection failed, sending failed message");
             var message = new ConnectionFailedMessage
             {
                 reason = reason
@@ -92,6 +95,7 @@ namespace Networking
 
         private void OnDisconnected()
         {
+            Debug.Log("Disconnected, sending disconnect message");
             IsConnected = false;
             var message = new DisconnectedMessage();
             GameContainer.Common.Resolve<LocalMessageBroker>().Trigger(ref message);
@@ -99,16 +103,19 @@ namespace Networking
 
         private void OnPlayerLeftRoom(PlayerLeftRoomDataframe dataframe)
         {
+            Debug.Log("Finishing game, because partner left!");
             FinishGameByReason(GameFinishedReason.Leave);
         }
 
         private void OnGameFinished(GameFinishedDataframe dataframe)
         {
+            Debug.Log("Game finished dataframe");
            FinishGameByReason(dataframe.reason);
         }
 
         private void FinishGameByReason(GameFinishedReason reason)
         {
+            Debug.Log($"Game finished by reason: {reason}");
             string notif = reason switch
             {
                 GameFinishedReason.Win => "Миссия пройдена!",
@@ -125,7 +132,9 @@ namespace Networking
             
             gameInitializer.StopGame();
             
+            Debug.Log("Creating room list window");
             var windowsSystem = GameContainer.Common.Resolve<WindowsSystem>();
+            windowsSystem.DestroyWindow<MainMenu>();
             windowsSystem.CreateWindow<RoomsListWindow>();
         }
 
@@ -134,6 +143,7 @@ namespace Networking
             if (GameContainer.InGame == null) return;
             if (!GameContainer.InGame.CanResolve<RoundController>()) return;
 
+            Debug.Log($"Game lose by reason: {dataframe.reason}");
             var roundController = GameContainer.InGame.Resolve<RoundController>();
             roundController.LoseGameByReason(dataframe.reason, false);
         }

@@ -34,7 +34,6 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
 
         private void Awake()
         {
-            Debug.Log("Initialize current room window");
             _readyButton.onClick.AddListener(SendReady);
             _notReadyButton.onClick.AddListener(SendNotReady);
             _leaveButton.onClick.AddListener(LeaveRoom);
@@ -55,7 +54,6 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
 
         private void OnDestroy()
         {
-            Debug.Log("Destroy current room window");
             _client.Unsubscribe<PlayerLeftRoomDataframe>(OnPlayerLeftRoom);
             _client.Unsubscribe<PlayerReadyStateDataframe>(OnPlayerReadyStateChanged);
             _client.Unsubscribe<PlayerJoinedRoomDataframe>(OnPlayerJoinedRoom);
@@ -91,7 +89,6 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
 
         private void SendReady()
         {
-            Debug.Log("Sending i'm ready");
             var dataframe = new PlayerReadyStateDataframe
             {
                 ready = true,
@@ -101,7 +98,6 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
 
         private void SendNotReady()
         {
-            Debug.Log("Sending i'm not ready");
             var dataframe = new PlayerReadyStateDataframe
             {
                 ready = false,
@@ -111,7 +107,6 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
 
         private void LeaveRoom()
         {
-            Debug.Log("Leaving room");
             var roomController = GameContainer.Common.Resolve<RoomController>();
             roomController.LeaveCurrentRoom();
 
@@ -121,7 +116,6 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
 
         private void OnPlayerReadyStateChanged(PlayerReadyStateDataframe dataframe)
         {
-            Debug.Log($"Player ready state changed, id: {dataframe.playerId}, state: {dataframe.ready}");
             bool player1 = dataframe.playerId == 0;
             if (player1)
             {
@@ -136,7 +130,6 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
 
             if (dataframe.playerId == _localId)
             {
-                Debug.Log("Self ready state change callback");
                 _readyButton.gameObject.SetActive(!dataframe.ready);
                 _notReadyButton.gameObject.SetActive(dataframe.ready);
             }
@@ -144,36 +137,37 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
 
         private void OnPlayerLeftRoom(PlayerLeftRoomDataframe dataframe)
         {
-            Debug.Log("Player left room");
             _player2Text.text = "";
             _player2ReadyState.SetActive(false);
             _player2NotReadyState.SetActive(false);
+            
+            var roomController = GameContainer.Common.Resolve<RoomController>();
+            roomController.currentRoom.guestName = "";
         }
 
         private void OnPlayerJoinedRoom(PlayerJoinedRoomDataframe dataframe)
         {
-            Debug.Log("Player joined room");
             _player2Text.text = dataframe.playerName;
             _player2ReadyState.SetActive(false);
             _player2NotReadyState.SetActive(true);
+            
+            var roomController = GameContainer.Common.Resolve<RoomController>();
+            roomController.currentRoom.guestName = dataframe.playerName;
         }
 
         private void OnJoinedRoom(JoinedRoomDataframe dataframe)
         {
-            Debug.Log("Self joined room - owner transfership?");
             Setup(dataframe.roomInfo);
         }
 
         private void PrepareToPlay(RoomPrepareToPlayDataframe dataframe)
         {
-            Debug.Log("Game starting in 3 seconds");
             _gameStartTimerPopup.gameObject.SetActive(true);
             _gameClient.IsMaster = dataframe.isMasterClient;
         }
 
         private void StartGame()
         {
-            Debug.Log("Starting game!");
             _windowsSystem.DestroyWindow(this);
             _windowsSystem.CreateWindow<IntroScreen>();
         }

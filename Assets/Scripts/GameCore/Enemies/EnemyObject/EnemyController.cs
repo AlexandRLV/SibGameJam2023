@@ -161,8 +161,12 @@ public class EnemyController : MonoBehaviour, ICheckPositionObject
 
     private void LateUpdate()
     {
+        if (!GameContainer.InGame.CanResolve<GameCamera>())
+            return;
+        
         var cameraService = GameContainer.InGame.Resolve<GameCamera>();
-        if (cameraService != null && cameraService.Camera != null) _markController.LookAt(cameraService.Camera);
+        if (cameraService != null && cameraService.Camera != null)
+            _markController.LookAt(cameraService.Camera);
     }
 
     private void OnPlayerDetected(ref PlayerDetectedMessage value)

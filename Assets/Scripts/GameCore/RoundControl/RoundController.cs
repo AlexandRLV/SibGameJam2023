@@ -59,6 +59,7 @@ namespace GameCore.Common
 
         public void LoseGameByReason(LoseGameReason reason, bool send = true)
         {
+            Debug.Log($"Losing game in round controller by reason: {reason}");
             Timer = _settings.playerDetectedToLoseSeconds;
             Stage = RoundStage.WaitToLose;
             _player.Unposess();
@@ -67,6 +68,7 @@ namespace GameCore.Common
             if (!send) return;
             if (!_gameClient.IsConnected) return;
 
+            Debug.Log("Sending lose game dataframe");
             var dataframe = new LoseGameDataframe
             {
                 reason = reason

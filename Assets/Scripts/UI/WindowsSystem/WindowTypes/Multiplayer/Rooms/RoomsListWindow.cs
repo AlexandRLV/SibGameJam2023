@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Common;
 using Common.DI;
 using NetFrame.Client;
 using Networking;
@@ -57,16 +56,21 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
             
             CloseCreateRoom();
             CloseJoinRoom();
+            
             _roomListItemPrefab.gameObject.SetActive(false);
-
             _clientParameters = GameContainer.Common.Resolve<ClientParameters>();
+        }
 
+        private void Start()
+        {
             var roomController = GameContainer.Common.Resolve<RoomController>();
             if (!roomController.inRoom) return;
             
             Debug.Log("Already in room!");
             var currentRoom = _windowsSystem.CreateWindow<CurrentRoomWindow>();
             currentRoom.Setup(roomController.currentRoom);
+            
+            Debug.Log("Destroy rooms list window");
             _windowsSystem.DestroyWindow(this);
         }
 
@@ -210,7 +214,7 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
             };
             _client.Send(ref dataframe);
             CloseCreateRoom();
-            _notificationsManager.ShowNotification("Комната создаётся...", NotificationsManager.NotificationType.Center);
+            _notificationsManager.ShowNotification("Комната создаётся...", NotificationsManager.NotificationType.Center, 0.5f);
         }
 
         private void CloseCreateRoom()

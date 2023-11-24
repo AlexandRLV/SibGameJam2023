@@ -91,11 +91,13 @@ namespace Startup
 
         public void StartGame()
         {
+            Debug.Log("Starting game!");
             StartCoroutine(StartGameCoroutine());
         }
 
         public void StopGame(bool toMainMenu = true)
         {
+            Debug.Log($"Stopping game, to main menu: {toMainMenu}");
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
             
@@ -104,12 +106,14 @@ namespace Startup
 
             if (toMainMenu)
             {
+                Debug.Log("Switching to main menu scene");
                 SceneManager.LoadScene(MainMenuSceneName);
                 windowsSystem.CreateWindow<MainMenu>();
             }
             
+            Debug.Log("Disposing gameplay initializers");
             DisposeList(_gameplayInitializers);
-
+            
             GameContainer.InGame = null;
             InGame = false;
         }
@@ -130,14 +134,18 @@ namespace Startup
 
         private IEnumerator StartGameCoroutine()
         {
+            Debug.Log("Starting game coroutine");
             var loadingScreen = GameContainer.Common.Resolve<LoadingScreen>();
             loadingScreen.Active = true;
             
             GameContainer.InGame = new Container();
             
+            Debug.Log("Initializing gameplay");
             yield return InitializeList(_gameplayInitializers);
-
+            
             bool isMultiplayer = GameContainer.Common.Resolve<GameClient>().IsConnected;
+            
+            Debug.Log($"Initializing multiplayer: {isMultiplayer}");
             if (isMultiplayer) yield return InitializeList(_multiplayerInitializers);
             else yield return InitializeList(_singlePlayerInitializers);
 
@@ -149,6 +157,7 @@ namespace Startup
         {
             foreach (var initializer in initializers)
             {
+                Debug.Log($"Initializing initializer {initializer.GetType().Name}");
                 yield return initializer.Initialize();
             }
         }
@@ -157,6 +166,7 @@ namespace Startup
         {
             foreach (var initializer in initializers)
             {
+                Debug.Log($"Disposing initializer {initializer.GetType().Name}");
                 initializer.Dispose();
             }
         }
