@@ -1,9 +1,6 @@
 using Common;
 using GameCore.Player;
-using System.Collections;
 using System.Collections.Generic;
-using GameCore.Character.Movement;
-using LocalMessages;
 using UnityEngine;
 using UnityEditor;
 
@@ -65,6 +62,8 @@ public class EnemyTargetScaner : MonoBehaviour
         if (player == null || player.CurrentCharacter == null) return;
 
         var collider = player.CurrentCharacter.Collider;
+        Debug.Log(collider.gameObject.layer);
+        Debug.Log(collider.gameObject.name);
         // Detect without obstacles
         Vector3 targetSize = collider.bounds.size;
         Transform target = collider.transform;
@@ -239,6 +238,7 @@ public class EnemyTargetScaner : MonoBehaviour
     #endregion
 
     /*
+#if UNITY_EDITOR
     private void OnDrawGizmosSelected()
     {
         if (!showGizmos || transform == null) return;
@@ -278,5 +278,6 @@ public class EnemyTargetScaner : MonoBehaviour
             Gizmos.DrawCube(t.position, new Vector3(0.3f, 0.3f, 0.3f));
         }
     }
+#endif
     */
 }
