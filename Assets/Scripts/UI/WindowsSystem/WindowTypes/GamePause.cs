@@ -1,5 +1,9 @@
 ﻿using Common;
+using Common.DI;
 using GameCore.Camera;
+using NetFrame.Client;
+using Networking;
+using Networking.Dataframes.InGame;
 using Startup;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,19 +18,30 @@ namespace UI.WindowsSystem.WindowTypes
 
         private void Start()
         {
-            Time.timeScale = 0f;
+            if (!GameContainer.Common.Resolve<GameClient>().IsConnected)
+                Time.timeScale = 0f;
+            
             GameContainer.InGame.Resolve<GameCamera>().FollowTarget.SetInPause(true);
             
             _continueButton.onClick.AddListener(() =>
             {
                 GameContainer.InGame.Resolve<GameCamera>().FollowTarget.SetInPause(false);
-                GameContainer.Common.Resolve<WindowsSystem>().DestroyWindow<GamePause>();
+                GameContainer.Common.Resolve<WindowsSystem>().DestroyWindow(this);
             });
             
             _backToMenuButton.onClick.AddListener(() =>
             {
-                GameContainer.Common.Resolve<GameInitializer>().StopGame();
-                GameContainer.Common.Resolve<WindowsSystem>().DestroyWindow<GamePause>();
+                if (GameContainer.Common.Resolve<GameClient>().IsConnected)
+                {
+                    var dataframe = new GameFinishedDataframe
+                    {
+                        reason = GameFinishedReason.Lose
+                    };
+                    GameContainer.Common.Resolve<GameClient>().Send(ref dataframe);
+                    return;
+                }
+                
+                GameContainer.Common.Resolve<WindowsSystem>().DestroyWindow(this);
             });
             
             _settingsButton.onClick.AddListener(OpenSettings);
@@ -40,7 +55,8 @@ namespace UI.WindowsSystem.WindowTypes
 
         private void OnDestroy()
         {
-            Time.timeScale = 1f;
+            if (!GameContainer.Common.Resolve<GameClient>().IsConnected)
+                Time.timeScale = 1f;
         }
     }
 }

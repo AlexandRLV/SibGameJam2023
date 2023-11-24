@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Common;
+using Common.DI;
 using GameCore.Camera;
 using GameCore.Character.Animation;
 using GameCore.Character.Movement.States;
@@ -9,6 +10,9 @@ using GameCore.Input;
 using GameCore.Sounds;
 using GameCore.StateMachine;
 using LocalMessages;
+using NetFrame.Client;
+using Networking;
+using Networking.Dataframes.InGame;
 using UnityEngine;
 
 namespace GameCore.Character.Movement
@@ -20,11 +24,12 @@ namespace GameCore.Character.Movement
         public InputState InputState { get; private set; }
         public CharacterMoveValues MoveValues { get; private set; }
         public CharacterLives Lives { get; private set; }
+        public GameClient GameClient { get; private set; }
+        
         public Rigidbody Rigidbody => _rigidbody;
         public CharacterParameters Parameters => _parameters;
         public Collider Collider => _collider;
-        public StepSounds StepSounds => _stepSounds;
-        public GameObject KnockdownEffect => _knockdownEffect;
+        public StepSounds StepSounds => _visuals.StepSounds;
 
         public AnimationType CurrentAnimation => _stateMachine.CurrentState.AnimationType;
         public float AnimationSpeed => IsControlledByPlayer ? InputState.moveVector.magnitude : 0f;
@@ -32,10 +37,7 @@ namespace GameCore.Character.Movement
         [Header("References")]
         [SerializeField] private Rigidbody _rigidbody;
         [SerializeField] private CapsuleCollider _collider;
-        [SerializeField] private CharacterVisuals _visuals;
         [SerializeField] private CharacterParameters _parameters;
-        [SerializeField] private StepSounds _stepSounds;
-        [SerializeField] private GameObject _knockdownEffect;
 
         [Header("Floating")]
         [SerializeField] private LayerMask _groundMask;
@@ -46,50 +48,11 @@ namespace GameCore.Character.Movement
 
         private bool _isSpeedModified;
         
+        private CharacterVisuals _visuals;
         private GameCamera _gameCamera;
         private Vector3 _movement;
 
 #region Internal methods
-        private void Awake()
-        {
-            _knockdownEffect.SetActive(false);
-            
-            MoveValues = new CharacterMoveValues
-            {
-                SpeedMultiplier = 1f,
-                JumpHeightMultiplier = 1f,
-                FloatingHeightMultiplier = 1f,
-            };
-
-            Lives = new CharacterLives
-            {
-                Lives = _parameters.lives
-            };
-            
-            _stateMachine = new StateMachine<MovementStateBase, MovementStateType>
-            {
-                States = new List<MovementStateBase>
-                {
-                    new MovementIdleWaitState(this),
-                    new MovementWalkState(this),
-                    new MovementKnockdownState(this),
-                    new MovementCrouchState(this),
-                    new MovementInteractState(this),
-                    new MovementHitState(this),
-                }
-            };
-            
-            if (_parameters.canJump)
-                _stateMachine.States.Add(new MovementJumpState(this));
-            
-            _stateMachine.ForceSetState(MovementStateType.Walk);
-
-            _collider.height -= _floatingHeight;
-            _collider.center += Vector3.up * (_floatingHeight * 0.5f);
-            
-            _visuals.Initialize(this);
-        }
-
         private void Update()
         {
             if (UnityEngine.Input.GetKeyDown(KeyCode.N))
@@ -156,12 +119,66 @@ namespace GameCore.Character.Movement
                 countdownValue -= Time.deltaTime;
             }
 
+            SetEffectState(EffectType.SpeedUp, false);
             MoveValues.SpeedMultiplier = 1f;
             _isSpeedModified = false;
+
+            if (!GameClient.IsConnected)
+                yield break;
+            var dataframe = new PlayerEffectStateDataframe
+            {
+                type = EffectType.SpeedUp,
+                active = false,
+            };
+            GameClient.Send(ref dataframe);
         }
 #endregion
 
 #region Public methods
+        public void Initialize(CharacterVisuals visuals)
+        {
+            _visuals = visuals;
+            _visuals.transform.SetParent(transform);
+            _visuals.transform.ToLocalZero();
+            _visuals.Initialize(this);
+                    
+            _visuals.KnockdownEffect.SetActive(false);
+
+            GameClient = GameContainer.Common.Resolve<GameClient>();
+                    
+            MoveValues = new CharacterMoveValues
+            {
+                SpeedMultiplier = 1f,
+                JumpHeightMultiplier = 1f,
+                FloatingHeightMultiplier = 1f,
+            };
+
+            Lives = new CharacterLives
+            {
+                Lives = _parameters.lives
+            };
+                    
+            _stateMachine = new StateMachine<MovementStateBase, MovementStateType>
+            {
+                States = new List<MovementStateBase>
+                {
+                    new MovementIdleWaitState(this),
+                    new MovementWalkState(this),
+                    new MovementKnockdownState(this),
+                    new MovementInteractState(this),
+                    new MovementHitState(this),
+                }
+            };
+                    
+            if (_parameters.canJump)
+                _stateMachine.States.Add(new MovementJumpState(this));
+                    
+            _stateMachine.ForceSetState(MovementStateType.Walk);
+
+            _collider.height -= _floatingHeight;
+            _collider.center += Vector3.up * (_floatingHeight * 0.5f);
+        }
+
         public void Damage()
         {
             Lives.Lives--;
@@ -210,11 +227,38 @@ namespace GameCore.Character.Movement
 
         public void ChangeMovementSpeed(float multiplier, float duration)
         {
-            if (!_isSpeedModified)
+            if (_isSpeedModified) return;
+            
+            if (multiplier > 1f)
             {
-                MoveValues.SpeedMultiplier = multiplier;
-                _isSpeedModified = true;
-                StartCoroutine(BuffTimer(duration));
+                SetEffectState(EffectType.SpeedUp, true);
+                
+                if (GameClient.IsConnected)
+                {
+                    var dataframe = new PlayerEffectStateDataframe
+                    {
+                        type = EffectType.SpeedUp,
+                        active = true,
+                    };
+                    GameClient.Send(ref dataframe);
+                }
+            }
+            
+            MoveValues.SpeedMultiplier = multiplier;
+            _isSpeedModified = true;
+            StartCoroutine(BuffTimer(duration));
+        }
+
+        public void SetEffectState(EffectType effect, bool state)
+        {
+            if (effect == EffectType.Knockdown)
+            {
+                _visuals.KnockdownEffect.SetActive(state);
+                if (state) _visuals.KnockdownEffect.GetComponent<ParticleSystem>().Play();
+            }
+            else if (effect == EffectType.SpeedUp)
+            {
+                _visuals.SpeedUp.SetActive(state);
             }
         }
 #endregion

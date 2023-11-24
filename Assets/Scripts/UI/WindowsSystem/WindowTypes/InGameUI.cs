@@ -1,9 +1,12 @@
 ﻿using System.Collections;
 using System.Text;
 using Common;
+using Common.DI;
 using GameCore.Common;
 using GameCore.Common.Messages;
 using LocalMessages;
+using Networking;
+using Startup;
 using TMPro;
 using UnityEngine;
 
@@ -17,23 +20,45 @@ namespace UI.WindowsSystem.WindowTypes
         [SerializeField] private float _pulseIntensityMax;
         [SerializeField] private TextMeshProUGUI _timerLabel;
 
+        [SerializeField] private TextMeshProUGUI _missionsText;
         [SerializeField] private float _infoPanelShowTime;
         [SerializeField] private GameObject _infoPanel;
 
+        [SerializeField] private float _poisonIndicatorHideDelay;
+        [SerializeField] private GameObject _poisonIndicator;
+            
         [SerializeField] private GameObject[] _fatMouseLayoutObjects;
         [SerializeField] private GameObject[] _thinMouseLayoutObjects;
+        [SerializeField] private GameObject[] _objectsToDisableInMultiplayer;
 
         private bool _initialized;
         private int _seconds;
         private StringBuilder _stringBuilder;
 
         private float _infoPanelTimer;
+        private float _poisonIndicatorHideTimer;
         
         private RoundController _roundController;
         private LocalMessageBroker _messageBroker;
+
+        public void SetMissionsText(string text) => _missionsText.text = text;
+
+        public void SetPoisonState(bool state, bool hideWithDelay = true)
+        {
+            if (!state && hideWithDelay)
+            {
+                _poisonIndicatorHideTimer = _poisonIndicatorHideDelay;
+                return;
+            }
+            
+            _poisonIndicatorHideTimer = -1f;
+            _poisonIndicator.SetActive(state);
+        }
         
         private IEnumerator Start()
         {
+            SetPoisonState(false, false);
+            
             _stringBuilder = new StringBuilder();
             while (!GameContainer.InGame.CanResolve<RoundController>())
             {
@@ -44,15 +69,40 @@ namespace UI.WindowsSystem.WindowTypes
             _initialized = true;
 
             _messageBroker = GameContainer.Common.Resolve<LocalMessageBroker>();
-            _messageBroker.Subscribe<ChangeRoundMessage>(OnRoundChanged);
-            SetLayout(false);
+            _messageBroker.Subscribe<ChangeCharacterMessage>(OnCharacterChanged);
 
             _infoPanelTimer = _infoPanelShowTime;
+
+            var gameClient = GameContainer.Common.Resolve<GameClient>();
+            if (!gameClient.IsConnected)
+            {
+                SetLayout(false);
+                yield break;
+            }
+
+            SetLayout(!gameClient.IsMaster);
+            
+            foreach (var disableObject in _objectsToDisableInMultiplayer)
+            {
+                disableObject.SetActive(false);
+            }
+        }
+
+        private void OnDestroy()
+        {
+            _messageBroker.Unsubscribe<ChangeCharacterMessage>(OnCharacterChanged);
         }
 
         private void Update()
         {
             if (!_initialized) return;
+
+            if (_poisonIndicatorHideTimer > 0f)
+            {
+                _poisonIndicatorHideTimer -= Time.deltaTime;
+                if (_poisonIndicatorHideTimer <= 0f)
+                    _poisonIndicator.SetActive(false);
+            }
 
             if (_infoPanelTimer > 0f)
             {
@@ -71,7 +121,7 @@ namespace UI.WindowsSystem.WindowTypes
             
             CheckPause();
 
-            if (_roundController.Stage is not (RoundStage.FatMouse or RoundStage.ThinMouse))
+            if (_roundController.Stage != RoundStage.Game)
             {
                 _timerLabel.gameObject.SetActive(false);
                 return;
@@ -80,7 +130,7 @@ namespace UI.WindowsSystem.WindowTypes
             CheckPulseTimer();
 
             int seconds = Mathf.RoundToInt(_roundController.Timer);
-            if (_seconds == seconds) return;
+            if (_seconds == seconds || seconds < 0) return;
 
             _seconds = seconds;
             
@@ -117,9 +167,9 @@ namespace UI.WindowsSystem.WindowTypes
             _timerLabel.transform.localScale = Vector3.one * t;
         }
 
-        private void OnRoundChanged(ref ChangeRoundMessage value)
+        private void OnCharacterChanged(ref ChangeCharacterMessage message)
         {
-            SetLayout(_roundController.Stage == RoundStage.ThinMouse);
+            SetLayout(message.isThinMouse);
         }
 
         private void SetLayout(bool isThinMouse)

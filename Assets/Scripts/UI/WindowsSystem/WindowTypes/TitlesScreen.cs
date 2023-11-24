@@ -1,4 +1,5 @@
 ﻿using Common;
+using Common.DI;
 using UnityEngine;
 
 namespace UI.WindowsSystem.WindowTypes
@@ -30,7 +31,7 @@ namespace UI.WindowsSystem.WindowTypes
 
         private void Close()
         {
-            GameContainer.Common.Resolve<WindowsSystem>().DestroyWindow<TitlesScreen>();
+            GameContainer.Common.Resolve<WindowsSystem>().DestroyWindow(this);
         }
     }
 }

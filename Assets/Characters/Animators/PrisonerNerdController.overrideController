@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: PrisonerNerdController
+  m_Controller: {fileID: 9100000, guid: e6f05d198924d794882419b65e821314, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 3918165013958783220, guid: 2797386e227874640847a96288460832, type: 3}
+    m_OverrideClip: {fileID: 6739346359640889845, guid: 61c1a8153772bd543b5868f2f63d7c62, type: 3}
+  - m_OriginalClip: {fileID: -448483621666653641, guid: 1f52b874ad219934f932ec9a35fa7161, type: 3}
+    m_OverrideClip: {fileID: 2880418000481268729, guid: 61c1a8153772bd543b5868f2f63d7c62, type: 3}
+  - m_OriginalClip: {fileID: 7921031285886407512, guid: 1f52b874ad219934f932ec9a35fa7161, type: 3}
+    m_OverrideClip: {fileID: -397019019639747554, guid: 61c1a8153772bd543b5868f2f63d7c62, type: 3}

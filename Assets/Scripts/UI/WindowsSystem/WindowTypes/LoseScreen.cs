@@ -1,6 +1,10 @@
 ﻿using Common;
+using Common.DI;
 using GameCore.Camera;
 using GameCore.Common;
+using NetFrame.Client;
+using Networking;
+using Networking.Dataframes.InGame;
 using Startup;
 using TMPro;
 using UnityEngine;
@@ -16,6 +20,16 @@ namespace UI.WindowsSystem.WindowTypes
 
         private void Start()
         {
+            if (GameContainer.Common.Resolve<GameClient>().IsConnected)
+            {
+                var dataframe = new GameFinishedDataframe
+                {
+                    reason = GameFinishedReason.Lose
+                };
+                GameContainer.Common.Resolve<GameClient>().Send(ref dataframe);
+                return;
+            }
+            
             GameContainer.InGame.Resolve<GameCamera>().FollowTarget.SetInPause(true);
             _restartButton.onClick.AddListener(() =>
             {
@@ -33,8 +47,8 @@ namespace UI.WindowsSystem.WindowTypes
             _reasonLabel.text = reason switch
             {
                 LoseGameReason.TimeOut => "Время вышло!",
-                LoseGameReason.Catched => "Тебя поймали!",
-                LoseGameReason.Dead => "Ты погиб!"
+                LoseGameReason.Catched => "Агента поймали!",
+                LoseGameReason.Dead => "Агент погиб!"
             };
         }
     }

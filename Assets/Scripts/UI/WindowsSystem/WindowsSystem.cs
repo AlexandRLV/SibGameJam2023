@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace UI.WindowsSystem
@@ -25,14 +26,31 @@ namespace UI.WindowsSystem
             }
         }
 
+        public bool TryGetWindow<T>(out T window) where T : WindowBase
+        {
+            window = null;
+            var type = typeof(T);
+            if (_loadedWindows.TryGetValue(type, out var baseWindow))
+            {
+                if (baseWindow is not T targetWindow)
+                    throw new ArgumentException($"Error in getting window type {type.Name} - have cached wrong type of window");
+
+                window = targetWindow;
+                return true;
+            }
+
+            return false;
+        }
+
         public T CreateWindow<T>() where T : WindowBase
         {
             var type = typeof(T);
             if (_loadedWindows.TryGetValue(type, out var baseWindow))
             {
                 if (baseWindow is not T targetWindow)
-                    throw new ArgumentException($"Error in getting window type {type.Name} - created wrong type of window");
+                    throw new ArgumentException($"Error in creating window type {type.Name} - already created wrong type of window");
 
+                Debug.Log("Found existing window");
                 return targetWindow;
             }
             
@@ -55,6 +73,21 @@ namespace UI.WindowsSystem
             
             if (window != null && window.gameObject != null)
                 Object.Destroy(window.gameObject);
+
+            _loadedWindows.Remove(type);
+        }
+
+        public void DestroyWindow<T>(T window) where T : WindowBase
+        {
+            var type = typeof(T);
+            if (!_loadedWindows.TryGetValue(type, out var loadedWindow))
+                return;
+
+            if (loadedWindow != window)
+                throw new ArgumentException($"Trying to destroy {type.Name} window, but saved different object!");
+            
+            if (loadedWindow != null && loadedWindow.gameObject != null)
+                Object.Destroy(loadedWindow.gameObject);
 
             _loadedWindows.Remove(type);
         }

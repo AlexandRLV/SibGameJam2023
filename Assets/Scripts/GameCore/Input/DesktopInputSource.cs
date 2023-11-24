@@ -1,4 +1,5 @@
 ﻿using Common;
+using Common.DI;
 using UnityEngine;
 
 namespace GameCore.Input

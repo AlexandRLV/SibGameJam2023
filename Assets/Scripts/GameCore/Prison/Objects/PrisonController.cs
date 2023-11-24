@@ -1,79 +1,126 @@
 using System.Collections;
 using Common;
+using Common.DI;
 using GameCore.Character.Animation;
-using GameCore.Common;
 using GameCore.InteractiveObjects;
+using GameCore.Player;
+using GameCore.RoundMissions.LocalMessages;
 using GameCore.Sounds;
+using LocalMessages;
 using UnityEngine;
 
 namespace GameCore.Prison.Objects
 {
     public class PrisonController : InteractiveObject
     {
-        Vector3 defaultRot, openRot;
-        float smooth = 2.0f;
-        [SerializeField] float doorOpenAngle = 90f;
-        [SerializeField] Transform door;
-        float _openingTime;
-        [SerializeField] float timeToOpen = 2f;
-        bool _isOpened = false;
+        private enum OpenType { Angle, Move, }
+        private enum OpenAxis { X, Y, Z, }
+        
         public override AnimationType InteractAnimation => AnimationType.OpenDoor;
+        public override InteractiveObjectType Type => InteractiveObjectType.Prison;
+        public override Vector3 CheckPosition => transform.position;
 
-        [SerializeField] PrisonMouseController[] mouseControllers;
+        [SerializeField] private OpenType _openType;
+        [SerializeField] private OpenAxis _openAxis;
+        [SerializeField] private float doorOpenAngle = 90f;
+        [SerializeField] private float doorOpenDistance = 3f;
+        [SerializeField] private float timeToOpen = 2f;
+        [SerializeField] private Transform door;
+        [SerializeField] private PrisonMouseController[] mouseControllers;
+        
+        private float smooth = 2.0f;
+        private bool _isOpened;
+        
         private void Awake()
         {
             mouseControllers = GetComponentsInChildren<PrisonMouseController>();
-            defaultRot = door.eulerAngles;
-            openRot = new Vector3(defaultRot.x, defaultRot.y + doorOpenAngle, defaultRot.z);
-        }
-
-        private void OpenDoor()
-        {
-            if (door == null || mouseControllers.Length == 0) return;
-            if (!_isOpened)
-            {
-                StartCoroutine(OpenDoorCoroutine());
-                var roundController = GameContainer.InGame.Resolve<RoundController>();
-                roundController.SaveMouse();
-            }
-        }
-
-        private IEnumerator OpenDoorCoroutine()
-        {
-            _isOpened = true;
-            while (_openingTime < timeToOpen)
-            {
-                
-                _openingTime += Time.deltaTime;
-                door.eulerAngles = Vector3.Lerp(door.eulerAngles, openRot, Time.deltaTime * smooth);
-                yield return new WaitForSeconds(Time.deltaTime);
-            }
-
-            foreach (PrisonMouseController controller in mouseControllers)
-            {
-                controller.isReleased = true;
-            }
         }
 
         public override void Interact()
         {
             if (IsUsed) return;
+            
             IsUsed = true;
             OpenDoor();
         }
+
+        public override void InteractWithoutPlayer()
+        {
+            if (IsUsed) return;
+            
+            IsUsed = true;
+            OpenDoor();
+        }
+
         protected override void OnPlayerEnter()
         {
             Movement.MoveValues.CurrentInteractiveObject = this;
             if (IsSeen) return;
             IsSeen = true;
-            switch (RoundController.Stage)
+            
+            var player = GameContainer.InGame.Resolve<IPlayer>();
+            SoundService.PlaySound(player.MouseType == PlayerMouseType.ThinMouse ? SoundType.ThinHostage : SoundType.FatHostage);
+        }
+
+        private void OpenDoor()
+        {
+            if (door == null || mouseControllers.Length == 0) return;
+            if (_isOpened) return;
+            
+            StartCoroutine(OpenDoorCoroutine());
+
+            var message = new AgentSavedMessage();
+            GameContainer.Common.Resolve<LocalMessageBroker>().Trigger(ref message);
+        }
+
+        private IEnumerator OpenDoorCoroutine()
+        {
+            _isOpened = true;
+            if (_openType == OpenType.Angle)
             {
-                case RoundStage.ThinMouse:
-                    SoundService.PlaySound(SoundType.ThinHostage);
-                    break;
-                case RoundStage.FatMouse:
-                    SoundService.PlaySound(SoundType.FatHostage);
-                    break;
+                var targetEuler = door.eulerAngles;
+                targetEuler += _openAxis switch
+                {
+                    OpenAxis.X => new Vector3(doorOpenAngle, 0f, 0f),
+                    OpenAxis.Y => new Vector3(0f, doorOpenAngle, 0f),
+                    OpenAxis.Z => new Vector3(0f, 0f, doorOpenAngle),
+                };
+                var targetRotation = Quaternion.Euler(targetEuler);
+                var originRotation = door.rotation;
+
+                float timer = 0f;
+                while (timer < timeToOpen)
+                {
+                    timer += Time.deltaTime;
+                    float t = timer / timeToOpen;
+                    door.rotation = Quaternion.Slerp(originRotation, targetRotation, t);
+                    yield return null;
+                }
+            }
+            else if (_openType == OpenType.Move)
+            {
+                var targetPosition = door.position;
+                targetPosition += _openAxis switch
+                {
+                    OpenAxis.X => Vector3.right * doorOpenDistance,
+                    OpenAxis.Y => Vector3.up * doorOpenDistance,
+                    OpenAxis.Z => Vector3.forward * doorOpenDistance
+                };
+                var originPosition = door.position;
+                
+                float timer = 0f;
+                while (timer < timeToOpen)
+                {
+                    timer += Time.deltaTime;
+                    float t = timer / timeToOpen;
+                    door.position = Vector3.Lerp(originPosition, targetPosition, t);
+                    yield return null;
+                }
+            }
+
+            foreach (var controller in mouseControllers)
+            {
+                controller.isReleased = true;
             }
         }
     }

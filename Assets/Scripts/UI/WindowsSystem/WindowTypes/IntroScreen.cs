@@ -1,4 +1,5 @@
 ﻿using Common;
+using Common.DI;
 using Startup;
 using UnityEngine;
 
@@ -40,7 +41,7 @@ namespace UI.WindowsSystem.WindowTypes
         private void StartGame()
         {
             var windowSystem = GameContainer.Common.Resolve<WindowsSystem>();
-            windowSystem.DestroyWindow<IntroScreen>();
+            windowSystem.DestroyWindow(this);
             _gameInitializer.StartGame();
         }
     }

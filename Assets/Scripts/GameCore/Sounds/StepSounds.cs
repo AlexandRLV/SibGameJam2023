@@ -23,6 +23,8 @@ namespace GameCore.Sounds
         
         private void Step()
         {
+            if (!_audioSource.enabled) return;
+            
             var clip = _steps[Random.Range(0, _steps.Length)];
             _audioSource.PlayOneShot(clip);
         }
