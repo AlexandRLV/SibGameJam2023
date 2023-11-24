@@ -19,5 +19,9 @@ namespace Common.DI
         public T Resolve<T>() => _registrations.TryGetValue(typeof(T), out object value) ? (T)value : default;
 
         public bool HasRegistration<T>() => _registrations.ContainsKey(typeof(T));
+
+        // Methods for automatic injection
+        public object Resolve(Type type) => _registrations.GetValueOrDefault(type);
+        public bool HasRegistration(Type type) => _registrations.ContainsKey(type);
     }
 }

@@ -43,13 +43,14 @@ namespace GameCore.Character.Movement
         [SerializeField] private LayerMask _groundMask;
         [SerializeField] private float _floatingHeight;
         [SerializeField] private bool _applySpring;
+        
+        [Inject] private GameCamera _gameCamera;
 
         private StateMachine<MovementStateBase, MovementStateType> _stateMachine;
 
         private bool _isSpeedModified;
         
         private CharacterVisuals _visuals;
-        private GameCamera _gameCamera;
         private Vector3 _movement;
 
 #region Internal methods
@@ -198,7 +199,6 @@ namespace GameCore.Character.Movement
             _rigidbody.drag = 0f;
             _rigidbody.isKinematic = false;
 
-            _gameCamera = GameContainer.InGame.Resolve<GameCamera>();
             _gameCamera.FollowTarget.Height = _parameters.cameraHeight;
         }
 

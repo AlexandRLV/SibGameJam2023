@@ -23,27 +23,21 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
         [SerializeField] private RoomListItem _roomListItemPrefab;
         [SerializeField] private Transform _roomListItemsParent;
 
-        private float _roomsRequestTimer;
-
-        private NetFrameClient _client;
-        private NotificationsManager _notificationsManager;
-        private WindowsSystem _windowsSystem;
-        private ClientParameters _clientParameters;
+        [Inject] private NotificationsManager _notificationsManager;
+        [Inject] private ClientParameters _clientParameters;
+        [Inject] private RoomController _roomController;
         
+        private float _roomsRequestTimer;
         private List<RoomListItem> _createdRooms;
 
         private void Awake()
         {
             Debug.Log("Room list window initialize");
             _createdRooms = new List<RoomListItem>();
-
-            _notificationsManager = GameContainer.Common.Resolve<NotificationsManager>();
-            _windowsSystem = GameContainer.Common.Resolve<WindowsSystem>();
             
-            _client = GameContainer.Common.Resolve<NetFrameClient>();
-            _client.Subscribe<RoomsListDataframe>(SetRooms);
-            _client.Subscribe<JoinedRoomDataframe>(ProcessJoinedRoom);
-            _client.Subscribe<JoinRoomFailedDataframe>(ProcessJoinFailed);
+            _gameClient.Client.Subscribe<RoomsListDataframe>(SetRooms);
+            _gameClient.Client.Subscribe<JoinedRoomDataframe>(ProcessJoinedRoom);
+            _gameClient.Client.Subscribe<JoinRoomFailedDataframe>(ProcessJoinFailed);
 
             _joinRoomPopup.OnJoinPressed += JoinSelectedRoom;
             _joinRoomPopup.OnClosePressed += CloseJoinRoom;
@@ -58,17 +52,15 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
             CloseJoinRoom();
             
             _roomListItemPrefab.gameObject.SetActive(false);
-            _clientParameters = GameContainer.Common.Resolve<ClientParameters>();
         }
 
         private void Start()
         {
-            var roomController = GameContainer.Common.Resolve<RoomController>();
-            if (!roomController.inRoom) return;
+            if (!_roomController.inRoom) return;
             
             Debug.Log("Already in room!");
             var currentRoom = _windowsSystem.CreateWindow<CurrentRoomWindow>();
-            currentRoom.Setup(roomController.currentRoom);
+            currentRoom.Setup(_roomController.currentRoom);
             
             Debug.Log("Destroy rooms list window");
             _windowsSystem.DestroyWindow(this);
@@ -80,16 +72,16 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
             if (_roomsRequestTimer > 0f) return;
             
             var request = new RoomsRequestDataframe();
-            _client.Send(ref request);
+            _gameClient.Client.Send(ref request);
             _roomsRequestTimer = _clientParameters.roomsRequestInterval;
         }
 
         private void OnDestroy()
         {
             Debug.Log("Destroy room list window");
-            _client.Unsubscribe<RoomsListDataframe>(SetRooms);
-            _client.Unsubscribe<JoinedRoomDataframe>(ProcessJoinedRoom);
-            _client.Unsubscribe<JoinRoomFailedDataframe>(ProcessJoinFailed);
+            _gameClient.Client.Unsubscribe<RoomsListDataframe>(SetRooms);
+            _gameClient.Client.Unsubscribe<JoinedRoomDataframe>(ProcessJoinedRoom);
+            _gameClient.Client.Unsubscribe<JoinRoomFailedDataframe>(ProcessJoinFailed);
         }
 
         private void SetRooms(RoomsListDataframe dataframe)
@@ -151,7 +143,7 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
                 roomId = _joinRoomPopup.SelectedRoom.RoomId,
                 password = _joinRoomPopup.EnteredPassword,
             };
-            _client.Send(ref dataframe);
+            _gameClient.Client.Send(ref dataframe);
         }
 
         private void CloseJoinRoom()
@@ -201,8 +193,7 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
         {
             if (string.IsNullOrWhiteSpace(_createRoomPopup.RoomName))
             {
-                var notificationsManager = GameContainer.Common.Resolve<NotificationsManager>();
-                notificationsManager.ShowNotification("Введите имя комнаты!", NotificationsManager.NotificationType.Center);
+                _notificationsManager.ShowNotification("Введите имя комнаты!", NotificationsManager.NotificationType.Center);
                 return;
             }
             
@@ -212,7 +203,7 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
                 name = _createRoomPopup.RoomName,
                 password = _createRoomPopup.Password
             };
-            _client.Send(ref dataframe);
+            _gameClient.Client.Send(ref dataframe);
             CloseCreateRoom();
             _notificationsManager.ShowNotification("Комната создаётся...", NotificationsManager.NotificationType.Center, 0.5f);
         }
@@ -225,8 +216,7 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
         private void Close()
         {
             Debug.Log("Disconnecting");
-            var gameClient = GameContainer.Common.Resolve<GameClient>();
-            gameClient.Disconnect();
+            _gameClient.Disconnect();
             
             _windowsSystem.DestroyWindow(this);
             _windowsSystem.CreateWindow<ConnectWindow>();

@@ -17,8 +17,8 @@ namespace GameCore.Player.Network
         [HideInInspector] public bool Teleported;
         [SerializeField] private NetworkParameters _parameters;
 
-        private GameClient _client;
-        private GameCamera _gameCamera;
+        [Inject] private GameClient _client;
+        [Inject] private GameCamera _gameCamera;
 
         private int _tick;
 
@@ -29,7 +29,6 @@ namespace GameCore.Player.Network
             CurrentMovement = movement;
             CurrentMovement.Posess();
             
-            _gameCamera = GameContainer.InGame.Resolve<GameCamera>();
             _gameCamera.SetTarget(CurrentMovement.transform);
         }
 
@@ -39,11 +38,6 @@ namespace GameCore.Player.Network
                 CurrentMovement.Unposess();
 
             CurrentMovement = null;
-        }
-        
-        private void Awake()
-        {
-            _client = GameContainer.Common.Resolve<GameClient>();
         }
 
         private void FixedUpdate()

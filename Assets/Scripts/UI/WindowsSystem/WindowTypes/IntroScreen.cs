@@ -1,6 +1,4 @@
 ﻿using Common.DI;
-using NetFrame.Client;
-using Networking;
 using Networking.Dataframes.InGame;
 using Startup;
 using UnityEngine;
@@ -14,17 +12,15 @@ namespace UI.WindowsSystem.WindowTypes
         [SerializeField] private float _playSeconds;
         [SerializeField] private GameObject _otherSkippedLabel;
 
+        [Inject] private GameInitializer _gameInitializer;
+        
         private bool _otherSkipped;
         private bool _skipped;
         
         private float _timer;
-        private GameInitializer _gameInitializer;
-        private GameClient _gameClient;
         
-        private void Awake()
+        private void Start()
         {
-            _gameInitializer = GameContainer.Common.Resolve<GameInitializer>();
-            
             _timer = _playSeconds;
 
             _animation.Play();
@@ -32,7 +28,6 @@ namespace UI.WindowsSystem.WindowTypes
             
             _otherSkippedLabel.SetActive(false);
 
-            _gameClient = GameContainer.Common.Resolve<GameClient>();
             _gameClient.Client.Subscribe<SkipIntroDataframe>(ProcessSkipIntro);
         }
 
@@ -68,8 +63,7 @@ namespace UI.WindowsSystem.WindowTypes
                     return;
             }
             
-            var windowSystem = GameContainer.Common.Resolve<WindowsSystem>();
-            windowSystem.DestroyWindow(this);
+            _windowsSystem.DestroyWindow(this);
             _gameInitializer.StartGame();
         }
 
@@ -80,8 +74,7 @@ namespace UI.WindowsSystem.WindowTypes
 
             if (!_skipped) return;
             
-            var windowSystem = GameContainer.Common.Resolve<WindowsSystem>();
-            windowSystem.DestroyWindow(this);
+            _windowsSystem.DestroyWindow(this);
             _gameInitializer.StartGame();
         }
     }

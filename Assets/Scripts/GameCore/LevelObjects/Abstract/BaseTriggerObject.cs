@@ -30,7 +30,8 @@ namespace GameCore.InteractiveObjects
 
         protected void OnTriggerStay(Collider other)
         {
-            OnPlayerStay();
+            if (Movement != null)
+                OnPlayerStay();
         }
 
         protected void OnTriggerExit(Collider other)

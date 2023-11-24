@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Common.DI;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -13,7 +14,8 @@ namespace UI.WindowsSystem
         private Dictionary<Type, WindowBase> _windowsPrefabs;
         private Dictionary<Type, WindowBase> _loadedWindows;
         
-        public void Initialize(GameWindows gameWindows, UIRoot uiRoot)
+        [Inject]
+        public WindowsSystem(GameWindows gameWindows, UIRoot uiRoot)
         {
             _gameWindows = gameWindows;
             _uiRoot = uiRoot;
@@ -59,7 +61,7 @@ namespace UI.WindowsSystem
             if (windowPrefabBase is not T windowPrefab)
                 throw new ArgumentException($"Error in getting window type {type.Name} - registered wrong window");
             
-            var window = Object.Instantiate(windowPrefab, _uiRoot.WindowsParent);
+            var window = GameContainer.InstantiateAndResolve(windowPrefab, _uiRoot.WindowsParent);
             _loadedWindows.Add(type, window);
             return window;
         }

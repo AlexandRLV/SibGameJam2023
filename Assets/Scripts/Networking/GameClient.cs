@@ -26,16 +26,12 @@ namespace Networking
         public NetFrameClient Client { get; private set; }
         
         private ClientParameters _parameters;
-
-        private void Update()
+        
+        [Inject]
+        public void Construct(ClientParameters parameters, NetFrameClient client)
         {
-            Client?.Run();
-        }
-
-        public void Initialize()
-        {
-            _parameters = GameContainer.Common.Resolve<ClientParameters>();
-            Client = GameContainer.Common.Resolve<NetFrameClient>();
+            _parameters = parameters;
+            Client = client;
 
             Client.ConnectionSuccessful += OnConnectionSuccessful;
             Client.ConnectedFailed += OnConnectionFailed;
@@ -44,6 +40,11 @@ namespace Networking
             Client.Subscribe<PlayerLeftRoomDataframe>(OnPlayerLeftRoom);
             Client.Subscribe<GameFinishedDataframe>(OnGameFinished);
             Client.Subscribe<LoseGameDataframe>(OnLoseGame);
+        }
+
+        private void Update()
+        {
+            Client?.Run();
         }
 
         public void Connect()

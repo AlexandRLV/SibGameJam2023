@@ -22,30 +22,23 @@ namespace GameCore.Common
 
         [SerializeField] private RoundSettings _settings;
 
-        private LocalMessageBroker _messageBroker;
-        private IPlayer _player;
-        private SoundService _soundService;
+        [Inject] private LocalMessageBroker _messageBroker;
+        [Inject] private IPlayer _player;
+        [Inject] private SoundService _soundService;
+        [Inject] private GameClient _gameClient;
         
         private LoseGameReason _loseGameReason;
-        
-        private GameClient _gameClient;
 
         private void Start()
         {
-            _soundService = GameContainer.Common.Resolve<SoundService>();
-            
             Timer = _settings.RoundLengthSeconds;
             Stage = RoundStage.Game;
             
-            _gameClient = GameContainer.Common.Resolve<GameClient>();
-
-            _messageBroker = GameContainer.Common.Resolve<LocalMessageBroker>();
             _messageBroker.Subscribe<PlayerDetectedMessage>(OnPlayerDetected);
             _messageBroker.Subscribe<PlayerEvacuatedMessage>(OnPlayerEvacuated);
             _messageBroker.Subscribe<PlayerDeadMessage>(OnPlayerDead);
             _messageBroker.Subscribe<ChangeCharacterMessage>(OnChangeCharacter);
 
-            _player = GameContainer.InGame.Resolve<IPlayer>();
             _soundService.PlayMusic(_player.MouseType == PlayerMouseType.ThinMouse ? MusicType.ThinCharacter : MusicType.FatCharacter);
         }
 

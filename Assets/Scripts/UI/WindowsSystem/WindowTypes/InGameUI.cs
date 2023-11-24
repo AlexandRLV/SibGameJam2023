@@ -1,12 +1,7 @@
-﻿using System.Collections;
-using System.Text;
-using Common;
+﻿using System.Text;
 using Common.DI;
 using GameCore.Common;
 using GameCore.Common.Messages;
-using LocalMessages;
-using Networking;
-using Startup;
 using TMPro;
 using UnityEngine;
 
@@ -30,16 +25,15 @@ namespace UI.WindowsSystem.WindowTypes
         [SerializeField] private GameObject[] _fatMouseLayoutObjects;
         [SerializeField] private GameObject[] _thinMouseLayoutObjects;
         [SerializeField] private GameObject[] _objectsToDisableInMultiplayer;
-
+        
+        [Inject] private RoundController _roundController;
+        
         private bool _initialized;
         private int _seconds;
         private StringBuilder _stringBuilder;
 
         private float _infoPanelTimer;
         private float _poisonIndicatorHideTimer;
-        
-        private RoundController _roundController;
-        private LocalMessageBroker _messageBroker;
 
         public void SetMissionsText(string text) => _missionsText.text = text;
 
@@ -55,32 +49,24 @@ namespace UI.WindowsSystem.WindowTypes
             _poisonIndicator.SetActive(state);
         }
         
-        private IEnumerator Start()
+        private void Start()
         {
             SetPoisonState(false, false);
-            
+
             _stringBuilder = new StringBuilder();
-            while (!GameContainer.InGame.CanResolve<RoundController>())
-            {
-                yield return null;
-            }
-            
-            _roundController = GameContainer.InGame.Resolve<RoundController>();
             _initialized = true;
 
-            _messageBroker = GameContainer.Common.Resolve<LocalMessageBroker>();
             _messageBroker.Subscribe<ChangeCharacterMessage>(OnCharacterChanged);
 
             _infoPanelTimer = _infoPanelShowTime;
 
-            var gameClient = GameContainer.Common.Resolve<GameClient>();
-            if (!gameClient.IsConnected)
+            if (!_gameClient.IsConnected)
             {
                 SetLayout(false);
-                yield break;
+                return;
             }
 
-            SetLayout(!gameClient.IsMaster);
+            SetLayout(!_gameClient.IsMaster);
             
             foreach (var disableObject in _objectsToDisableInMultiplayer)
             {
@@ -149,7 +135,7 @@ namespace UI.WindowsSystem.WindowTypes
         private void CheckPause()
         {
             if (Input.GetKeyDown(KeyCode.Escape))
-                GameContainer.Common.Resolve<WindowsSystem>().CreateWindow<GamePause>();
+                _windowsSystem.CreateWindow<GamePause>();
         }
 
         private void CheckPulseTimer()

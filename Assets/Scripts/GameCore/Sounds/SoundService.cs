@@ -4,49 +4,10 @@ using UnityEngine;
 
 namespace GameCore.Sounds
 {
-    public enum SoundType
-    {
-        Buff,
-        Alert,
-        AboutFat,
-        ThinCats1,
-        ThinCats2,
-        ThinCheese,
-        ThinDetect,
-        ThinPanel,
-        ThinCactus,
-        ThinHostage,
-        FatCats1,
-        FatCats2,
-        FatCats3,
-        FatCheese,
-        FatDetect,
-        FatPanel,
-        FatHostage,
-        Eating,
-        Mousetrap1,
-        Mousetrap2,
-        Mousetrap3,
-        Panel,
-        SubmissionComplete,
-        
-        // UI Sounds
-        Click,
-        Hover,
-    }
-
-    public enum MusicType
-    {
-        Menu,
-        ThinCharacter,
-        FatCharacter,
-        Lose,
-        Win
-    }
-
     public class SoundService : MonoBehaviour
     {
         [SerializeField] private AudioSource soundsSource;
+        [SerializeField] private AudioSource voiceSource;
         [SerializeField] private AudioSource firstTrackSource;
         [SerializeField] private AudioSource secondTrackSource;
 
@@ -90,13 +51,18 @@ namespace GameCore.Sounds
         [SerializeField] private AudioClip fatPanel;
         [SerializeField] private AudioClip fatHostage;
 
-        [SerializeField] float fadingTime = 1.0f;
+        [SerializeField] private float fadingTime = 1.0f;
+        [SerializeField] private SoundsData _soundsData;
         
         private Coroutine _fadingCoroutine;
 
+        private Dictionary<SoundType, PrioritizedSound> _prioritizedSounds;
+        
         private Dictionary<SoundType, AudioClip> _sounds;
         private Dictionary<MusicType, AudioClip> _tracks;
 
+        private int _playingSoundPriority;
+        
         private void Start()
         {
             _sounds = new Dictionary<SoundType, AudioClip>();
@@ -107,20 +73,6 @@ namespace GameCore.Sounds
             _sounds.Add(SoundType.Mousetrap2, mousetrapSound2);
             _sounds.Add(SoundType.Mousetrap3, mousetrapSound3);
             _sounds.Add(SoundType.Panel, panelSound);
-            _sounds.Add(SoundType.ThinCats1, thinCats1);
-            _sounds.Add(SoundType.ThinCats2, thinCats2);
-            _sounds.Add(SoundType.ThinCheese, thinCheese);
-            _sounds.Add(SoundType.ThinDetect, thinDetect);
-            _sounds.Add(SoundType.ThinPanel, thinPanel);
-            _sounds.Add(SoundType.ThinCactus, thinCactus);
-            _sounds.Add(SoundType.ThinHostage, thinHostage);
-            _sounds.Add(SoundType.FatCats1, fatCats1);
-            _sounds.Add(SoundType.FatCats2, fatCats2);
-            _sounds.Add(SoundType.FatCats3, fatCats3);
-            _sounds.Add(SoundType.FatCheese, fatCheese);
-            _sounds.Add(SoundType.FatDetect, fatDetect);
-            _sounds.Add(SoundType.FatPanel, fatPanel);
-            _sounds.Add(SoundType.FatHostage, fatHostage);
             _sounds.Add(SoundType.Alert, alertSound);
             _sounds.Add(SoundType.SubmissionComplete, submissionCompleteSound);
             
@@ -133,12 +85,44 @@ namespace GameCore.Sounds
             _tracks.Add(MusicType.FatCharacter, fatTrack);
             _tracks.Add(MusicType.Lose, loseTrack);
             _tracks.Add(MusicType.Win, winTrack);
+
+            _prioritizedSounds = new Dictionary<SoundType, PrioritizedSound>();
+            foreach (var sound in _soundsData.prioritizedSounds)
+            {
+                if (_prioritizedSounds.ContainsKey(sound.soundType))
+                {
+                    Debug.LogError($"Ошибка: повторяющийся тип звука: {sound.soundType}");
+                    continue;
+                }
+                
+                _prioritizedSounds.Add(sound.soundType, sound);
+            }
         }
 
         public void PlaySound(SoundType soundType)
         {
-            var currentSound = _sounds[soundType];
-            if (currentSound) soundsSource.PlayOneShot(currentSound);
+            if (_prioritizedSounds.TryGetValue(soundType, out var sound))
+            {
+                int priority = sound.priority;
+                var clip = sound.audioClip;
+                PlaySoundByPriority(clip, priority);
+            }
+            else
+            {
+                var clip = _sounds[soundType];
+                if (clip != null)
+                    soundsSource.PlayOneShot(clip);
+            }
+        }
+
+        private void PlaySoundByPriority(AudioClip clip, int priority)
+        {
+            if (voiceSource.isPlaying && priority <= _playingSoundPriority)
+                return;
+
+            _playingSoundPriority = priority;
+            voiceSource.clip = clip;
+            voiceSource.Play();
         }
 
         public void PlayMusic(MusicType musicType, bool adjustTime = false)

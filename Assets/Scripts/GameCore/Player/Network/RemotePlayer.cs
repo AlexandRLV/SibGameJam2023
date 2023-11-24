@@ -15,7 +15,8 @@ namespace GameCore.Player.Network
 
         [SerializeField] private CharacterPositionInterpolator _interpolator;
         
-        private NetFrameClient _client;
+        [Inject] private NetFrameClient _client;
+        
         private CharacterVisuals _visuals;
         
         public void Initialize(CharacterVisuals visuals)
@@ -25,7 +26,6 @@ namespace GameCore.Player.Network
             _visuals.transform.ToLocalZero();
             _visuals.Initialize(this);
             
-            _client = GameContainer.Common.Resolve<NetFrameClient>();
             _client.Subscribe<PlayerPositionDataframe>(ProcessPlayerPosition);
             _client.Subscribe<SetCurrentTickDataframe>(SetOwnerTick);
             _client.Subscribe<PlayerEffectStateDataframe>(SetEffectState);

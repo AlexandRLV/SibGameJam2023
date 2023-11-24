@@ -7,8 +7,9 @@ namespace GameCore.Character.Animation
     {
         public GameObject SpeedUp => _speedUpVFX;
         public StepSounds StepSounds => _stepSounds;
-        public GameObject KnockdownEffect => _knockdownEffect;        [SerializeField] private AnimationPlayer _animationPlayer;
+        public GameObject KnockdownEffect => _knockdownEffect;
         
+        [SerializeField] private AnimationPlayer _animationPlayer;
         [SerializeField] private GameObject _speedUpVFX;
         [SerializeField] private StepSounds _stepSounds;
         [SerializeField] private GameObject _knockdownEffect;

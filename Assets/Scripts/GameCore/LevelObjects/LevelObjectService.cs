@@ -19,25 +19,23 @@ namespace GameCore.LevelObjects
         private List<EnemyController> _enemies = new();
 
         private GameClient _gameClient;
-        private NetFrameClient _client;
         
-        public LevelObjectService()
+        [Inject]
+        public LevelObjectService(GameClient gameClient)
         {
-            _gameClient = GameContainer.Common.Resolve<GameClient>();
-            _client = GameContainer.Common.Resolve<NetFrameClient>();
-            
-            _client.Subscribe<InteractedWithObjectDataframe>(OnInteracted);
-            _client.Subscribe<PushablePositionDataframe>(OnPushableMoved);
-            _client.Subscribe<EnemyDetectPlayerDataframe>(OnEnemyDetectPlayer);
-            _client.Subscribe<EnemyAlertPlayerDataframe>(OnEnemyAlert);
+            _gameClient = gameClient;
+            _gameClient.Client.Subscribe<InteractedWithObjectDataframe>(OnInteracted);
+            _gameClient.Client.Subscribe<PushablePositionDataframe>(OnPushableMoved);
+            _gameClient.Client.Subscribe<EnemyDetectPlayerDataframe>(OnEnemyDetectPlayer);
+            _gameClient.Client.Subscribe<EnemyAlertPlayerDataframe>(OnEnemyAlert);
         }
 
         public void Dispose()
         {
-            _client.Unsubscribe<InteractedWithObjectDataframe>(OnInteracted);
-            _client.Unsubscribe<PushablePositionDataframe>(OnPushableMoved);
-            _client.Unsubscribe<EnemyDetectPlayerDataframe>(OnEnemyDetectPlayer);
-            _client.Unsubscribe<EnemyAlertPlayerDataframe>(OnEnemyAlert);
+            _gameClient.Client.Unsubscribe<InteractedWithObjectDataframe>(OnInteracted);
+            _gameClient.Client.Unsubscribe<PushablePositionDataframe>(OnPushableMoved);
+            _gameClient.Client.Unsubscribe<EnemyDetectPlayerDataframe>(OnEnemyDetectPlayer);
+            _gameClient.Client.Unsubscribe<EnemyAlertPlayerDataframe>(OnEnemyAlert);
         }
 
         public void RegisterInteractiveObject(InteractiveObject value) => _interactiveObjects.Add(value);

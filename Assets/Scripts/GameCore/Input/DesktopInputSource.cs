@@ -8,12 +8,7 @@ namespace GameCore.Input
     {
         [SerializeField] private InputKeySettings _keySettings;
 
-        private InputState _inputState;
-        
-        private void Start()
-        {
-            _inputState = GameContainer.InGame.Resolve<InputState>();
-        }
+        [Inject] private InputState _inputState;
 
         private void Update()
         {

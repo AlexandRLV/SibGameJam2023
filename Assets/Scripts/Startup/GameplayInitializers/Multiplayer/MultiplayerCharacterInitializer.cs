@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using Common;
 using Common.DI;
 using GameCore;
 using GameCore.Character.Animation;
@@ -24,16 +23,16 @@ namespace Startup.GameplayInitializers.Multiplayer
             var fatMouseVisuals = Object.Instantiate(fatMouseVisualsPrefab);
 
             var localPlayerPrefab = Resources.Load<OneMouseLocalPlayer>("Prefabs/OneMousePlayer");
-            var localPlayer = Object.Instantiate(localPlayerPrefab);
+            var localPlayer = GameContainer.InstantiateAndResolve(localPlayerPrefab);
 
             var remotePlayerPrefab = Resources.Load<RemotePlayer>("Prefabs/RemotePlayer");
-            var remotePlayer = Object.Instantiate(remotePlayerPrefab);
+            var remotePlayer = GameContainer.InstantiateAndResolve(remotePlayerPrefab);
 
             bool isMaster = GameContainer.Common.Resolve<GameClient>().IsMaster;
             if (isMaster)
             {
                 var fatMouseMovementPrefab = Resources.Load<CharacterMovement>("Prefabs/Characters/FatMouseCharacter");
-                var fatMouseMovement = Object.Instantiate(fatMouseMovementPrefab);
+                var fatMouseMovement = GameContainer.InstantiateAndResolve(fatMouseMovementPrefab);
                 fatMouseMovement.transform.SetPositionAndRotation(spawns.SpawnPoints[1].position, spawns.SpawnPoints[1].rotation);
                 fatMouseMovement.Initialize(fatMouseVisuals);
                 localPlayer.Initialize(fatMouseMovement, PlayerMouseType.FatMouse);
@@ -43,7 +42,7 @@ namespace Startup.GameplayInitializers.Multiplayer
             else
             {
                 var littleMousePrefab = Resources.Load<CharacterMovement>("Prefabs/Characters/ThinMouseCharacter");
-                var thinMouseMovement = Object.Instantiate(littleMousePrefab);
+                var thinMouseMovement = GameContainer.InstantiateAndResolve(littleMousePrefab);
                 thinMouseMovement.transform.SetPositionAndRotation(spawns.SpawnPoints[0].position, spawns.SpawnPoints[0].rotation);
                 thinMouseMovement.Initialize(thinMouseVisuals);
                 localPlayer.Initialize(thinMouseMovement, PlayerMouseType.ThinMouse);

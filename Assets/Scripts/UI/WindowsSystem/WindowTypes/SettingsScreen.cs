@@ -1,6 +1,4 @@
-﻿using Common;
-using Common.DI;
-using GameCore.Camera;
+﻿using GameCore.Camera;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,12 +13,8 @@ namespace UI.WindowsSystem.WindowTypes
         [SerializeField] private Toggle _invertYToggle;
         [SerializeField] private Button _saveButton;
 
-        private WindowsSystem _windowsSystem;
-        
         private void Start()
         {
-            _windowsSystem = GameContainer.Common.Resolve<WindowsSystem>();
-            
             float sensitivity = Mathf.InverseLerp(_cameraSettings.minSensitivity, _cameraSettings.maxSensitivity,
                 _cameraSettings.sensitivity);
             _sensitivitySlider.value = sensitivity;

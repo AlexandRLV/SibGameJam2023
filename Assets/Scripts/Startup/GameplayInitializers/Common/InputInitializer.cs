@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using Common;
 using Common.DI;
 using GameCore.Camera;
 using GameCore.Input;
@@ -15,7 +14,7 @@ namespace Startup.GameplayInitializers
             GameContainer.InGame.Register(inputState);
 
             var inputSourcePrefab = Resources.Load<DesktopInputSource>("Input/DesktopInputSource");
-            Object.Instantiate(inputSourcePrefab);
+            GameContainer.InstantiateAndResolve(inputSourcePrefab);
             
             var gameCameraPrefab = Resources.Load<GameCamera>("Prefabs/GameCamera");
             var gameCamera = Object.Instantiate(gameCameraPrefab);

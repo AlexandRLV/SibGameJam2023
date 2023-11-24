@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using Common;
 using Common.DI;
 using GameCore;
 using GameCore.Character.Animation;
@@ -22,17 +21,17 @@ namespace Startup.GameplayInitializers
             var fatMouseVisuals = Object.Instantiate(fatMouseVisualsPrefab);
 
             var thinMousePrefab = Resources.Load<CharacterMovement>("Prefabs/Characters/ThinMouseCharacter");
-            var thinMouseMovement = Object.Instantiate(thinMousePrefab);
+            var thinMouseMovement = GameContainer.InstantiateAndResolve(thinMousePrefab);
             thinMouseMovement.transform.SetPositionAndRotation(spawns.SpawnPoints[0].position, spawns.SpawnPoints[0].rotation);
             thinMouseMovement.Initialize(thinMouseVisuals);
 
             var fatMousePrefab = Resources.Load<CharacterMovement>("Prefabs/Characters/FatMouseCharacter");
-            var fatMouseMovement = Object.Instantiate(fatMousePrefab);
+            var fatMouseMovement = GameContainer.InstantiateAndResolve(fatMousePrefab);
             fatMouseMovement.transform.SetPositionAndRotation(spawns.SpawnPoints[1].position, spawns.SpawnPoints[1].rotation);
             fatMouseMovement.Initialize(fatMouseVisuals);
 
             var playerPrefab = Resources.Load<TwoMousePlayer>("Prefabs/TwoMousePlayer");
-            var player = Object.Instantiate(playerPrefab);
+            var player = GameContainer.InstantiateAndResolve(playerPrefab);
             player.Initialize(fatMouseMovement, thinMouseMovement);
 
             GameContainer.InGame.Register<IPlayer>(player);

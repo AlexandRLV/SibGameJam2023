@@ -27,18 +27,18 @@ namespace Startup.StartGameInitializers
             var netClient = new NetFrameClient();
             GameContainer.Common.Register(netClient);
 
-            // Создание внутриигрового клиента
+            // Загрузка сетевых параметров
             var parameters = Resources.Load<ClientParameters>("Client Parameters");
             GameContainer.Common.Register(parameters);
-            
-            var gameClientGO = new GameObject("GameClient");
-            _gameClient = gameClientGO.AddComponent<GameClient>();
-            _gameClient.Initialize();
-            Object.DontDestroyOnLoad(gameClientGO);
+
+            // Создание внутриигрового клиента
+            var gameClientPrefab = Resources.Load<GameClient>("Prefabs/GameClient");
+            _gameClient = GameContainer.InstantiateAndResolve(gameClientPrefab);
+            Object.DontDestroyOnLoad(_gameClient);
             GameContainer.Common.Register(_gameClient);
 
-            var roomController = new RoomController();
-            roomController.Initialize();
+            // Создание контроллера комнат
+            var roomController = GameContainer.Create<RoomController>();
             GameContainer.Common.Register(roomController);
 
             yield return null;

@@ -1,10 +1,7 @@
-﻿using Common;
-using Common.DI;
+﻿using Common.DI;
 using GameCore.Camera;
-using NetFrame.Client;
 using Networking;
 using Networking.Dataframes.InGame;
-using Startup;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,32 +13,34 @@ namespace UI.WindowsSystem.WindowTypes
         [SerializeField] private Button _backToMenuButton;
         [SerializeField] private Button _settingsButton;
 
+        [Inject] private GameCamera _gameCamera;
+
         private void Start()
         {
-            if (!GameContainer.Common.Resolve<GameClient>().IsConnected)
+            if (!_gameClient.IsConnected)
                 Time.timeScale = 0f;
             
-            GameContainer.InGame.Resolve<GameCamera>().FollowTarget.SetInPause(true);
+            _gameCamera.FollowTarget.SetInPause(true);
             
             _continueButton.onClick.AddListener(() =>
             {
-                GameContainer.InGame.Resolve<GameCamera>().FollowTarget.SetInPause(false);
-                GameContainer.Common.Resolve<WindowsSystem>().DestroyWindow(this);
+                _gameCamera.FollowTarget.SetInPause(false);
+                _windowsSystem.DestroyWindow(this);
             });
             
             _backToMenuButton.onClick.AddListener(() =>
             {
-                if (GameContainer.Common.Resolve<GameClient>().IsConnected)
+                if (_gameClient.IsConnected)
                 {
                     var dataframe = new GameFinishedDataframe
                     {
                         reason = GameFinishedReason.Lose
                     };
-                    GameContainer.Common.Resolve<GameClient>().Send(ref dataframe);
+                    _gameClient.Send(ref dataframe);
                     return;
                 }
                 
-                GameContainer.Common.Resolve<WindowsSystem>().DestroyWindow(this);
+                _windowsSystem.DestroyWindow(this);
             });
             
             _settingsButton.onClick.AddListener(OpenSettings);
@@ -49,13 +48,12 @@ namespace UI.WindowsSystem.WindowTypes
 
         private void OpenSettings()
         {
-            var windowsSystem = GameContainer.Common.Resolve<WindowsSystem>();
-            windowsSystem.CreateWindow<SettingsScreen>();
+            _windowsSystem.CreateWindow<SettingsScreen>();
         }
 
         private void OnDestroy()
         {
-            if (!GameContainer.Common.Resolve<GameClient>().IsConnected)
+            if (!_gameClient.IsConnected)
                 Time.timeScale = 1f;
         }
     }

@@ -1,5 +1,4 @@
-﻿using Common;
-using Common.DI;
+﻿using Common.DI;
 using NetFrame.Client;
 using Networking;
 using Networking.Dataframes;
@@ -25,11 +24,9 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
         [SerializeField] private Button _readyButton;
         [SerializeField] private Button _notReadyButton;
         [SerializeField] private Button _leaveButton;
-        
-        private NetFrameClient _client;
-        private WindowsSystem _windowsSystem;
-        private GameClient _gameClient;
 
+        [Inject] private RoomController _roomController;
+        
         private int _localId;
 
         private void Awake()
@@ -37,16 +34,12 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
             _readyButton.onClick.AddListener(SendReady);
             _notReadyButton.onClick.AddListener(SendNotReady);
             _leaveButton.onClick.AddListener(LeaveRoom);
-
-            _client = GameContainer.Common.Resolve<NetFrameClient>();
-            _windowsSystem = GameContainer.Common.Resolve<WindowsSystem>();
-            _gameClient = GameContainer.Common.Resolve<GameClient>();
             
-            _client.Subscribe<PlayerLeftRoomDataframe>(OnPlayerLeftRoom);
-            _client.Subscribe<PlayerReadyStateDataframe>(OnPlayerReadyStateChanged);
-            _client.Subscribe<PlayerJoinedRoomDataframe>(OnPlayerJoinedRoom);
-            _client.Subscribe<JoinedRoomDataframe>(OnJoinedRoom);
-            _client.Subscribe<RoomPrepareToPlayDataframe>(PrepareToPlay);
+            _gameClient.Client.Subscribe<PlayerLeftRoomDataframe>(OnPlayerLeftRoom);
+            _gameClient.Client.Subscribe<PlayerReadyStateDataframe>(OnPlayerReadyStateChanged);
+            _gameClient.Client.Subscribe<PlayerJoinedRoomDataframe>(OnPlayerJoinedRoom);
+            _gameClient.Client.Subscribe<JoinedRoomDataframe>(OnJoinedRoom);
+            _gameClient.Client.Subscribe<RoomPrepareToPlayDataframe>(PrepareToPlay);
 
             _gameStartTimerPopup.OnTimerEnd += StartGame;
             _gameStartTimerPopup.gameObject.SetActive(false);
@@ -54,11 +47,11 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
 
         private void OnDestroy()
         {
-            _client.Unsubscribe<PlayerLeftRoomDataframe>(OnPlayerLeftRoom);
-            _client.Unsubscribe<PlayerReadyStateDataframe>(OnPlayerReadyStateChanged);
-            _client.Unsubscribe<PlayerJoinedRoomDataframe>(OnPlayerJoinedRoom);
-            _client.Unsubscribe<JoinedRoomDataframe>(OnJoinedRoom);
-            _client.Unsubscribe<RoomPrepareToPlayDataframe>(PrepareToPlay);
+            _gameClient.Client.Unsubscribe<PlayerLeftRoomDataframe>(OnPlayerLeftRoom);
+            _gameClient.Client.Unsubscribe<PlayerReadyStateDataframe>(OnPlayerReadyStateChanged);
+            _gameClient.Client.Unsubscribe<PlayerJoinedRoomDataframe>(OnPlayerJoinedRoom);
+            _gameClient.Client.Unsubscribe<JoinedRoomDataframe>(OnJoinedRoom);
+            _gameClient.Client.Unsubscribe<RoomPrepareToPlayDataframe>(PrepareToPlay);
         }
 
         public void Setup(RoomInfoDataframe room)
@@ -93,7 +86,7 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
             {
                 ready = true,
             };
-            _client.Send(ref dataframe);
+            _gameClient.Client.Send(ref dataframe);
         }
 
         private void SendNotReady()
@@ -102,13 +95,12 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
             {
                 ready = false,
             };
-            _client.Send(ref dataframe);
+            _gameClient.Client.Send(ref dataframe);
         }
 
         private void LeaveRoom()
         {
-            var roomController = GameContainer.Common.Resolve<RoomController>();
-            roomController.LeaveCurrentRoom();
+            _roomController.LeaveCurrentRoom();
 
             _windowsSystem.DestroyWindow(this);
             _windowsSystem.CreateWindow<RoomsListWindow>();
@@ -141,8 +133,7 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
             _player2ReadyState.SetActive(false);
             _player2NotReadyState.SetActive(false);
             
-            var roomController = GameContainer.Common.Resolve<RoomController>();
-            roomController.currentRoom.guestName = "";
+            _roomController.currentRoom.guestName = "";
         }
 
         private void OnPlayerJoinedRoom(PlayerJoinedRoomDataframe dataframe)
@@ -151,8 +142,7 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
             _player2ReadyState.SetActive(false);
             _player2NotReadyState.SetActive(true);
             
-            var roomController = GameContainer.Common.Resolve<RoomController>();
-            roomController.currentRoom.guestName = dataframe.playerName;
+            _roomController.currentRoom.guestName = dataframe.playerName;
         }
 
         private void OnJoinedRoom(JoinedRoomDataframe dataframe)

@@ -14,15 +14,15 @@ namespace GameCore.Player
     {
         public PlayerMouseType MouseType { get; private set; }
         public CharacterMovement CurrentMovement { get; private set; }
+        
+        [Inject] private GameCamera _gameCamera;
+        [Inject] private LocalMessageBroker _messageBroker;
 
         private RoundController _roundController;
-        private GameCamera _gameCamera;
-
         private CharacterMovement _fatMouseCharacter;
         private CharacterMovement _thinMouseCharacter;
-
-        private LocalMessageBroker _messageBroker;
-
+        
+        // Not injecting round controller, because it doesn't exist yet
         private IEnumerator Start()
         {
             while (!GameContainer.InGame.CanResolve<RoundController>())
@@ -32,7 +32,7 @@ namespace GameCore.Player
 
             _roundController = GameContainer.InGame.Resolve<RoundController>();
         }
-
+        
         private void Update()
         {
             if (_roundController == null)
@@ -55,9 +55,6 @@ namespace GameCore.Player
         {
             _fatMouseCharacter = fatMouse;
             _thinMouseCharacter = thinMouse;
-            
-            _gameCamera = GameContainer.InGame.Resolve<GameCamera>();
-            _messageBroker = GameContainer.Common.Resolve<LocalMessageBroker>();
             
             _thinMouseCharacter.Unposess();
             PosessCharacter(_fatMouseCharacter);

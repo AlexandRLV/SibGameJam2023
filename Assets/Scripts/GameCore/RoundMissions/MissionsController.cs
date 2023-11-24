@@ -19,10 +19,14 @@ namespace GameCore.RoundMissions
         
         [SerializeField] private MissionsData _data;
 
+        [Inject] private LocalMessageBroker _messageBroker;
+        [Inject] private WindowsSystem _windowsSystem;
+
         private StringBuilder _stringBuilder;
         private List<MissionBase> _missions;
         
-        public void Initialize()
+        [Inject]
+        public void Construct()
         {
             RoundData = new RoundData();
             _stringBuilder = new StringBuilder();
@@ -67,14 +71,11 @@ namespace GameCore.RoundMissions
             if (allCompleted)
             {
                 var message = new AllMissionsCompletedMessage();
-                GameContainer.Common.Resolve<LocalMessageBroker>().Trigger(ref message);
+                _messageBroker.Trigger(ref message);
             }
 
-            var windowsSystem = GameContainer.Common.Resolve<WindowsSystem>();
-            if (!windowsSystem.TryGetWindow<InGameUI>(out var inGameUI))
-                return;
-            
-            inGameUI.SetMissionsText(_stringBuilder.ToString());
+            if (_windowsSystem.TryGetWindow<InGameUI>(out var inGameUI))
+                inGameUI.SetMissionsText(_stringBuilder.ToString());
         }
 
         private void OnDestroy()

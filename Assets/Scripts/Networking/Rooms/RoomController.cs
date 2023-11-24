@@ -1,7 +1,6 @@
 ﻿using Common.DI;
 using NetFrame.Client;
 using Networking.Dataframes;
-using UnityEngine;
 
 namespace Networking
 {
@@ -12,9 +11,10 @@ namespace Networking
         
         private NetFrameClient _client;
 
-        public void Initialize()
+        [Inject]
+        public RoomController(NetFrameClient client)
         {
-            _client = GameContainer.Common.Resolve<NetFrameClient>();
+            _client = client;
             _client.Subscribe<JoinedRoomDataframe>(OnJoinedRoom);
             _client.Subscribe<PlayerLeftRoomDataframe>(OnLeftRoom);
         }
@@ -29,7 +29,6 @@ namespace Networking
 
         private void OnJoinedRoom(JoinedRoomDataframe dataframe)
         {
-            Debug.Log("Joined room!");
             currentRoom = dataframe.roomInfo;
             inRoom = true;
         }

@@ -13,11 +13,13 @@ namespace UI.WindowsSystem.WindowTypes
         [SerializeField] private Button _titlesButton;
         [SerializeField] private Button _settingsButton;
         [SerializeField] private Button _onlineButton;
+
+        [Inject] private SoundService _soundService;
+        [Inject] private WindowsSystem _windowsSystem;
         
-        private void Awake()
+        private void Start()
         {
-            var soundService = GameContainer.Common.Resolve<SoundService>();    
-            soundService.PlayMusic(MusicType.Menu);
+            _soundService.PlayMusic(MusicType.Menu);
 
             _startGameButton.onClick.AddListener(StartGame);
             _leaveButton.onClick.AddListener(LeaveGame);
@@ -28,26 +30,24 @@ namespace UI.WindowsSystem.WindowTypes
 
         private void OpenSettings()
         {
-            GameContainer.Common.Resolve<WindowsSystem>().CreateWindow<SettingsScreen>();
+            _windowsSystem.CreateWindow<SettingsScreen>();
         }
 
         private void StartGame()
         {
-            var windowsSystem = GameContainer.Common.Resolve<WindowsSystem>();
-            windowsSystem.CreateWindow<IntroScreen>();
-            windowsSystem.DestroyWindow(this);
+            _windowsSystem.CreateWindow<IntroScreen>();
+            _windowsSystem.DestroyWindow(this);
         }
 
         private void OpenTitles()
         {
-            GameContainer.Common.Resolve<WindowsSystem>().CreateWindow<TitlesScreen>();
+            _windowsSystem.CreateWindow<TitlesScreen>();
         }
 
         private void GoOnline()
         {
-            var windowsSystem = GameContainer.Common.Resolve<WindowsSystem>();
-            windowsSystem.CreateWindow<ConnectWindow>();
-            windowsSystem.DestroyWindow(this);
+            _windowsSystem.CreateWindow<ConnectWindow>();
+            _windowsSystem.DestroyWindow(this);
         }
 
         private void LeaveGame()

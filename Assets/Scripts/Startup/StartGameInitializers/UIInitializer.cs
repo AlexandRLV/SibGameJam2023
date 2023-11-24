@@ -19,8 +19,9 @@ namespace Startup.Initializers
             GameContainer.Common.Register(uiRoot);
             
             var gameWindows = Resources.Load<GameWindows>("WindowsSystem/Game Windows");
-            var windowsSystem = new WindowsSystem();
-            windowsSystem.Initialize(gameWindows, uiRoot);
+            GameContainer.Common.Register(gameWindows);
+            
+            var windowsSystem = GameContainer.Create<WindowsSystem>();
             GameContainer.Common.Register(windowsSystem);
             
             var loadingScreenPrefab = Resources.Load<LoadingScreen>("UI/LoadingScreen");

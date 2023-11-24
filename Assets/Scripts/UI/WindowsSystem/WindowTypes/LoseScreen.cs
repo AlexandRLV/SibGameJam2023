@@ -1,9 +1,6 @@
-﻿using Common;
-using Common.DI;
+﻿using Common.DI;
 using GameCore.Camera;
 using GameCore.Common;
-using NetFrame.Client;
-using Networking;
 using Networking.Dataframes.InGame;
 using Startup;
 using TMPro;
@@ -18,27 +15,30 @@ namespace UI.WindowsSystem.WindowTypes
         [SerializeField] private Button _restartButton;
         [SerializeField] private Button _menuButton;
 
+        [Inject] private GameCamera _gameCamera;
+        [Inject] private GameInitializer _gameInitializer;
+        
         private void Start()
         {
-            if (GameContainer.Common.Resolve<GameClient>().IsConnected)
+            if (_gameClient.IsConnected)
             {
                 var dataframe = new GameFinishedDataframe
                 {
                     reason = GameFinishedReason.Lose
                 };
-                GameContainer.Common.Resolve<GameClient>().Send(ref dataframe);
+                _gameClient.Send(ref dataframe);
                 return;
             }
             
-            GameContainer.InGame.Resolve<GameCamera>().FollowTarget.SetInPause(true);
+            _gameCamera.FollowTarget.SetInPause(true);
             _restartButton.onClick.AddListener(() =>
             {
-                GameContainer.Common.Resolve<GameInitializer>().RestartGame();
+                _gameInitializer.RestartGame();
             });
             
             _menuButton.onClick.AddListener(() =>
             {
-                GameContainer.Common.Resolve<GameInitializer>().StopGame();
+                _gameInitializer.StopGame();
             });
         }
 
