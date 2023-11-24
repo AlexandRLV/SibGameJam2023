@@ -1,4 +1,5 @@
 ﻿using Common;
+using Common.DI;
 using GameCore.Common.Messages;
 using GameCore.Player;
 using GameCore.Sounds;
@@ -28,7 +29,6 @@ namespace GameCore.Common
         private LoseGameReason _loseGameReason;
         
         private GameClient _gameClient;
-        private NetFrameClient _client;
 
         private void Start()
         {
@@ -38,7 +38,6 @@ namespace GameCore.Common
             Stage = RoundStage.Game;
             
             _gameClient = GameContainer.Common.Resolve<GameClient>();
-            _client = GameContainer.Common.Resolve<NetFrameClient>();
 
             _messageBroker = GameContainer.Common.Resolve<LocalMessageBroker>();
             _messageBroker.Subscribe<PlayerDetectedMessage>(OnPlayerDetected);
@@ -72,7 +71,7 @@ namespace GameCore.Common
             {
                 reason = reason
             };
-            _client.Send(ref dataframe);
+            _gameClient.Send(ref dataframe);
         }
 
         private void OnChangeCharacter(ref ChangeCharacterMessage message)

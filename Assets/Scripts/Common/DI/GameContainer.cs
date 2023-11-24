@@ -1,4 +1,4 @@
-﻿namespace Common
+﻿namespace Common.DI
 {
     public static class GameContainer
     {

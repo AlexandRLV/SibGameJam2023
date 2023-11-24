@@ -3,6 +3,7 @@ using GameCore.Sounds;
 using LocalMessages;
 using System.Collections;
 using System.Collections.Generic;
+using Common.DI;
 using GameCore.Camera;
 using GameCore.Enemies;
 using GameCore.LevelObjects;
@@ -89,14 +90,28 @@ public class EnemyController : MonoBehaviour, ICheckPositionObject
             DetectPlayer(player.MouseType, true);
 
             if (!_gameClient.IsConnected) return;
+            
+            Debug.Log("Send detect player dataframe");
             var dataframe = new EnemyDetectPlayerDataframe
             {
-                startPosition = CheckPosition
+                checkPosition = CheckPosition,
+                isDetect = true,
             };
             _gameClient.Send(ref dataframe);
         }
         else
         {
+            if (_isPlayerDetected && _gameClient.IsConnected)
+            {
+                Debug.Log("Send undetect player dataframe");
+                var dataframe = new EnemyDetectPlayerDataframe
+                {
+                    checkPosition = CheckPosition,
+                    isDetect = false,
+                };
+                _gameClient.Send(ref dataframe);
+            }
+            
             _isPlayerDetected = false;
 
             if (MovementType.waypointsSequentalPatrolling == movementType)
@@ -125,6 +140,7 @@ public class EnemyController : MonoBehaviour, ICheckPositionObject
 
     public void DetectPlayer(PlayerMouseType mouseType, bool canTriggerAlert = true)
     {
+        Debug.Log($"Enemy detected player, mouse type: {mouseType}, can alert: {canTriggerAlert}, already seen: {_hasSeenCharacter}");
         if (!_isPlayerDetected && !_hasSeenCharacter)
         {
             _hasSeenCharacter = true;
@@ -136,6 +152,7 @@ public class EnemyController : MonoBehaviour, ICheckPositionObject
 
     public void UndetectPlayer()
     {
+        Debug.Log("Enemy undetected player");
         _markController.ResetMarks();
         _isPlayerDetected = false;
     }
@@ -149,6 +166,7 @@ public class EnemyController : MonoBehaviour, ICheckPositionObject
 
     private void OnPlayerDetected(ref PlayerDetectedMessage value)
     {
+        Debug.Log("Player detected message, ALERT!!!");
         _isAlert = true;
         _enemyMovement.MoveToTarget(value.PlayerPosition);
         _enemyFOV.SetColor(alertConeColor);
@@ -190,11 +208,16 @@ public class EnemyController : MonoBehaviour, ICheckPositionObject
 
     private void StartAlert()
     {
+        Debug.Log("Starting alert by timer");
         if (!_canTriggerAlert)
+        {
+            Debug.Log("Cannot trigger alert, return");
             return;
+        }
 
         if (_gameClient.IsConnected)
         {
+            Debug.Log("Sending alert dataframe");
             var dataframe = new EnemyAlertPlayerDataframe
             {
                 playerPosition = _currentTarget.position

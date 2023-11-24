@@ -6,6 +6,7 @@ using LocalMessages;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Common.DI;
 using UnityEngine;
 
 public class EvacuationInteractive : BaseTriggerObject

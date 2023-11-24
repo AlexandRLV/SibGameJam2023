@@ -1,4 +1,5 @@
 ﻿using Common;
+using Common.DI;
 using GameCore.Common;
 using GameCore.LevelObjects;
 using LocalMessages;

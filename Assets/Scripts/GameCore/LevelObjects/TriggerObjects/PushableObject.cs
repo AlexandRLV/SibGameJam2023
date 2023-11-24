@@ -1,4 +1,5 @@
 ﻿using Common;
+using Common.DI;
 using GameCore.LevelObjects;
 using NetFrame.Client;
 using Networking;
@@ -18,7 +19,7 @@ namespace GameCore.InteractiveObjects
         private bool _isOnline;
         private int _tick;
 
-        private NetFrameClient _client;
+        private GameClient _client;
         
         protected override void OnPlayerEnter()
         {
@@ -65,10 +66,9 @@ namespace GameCore.InteractiveObjects
         {
             GameContainer.InGame.Resolve<LevelObjectService>().RegisterPushableObject(this);
 
-            var gameClient = GameContainer.Common.Resolve<GameClient>();
-            _isOnline = gameClient.IsConnected;
-
-            _client = GameContainer.Common.Resolve<NetFrameClient>();
+            _client = GameContainer.Common.Resolve<GameClient>();
+            _isOnline = _client.IsConnected;
+            
             CheckPosition = transform.position;
         }
 

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Common;
+using Common.DI;
 using GameCore.InteractiveObjects;
 using GameCore.Player;
 using GameCore.Sounds;
@@ -66,7 +67,7 @@ namespace GameCore.LevelObjects
 
         private void OnEnemyDetectPlayer(EnemyDetectPlayerDataframe dataframe)
         {
-            if (!TryFindObject(_enemies, dataframe.startPosition, out var enemy))
+            if (!TryFindObject(_enemies, dataframe.checkPosition, out var enemy))
                 return;
             
             if (dataframe.isDetect)

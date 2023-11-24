@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using Common;
+using Common.DI;
 using GameCore.Camera;
 using GameCore.Character.Movement;
 using GameCore.Common;

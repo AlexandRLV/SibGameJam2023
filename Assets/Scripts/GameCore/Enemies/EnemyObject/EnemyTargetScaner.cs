@@ -2,6 +2,7 @@ using Common;
 using GameCore.Player;
 using System.Collections;
 using System.Collections.Generic;
+using Common.DI;
 using GameCore.Character.Movement;
 using LocalMessages;
 using UnityEngine;

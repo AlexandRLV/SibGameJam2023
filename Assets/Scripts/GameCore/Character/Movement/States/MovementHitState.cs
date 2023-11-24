@@ -40,7 +40,7 @@ namespace GameCore.Character.Movement.States
                 type = EffectType.Knockdown,
                 active = true,
             };
-            movement.Client.Send(ref dataframe);
+            movement.GameClient.Send(ref dataframe);
         }
 
         public override void OnExit(MovementStateType nextState)
@@ -61,7 +61,7 @@ namespace GameCore.Character.Movement.States
                 type = EffectType.Knockdown,
                 active = false,
             };
-            movement.Client.Send(ref dataframe);
+            movement.GameClient.Send(ref dataframe);
         }
     }
 }

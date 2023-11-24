@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Text;
 using Common;
+using Common.DI;
 using GameCore.Common;
 using GameCore.Common.Messages;
 using LocalMessages;
