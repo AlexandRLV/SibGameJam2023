@@ -19,8 +19,6 @@ namespace UI.WindowsSystem.WindowTypes
             var soundService = GameContainer.Common.Resolve<SoundService>();    
             soundService.PlayMusic(MusicType.Menu);
 
-            AudioListener.volume = 0;
-            
             _startGameButton.onClick.AddListener(StartGame);
             _leaveButton.onClick.AddListener(LeaveGame);
             _settingsButton.onClick.AddListener(OpenSettings);

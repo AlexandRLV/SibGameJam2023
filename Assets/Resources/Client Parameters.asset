@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Client Parameters
   m_EditorClassIdentifier: 
   ipAddress: 91.220.109.117
-  isLocal: 1
+  isLocal: 0
   port: 8080
   roomsRequestInterval: 3
