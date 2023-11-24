@@ -26,6 +26,8 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
         [Inject] private NotificationsManager _notificationsManager;
         [Inject] private ClientParameters _clientParameters;
         [Inject] private RoomController _roomController;
+        [Inject] private WindowsSystem _windowsSystem;
+        [Inject] private GameClient _gameClient;
         
         private float _roomsRequestTimer;
         private List<RoomListItem> _createdRooms;

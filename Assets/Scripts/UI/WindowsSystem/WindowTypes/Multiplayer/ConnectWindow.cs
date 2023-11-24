@@ -20,6 +20,9 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer
         [SerializeField] private Button _cancelButton;
 
         [Inject] private NotificationsManager _notificationsManager;
+        [Inject] private WindowsSystem _windowsSystem;
+        [Inject] private GameClient _gameClient;
+        [Inject] private LocalMessageBroker _messageBroker;
 
         private void Start()
         {

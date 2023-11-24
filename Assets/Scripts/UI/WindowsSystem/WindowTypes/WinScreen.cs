@@ -1,5 +1,6 @@
 ﻿using Common.DI;
 using GameCore.Camera;
+using Networking;
 using Networking.Dataframes.InGame;
 using Startup;
 using UnityEngine;
@@ -13,6 +14,7 @@ namespace UI.WindowsSystem.WindowTypes
 
         [Inject] private GameCamera _gameCamera;
         [Inject] private GameInitializer _gameInitializer;
+        [Inject] private GameClient _gameClient;
 
         private void Start()
         {

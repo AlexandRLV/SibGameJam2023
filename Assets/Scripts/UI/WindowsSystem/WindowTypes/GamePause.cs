@@ -14,6 +14,8 @@ namespace UI.WindowsSystem.WindowTypes
         [SerializeField] private Button _settingsButton;
 
         [Inject] private GameCamera _gameCamera;
+        [Inject] private WindowsSystem _windowsSystem;
+        [Inject] private GameClient _gameClient;
 
         private void Start()
         {

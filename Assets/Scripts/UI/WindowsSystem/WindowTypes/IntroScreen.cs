@@ -1,4 +1,5 @@
 ﻿using Common.DI;
+using Networking;
 using Networking.Dataframes.InGame;
 using Startup;
 using UnityEngine;
@@ -13,6 +14,8 @@ namespace UI.WindowsSystem.WindowTypes
         [SerializeField] private GameObject _otherSkippedLabel;
 
         [Inject] private GameInitializer _gameInitializer;
+        [Inject] private WindowsSystem _windowsSystem;
+        [Inject] private GameClient _gameClient;
         
         private bool _otherSkipped;
         private bool _skipped;

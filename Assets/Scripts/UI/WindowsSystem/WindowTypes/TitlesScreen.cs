@@ -1,10 +1,13 @@
-﻿using UnityEngine;
+﻿using Common.DI;
+using UnityEngine;
 
 namespace UI.WindowsSystem.WindowTypes
 {
     public class TitlesScreen : WindowBase
     {
         [SerializeField] private float _showTime;
+        
+        [Inject] private WindowsSystem _windowsSystem;
 
         private float _timer;
 

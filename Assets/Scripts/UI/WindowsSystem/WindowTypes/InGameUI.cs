@@ -2,6 +2,8 @@
 using Common.DI;
 using GameCore.Common;
 using GameCore.Common.Messages;
+using LocalMessages;
+using Networking;
 using TMPro;
 using UnityEngine;
 
@@ -27,6 +29,9 @@ namespace UI.WindowsSystem.WindowTypes
         [SerializeField] private GameObject[] _objectsToDisableInMultiplayer;
         
         [Inject] private RoundController _roundController;
+        [Inject] private WindowsSystem _windowsSystem;
+        [Inject] private GameClient _gameClient;
+        [Inject] private LocalMessageBroker _messageBroker;
         
         private bool _initialized;
         private int _seconds;

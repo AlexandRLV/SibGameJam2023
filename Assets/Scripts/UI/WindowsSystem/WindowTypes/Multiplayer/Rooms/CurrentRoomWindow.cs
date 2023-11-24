@@ -26,6 +26,8 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
         [SerializeField] private Button _leaveButton;
 
         [Inject] private RoomController _roomController;
+        [Inject] private WindowsSystem _windowsSystem;
+        [Inject] private GameClient _gameClient;
         
         private int _localId;
 

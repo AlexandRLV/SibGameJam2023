@@ -1,4 +1,5 @@
-﻿using GameCore.Camera;
+﻿using Common.DI;
+using GameCore.Camera;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +13,8 @@ namespace UI.WindowsSystem.WindowTypes
         [SerializeField] private Toggle _invertXToggle;
         [SerializeField] private Toggle _invertYToggle;
         [SerializeField] private Button _saveButton;
+
+        [Inject] private WindowsSystem _windowsSystem;
 
         private void Start()
         {
