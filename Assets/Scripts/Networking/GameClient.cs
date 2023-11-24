@@ -22,54 +22,53 @@ namespace Networking
         
         public string PlayerName { get; set; }
         public bool IsMaster { get; set; }
-        
         public bool IsConnected { get; private set; }
+        public NetFrameClient Client { get; private set; }
         
-        private NetFrameClient _client;
         private ClientParameters _parameters;
 
         private void Update()
         {
-            _client?.Run();
+            Client?.Run();
         }
 
         public void Initialize()
         {
             _parameters = GameContainer.Common.Resolve<ClientParameters>();
-            _client = GameContainer.Common.Resolve<NetFrameClient>();
+            Client = GameContainer.Common.Resolve<NetFrameClient>();
 
-            _client.ConnectionSuccessful += OnConnectionSuccessful;
-            _client.ConnectedFailed += OnConnectionFailed;
-            _client.Disconnected += OnDisconnected;
+            Client.ConnectionSuccessful += OnConnectionSuccessful;
+            Client.ConnectedFailed += OnConnectionFailed;
+            Client.Disconnected += OnDisconnected;
             
-            _client.Subscribe<PlayerLeftRoomDataframe>(OnPlayerLeftRoom);
-            _client.Subscribe<GameFinishedDataframe>(OnGameFinished);
-            _client.Subscribe<LoseGameDataframe>(OnLoseGame);
+            Client.Subscribe<PlayerLeftRoomDataframe>(OnPlayerLeftRoom);
+            Client.Subscribe<GameFinishedDataframe>(OnGameFinished);
+            Client.Subscribe<LoseGameDataframe>(OnLoseGame);
         }
 
         public void Connect()
         {
-            _client.Connect(_parameters.Ip, _parameters.port);
+            Client.Connect(_parameters.Ip, _parameters.port);
         }
 
         public void Disconnect()
         {
-            _client.Disconnect();
+            Client.Disconnect();
         }
 
         public void Shutdown()
         {
-            _client.ConnectionSuccessful -= OnConnectionSuccessful;
-            _client.ConnectedFailed -= OnConnectionFailed;
-            _client.Disconnected -= OnDisconnected;
-            _client.Disconnect();
+            Client.ConnectionSuccessful -= OnConnectionSuccessful;
+            Client.ConnectedFailed -= OnConnectionFailed;
+            Client.Disconnected -= OnDisconnected;
+            Client.Disconnect();
             
-            _client.Unsubscribe<PlayerLeftRoomDataframe>(OnPlayerLeftRoom);
-            _client.Unsubscribe<GameFinishedDataframe>(OnGameFinished);
-            _client.Unsubscribe<LoseGameDataframe>(OnLoseGame);
+            Client.Unsubscribe<PlayerLeftRoomDataframe>(OnPlayerLeftRoom);
+            Client.Unsubscribe<GameFinishedDataframe>(OnGameFinished);
+            Client.Unsubscribe<LoseGameDataframe>(OnLoseGame);
         }
 
-        public void Send<T>(ref T dataframe) where T : struct, INetworkDataframe => _client.Send(ref dataframe);
+        public void Send<T>(ref T dataframe) where T : struct, INetworkDataframe => Client.Send(ref dataframe);
 
         private void OnConnectionSuccessful()
         {
