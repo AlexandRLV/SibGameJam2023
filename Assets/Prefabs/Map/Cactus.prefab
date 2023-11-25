@@ -59,8 +59,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.868843, y: 2.4813578, z: 2.8253098}
-  m_Center: {x: 0, y: 0.5688628, z: 0.036273956}
+  m_Size: {x: 2.868843, y: 1.7454829, z: 2.8253098}
+  m_Center: {x: 0, y: 0.93680024, z: 0.036273956}
 --- !u!114 &2649277197530440495
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74,9 +74,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sound: 8
-  mainCollider: {fileID: 2649277197530440491}
-  a: {x: 0, y: 0, z: 0}
-  b: {x: 0, y: 0, z: 0}
+  _mainCollider: {fileID: 2649277197530440491}
 --- !u!1001 &2649277198784434320
 PrefabInstance:
   m_ObjectHideFlags: 0

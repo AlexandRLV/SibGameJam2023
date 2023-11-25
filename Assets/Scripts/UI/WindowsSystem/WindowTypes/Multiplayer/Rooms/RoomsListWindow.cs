@@ -38,10 +38,6 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
         {
             Debug.Log("Room list window initialize");
             _createdRooms = new List<RoomListItem>();
-            
-            _gameClient.Client.Subscribe<RoomsListDataframe>(SetRooms);
-            _gameClient.Client.Subscribe<JoinedRoomDataframe>(ProcessJoinedRoom);
-            _gameClient.Client.Subscribe<JoinRoomFailedDataframe>(ProcessJoinFailed);
 
             _joinRoomPopup.OnJoinPressed += JoinSelectedRoom;
             _joinRoomPopup.OnClosePressed += CloseJoinRoom;
@@ -60,6 +56,10 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
 
         private void Start()
         {
+            _gameClient.Client.Subscribe<RoomsListDataframe>(SetRooms);
+            _gameClient.Client.Subscribe<JoinedRoomDataframe>(ProcessJoinedRoom);
+            _gameClient.Client.Subscribe<JoinRoomFailedDataframe>(ProcessJoinFailed);
+            
             if (!_roomController.inRoom) return;
             
             _windowsSystem.DestroyWindow(this);

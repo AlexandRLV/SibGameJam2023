@@ -30,7 +30,7 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
         
         private int _localId;
 
-        private void Awake()
+        private void Start()
         {
             _readyButton.onClick.AddListener(SendReady);
             _notReadyButton.onClick.AddListener(SendNotReady);
