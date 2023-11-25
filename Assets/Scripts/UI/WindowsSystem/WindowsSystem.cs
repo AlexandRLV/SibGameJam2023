@@ -14,7 +14,7 @@ namespace UI.WindowsSystem
         private Dictionary<Type, WindowBase> _windowsPrefabs;
         private Dictionary<Type, WindowBase> _loadedWindows;
         
-        [Inject]
+        [Construct]
         public WindowsSystem(GameWindows gameWindows, UIRoot uiRoot)
         {
             _gameWindows = gameWindows;

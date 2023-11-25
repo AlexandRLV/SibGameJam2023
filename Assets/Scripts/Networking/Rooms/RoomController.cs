@@ -11,7 +11,7 @@ namespace Networking
         
         private NetFrameClient _client;
 
-        [Inject]
+        [Construct]
         public RoomController(NetFrameClient client)
         {
             _client = client;

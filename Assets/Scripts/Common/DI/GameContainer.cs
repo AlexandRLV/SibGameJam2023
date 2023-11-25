@@ -11,12 +11,20 @@ namespace Common.DI
         public static Container Common { get; set; }
         public static Container InGame { get; set; }
 
+        public static void InjectToInstance<T>(T instance) where T : class
+        {
+            var type = typeof(T);
+            
+            InjectFields(instance, type);
+            InjectMethods(type, instance);
+        }
+
         // Method for creating instance of common C# class
         public static T Create<T>()
         {
             var type = typeof(T);
             var constructors = type.GetConstructors()
-                .Where(x => x.IsDefined(typeof(InjectAttribute)));
+                .Where(x => x.IsDefined(typeof(ConstructAttribute)));
 
             var constructor = constructors.FirstOrDefault();
             if (constructor == null)
@@ -36,8 +44,7 @@ namespace Common.DI
             }
 
             object instance = constructor.Invoke(parametersValues);
-            InjectFields(instance, type);
-            
+            InjectToInstance(instance);
             return (T)instance;
         }
         
@@ -45,21 +52,14 @@ namespace Common.DI
         public static T InstantiateAndResolve<T>(T prefab) where T : MonoBehaviour
         {
             var spawnedObject = Object.Instantiate(prefab);
-            var type = typeof(T);
-            
-            InjectFields(spawnedObject, type);
-            InjectMethods(type, spawnedObject);
-
+            InjectToInstance(spawnedObject);
             return spawnedObject;
         }
+        
         public static T InstantiateAndResolve<T>(T prefab, Transform parent) where T : MonoBehaviour
         {
             var spawnedObject = Object.Instantiate(prefab, parent);
-            var type = typeof(T);
-            
-            InjectFields(spawnedObject, type);
-            InjectMethods(type, spawnedObject);
-
+            InjectToInstance(spawnedObject);
             return spawnedObject;
         }
 
@@ -84,7 +84,7 @@ namespace Common.DI
         private static void InjectMethods(Type type, object spawnedObject)
         {
             var methods = type.GetMethods(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
-                .Where(x => x.IsDefined(typeof(InjectAttribute)));
+                .Where(x => x.IsDefined(typeof(ConstructAttribute)));
             foreach (var method in methods)
             {
                 var parameters = method.GetParameters();

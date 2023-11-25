@@ -1,8 +1,10 @@
 ﻿using System;
+using JetBrains.Annotations;
 
 namespace Common.DI
 {
-    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Constructor | AttributeTargets.Method)]
+    [AttributeUsage(AttributeTargets.Field)]
+    [MeansImplicitUse]
     public class InjectAttribute : Attribute
     {
         

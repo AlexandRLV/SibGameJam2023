@@ -1,5 +1,4 @@
-﻿using Common;
-using Common.DI;
+﻿using Common.DI;
 using GameCore.RoundMissions.LocalMessages;
 using LocalMessages;
 
@@ -9,13 +8,14 @@ namespace GameCore.RoundMissions.Missions
     {
         public sealed override string MissionText { get; protected set; }
 
-        private readonly LocalMessageBroker _messageBroker;
+        private LocalMessageBroker _messageBroker;
         
-        public FindCactusMission(MissionsController controller) : base(controller)
+        [Construct]
+        public FindCactusMission(MissionsController controller, LocalMessageBroker messageBroker) : base(controller)
         {
             MissionText = controller.Data.findCactusText;
             
-            _messageBroker = GameContainer.Common.Resolve<LocalMessageBroker>();
+            _messageBroker = messageBroker;
             _messageBroker.Subscribe<CactusFoundMessage>(OnCactusFound);
         }
 
@@ -26,9 +26,9 @@ namespace GameCore.RoundMissions.Missions
 
         private void OnCactusFound(ref CactusFoundMessage value)
         {
-            Controller.RoundData.CactusFound = true;
+            controller.RoundData.CactusFound = true;
             Complete();
-            Controller.UpdateMissionsState();
+            controller.UpdateMissionsState();
         }
     }
 }

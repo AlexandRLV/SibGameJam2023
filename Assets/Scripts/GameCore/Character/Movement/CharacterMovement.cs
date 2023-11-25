@@ -10,7 +10,6 @@ using GameCore.Input;
 using GameCore.Sounds;
 using GameCore.StateMachine;
 using LocalMessages;
-using NetFrame.Client;
 using Networking;
 using Networking.Dataframes.InGame;
 using UnityEngine;
@@ -21,10 +20,10 @@ namespace GameCore.Character.Movement
     {
         public bool IsGrounded { get; private set; }
         public bool IsControlledByPlayer { get; private set; }
-        public InputState InputState { get; private set; }
+        public InputState InputState => _inputState;
         public CharacterMoveValues MoveValues { get; private set; }
         public CharacterLives Lives { get; private set; }
-        public GameClient GameClient { get; private set; }
+        public GameClient GameClient => _gameClient;
         
         public Rigidbody Rigidbody => _rigidbody;
         public CharacterParameters Parameters => _parameters;
@@ -45,6 +44,9 @@ namespace GameCore.Character.Movement
         [SerializeField] private bool _applySpring;
         
         [Inject] private GameCamera _gameCamera;
+        [Inject] private GameClient _gameClient;
+        [Inject] private LocalMessageBroker _messageBroker;
+        [Inject] private InputState _inputState;
 
         private StateMachine<MovementStateBase, MovementStateType> _stateMachine;
 
@@ -145,8 +147,6 @@ namespace GameCore.Character.Movement
                     
             _visuals.KnockdownEffect.SetActive(false);
 
-            GameClient = GameContainer.Common.Resolve<GameClient>();
-                    
             MoveValues = new CharacterMoveValues
             {
                 SpeedMultiplier = 1f,
@@ -189,12 +189,11 @@ namespace GameCore.Character.Movement
 
             MoveValues.IsKnockdown = true;
             var message = new PlayerDeadMessage();
-            GameContainer.Common.Resolve<LocalMessageBroker>().Trigger(ref message);
+            _messageBroker.Trigger(ref message);
         }
         
         public void Posess()
         {
-            InputState = GameContainer.InGame.Resolve<InputState>();
             IsControlledByPlayer = true;
             _rigidbody.drag = 0f;
             _rigidbody.isKinematic = false;
@@ -204,7 +203,6 @@ namespace GameCore.Character.Movement
 
         public void Unposess()
         {
-            InputState = null;
             IsControlledByPlayer = false;
             _rigidbody.isKinematic = true;
             _rigidbody.velocity = Vector3.zero;

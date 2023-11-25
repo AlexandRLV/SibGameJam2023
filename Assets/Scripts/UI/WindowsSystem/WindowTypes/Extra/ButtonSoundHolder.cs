@@ -1,5 +1,4 @@
-﻿using Common;
-using Common.DI;
+﻿using Common.DI;
 using GameCore.Sounds;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -11,24 +10,28 @@ namespace UI.WindowsSystem.WindowTypes.Extra
     [DisallowMultipleComponent]
     public class ButtonSoundHolder : MonoBehaviour, IPointerEnterHandler
     {
+        [Inject] private SoundService _soundService;
+        
         private bool _hasButton;
         
         private void Start()
         {
+            GameContainer.InjectToInstance(this);
+            
             var button = GetComponent<Button>();
             if (button == null) return;
 
             _hasButton = true;
             button.onClick.AddListener(() =>
             {
-                GameContainer.Common.Resolve<SoundService>().PlaySound(SoundType.Click);
+                _soundService.PlaySound(SoundType.Click);
             });
         }
 
         public void OnPointerEnter(PointerEventData eventData)
         {
             if (_hasButton)
-                GameContainer.Common.Resolve<SoundService>().PlaySound(SoundType.Hover);
+                _soundService.PlaySound(SoundType.Hover);
         }
     }
 }

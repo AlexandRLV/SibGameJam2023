@@ -1,7 +1,6 @@
 ﻿using Common;
 using UnityEngine;
 
-
 namespace GameCore.Sounds
 {
     [CreateAssetMenu(fileName = "Sounds Data")]

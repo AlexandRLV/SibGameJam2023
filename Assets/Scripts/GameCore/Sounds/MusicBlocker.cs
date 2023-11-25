@@ -1,4 +1,3 @@
-using Common;
 using Common.DI;
 using UnityEngine;
 
@@ -6,11 +5,12 @@ namespace GameCore.Sounds
 {
     public class MusicBlocker : MonoBehaviour
     {
-        private SoundService SoundService => GameContainer.Common.Resolve<SoundService>();
+        [Inject] private SoundService _soundService;
 
         private void Awake()
         {
-            SoundService.StopMusic();
+            GameContainer.InjectToInstance(this);
+            _soundService.StopMusic();
         }
     }
 }

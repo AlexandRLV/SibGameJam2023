@@ -8,10 +8,12 @@ namespace GameCore.RoundMissions
     {
         public bool IsCompleted { get; private set; }
         public abstract string MissionText { get; protected set; }
-        
-        protected MissionsController Controller;
 
-        public MissionBase(MissionsController controller) => Controller = controller;
+        [Inject] private SoundService _soundService;
+        
+        protected readonly MissionsController controller;
+
+        protected MissionBase(MissionsController controller) => this.controller = controller;
 
         public virtual void Update() { }
         public abstract void Dispose();
@@ -19,7 +21,7 @@ namespace GameCore.RoundMissions
         protected void Complete()
         {
             IsCompleted = true;
-            GameContainer.Common.Resolve<SoundService>().PlaySound(SoundType.SubmissionComplete);
+            _soundService.PlaySound(SoundType.SubmissionComplete);
         }
     }
 }

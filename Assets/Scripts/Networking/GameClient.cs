@@ -27,7 +27,7 @@ namespace Networking
         
         private ClientParameters _parameters;
         
-        [Inject]
+        [Construct]
         public void Construct(ClientParameters parameters, NetFrameClient client)
         {
             _parameters = parameters;

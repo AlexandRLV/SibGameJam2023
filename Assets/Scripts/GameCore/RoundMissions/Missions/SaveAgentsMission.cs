@@ -1,5 +1,4 @@
-﻿using Common;
-using Common.DI;
+﻿using Common.DI;
 using GameCore.RoundMissions.LocalMessages;
 using LocalMessages;
 
@@ -11,12 +10,13 @@ namespace GameCore.RoundMissions.Missions
 
         private readonly LocalMessageBroker _messageBroker;
         
-        public SaveAgentsMission(MissionsController controller) : base(controller)
+        [Construct]
+        public SaveAgentsMission(MissionsController controller, LocalMessageBroker messageBroker) : base(controller)
         {
-            _messageBroker = GameContainer.Common.Resolve<LocalMessageBroker>();
-            _messageBroker.Subscribe<AgentSavedMessage>(OnAgentSaved);
-            
             MissionText = controller.Data.saveAgentsText;
+            
+            _messageBroker = messageBroker;
+            _messageBroker.Subscribe<AgentSavedMessage>(OnAgentSaved);
         }
 
         public override void Dispose()
@@ -28,11 +28,11 @@ namespace GameCore.RoundMissions.Missions
         {
             if (IsCompleted) return;
 
-            Controller.RoundData.AgentsSaved++;
-            if (Controller.RoundData.AgentsSaved >= Controller.Data.agentsToSave)
+            controller.RoundData.AgentsSaved++;
+            if (controller.RoundData.AgentsSaved >= controller.Data.agentsToSave)
                 Complete();
             
-            Controller.UpdateMissionsState();
+            controller.UpdateMissionsState();
         }
     }
 }

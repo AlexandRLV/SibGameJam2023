@@ -1,8 +1,5 @@
 ﻿using Common;
-using Common.DI;
 using GameCore.Character.Animation;
-using NetFrame.Client;
-using Networking;
 using Networking.Dataframes.InGame;
 using UnityEngine;
 

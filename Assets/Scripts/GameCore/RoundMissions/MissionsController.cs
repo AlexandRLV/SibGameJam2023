@@ -25,17 +25,16 @@ namespace GameCore.RoundMissions
         private StringBuilder _stringBuilder;
         private List<MissionBase> _missions;
         
-        [Inject]
-        public void Construct()
+        public void Initialize()
         {
             RoundData = new RoundData();
             _stringBuilder = new StringBuilder();
             
             _missions = new List<MissionBase>
             {
-                new SaveAgentsMission(this),
-                new FindCactusMission(this),
-                new EvacuateMission(this),
+                GameContainer.Create<SaveAgentsMission>(),
+                GameContainer.Create<FindCactusMission>(),
+                GameContainer.Create<EvacuateMission>(),
             };
             
             UpdateMissionsState();

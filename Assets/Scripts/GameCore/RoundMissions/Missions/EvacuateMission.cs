@@ -1,5 +1,4 @@
-﻿using Common;
-using Common.DI;
+﻿using Common.DI;
 using GameCore.Common.Messages;
 using LocalMessages;
 
@@ -7,22 +6,23 @@ namespace GameCore.RoundMissions.Missions
 {
     public class EvacuateMission : MissionBase
     {
-        public override string MissionText { get; protected set; }
+        public sealed override string MissionText { get; protected set; }
 
         private LocalMessageBroker _messageBroker;
         
-        public EvacuateMission(MissionsController controller) : base(controller)
+        [Construct]
+        public EvacuateMission(MissionsController controller, LocalMessageBroker messageBroker) : base(controller)
         {
             MissionText = controller.Data.evacuationText;
 
-            _messageBroker = GameContainer.Common.Resolve<LocalMessageBroker>();
+            _messageBroker = messageBroker;
             _messageBroker.Subscribe<PlayerEvacuatedMessage>(OnPlayerEvacuated);
         }
 
         public override void Update()
         {
-            if (!Controller.RoundData.CactusFound) return;
-            if (Controller.RoundData.AgentsSaved < Controller.Data.agentsToSave) return;
+            if (!controller.RoundData.CactusFound) return;
+            if (controller.RoundData.AgentsSaved < controller.Data.agentsToSave) return;
             
             var message = new ActivateEvacuationMessage();
             message.active = true;
@@ -37,7 +37,7 @@ namespace GameCore.RoundMissions.Missions
         private void OnPlayerEvacuated(ref PlayerEvacuatedMessage message)
         {
             Complete();
-            Controller.UpdateMissionsState();
+            controller.UpdateMissionsState();
         }
     }
 }

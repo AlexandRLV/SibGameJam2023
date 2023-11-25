@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
-using Common;
 using Common.DI;
 using GameCore.InteractiveObjects;
 using GameCore.Player;
 using GameCore.Sounds;
 using LocalMessages;
-using NetFrame.Client;
 using Networking;
 using Networking.Dataframes.InGame;
 using UnityEngine;
@@ -20,7 +18,7 @@ namespace GameCore.LevelObjects
 
         private GameClient _gameClient;
         
-        [Inject]
+        [Construct]
         public LevelObjectService(GameClient gameClient)
         {
             _gameClient = gameClient;

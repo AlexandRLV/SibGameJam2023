@@ -19,6 +19,8 @@ namespace Startup.GameplayInitializers
             var missionsController = GameContainer.InstantiateAndResolve(missionsControllerPrefab);
             GameContainer.InGame.Register(missionsController);
             
+            missionsController.Initialize();
+            
             yield return null;
         }
 
