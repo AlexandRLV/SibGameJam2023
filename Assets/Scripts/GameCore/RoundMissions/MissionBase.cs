@@ -1,5 +1,4 @@
-﻿using Common;
-using Common.DI;
+﻿using Common.DI;
 using GameCore.Sounds;
 
 namespace GameCore.RoundMissions
@@ -9,11 +8,15 @@ namespace GameCore.RoundMissions
         public bool IsCompleted { get; private set; }
         public abstract string MissionText { get; protected set; }
 
-        [Inject] private SoundService _soundService;
+        [Inject] protected SoundService soundService;
         
         protected readonly MissionsController controller;
 
-        protected MissionBase(MissionsController controller) => this.controller = controller;
+        protected MissionBase(MissionsController controller)
+        {
+            this.controller = controller;
+            GameContainer.InjectToInstance(this);
+        }
 
         public virtual void Update() { }
         public abstract void Dispose();
@@ -21,7 +24,7 @@ namespace GameCore.RoundMissions
         protected void Complete()
         {
             IsCompleted = true;
-            _soundService.PlaySound(SoundType.SubmissionComplete);
+            soundService.PlaySound(SoundType.SubmissionComplete);
         }
     }
 }

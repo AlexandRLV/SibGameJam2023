@@ -2,6 +2,7 @@
 using GameCore.Camera;
 using Networking;
 using Networking.Dataframes.InGame;
+using Startup;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,6 +17,7 @@ namespace UI.WindowsSystem.WindowTypes
         [Inject] private GameCamera _gameCamera;
         [Inject] private WindowsSystem _windowsSystem;
         [Inject] private GameClient _gameClient;
+        [Inject] private GameInitializer _gameInitializer;
 
         private void Start()
         {
@@ -43,6 +45,7 @@ namespace UI.WindowsSystem.WindowTypes
                 }
                 
                 _windowsSystem.DestroyWindow(this);
+                _gameInitializer.StopGame();
             });
             
             _settingsButton.onClick.AddListener(OpenSettings);
