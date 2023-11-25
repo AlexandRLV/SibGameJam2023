@@ -1,8 +1,6 @@
-﻿using Common;
-using Common.DI;
+﻿using Common.DI;
 using GameCore.Camera;
 using GameCore.Character.Movement;
-using NetFrame.Client;
 using Networking;
 using Networking.Dataframes.InGame;
 using UnityEngine;

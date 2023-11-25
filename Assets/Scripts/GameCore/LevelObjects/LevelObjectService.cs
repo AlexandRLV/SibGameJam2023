@@ -1,7 +1,11 @@
 ﻿using System.Collections.Generic;
 using Common.DI;
-using GameCore.InteractiveObjects;
+using GameCore.Enemies;
+using GameCore.Enemies.EnemyObject;
+using GameCore.LevelObjects.Abstract;
+using GameCore.LevelObjects.TriggerObjects;
 using GameCore.Player;
+using GameCore.Player.Network;
 using GameCore.Sounds;
 using LocalMessages;
 using Networking;
@@ -15,17 +19,22 @@ namespace GameCore.LevelObjects
         private List<InteractiveObject> _interactiveObjects = new();
         private List<PushableObject> _pushableObjects = new();
         private List<EnemyController> _enemies = new();
+        private List<Mousetrap> _mousetraps = new();
 
         private GameClient _gameClient;
+        private RemotePlayer _remotePlayer;
         
         [Construct]
-        public LevelObjectService(GameClient gameClient)
+        public LevelObjectService(GameClient gameClient, RemotePlayer remotePlayer)
         {
+            _remotePlayer = remotePlayer;
+            
             _gameClient = gameClient;
             _gameClient.Client.Subscribe<InteractedWithObjectDataframe>(OnInteracted);
             _gameClient.Client.Subscribe<PushablePositionDataframe>(OnPushableMoved);
             _gameClient.Client.Subscribe<EnemyDetectPlayerDataframe>(OnEnemyDetectPlayer);
             _gameClient.Client.Subscribe<EnemyAlertPlayerDataframe>(OnEnemyAlert);
+            _gameClient.Client.Subscribe<ActivateMouseTrapDataframe>(OnMousetrapActivated);
         }
 
         public void Dispose()
@@ -34,6 +43,7 @@ namespace GameCore.LevelObjects
             _gameClient.Client.Unsubscribe<PushablePositionDataframe>(OnPushableMoved);
             _gameClient.Client.Unsubscribe<EnemyDetectPlayerDataframe>(OnEnemyDetectPlayer);
             _gameClient.Client.Unsubscribe<EnemyAlertPlayerDataframe>(OnEnemyAlert);
+            _gameClient.Client.Unsubscribe<ActivateMouseTrapDataframe>(OnMousetrapActivated);
         }
 
         public void RegisterInteractiveObject(InteractiveObject value) => _interactiveObjects.Add(value);
@@ -45,12 +55,15 @@ namespace GameCore.LevelObjects
         public void RegisterEnemy(EnemyController value) => _enemies.Add(value);
         public void UnregisterEnemy(EnemyController value) => _enemies.Remove(value);
 
+        public void RegisterMousetrap(Mousetrap value) => _mousetraps.Add(value);
+        public void UnregisterMousetrap(Mousetrap value) => _mousetraps.Remove(value);
+
         private void OnInteracted(InteractedWithObjectDataframe dataframe)
         {
             if (!TryFindObject(_interactiveObjects, dataframe.objectPosition, out var target))
                 return;
-            
-            target.InteractWithoutPlayer();
+
+            target.InteractWithoutPlayer(_remotePlayer.transform.position);
         }
 
         private void OnPushableMoved(PushablePositionDataframe dataframe)
@@ -85,6 +98,14 @@ namespace GameCore.LevelObjects
             };
             GameContainer.Common.Resolve<LocalMessageBroker>().Trigger(ref message);
             GameContainer.Common.Resolve<SoundService>().PlaySound(SoundType.Alert);
+        }
+        
+        private void OnMousetrapActivated(ActivateMouseTrapDataframe dataframe)
+        {
+            if (!TryFindObject(_mousetraps, dataframe.mousetrapPosition, out var mousetrap))
+                return;
+            
+            mousetrap.Activate();
         }
 
         private static bool TryFindObject<T>(List<T> objects, Vector3 startPosition, out T target) where T : ICheckPositionObject

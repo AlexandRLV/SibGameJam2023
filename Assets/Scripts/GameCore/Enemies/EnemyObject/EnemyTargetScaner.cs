@@ -1,245 +1,242 @@
-using Common;
-using GameCore.Player;
-using System.Collections;
 using System.Collections.Generic;
 using Common.DI;
-using GameCore.Character.Movement;
-using LocalMessages;
+using GameCore.Player;
 using UnityEngine;
-using UnityEditor;
 
-public class EnemyTargetScaner : MonoBehaviour
+namespace GameCore.Enemies.EnemyObject
 {
-    #region Serialized Variables
-
-    [SerializeField] bool showGizmos;
-    [SerializeField] Transform eyeCenter;
-
-    [SerializeField] float alertRadius = 8f;
-    [SerializeField] float viewDistance = 10f;
-    [SerializeField, Range(0f, 360f)] float viewAngle = 360f;
-    [SerializeField] float heightOffset = 1f;
-    [SerializeField] float maxHeightDifference = 1f;
-
-    [SerializeField] LayerMask targetLayer, obstacleLayer;
-
-    #endregion
-
-    #region Private Variables
-
-    [SerializeField]List<Transform> targetList = new List<Transform>();
-    Transform customTarget;
-    Vector3 eyePos;
-    RaycastHit hit;
-
-    #endregion
-
-    #region Properties
-
-    public float ViewAngle => viewAngle;
-    public float ViewDistance => viewDistance;
-    public LayerMask ObstacleLayer => obstacleLayer;
-
-    #endregion
-
-    #region Private Methods
-
-    private void RunScanner()
+    public class EnemyTargetScaner : MonoBehaviour
     {
-        if (!eyeCenter)
+#region Serialized Variables
+
+        [SerializeField] bool showGizmos;
+        [SerializeField] Transform eyeCenter;
+
+        [SerializeField] float alertRadius = 8f;
+        [SerializeField] float viewDistance = 10f;
+        [SerializeField, Range(0f, 360f)] float viewAngle = 360f;
+        [SerializeField] float heightOffset = 1f;
+        [SerializeField] float maxHeightDifference = 1f;
+
+        [SerializeField] LayerMask targetLayer, obstacleLayer;
+
+#endregion
+
+#region Private Variables
+
+        [SerializeField]List<Transform> targetList = new List<Transform>();
+        Transform customTarget;
+        Vector3 eyePos;
+        RaycastHit hit;
+
+#endregion
+
+#region Properties
+
+        public float ViewAngle => viewAngle;
+        public float ViewDistance => viewDistance;
+        public LayerMask ObstacleLayer => obstacleLayer;
+
+#endregion
+
+#region Private Methods
+
+        private void RunScanner()
         {
-            // Debug.LogError("Center of Scanner not assigned");
-            return;
+            if (!eyeCenter)
+            {
+                // Debug.LogError("Center of Scanner not assigned");
+                return;
+            }
+
+            eyePos = eyeCenter.position;
+
+            FindVisibleTarget();
+            RemoveTargetFromList();
+            AddCustomtargetToList();
         }
 
-        eyePos = eyeCenter.position;
-
-        FindVisibleTarget();
-        RemoveTargetFromList();
-        AddCustomtargetToList();
-    }
-
-    private void FindVisibleTarget()
-    {
-        if (GameContainer.InGame == null) return;
-        var player = GameContainer.InGame.Resolve<IPlayer>();
-        if (player == null || player.CurrentMovement == null) return;
-
-        var collider = player.CurrentMovement.Collider;
-        // Detect without obstacles
-        Vector3 targetSize = collider.bounds.size;
-        Transform target = collider.transform;
-
-        Vector3 toPlayer = target.transform.position - eyePos;
-
-        if (Mathf.Abs(toPlayer.y + heightOffset) > maxHeightDifference)
+        private void FindVisibleTarget()
         {
-            return;
-        }
+            if (GameContainer.InGame == null) return;
+            var player = GameContainer.InGame.Resolve<IPlayer>();
+            if (player == null || player.CurrentMovement == null) return;
 
-        if (Vector3.Distance(transform.position, target.position) < alertRadius)
-        {
-            if (!targetList.Contains(target))
-            {
-                targetList.Add(target);
-            }
-            
-            return;
-        }
+            var collider = player.CurrentMovement.Collider;
+            // Detect without obstacles
+            Vector3 targetSize = collider.bounds.size;
+            Transform target = collider.transform;
 
-        Vector3 dirToTarget = (target.position - transform.position).normalized;
-
-        // Detect include obstacles
-        // Detect if any Obstacle come in path
-        if (Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2)
-        {
-            targetSize.y -= 0.05f; // Manual offset in size so that raycast won't go above the mesh
-
-            float offsetX = targetSize.x / 2;
-            float offsetY = targetSize.y / 2;
-
-            int rayCastIteration = 0;
-
-            for (int j = 0; j < 3; j++) // Row of RayCast
-            {
-                for (int k = 0; k < 5; k++) // Column of RayCast
-                {
-                    Vector3 targetPosition = target.position + new Vector3(offsetX, offsetY, 0);
-
-                    float distToTarget = Vector3.Distance(transform.position, target.position);
-
-                    dirToTarget = (targetPosition - transform.position).normalized;
-
-                    if (!Physics.Raycast(transform.position, dirToTarget, out hit, distToTarget, obstacleLayer))
-                    {
-
-#if UNITY_EDITOR
-                        if (showGizmos)
-                            Debug.DrawLine(transform.position, targetPosition, Color.green); // Debug RayCast
-#endif
-
-                        if (!targetList.Contains(target))
-                        {
-                            targetList.Add(target);
-                        }
-
-                        return; // Target is detected no need to go further, so jump out of the Main loop
-                    }
-#if UNITY_EDITOR
-                    if (showGizmos)
-                        Debug.DrawLine(transform.position, targetPosition, Color.red); // Debug RayCast
-#endif
-
-                    offsetY -= targetSize.y / 4;
-                }
-
-                rayCastIteration++;
-                offsetY = targetSize.y / 2;
-                offsetX -= targetSize.x / 2;
-
-            }
-
-            if (rayCastIteration >= 3 && targetList.Contains(target))
-            {
-                targetList.Remove(target);
-            }
-        }
-    }
-
-    private void RemoveTargetFromList()
-    {
-        if (targetList.Count == 0) return;
-
-        for (int i = 0; i < targetList.Count; i++)
-        {
-            Transform target = targetList[i];
-
-            //Null Check-
-            if (target == null)
-            {
-                targetList.RemoveAt(i);
-            }
-
-            //not active in hierarchy
-            if (!target.gameObject.activeInHierarchy)
-            {
-                targetList.Remove(target);
-                continue;
-            }
-
-            //Out of View Radius
-            if (Vector3.Distance(transform.position, target.position) > viewDistance)
-            {
-                targetList.Remove(target);
-                continue;
-            }
-
-            //Inside Alert Radius
-            if (Vector3.Distance(transform.position, target.position) < alertRadius) continue;
-
-            //HeightCheck
             Vector3 toPlayer = target.transform.position - eyePos;
+
             if (Mathf.Abs(toPlayer.y + heightOffset) > maxHeightDifference)
             {
-                targetList.Remove(target);
+                return;
             }
 
-            //Out of FOV
+            if (Vector3.Distance(transform.position, target.position) < alertRadius)
+            {
+                if (!targetList.Contains(target))
+                {
+                    targetList.Add(target);
+                }
+            
+                return;
+            }
+
             Vector3 dirToTarget = (target.position - transform.position).normalized;
 
-            if (Vector3.Angle(transform.forward, dirToTarget) > viewAngle / 2)
+            // Detect include obstacles
+            // Detect if any Obstacle come in path
+            if (Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2)
             {
-                targetList.Remove(target);
+                targetSize.y -= 0.05f; // Manual offset in size so that raycast won't go above the mesh
+
+                float offsetX = targetSize.x / 2;
+                float offsetY = targetSize.y / 2;
+
+                int rayCastIteration = 0;
+
+                for (int j = 0; j < 3; j++) // Row of RayCast
+                {
+                    for (int k = 0; k < 5; k++) // Column of RayCast
+                    {
+                        Vector3 targetPosition = target.position + new Vector3(offsetX, offsetY, 0);
+
+                        float distToTarget = Vector3.Distance(transform.position, target.position);
+
+                        dirToTarget = (targetPosition - transform.position).normalized;
+
+                        if (!Physics.Raycast(transform.position, dirToTarget, out hit, distToTarget, obstacleLayer))
+                        {
+
+#if UNITY_EDITOR
+                            if (showGizmos)
+                                Debug.DrawLine(transform.position, targetPosition, Color.green); // Debug RayCast
+#endif
+
+                            if (!targetList.Contains(target))
+                            {
+                                targetList.Add(target);
+                            }
+
+                            return; // Target is detected no need to go further, so jump out of the Main loop
+                        }
+#if UNITY_EDITOR
+                        if (showGizmos)
+                            Debug.DrawLine(transform.position, targetPosition, Color.red); // Debug RayCast
+#endif
+
+                        offsetY -= targetSize.y / 4;
+                    }
+
+                    rayCastIteration++;
+                    offsetY = targetSize.y / 2;
+                    offsetX -= targetSize.x / 2;
+
+                }
+
+                if (rayCastIteration >= 3 && targetList.Contains(target))
+                {
+                    targetList.Remove(target);
+                }
             }
         }
-    }
 
-    private void AddCustomtargetToList()
-    {
-        if (customTarget != null)
+        private void RemoveTargetFromList()
         {
-            targetList.Add(customTarget);
-            customTarget = null;
-        }
-    }
-    #endregion
+            if (targetList.Count == 0) return;
 
-    #region Public Methods
-
-    // return the nearest target to enemy
-    // method should call from enemy update/fixed update
-    public Transform GetNearestTarget()
-    {
-        RunScanner();
-
-        if (targetList.Count == 0) return null;
-
-        Transform _nearestTarget = targetList[0];
-
-        for (int i = 0; i < targetList.Count; i++)
-        {
-            if (Vector3.Distance(transform.position, targetList[i].position) <
-                Vector3.Distance(transform.position, _nearestTarget.position))
+            for (int i = 0; i < targetList.Count; i++)
             {
-                _nearestTarget = targetList[i];
+                Transform target = targetList[i];
+
+                //Null Check-
+                if (target == null)
+                {
+                    targetList.RemoveAt(i);
+                }
+
+                //not active in hierarchy
+                if (!target.gameObject.activeInHierarchy)
+                {
+                    targetList.Remove(target);
+                    continue;
+                }
+
+                //Out of View Radius
+                if (Vector3.Distance(transform.position, target.position) > viewDistance)
+                {
+                    targetList.Remove(target);
+                    continue;
+                }
+
+                //Inside Alert Radius
+                if (Vector3.Distance(transform.position, target.position) < alertRadius) continue;
+
+                //HeightCheck
+                Vector3 toPlayer = target.transform.position - eyePos;
+                if (Mathf.Abs(toPlayer.y + heightOffset) > maxHeightDifference)
+                {
+                    targetList.Remove(target);
+                }
+
+                //Out of FOV
+                Vector3 dirToTarget = (target.position - transform.position).normalized;
+
+                if (Vector3.Angle(transform.forward, dirToTarget) > viewAngle / 2)
+                {
+                    targetList.Remove(target);
+                }
             }
-
         }
-        return _nearestTarget;
-    }
 
-    public List<Transform> GetTargetList()
-    {
-        RunScanner();
+        private void AddCustomtargetToList()
+        {
+            if (customTarget != null)
+            {
+                targetList.Add(customTarget);
+                customTarget = null;
+            }
+        }
+#endregion
 
-        if (targetList.Count == 0) return null;
+#region Public Methods
 
-        return targetList;
-    }
+        // return the nearest target to enemy
+        // method should call from enemy update/fixed update
+        public Transform GetNearestTarget()
+        {
+            RunScanner();
 
-    #endregion
+            if (targetList.Count == 0) return null;
 
-    /*
+            Transform _nearestTarget = targetList[0];
+
+            for (int i = 0; i < targetList.Count; i++)
+            {
+                if (Vector3.Distance(transform.position, targetList[i].position) <
+                    Vector3.Distance(transform.position, _nearestTarget.position))
+                {
+                    _nearestTarget = targetList[i];
+                }
+
+            }
+            return _nearestTarget;
+        }
+
+        public List<Transform> GetTargetList()
+        {
+            RunScanner();
+
+            if (targetList.Count == 0) return null;
+
+            return targetList;
+        }
+
+#endregion
+
+        /*
     private void OnDrawGizmosSelected()
     {
         if (!showGizmos || transform == null) return;
@@ -280,4 +277,5 @@ public class EnemyTargetScaner : MonoBehaviour
         }
     }
     */
+    }
 }

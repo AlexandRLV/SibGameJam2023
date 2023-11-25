@@ -1,12 +1,10 @@
-﻿using Common;
-using Common.DI;
-using GameCore.LevelObjects;
-using NetFrame.Client;
+﻿using Common.DI;
+using GameCore.LevelObjects.Abstract;
 using Networking;
 using Networking.Dataframes.InGame;
 using UnityEngine;
 
-namespace GameCore.InteractiveObjects
+namespace GameCore.LevelObjects.TriggerObjects
 {
     public class PushableObject : BaseTriggerObject, ICheckPositionObject
     {

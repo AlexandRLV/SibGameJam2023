@@ -1,11 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PrisonMouseController : MonoBehaviour
 {
     public bool isReleased = false;
-    PrisonMouseMovement movement;
+    private PrisonMouseMovement movement;
 
     private void Start()
     {

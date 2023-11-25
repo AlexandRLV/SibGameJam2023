@@ -1,4 +1,7 @@
-public struct ActivateEvacuationMessage
+namespace GameCore.LevelObjects.Messages
 {
-    public bool active;
+    public struct ActivateEvacuationMessage
+    {
+        public bool active;
+    }
 }

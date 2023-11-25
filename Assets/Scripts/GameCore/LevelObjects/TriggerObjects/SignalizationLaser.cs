@@ -1,10 +1,13 @@
-using Common;
 using Common.DI;
+using GameCore.Enemies;
+using GameCore.LevelObjects.Abstract;
+using GameCore.LevelObjects.InteractiveObjects;
+using GameCore.LevelObjects.Messages;
 using GameCore.Sounds;
 using LocalMessages;
 using UnityEngine;
 
-namespace GameCore.InteractiveObjects
+namespace GameCore.LevelObjects.TriggerObjects
 {
     public class SignalizationLaser : BaseTriggerObject
     {
@@ -31,8 +34,8 @@ namespace GameCore.InteractiveObjects
             message.PlayerPosition = Movement.transform.position;
             GameContainer.Common.Resolve<LocalMessageBroker>().Trigger(ref message);
             
-            SoundService.StopMusic();
-            SoundService.PlaySound(SoundType.Alert);
+            soundService.StopMusic();
+            soundService.PlaySound(SoundType.Alert);
             
             IsUsed = true;
         }

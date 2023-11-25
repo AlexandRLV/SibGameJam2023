@@ -1,4 +1,4 @@
-﻿using GameCore.InteractiveObjects;
+﻿using GameCore.LevelObjects.Abstract;
 using NetFrame;
 using NetFrame.WriteAndRead;
 

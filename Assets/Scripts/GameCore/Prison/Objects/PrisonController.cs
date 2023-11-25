@@ -1,8 +1,7 @@
 using System.Collections;
-using Common;
 using Common.DI;
 using GameCore.Character.Animation;
-using GameCore.InteractiveObjects;
+using GameCore.LevelObjects.Abstract;
 using GameCore.Player;
 using GameCore.RoundMissions.LocalMessages;
 using GameCore.Sounds;
@@ -27,8 +26,11 @@ namespace GameCore.Prison.Objects
         [SerializeField] private float timeToOpen = 2f;
         [SerializeField] private Transform door;
         [SerializeField] private PrisonMouseController[] mouseControllers;
+
+        [Inject] private IPlayer _player;
+        [Inject] private LocalMessageBroker _messageBroker;
         
-        private float smooth = 2.0f;
+        private float _smooth = 2.0f;
         private bool _isOpened;
         
         private void Awake()
@@ -44,7 +46,7 @@ namespace GameCore.Prison.Objects
             OpenDoor();
         }
 
-        public override void InteractWithoutPlayer()
+        public override void InteractWithoutPlayer(Vector3 playerPosition)
         {
             if (IsUsed) return;
             
@@ -58,8 +60,7 @@ namespace GameCore.Prison.Objects
             if (IsSeen) return;
             IsSeen = true;
             
-            var player = GameContainer.InGame.Resolve<IPlayer>();
-            SoundService.PlaySound(player.MouseType == PlayerMouseType.ThinMouse ? SoundType.ThinHostage : SoundType.FatHostage);
+            soundService.PlaySound(_player.MouseType == PlayerMouseType.ThinMouse ? SoundType.ThinHostage : SoundType.FatHostage);
         }
 
         private void OpenDoor()
@@ -70,7 +71,7 @@ namespace GameCore.Prison.Objects
             StartCoroutine(OpenDoorCoroutine());
 
             var message = new AgentSavedMessage();
-            GameContainer.Common.Resolve<LocalMessageBroker>().Trigger(ref message);
+            _messageBroker.Trigger(ref message);
         }
 
         private IEnumerator OpenDoorCoroutine()

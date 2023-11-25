@@ -1,43 +1,44 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class MarkController : MonoBehaviour
+namespace GameCore.Enemies
 {
-    [SerializeField] GameObject questionMark;
-    [SerializeField] GameObject exclamationMark;
-    bool isActiveAnything;
-
-    private void Start()
+    public class MarkController : MonoBehaviour
     {
-        questionMark.SetActive(false);
-        exclamationMark.SetActive(false);
-        isActiveAnything = false;
-    }
+        [SerializeField] GameObject questionMark;
+        [SerializeField] GameObject exclamationMark;
+        bool isActiveAnything;
 
-    public void LookAt(Transform target)
-    {
-        if (isActiveAnything) transform.LookAt(target);
-    }
+        private void Start()
+        {
+            questionMark.SetActive(false);
+            exclamationMark.SetActive(false);
+            isActiveAnything = false;
+        }
 
-    public void SetQuestionMark()
-    {
-        questionMark.SetActive(true);
-        exclamationMark.SetActive(false);
-        isActiveAnything = true;
-    }
+        public void LookAt(Transform target)
+        {
+            if (isActiveAnything) transform.LookAt(target);
+        }
 
-    public void SetExclamationMark()
-    {
-        questionMark.SetActive(false);
-        exclamationMark.SetActive(true);
-        isActiveAnything = true;
-    }
+        public void SetQuestionMark()
+        {
+            questionMark.SetActive(true);
+            exclamationMark.SetActive(false);
+            isActiveAnything = true;
+        }
 
-    public void ResetMarks()
-    {
-        questionMark.SetActive(false);
-        exclamationMark.SetActive(false);
-        isActiveAnything = false;
+        public void SetExclamationMark()
+        {
+            questionMark.SetActive(false);
+            exclamationMark.SetActive(true);
+            isActiveAnything = true;
+        }
+
+        public void ResetMarks()
+        {
+            questionMark.SetActive(false);
+            exclamationMark.SetActive(false);
+            isActiveAnything = false;
+        }
     }
 }

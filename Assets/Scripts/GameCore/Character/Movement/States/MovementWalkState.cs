@@ -1,6 +1,6 @@
 ﻿using Common;
 using GameCore.Character.Animation;
-using GameCore.InteractiveObjects;
+using GameCore.LevelObjects.TriggerObjects;
 using UnityEngine;
 
 namespace GameCore.Character.Movement.States

@@ -1,10 +1,9 @@
-﻿using Common;
-using Common.DI;
+﻿using Common.DI;
 using GameCore.Common.Messages;
+using GameCore.Enemies;
 using GameCore.Player;
 using GameCore.Sounds;
 using LocalMessages;
-using NetFrame.Client;
 using Networking;
 using Networking.Dataframes.InGame;
 using UI.WindowsSystem;

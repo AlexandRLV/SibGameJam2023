@@ -1,6 +1,9 @@
 using UnityEngine;
 
-public struct PlayerDetectedMessage 
+namespace GameCore.Enemies
 {
-    public Vector3 PlayerPosition;
+    public struct PlayerDetectedMessage 
+    {
+        public Vector3 PlayerPosition;
+    }
 }

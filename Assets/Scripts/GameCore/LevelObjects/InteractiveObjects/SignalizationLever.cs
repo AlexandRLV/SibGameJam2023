@@ -1,12 +1,13 @@
-using Common;
 using Common.DI;
 using GameCore.Character.Animation;
+using GameCore.LevelObjects.Abstract;
+using GameCore.LevelObjects.Messages;
 using GameCore.Player;
 using GameCore.Sounds;
 using LocalMessages;
 using UnityEngine;
 
-namespace GameCore.InteractiveObjects
+namespace GameCore.LevelObjects.InteractiveObjects
 {
     public class SignalizationLever : InteractiveObject
     {
@@ -15,6 +16,9 @@ namespace GameCore.InteractiveObjects
         public override Vector3 CheckPosition => transform.position;
         
         [SerializeField] private LaserGroup laserGroup;
+        
+        [Inject] private LocalMessageBroker _messageBroker;
+        [Inject] private IPlayer _player;
 
         public override void Interact()
         {
@@ -25,7 +29,7 @@ namespace GameCore.InteractiveObjects
             OnPlayerExit();
         }
 
-        public override void InteractWithoutPlayer()
+        public override void InteractWithoutPlayer(Vector3 playerPosition)
         {
             IsUsed = true;
             DisableLasers();
@@ -39,17 +43,18 @@ namespace GameCore.InteractiveObjects
                 return;
             
             IsSeen = true;
-            
-            var player = GameContainer.InGame.Resolve<IPlayer>();
-            SoundService.PlaySound(player.MouseType == PlayerMouseType.ThinMouse ? SoundType.ThinPanel : SoundType.FatPanel);
+            soundService.PlaySound(_player.MouseType == PlayerMouseType.ThinMouse ? SoundType.ThinPanel : SoundType.FatPanel);
         }
 
         private void DisableLasers()
         {
-            SoundService.PlaySound(SoundType.Panel);
-            var message = new LaserDestroyMessage();
-            message.LaserGroup = laserGroup;
-            GameContainer.Common.Resolve<LocalMessageBroker>().Trigger(ref message);
+            soundService.PlaySound(SoundType.Panel);
+            
+            var message = new LaserDestroyMessage
+            {
+                LaserGroup = laserGroup
+            };
+            _messageBroker.Trigger(ref message);
         }
     }
 }

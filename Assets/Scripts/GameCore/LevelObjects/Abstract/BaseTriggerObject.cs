@@ -1,11 +1,9 @@
-using Common;
 using Common.DI;
 using GameCore.Character.Movement;
-using GameCore.Common;
 using GameCore.Sounds;
 using UnityEngine;
 
-namespace GameCore.InteractiveObjects
+namespace GameCore.LevelObjects.Abstract
 {
     public abstract class BaseTriggerObject : MonoBehaviour
     {
@@ -15,9 +13,13 @@ namespace GameCore.InteractiveObjects
         
         public bool IsUsed { get; protected set; }
         public bool IsSeen { get; protected set; }
+
+        [Inject] protected SoundService soundService;
         
-        protected RoundController RoundController => GameContainer.InGame.Resolve<RoundController>();
-        protected SoundService SoundService => GameContainer.Common.Resolve<SoundService>();
+        private void Awake()
+        {
+            GameContainer.InjectToInstance(this);
+        }
 
         protected void OnTriggerEnter(Collider other)
         {

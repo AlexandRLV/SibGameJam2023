@@ -1,10 +1,10 @@
-using Common;
 using Common.DI;
+using GameCore.LevelObjects.Abstract;
 using UI.WindowsSystem;
 using UI.WindowsSystem.WindowTypes;
 using UnityEngine;
 
-namespace GameCore.InteractiveObjects
+namespace GameCore.LevelObjects.TriggerObjects
 {
     public class ToxicPuddle : BaseTriggerObject
     {

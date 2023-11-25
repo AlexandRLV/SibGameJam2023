@@ -1,10 +1,8 @@
-using Common;
 using Common.DI;
 using GameCore.Character.Animation;
-using GameCore.LevelObjects;
 using UnityEngine;
 
-namespace GameCore.InteractiveObjects
+namespace GameCore.LevelObjects.Abstract
 {
     public abstract class InteractiveObject : BaseTriggerObject, ICheckPositionObject
     {
@@ -12,9 +10,11 @@ namespace GameCore.InteractiveObjects
         public abstract InteractiveObjectType Type { get; }
         public abstract Vector3 CheckPosition { get; }
         
+        [Inject] private LevelObjectService _levelObjectService;
+        
         public abstract void Interact();
-        public abstract void InteractWithoutPlayer();
-
+        public abstract void InteractWithoutPlayer(Vector3 playerPosition);
+        
         protected override void OnPlayerEnter()
         {
             Movement.MoveValues.CurrentInteractiveObject = this;
@@ -26,15 +26,14 @@ namespace GameCore.InteractiveObjects
                 Movement.MoveValues.CurrentInteractiveObject = null;
         }
 
-        private void OnEnable()
+        private void Start()
         {
-            GameContainer.InGame.Resolve<LevelObjectService>().RegisterInteractiveObject(this);
+            _levelObjectService.RegisterInteractiveObject(this);
         }
 
-        private void OnDisable()
+        private void OnDestroy()
         {
-            if (GameContainer.InGame.CanResolve<LevelObjectService>())
-                GameContainer.InGame.Resolve<LevelObjectService>().UnregisterInteractiveObject(this);
+            _levelObjectService?.UnregisterInteractiveObject(this);
         }
     }
 }

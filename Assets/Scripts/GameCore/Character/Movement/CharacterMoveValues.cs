@@ -1,4 +1,4 @@
-﻿using GameCore.InteractiveObjects;
+﻿using GameCore.LevelObjects.Abstract;
 
 namespace GameCore.Character.Movement
 {

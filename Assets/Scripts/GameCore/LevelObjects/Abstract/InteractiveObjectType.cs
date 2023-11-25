@@ -1,4 +1,4 @@
-﻿namespace GameCore.InteractiveObjects
+﻿namespace GameCore.LevelObjects.Abstract
 {
     public enum InteractiveObjectType : byte
     {
