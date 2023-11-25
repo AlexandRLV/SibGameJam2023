@@ -1,5 +1,4 @@
-﻿using Common;
-using Common.DI;
+﻿using Common.DI;
 using UnityEngine;
 
 namespace GameCore.Input
@@ -33,7 +32,6 @@ namespace GameCore.Input
 
             _inputState.jump = GetPressState(_keySettings.jumpKey);
             _inputState.crouch = GetPressState(_keySettings.crouchKey);
-            _inputState.sneak = GetPressState(_keySettings.sneakKey);
             _inputState.interact = GetPressState(_keySettings.interactKey);
             _inputState.changeCharacter = GetPressState(_keySettings.changeCharacterKey);
         }

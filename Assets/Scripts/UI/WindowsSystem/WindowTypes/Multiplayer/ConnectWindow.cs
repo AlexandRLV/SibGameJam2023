@@ -1,6 +1,5 @@
 ﻿using Common.DI;
 using LocalMessages;
-using NetFrame.Client;
 using NetFrame.Enums;
 using Networking;
 using Networking.Dataframes;
@@ -68,8 +67,8 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer
 
         private void Cancel()
         {
-            _windowsSystem.CreateWindow<MainMenu>();
             _windowsSystem.DestroyWindow(this);
+            _windowsSystem.CreateWindow<MainMenu>();
         }
 
         private void OnConnected(ref ConnectedMessage message)
@@ -103,8 +102,8 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer
 
         private void ProcessPlayerInfoReceived(PlayerInfoReceivedDataframe dataframe)
         {
-            _windowsSystem.CreateWindow<RoomsListWindow>();
             _windowsSystem.DestroyWindow(this);
+            _windowsSystem.CreateWindow<RoomsListWindow>();
         }
 
         private void DisconnectByReason(DisconnectByReasonDataframe dataframe)

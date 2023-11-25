@@ -7,9 +7,6 @@ namespace GameCore.Character.Movement
     {
         [Header("Movement")]
         [SerializeField] public float speed;
-        [SerializeField] [Range(0f, 1f)] public float crouchSpeedMultiplier;
-        [SerializeField] [Range(0f, 1f)] public float crouchHeightMultiplier;
-        [SerializeField] [Range(0f, 1f)] public float sneakSpeedMultiplier;
         [SerializeField] public float standStillTimeToStartAnimation;
         [SerializeField] public float standStillAnimationTime;
 

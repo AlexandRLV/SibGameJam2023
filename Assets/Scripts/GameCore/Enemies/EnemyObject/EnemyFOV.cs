@@ -4,15 +4,21 @@ namespace GameCore.Enemies.EnemyObject
 {
     public class EnemyFOV : MonoBehaviour
     {
-        private int VisionConeResolution = 300;
-        Mesh VisionConeMesh;
-        MeshFilter MeshFilter_;
+        private const int VisionConeResolution = 300;
+        private Mesh _visionConeMesh;
+        private MeshFilter _meshFilter;
+
+        private int[] _triangles;
+        private Vector3[] _vertices;
 
         public void Init(float viewAngle)
         {
-            MeshFilter_ = GetComponent<MeshFilter>();
-            VisionConeMesh = new Mesh();
-            transform.localRotation = Quaternion.Euler (0.0f, viewAngle/2, 0.0f);
+            _meshFilter = GetComponent<MeshFilter>();
+            _visionConeMesh = new Mesh();
+            transform.localRotation = Quaternion.Euler(0.0f, viewAngle/2, 0.0f);
+            
+            _triangles = new int[(VisionConeResolution - 1) * 3];
+            _vertices = new Vector3[VisionConeResolution + 1];
         }
 
         public void SetColor(Color newColor)
@@ -22,49 +28,48 @@ namespace GameCore.Enemies.EnemyObject
 
         public void DrawFOV(float viewDistance, float viewAngle, LayerMask layerMask)
         {
-            int[] triangles = new int[(VisionConeResolution - 1) * 3];
-            Vector3[] Vertices = new Vector3[VisionConeResolution + 1];
-            Vertices[0] = Vector3.zero;
+            _vertices[0] = Vector3.zero;
             viewAngle *= Mathf.Deg2Rad;
-            float Currentangle = -viewAngle;
+            
+            float currentangle = -viewAngle;
             float angleIcrement = viewAngle / (VisionConeResolution - 1);
-            float Sin, Cos;
-        
 
+            var forward = transform.forward;
+            var right = transform.right;
+            var position = transform.position;
+            
             for (int i = 0; i < VisionConeResolution; i++)
             {
-                Sin = Mathf.Sin(Currentangle);
-                Cos = Mathf.Cos(Currentangle);
-                Vector3 RaycastDirection = (transform.forward * Cos) + (transform.right * Sin);
-                Vector3 VertForward = (Vector3.forward * Cos) + (Vector3.right * Sin);
-                if (Physics.Raycast(transform.position, RaycastDirection, out RaycastHit hit, viewDistance, layerMask))
+                float sin = Mathf.Sin(currentangle);
+                float cos = Mathf.Cos(currentangle);
+                
+                var raycastDirection = forward * cos + right * sin;
+                var vertForward = Vector3.forward * cos + Vector3.right * sin;
+                
+                if (Physics.Raycast(position, raycastDirection, out var hit, viewDistance, layerMask))
                 {
-                    Vertices[i + 1] = VertForward * hit.distance;
+                    _vertices[i + 1] = vertForward * hit.distance;
                 }
                 else
                 {
-                    Vertices[i + 1] = VertForward * viewDistance;
+                    _vertices[i + 1] = vertForward * viewDistance;
                 }
 
-
-                Currentangle += angleIcrement;
+                currentangle += angleIcrement;
             }
-            for (int i = 0, j = 0; i < triangles.Length; i += 3, j++)
+            
+            for (int i = 0, j = 0; i < _triangles.Length; i += 3, j++)
             {
-                triangles[i] = 0;
-                triangles[i + 1] = j + 1;
-                triangles[i + 2] = j + 2;
+                _triangles[i] = 0;
+                _triangles[i + 1] = j + 1;
+                _triangles[i + 2] = j + 2;
             }
-            VisionConeMesh.Clear();
-            VisionConeMesh.vertices = Vertices;
-            VisionConeMesh.triangles = triangles;
-            MeshFilter_.mesh = VisionConeMesh;
-        }
-
-        private Vector3 GetVectorFromAngle(float angle)
-        {
-            float angleRad = angle * (Mathf.PI / 180f);
-            return new Vector3(Mathf.Cos(angleRad), Mathf.Sin(angleRad));
+            
+            _visionConeMesh.Clear();
+            _visionConeMesh.vertices = _vertices;
+            _visionConeMesh.triangles = _triangles;
+            
+            _meshFilter.mesh = _visionConeMesh;
         }
     }
 }

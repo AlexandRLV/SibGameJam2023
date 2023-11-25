@@ -14,7 +14,6 @@ namespace GameCore.LevelObjects.InteractiveObjects
         public override Vector3 CheckPosition => transform.position;
 
         [SerializeField] private Collider _mainCollider;
-        [SerializeField] private Vector3 a, b;
 
         [Inject] private LocalMessageBroker _messageBroker;
 
@@ -24,6 +23,11 @@ namespace GameCore.LevelObjects.InteractiveObjects
         private Vector3 _endScale;
         private bool _canStart;
         private bool _isFinished;
+
+        protected override void OnInitialize()
+        {
+            GameContainer.InjectToInstance(this);
+        }
 
         public override void Interact()
         {
@@ -42,6 +46,7 @@ namespace GameCore.LevelObjects.InteractiveObjects
 
         public override void InteractWithoutPlayer(Vector3 playerPosition)
         {
+            Debug.Log("Trigger cactus found message");
             var message = new CactusFoundMessage();
             _messageBroker.Trigger(ref message);
         

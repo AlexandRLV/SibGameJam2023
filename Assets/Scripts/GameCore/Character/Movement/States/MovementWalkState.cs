@@ -46,8 +46,6 @@ namespace GameCore.Character.Movement.States
                 _standStillTime = 0f;
 
             float speed = parameters.speed * moveValues.SpeedMultiplier;
-            if (movement.InputState.sneak.IsHold())
-                speed *= parameters.sneakSpeedMultiplier;
             
             input *= speed;
             movement.Move(input);

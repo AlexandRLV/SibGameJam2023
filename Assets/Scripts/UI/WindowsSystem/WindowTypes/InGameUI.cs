@@ -11,19 +11,29 @@ namespace UI.WindowsSystem.WindowTypes
 {
     public class InGameUI : WindowBase
     {
+        public bool InteractIndicatorState
+        {
+            set => _interactIndicator.SetActive(value);
+        }
+        
+        [Header("Timer")]
         [SerializeField] private int _pulseSeconds;
         [SerializeField] private float _pulseSpeed;
         [SerializeField] private float _pulseIntensityMin;
         [SerializeField] private float _pulseIntensityMax;
         [SerializeField] private TextMeshProUGUI _timerLabel;
 
+        [Header("Missions")]
         [SerializeField] private TextMeshProUGUI _missionsText;
         [SerializeField] private float _infoPanelShowTime;
         [SerializeField] private GameObject _infoPanel;
 
+        [Header("Indicators")]
         [SerializeField] private float _poisonIndicatorHideDelay;
         [SerializeField] private GameObject _poisonIndicator;
-            
+        [SerializeField] private GameObject _interactIndicator;
+        
+        [Header("Layouts")]
         [SerializeField] private GameObject[] _fatMouseLayoutObjects;
         [SerializeField] private GameObject[] _thinMouseLayoutObjects;
         [SerializeField] private GameObject[] _objectsToDisableInMultiplayer;
@@ -57,6 +67,7 @@ namespace UI.WindowsSystem.WindowTypes
         private void Start()
         {
             SetPoisonState(false, false);
+            InteractIndicatorState = false;
 
             _stringBuilder = new StringBuilder();
             _initialized = true;

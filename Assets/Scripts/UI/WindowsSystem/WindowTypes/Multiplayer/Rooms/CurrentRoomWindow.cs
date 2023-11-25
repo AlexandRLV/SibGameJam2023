@@ -1,5 +1,4 @@
 ﻿using Common.DI;
-using NetFrame.Client;
 using Networking;
 using Networking.Dataframes;
 using TMPro;

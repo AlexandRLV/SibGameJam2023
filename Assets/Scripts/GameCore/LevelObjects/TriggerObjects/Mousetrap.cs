@@ -1,6 +1,8 @@
 using Common.DI;
 using GameCore.LevelObjects.Abstract;
 using GameCore.Sounds;
+using Networking;
+using Networking.Dataframes.InGame;
 using UnityEngine;
 
 namespace GameCore.LevelObjects.TriggerObjects
@@ -12,6 +14,7 @@ namespace GameCore.LevelObjects.TriggerObjects
         [SerializeField] private GameObject cheese;
 
         [Inject] private LevelObjectService _levelObjectService;
+        [Inject] private GameClient _gameClient;
 
         private void Start()
         {
@@ -45,6 +48,14 @@ namespace GameCore.LevelObjects.TriggerObjects
             Movement.Damage();
             
             IsUsed = true;
+            
+            if (!_gameClient.IsConnected) return;
+
+            var dataframe = new ActivateMouseTrapDataframe
+            {
+                mousetrapPosition = CheckPosition,
+            };
+            _gameClient.Send(ref dataframe);
         }
     }
 }

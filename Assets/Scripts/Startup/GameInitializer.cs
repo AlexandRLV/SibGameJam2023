@@ -90,7 +90,7 @@ namespace Startup
                 return;
             
             if (InGame) StopGame();
-
+            
             DisposeList(_startupInitializers);
         }
 

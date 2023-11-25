@@ -1,5 +1,7 @@
 using Common.DI;
 using GameCore.Character.Animation;
+using UI.WindowsSystem;
+using UI.WindowsSystem.WindowTypes;
 using UnityEngine;
 
 namespace GameCore.LevelObjects.Abstract
@@ -11,11 +13,13 @@ namespace GameCore.LevelObjects.Abstract
         public abstract Vector3 CheckPosition { get; }
         
         [Inject] private LevelObjectService _levelObjectService;
+        [Inject] private WindowsSystem _windowsSystem;
 
         private void Start()
         {
             GameContainer.InjectToInstance(this);
             _levelObjectService.RegisterInteractiveObject(this);
+            OnInitialize();
         }
 
         private void OnDestroy()
@@ -26,13 +30,21 @@ namespace GameCore.LevelObjects.Abstract
         protected override void OnPlayerEnter()
         {
             Movement.MoveValues.CurrentInteractiveObject = this;
+            _windowsSystem.TryGetWindow(out InGameUI inGameUI);
+            inGameUI.InteractIndicatorState = true;
         }
 
         protected override void OnPlayerExit()
         {
-            if (Movement.MoveValues.CurrentInteractiveObject == this)
-                Movement.MoveValues.CurrentInteractiveObject = null;
+            if (Movement.MoveValues.CurrentInteractiveObject != this)
+                return;
+            
+            Movement.MoveValues.CurrentInteractiveObject = null;
+            _windowsSystem.TryGetWindow(out InGameUI inGameUI);
+            inGameUI.InteractIndicatorState = false;
         }
+
+        protected virtual void OnInitialize() { }
         
         public abstract void Interact();
         public abstract void InteractWithoutPlayer(Vector3 playerPosition);

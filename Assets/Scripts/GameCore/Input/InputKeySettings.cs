@@ -12,7 +12,6 @@ namespace GameCore.Input
         
         public KeyCode jumpKey;
         public KeyCode crouchKey;
-        public KeyCode sneakKey;
         public KeyCode interactKey;
         public KeyCode changeCharacterKey;
     }

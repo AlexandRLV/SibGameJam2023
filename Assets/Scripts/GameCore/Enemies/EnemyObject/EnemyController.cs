@@ -14,22 +14,25 @@ namespace GameCore.Enemies.EnemyObject
 {
     public enum MovementType
     {
-        waypointsSequentalPatrolling,
-        clockwise,
-        noWalk
+        WaypointsSequentalPatrolling,
+        Clockwise,
+        NoWalk
     }
 
     public class EnemyController : MonoBehaviour, ICheckPositionObject
     {
         public Vector3 CheckPosition { get; private set; }
-        private SoundService soundService => GameContainer.Common.Resolve<SoundService>();
 
         [Header("Main")]
-        [SerializeField] private MovementType movementType = MovementType.waypointsSequentalPatrolling;
+        [SerializeField] private MovementType movementType = MovementType.WaypointsSequentalPatrolling;
         [SerializeField] private float timeToAlert;
         [SerializeField] private float questionTimeAfterDetect;
         [SerializeField] private float moveSpeed = 3.5f;
         [SerializeField] private Color normalConeColor, alertConeColor;
+
+        [Inject] private GameClient _gameClient;
+        [Inject] private SoundService _soundService;
+        [Inject] private LevelObjectService _levelObjectService;
 
         private float _remainingTimeToAlert;
         private float _remainingTimeToShowQuestion;
@@ -49,17 +52,15 @@ namespace GameCore.Enemies.EnemyObject
 
         private bool _hasSeenCharacter;
 
-        private GameClient _gameClient;
-
-        private void Awake()
+        private void Start()
         {
-            if (MovementType.noWalk == movementType)
+            if (movementType == MovementType.NoWalk)
                 Init(null);
 
             CheckPosition = transform.position;
-            _gameClient = GameContainer.Common.Resolve<GameClient>();
-        
-            GameContainer.InGame.Resolve<LevelObjectService>().RegisterEnemy(this);
+            
+            GameContainer.InjectToInstance(this);
+            _levelObjectService.RegisterEnemy(this);
         }
 
         public void Init(List<Waypoint> movePoints)
@@ -81,16 +82,21 @@ namespace GameCore.Enemies.EnemyObject
         private void FixedUpdate()
         {
             if (_isAlert) return;
+            
             _currentTarget = _enemyScan.GetNearestTarget();
 
+            if (MovementType.WaypointsSequentalPatrolling == movementType)
+                _enemyMovement.SequentalWaypointsMovement();
+            else if (MovementType.Clockwise == movementType)
+                _enemyMovement.ClockwiseWaypointsMovement();
+            
             if (_currentTarget != null)
             {
                 var player = GameContainer.InGame.Resolve<IPlayer>();
-                DetectPlayer(player.MouseType, true);
+                DetectPlayer(player.MouseType);
 
                 if (!_gameClient.IsConnected) return;
             
-                Debug.Log("Send detect player dataframe");
                 var dataframe = new EnemyDetectPlayerDataframe
                 {
                     checkPosition = CheckPosition,
@@ -102,7 +108,6 @@ namespace GameCore.Enemies.EnemyObject
             {
                 if (_isPlayerDetected && _gameClient.IsConnected)
                 {
-                    Debug.Log("Send undetect player dataframe");
                     var dataframe = new EnemyDetectPlayerDataframe
                     {
                         checkPosition = CheckPosition,
@@ -112,11 +117,6 @@ namespace GameCore.Enemies.EnemyObject
                 }
             
                 _isPlayerDetected = false;
-
-                if (MovementType.waypointsSequentalPatrolling == movementType)
-                    _enemyMovement.SequentalWaypointsMovement();
-                else if (MovementType.clockwise == movementType)
-                    _enemyMovement.ClockwiseWaypointsMovement();
             }
         }
 
@@ -125,7 +125,6 @@ namespace GameCore.Enemies.EnemyObject
             _enemyFOV.DrawFOV(_enemyScan.ViewDistance, _enemyScan.ViewAngle, _enemyScan.ObstacleLayer);
 
             if (_isAlert) return;
-
             if (_isPlayerDetected && _isAlert == false)
             {
                 _markController.SetQuestionMark();
@@ -141,11 +140,10 @@ namespace GameCore.Enemies.EnemyObject
 
         public void DetectPlayer(PlayerMouseType mouseType, bool canTriggerAlert = true)
         {
-            Debug.Log($"Enemy detected player, mouse type: {mouseType}, can alert: {canTriggerAlert}, already seen: {_hasSeenCharacter}");
             if (!_isPlayerDetected && !_hasSeenCharacter)
             {
                 _hasSeenCharacter = true;
-                soundService.PlaySound(mouseType == PlayerMouseType.ThinMouse ? SoundType.ThinDetect : SoundType.FatDetect);
+                _soundService.PlaySound(mouseType == PlayerMouseType.ThinMouse ? SoundType.ThinDetect : SoundType.FatDetect);
             }
             _isPlayerDetected = true;
             _canTriggerAlert = canTriggerAlert;
@@ -153,7 +151,6 @@ namespace GameCore.Enemies.EnemyObject
 
         public void UndetectPlayer()
         {
-            Debug.Log("Enemy undetected player");
             _markController.ResetMarks();
             _isPlayerDetected = false;
         }
@@ -170,7 +167,6 @@ namespace GameCore.Enemies.EnemyObject
 
         private void OnPlayerDetected(ref PlayerDetectedMessage value)
         {
-            Debug.Log("Player detected message, ALERT!!!");
             _isAlert = true;
             _enemyMovement.MoveToTarget(value.PlayerPosition);
             _enemyFOV.SetColor(alertConeColor);
@@ -178,9 +174,7 @@ namespace GameCore.Enemies.EnemyObject
 
             var lookIk = GetComponentInChildren<LookAtIK>();
             if (lookIk != null)
-            {
                 lookIk.SetTarget(value.PlayerPosition);
-            }
         }
 
         private void CountRemainingTimeToAlert()
@@ -193,13 +187,9 @@ namespace GameCore.Enemies.EnemyObject
         private void CountRemainingTimeToShowQuestion()
         {
             if (_remainingTimeToShowQuestion < 0)
-            {
                 _markController.ResetMarks();
-            }
             else
-            {
                 _remainingTimeToShowQuestion -= Time.deltaTime;
-            }
         }
 
         private void OnDestroy()
@@ -212,16 +202,11 @@ namespace GameCore.Enemies.EnemyObject
 
         private void StartAlert()
         {
-            Debug.Log("Starting alert by timer");
             if (!_canTriggerAlert)
-            {
-                Debug.Log("Cannot trigger alert, return");
                 return;
-            }
 
             if (_gameClient.IsConnected)
             {
-                Debug.Log("Sending alert dataframe");
                 var dataframe = new EnemyAlertPlayerDataframe
                 {
                     playerPosition = _currentTarget.position
@@ -229,9 +214,12 @@ namespace GameCore.Enemies.EnemyObject
                 _gameClient.Send(ref dataframe);
             }
         
-            soundService.PlaySound(SoundType.Alert);
-            var message = new PlayerDetectedMessage();
-            message.PlayerPosition = _currentTarget.position;
+            _soundService.PlaySound(SoundType.Alert);
+            
+            var message = new PlayerDetectedMessage
+            {
+                PlayerPosition = _currentTarget.position
+            };
             _messageBroker.Trigger(ref message);
         }
     }

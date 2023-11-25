@@ -18,7 +18,11 @@ namespace GameCore.LevelObjects.InteractiveObjects
         [SerializeField] private LaserGroup laserGroup;
         
         [Inject] private LocalMessageBroker _messageBroker;
-        [Inject] private IPlayer _player;
+
+        protected override void OnInitialize()
+        {
+            GameContainer.InjectToInstance(this);
+        }
 
         public override void Interact()
         {
@@ -43,7 +47,9 @@ namespace GameCore.LevelObjects.InteractiveObjects
                 return;
             
             IsSeen = true;
-            soundService.PlaySound(_player.MouseType == PlayerMouseType.ThinMouse ? SoundType.ThinPanel : SoundType.FatPanel);
+
+            var player = GameContainer.InGame.Resolve<IPlayer>();
+            soundService.PlaySound(player.MouseType == PlayerMouseType.ThinMouse ? SoundType.ThinPanel : SoundType.FatPanel);
         }
 
         private void DisableLasers()

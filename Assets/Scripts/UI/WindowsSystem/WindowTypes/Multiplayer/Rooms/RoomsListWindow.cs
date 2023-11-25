@@ -4,6 +4,7 @@ using NetFrame.Client;
 using Networking;
 using Networking.Dataframes;
 using Startup;
+using TMPro;
 using UI.NotificationsSystem;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -18,6 +19,7 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
         [SerializeField] private CreateRoomPopup _createRoomPopup;
         [SerializeField] private Button _createRoomButton;
         [SerializeField] private Button _closeButton;
+        [SerializeField] private TextMeshProUGUI _playersOnlineText;
         
         [Header("Rooms list")]
         [SerializeField] private RoomListItem _roomListItemPrefab;
@@ -60,12 +62,9 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
         {
             if (!_roomController.inRoom) return;
             
-            Debug.Log("Already in room!");
+            _windowsSystem.DestroyWindow(this);
             var currentRoom = _windowsSystem.CreateWindow<CurrentRoomWindow>();
             currentRoom.Setup(_roomController.currentRoom);
-            
-            Debug.Log("Destroy rooms list window");
-            _windowsSystem.DestroyWindow(this);
         }
 
         private void Update()
@@ -80,7 +79,6 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
 
         private void OnDestroy()
         {
-            Debug.Log("Destroy room list window");
             _gameClient.Client.Unsubscribe<RoomsListDataframe>(SetRooms);
             _gameClient.Client.Unsubscribe<JoinedRoomDataframe>(ProcessJoinedRoom);
             _gameClient.Client.Unsubscribe<JoinRoomFailedDataframe>(ProcessJoinFailed);
@@ -88,6 +86,7 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
 
         private void SetRooms(RoomsListDataframe dataframe)
         {
+            _playersOnlineText.text = dataframe.onlinePlayers.ToString();
             var roomsToCreate = ListPool<RoomInfoDataframe>.Get();
             var roomsToDelete = ListPool<RoomListItem>.Get();
 
@@ -162,10 +161,9 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
 
         private void ProcessJoinedRoom(JoinedRoomDataframe dataframe)
         {
-            Debug.Log("Joined room, switching to current room window");
+            _windowsSystem.DestroyWindow(this);
             var currentRoom = _windowsSystem.CreateWindow<CurrentRoomWindow>();
             currentRoom.Setup(dataframe.roomInfo);
-            _windowsSystem.DestroyWindow(this);
         }
 
         private void ProcessJoinFailed(JoinRoomFailedDataframe dataframe)

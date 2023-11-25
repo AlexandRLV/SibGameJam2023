@@ -9,7 +9,6 @@ namespace GameCore.Input
 
         public PressState jump;
         public PressState crouch;
-        public PressState sneak;
         public PressState interact;
         public PressState changeCharacter;
 
@@ -20,7 +19,6 @@ namespace GameCore.Input
 
             jump = PressState.Released;
             crouch = PressState.Released;
-            sneak = PressState.Released;
             interact = PressState.Released;
             changeCharacter = PressState.Released;
         }

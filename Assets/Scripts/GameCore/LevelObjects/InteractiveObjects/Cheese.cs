@@ -16,8 +16,6 @@ namespace GameCore.LevelObjects.InteractiveObjects
         [SerializeField] private float speedMultiplier;
         [SerializeField] private float speedMultiplierDuration;
 
-        [Inject] private IPlayer _player;
-
         public override void Interact()
         {
             soundService.PlaySound(SoundType.Eating);
@@ -39,7 +37,8 @@ namespace GameCore.LevelObjects.InteractiveObjects
             if (IsSeen) return;
             IsSeen = true;
             
-            soundService.PlaySound(_player.MouseType == PlayerMouseType.ThinMouse ? SoundType.ThinCheese : SoundType.FatCheese);
+            var player = GameContainer.InGame.Resolve<IPlayer>();
+            soundService.PlaySound(player.MouseType == PlayerMouseType.ThinMouse ? SoundType.ThinCheese : SoundType.FatCheese);
         }
 
         protected override void OnPlayerExit()

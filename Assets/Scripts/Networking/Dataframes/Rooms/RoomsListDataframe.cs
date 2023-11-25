@@ -6,10 +6,12 @@ namespace Networking.Dataframes
 {
     public struct RoomsListDataframe : INetworkDataframe
     {
+        public int onlinePlayers;
         public List<RoomInfoDataframe> rooms;
     
         public void Write(NetFrameWriter writer)
         {
+            writer.WriteInt(onlinePlayers);
             writer.WriteInt(rooms.Count);
             foreach (var room in rooms)
             {
@@ -19,6 +21,7 @@ namespace Networking.Dataframes
 
         public void Read(NetFrameReader reader)
         {
+            onlinePlayers = reader.ReadInt();
             int count = reader.ReadInt();
             rooms = new List<RoomInfoDataframe>();
             for (int i = 0; i < count; i++)

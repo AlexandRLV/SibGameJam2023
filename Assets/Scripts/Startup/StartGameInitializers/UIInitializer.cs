@@ -40,6 +40,8 @@ namespace Startup.Initializers
 
         public void Dispose()
         {
+            var windowsSystem = GameContainer.Common.Resolve<WindowsSystem>();
+            windowsSystem.DestroyAll();
         }
     }
 }
