@@ -12,6 +12,7 @@ namespace GameCore.LevelObjects.InteractiveObjects
         
         private void Start()
         {
+            GameContainer.InjectToInstance(this);
             _messageBroker.Subscribe<ActivateEvacuationMessage>(OnEvacuationActivated);
             gameObject.SetActive(false);
         }

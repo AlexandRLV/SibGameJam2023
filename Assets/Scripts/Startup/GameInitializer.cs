@@ -31,21 +31,21 @@ namespace Startup
         // These guys allow you to play singleplayer
         private static List<IInitializer> _singlePlayerInitializers = new()
         {
+            new GameMapInitializer(),
             new InputInitializer(),
             new SinglePlayerCharacterInitializer(),
             new RoundInitializer(),
             new InGameUIInitializer(),
-            new GameMapInitializer(),
         };
 
         // These guys allow you to play multiplayer
         private static List<IInitializer> _multiplayerInitializers = new()
         {
+            new GameMapInitializer(),
             new InputInitializer(),
             new MultiplayerCharacterInitializer(),
             new RoundInitializer(),
             new InGameUIInitializer(),
-            new GameMapInitializer(),
         };
 
         public bool InGame { get; private set; }
@@ -81,7 +81,6 @@ namespace Startup
 
             StartCoroutine(InitializeGameCoroutine());
             
-            GameContainer.InjectToInstance(this);
             _initialized = true;
         }
 
@@ -134,6 +133,7 @@ namespace Startup
         private IEnumerator InitializeGameCoroutine()
         {
             yield return InitializeList(_startupInitializers);
+            GameContainer.InjectToInstance(this);
         }
 
         private IEnumerator StartGameCoroutine()

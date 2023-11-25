@@ -59,9 +59,7 @@ namespace GameCore.Character.Movement
         private void Update()
         {
             if (UnityEngine.Input.GetKeyDown(KeyCode.N))
-            {
                 Damage();
-            }
             
             _stateMachine.CheckStates();
         }
@@ -194,22 +192,26 @@ namespace GameCore.Character.Movement
         
         public void Posess()
         {
+            Debug.Log("Character posess");
             IsControlledByPlayer = true;
             _rigidbody.drag = 0f;
-            _rigidbody.isKinematic = false;
-
+    
+            _gameCamera = GameContainer.InGame.Resolve<GameCamera>();
             _gameCamera.FollowTarget.Height = _parameters.cameraHeight;
         }
 
         public void Unposess()
         {
+            Debug.Log("Character unposess");
             IsControlledByPlayer = false;
-            _rigidbody.isKinematic = true;
             _rigidbody.velocity = Vector3.zero;
         }
 
         public void Move(Vector2 input)
         {
+            if (!IsControlledByPlayer)
+                return;
+            
             var rotation = _gameCamera.FollowTarget.transform.FlatRotation();
             _movement = rotation * new Vector3(input.x, 0f, input.y);
             var horizontalVelocity = _rigidbody.velocity;

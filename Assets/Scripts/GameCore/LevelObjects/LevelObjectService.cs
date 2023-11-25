@@ -22,13 +22,10 @@ namespace GameCore.LevelObjects
         private List<Mousetrap> _mousetraps = new();
 
         private GameClient _gameClient;
-        private RemotePlayer _remotePlayer;
         
         [Construct]
-        public LevelObjectService(GameClient gameClient, RemotePlayer remotePlayer)
+        public LevelObjectService(GameClient gameClient)
         {
-            _remotePlayer = remotePlayer;
-            
             _gameClient = gameClient;
             _gameClient.Client.Subscribe<InteractedWithObjectDataframe>(OnInteracted);
             _gameClient.Client.Subscribe<PushablePositionDataframe>(OnPushableMoved);
@@ -63,7 +60,10 @@ namespace GameCore.LevelObjects
             if (!TryFindObject(_interactiveObjects, dataframe.objectPosition, out var target))
                 return;
 
-            target.InteractWithoutPlayer(_remotePlayer.transform.position);
+            // This is also because of initialization order that requires this class to be initialized before others
+            // And on creation of this class, there's no registration for remote player
+            var remotePlayer = GameContainer.InGame.Resolve<RemotePlayer>();
+            target.InteractWithoutPlayer(remotePlayer.transform.position);
         }
 
         private void OnPushableMoved(PushablePositionDataframe dataframe)

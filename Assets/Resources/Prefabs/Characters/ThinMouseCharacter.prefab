@@ -113,6 +113,6 @@ MonoBehaviour:
   _parameters: {fileID: 11400000, guid: 5545bec0f887cab46b2b62fc0b69096d, type: 2}
   _groundMask:
     serializedVersion: 2
-    m_Bits: 449
+    m_Bits: 321
   _floatingHeight: 0.5
   _applySpring: 1

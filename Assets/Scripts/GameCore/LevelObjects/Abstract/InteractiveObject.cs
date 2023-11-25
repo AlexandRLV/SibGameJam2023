@@ -11,9 +11,17 @@ namespace GameCore.LevelObjects.Abstract
         public abstract Vector3 CheckPosition { get; }
         
         [Inject] private LevelObjectService _levelObjectService;
-        
-        public abstract void Interact();
-        public abstract void InteractWithoutPlayer(Vector3 playerPosition);
+
+        private void Start()
+        {
+            GameContainer.InjectToInstance(this);
+            _levelObjectService.RegisterInteractiveObject(this);
+        }
+
+        private void OnDestroy()
+        {
+            _levelObjectService?.UnregisterInteractiveObject(this);
+        }
         
         protected override void OnPlayerEnter()
         {
@@ -25,15 +33,8 @@ namespace GameCore.LevelObjects.Abstract
             if (Movement.MoveValues.CurrentInteractiveObject == this)
                 Movement.MoveValues.CurrentInteractiveObject = null;
         }
-
-        private void Start()
-        {
-            _levelObjectService.RegisterInteractiveObject(this);
-        }
-
-        private void OnDestroy()
-        {
-            _levelObjectService?.UnregisterInteractiveObject(this);
-        }
+        
+        public abstract void Interact();
+        public abstract void InteractWithoutPlayer(Vector3 playerPosition);
     }
 }

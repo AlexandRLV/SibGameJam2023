@@ -30,6 +30,8 @@ namespace Startup.GameplayInitializers
             fatMouseMovement.transform.SetPositionAndRotation(spawns.SpawnPoints[1].position, spawns.SpawnPoints[1].rotation);
             fatMouseMovement.Initialize(fatMouseVisuals);
 
+            Physics.IgnoreCollision(thinMouseMovement.Collider, fatMouseMovement.Collider);
+
             var playerPrefab = Resources.Load<TwoMousePlayer>("Prefabs/TwoMousePlayer");
             var player = GameContainer.InstantiateAndResolve(playerPrefab);
             player.Initialize(fatMouseMovement, thinMouseMovement);

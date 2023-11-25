@@ -15,6 +15,7 @@ namespace GameCore.LevelObjects.TriggerObjects
 
         private void Start()
         {
+            GameContainer.InjectToInstance(this);
             _levelObjectService.RegisterMousetrap(this);
         }
 

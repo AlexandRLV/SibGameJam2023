@@ -111,10 +111,8 @@ MonoBehaviour:
   _rigidbody: {fileID: 2933814764328320538}
   _collider: {fileID: 2933814764234794317}
   _parameters: {fileID: 11400000, guid: 3aaf3724e11b0424fa16a03d3463175a, type: 2}
-  _stepSounds: {fileID: 0}
-  _knockdownEffect: {fileID: 0}
   _groundMask:
     serializedVersion: 2
-    m_Bits: 449
+    m_Bits: 321
   _floatingHeight: 0.5
   _applySpring: 1

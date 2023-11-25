@@ -15,6 +15,11 @@ namespace GameCore.Camera
             _followTarget.SetTarget(target);
         }
 
+        private void OnDestroy()
+        {
+            Debug.Log("Game camera destroy");
+        }
+
         public void ClearTarget()
         {
             _followTarget.ClearTarget();
