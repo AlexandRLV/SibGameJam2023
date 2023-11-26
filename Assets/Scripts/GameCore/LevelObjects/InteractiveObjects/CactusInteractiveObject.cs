@@ -29,6 +29,10 @@ namespace GameCore.LevelObjects.InteractiveObjects
 
         public override void Interact()
         {
+            if (IsUsed) return;
+
+            IsUsed = true;
+            
             var message = new CactusFoundMessage();
             _messageBroker.Trigger(ref message);
         
