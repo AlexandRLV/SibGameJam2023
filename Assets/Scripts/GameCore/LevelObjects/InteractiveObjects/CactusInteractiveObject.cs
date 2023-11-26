@@ -13,8 +13,6 @@ namespace GameCore.LevelObjects.InteractiveObjects
         public override InteractiveObjectType Type => InteractiveObjectType.Cactus;
         public override Vector3 CheckPosition => transform.position;
 
-        [SerializeField] private Collider _mainCollider;
-
         [Inject] private LocalMessageBroker _messageBroker;
 
         private Vector3 _startPosition;
@@ -41,7 +39,8 @@ namespace GameCore.LevelObjects.InteractiveObjects
             _targetPosition = Movement.gameObject.transform.position;
             
             _canStart = true;
-            _mainCollider.isTrigger = true;
+            
+            OnPlayerExit();
         }
 
         public override void InteractWithoutPlayer(Vector3 playerPosition)
@@ -57,7 +56,6 @@ namespace GameCore.LevelObjects.InteractiveObjects
             _targetPosition = playerPosition;
             
             _canStart = true;
-            _mainCollider.isTrigger = true;
         }
 
         private void Update()

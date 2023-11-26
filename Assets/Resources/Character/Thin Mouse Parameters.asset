@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ad7b981199448e185415db1b2328ce1, type: 3}
   m_Name: Thin Mouse Parameters
   m_EditorClassIdentifier: 
-  speed: 4.5
+  speed: 10
   standStillTimeToStartAnimation: 5
   standStillAnimationTime: 2
   lives: 2
   cameraHeight: 1.5
   canJump: 1
-  jumpHeight: 1.5
-  inAirSpeed: 3
+  jumpHeight: 5
+  inAirSpeed: 10
   gravityMultiplier: 2
   jumpTime: 0.3
   interactTime: 1
