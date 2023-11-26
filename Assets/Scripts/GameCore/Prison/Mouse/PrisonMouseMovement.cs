@@ -1,66 +1,42 @@
 using GameCore.Character.Animation;
 using System.Collections;
 using System.Collections.Generic;
+using Common.DI;
+using GameCore.LevelObjects;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class PrisonMouseMovement : MonoBehaviour, IAnimationSource
 {
-    [SerializeField] private float pointMovementRange;
-    [SerializeField] private Transform prisonFloor;
-    [SerializeField] private CharacterVisuals visuals;
+    public AnimationType CurrentAnimation { get; set; }
+    public float AnimationSpeed { get; private set; }
 
-    private NavMeshAgent _agent;
-    private Vector3 _movePoint;
-    private Vector3 _evacuationPoint;
-    private float _animationSpeed;
-    private bool _findNext = true;
+    [SerializeField] private CharacterVisuals _visuals;
+    [SerializeField] private NavMeshAgent _agent;
 
-    public AnimationType CurrentAnimation => AnimationType.Walk;
+    [Inject] private LevelObjectService _levelObjectService;
 
-    public float AnimationSpeed => _animationSpeed;
-
+    private bool _evacuated;
+    
     public void Init()
     {
-        _agent = GetComponent<NavMeshAgent>();
-        visuals.Initialize(this);
-        FindRandomPointInPrison();
+        GameContainer.InjectToInstance(this);
+        _visuals.Initialize(this);
     }
 
-    public void PrisonMovement()
+    public void Evacuate()
     {
-        if (Vector3.Distance(_movePoint, _agent.transform.position) > pointMovementRange)
-        {
-            _animationSpeed = 1f;
-            _agent.SetDestination(_movePoint);
-        }
-        else if (_findNext)
-        {
-            _findNext = false;
-            Invoke(nameof(FindRandomPointInPrison), 2f);
-            _animationSpeed = 0f;
-        }
+        _evacuated = true;
+        AnimationSpeed = 1f;
+        _agent.SetDestination(_levelObjectService.evacuation.transform.position);
     }
 
-    public void EvacuationMovement()
+    private void Update()
     {
-        
-    }
+        if (!_evacuated)
+            return;
 
-    private void FindRandomPointInPrison()
-    {
-        if (prisonFloor == null) return;
-        Collider collider = prisonFloor.GetComponent<Collider>();
-        Vector3 randomPoint = RandomPointInBounds(collider.bounds);
-        _movePoint = randomPoint;
-    }
-
-    private Vector3 RandomPointInBounds(Bounds bounds)
-    {
-        _findNext = true;
-        return new Vector3(Random.Range(bounds.min.x, bounds.max.x),
-                           bounds.max.y,
-                           Random.Range(bounds.min.z, bounds.max.z));
-
+        if (Vector3.Distance(transform.position, _agent.destination) < 1f)
+            AnimationSpeed = 0f;
     }
 }

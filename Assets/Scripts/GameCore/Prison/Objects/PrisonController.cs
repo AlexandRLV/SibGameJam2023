@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Common.DI;
 using GameCore.Character.Animation;
@@ -12,8 +13,12 @@ namespace GameCore.Prison.Objects
 {
     public class PrisonController : InteractiveObject
     {
+        private const float Smooth = 2.0f;
+        
         private enum OpenType { Angle, Move, }
         private enum OpenAxis { X, Y, Z, }
+
+        public event Action OnDoorOpen;
         
         public override AnimationType InteractAnimation => AnimationType.OpenDoor;
         public override InteractiveObjectType Type => InteractiveObjectType.Prison;
@@ -25,17 +30,14 @@ namespace GameCore.Prison.Objects
         [SerializeField] private float doorOpenDistance = 3f;
         [SerializeField] private float timeToOpen = 2f;
         [SerializeField] private Transform door;
-        [SerializeField] private PrisonMouseController[] mouseControllers;
 
         [Inject] private LocalMessageBroker _messageBroker;
         
-        private float _smooth = 2.0f;
         private bool _isOpened;
         
         private void Awake()
         {
             GameContainer.InjectToInstance(this);
-            mouseControllers = GetComponentsInChildren<PrisonMouseController>();
         }
 
         public override void Interact()
@@ -58,6 +60,7 @@ namespace GameCore.Prison.Objects
         protected override void OnPlayerEnter()
         {
             base.OnPlayerEnter();
+            
             if (IsSeen) return;
             IsSeen = true;
 
@@ -67,7 +70,7 @@ namespace GameCore.Prison.Objects
 
         private void OpenDoor()
         {
-            if (door == null || mouseControllers.Length == 0) return;
+            if (door == null) return;
             if (_isOpened) return;
             
             StartCoroutine(OpenDoorCoroutine());
@@ -120,11 +123,8 @@ namespace GameCore.Prison.Objects
                     yield return null;
                 }
             }
-
-            foreach (var controller in mouseControllers)
-            {
-                controller.isReleased = true;
-            }
+            
+            OnDoorOpen?.Invoke();
         }
     }
 }

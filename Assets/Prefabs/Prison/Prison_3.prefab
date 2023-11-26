@@ -545,7 +545,6 @@ MonoBehaviour:
   doorOpenDistance: 3
   timeToOpen: 1
   door: {fileID: 6513584668306151703}
-  mouseControllers: []
 --- !u!65 &1390679494905540955
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -824,6 +823,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Mouse_prison_new
       objectReference: {fileID: 0}
+    - target: {fileID: 8821210688349578886, guid: 300f7b1336deddb4db8cee9e4b139285, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 300f7b1336deddb4db8cee9e4b139285, type: 3}
 --- !u!4 &6513584668306151703 stripped
@@ -843,10 +846,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1390679495034054302}
     m_Modifications:
-    - target: {fileID: 567440000448875808, guid: fd7d80e528e579b4695687fc8813467c, type: 3}
-      propertyPath: prisonFloor
+    - target: {fileID: 567440000448875809, guid: fd7d80e528e579b4695687fc8813467c, type: 3}
+      propertyPath: _prisonController
       value: 
-      objectReference: {fileID: 1390679493776651765}
+      objectReference: {fileID: 1390679494905540952}
     - target: {fileID: 567440000448875819, guid: fd7d80e528e579b4695687fc8813467c, type: 3}
       propertyPath: m_Name
       value: PrisonMouse_3
@@ -857,7 +860,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 567440000448875821, guid: fd7d80e528e579b4695687fc8813467c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -3.37
       objectReference: {fileID: 0}
     - target: {fileID: 567440000448875821, guid: fd7d80e528e579b4695687fc8813467c, type: 3}
       propertyPath: m_LocalPosition.y
@@ -865,7 +868,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 567440000448875821, guid: fd7d80e528e579b4695687fc8813467c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0.223
       objectReference: {fileID: 0}
     - target: {fileID: 567440000448875821, guid: fd7d80e528e579b4695687fc8813467c, type: 3}
       propertyPath: m_LocalRotation.w
@@ -895,14 +898,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1063266500651531083, guid: fd7d80e528e579b4695687fc8813467c, type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: e6f05d198924d794882419b65e821314, type: 2}
-    - target: {fileID: 5261868450684480987, guid: fd7d80e528e579b4695687fc8813467c, type: 3}
-      propertyPath: _overrideController
-      value: 
-      objectReference: {fileID: 22100000, guid: f50a89d7c08948c4dae45610c58dee33, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fd7d80e528e579b4695687fc8813467c, type: 3}
 --- !u!4 &8969905731981274417 stripped
