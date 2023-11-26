@@ -27,7 +27,6 @@ namespace GameCore.Prison.Objects
         [SerializeField] private Transform door;
         [SerializeField] private PrisonMouseController[] mouseControllers;
 
-        [Inject] private IPlayer _player;
         [Inject] private LocalMessageBroker _messageBroker;
         
         private float _smooth = 2.0f;
@@ -35,6 +34,7 @@ namespace GameCore.Prison.Objects
         
         private void Awake()
         {
+            GameContainer.InjectToInstance(this);
             mouseControllers = GetComponentsInChildren<PrisonMouseController>();
         }
 
@@ -59,8 +59,9 @@ namespace GameCore.Prison.Objects
             Movement.MoveValues.CurrentInteractiveObject = this;
             if (IsSeen) return;
             IsSeen = true;
-            
-            soundService.PlaySound(_player.MouseType == PlayerMouseType.ThinMouse ? SoundType.ThinHostage : SoundType.FatHostage);
+
+            var player = GameContainer.InGame.Resolve<IPlayer>();
+            soundService.PlaySound(player.MouseType == PlayerMouseType.ThinMouse ? SoundType.ThinHostage : SoundType.FatHostage);
         }
 
         private void OpenDoor()
