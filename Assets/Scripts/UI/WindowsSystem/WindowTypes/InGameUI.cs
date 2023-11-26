@@ -2,6 +2,7 @@
 using Common.DI;
 using GameCore.Common;
 using GameCore.Common.Messages;
+using GameCore.Player;
 using LocalMessages;
 using Networking;
 using TMPro;
@@ -11,11 +12,6 @@ namespace UI.WindowsSystem.WindowTypes
 {
     public class InGameUI : WindowBase
     {
-        public bool InteractIndicatorState
-        {
-            set => _interactIndicator.SetActive(value);
-        }
-        
         [Header("Timer")]
         [SerializeField] private int _pulseSeconds;
         [SerializeField] private float _pulseSpeed;
@@ -67,13 +63,15 @@ namespace UI.WindowsSystem.WindowTypes
         private void Start()
         {
             SetPoisonState(false, false);
-            InteractIndicatorState = false;
 
             _stringBuilder = new StringBuilder();
             _initialized = true;
 
             _messageBroker.Subscribe<ChangeCharacterMessage>(OnCharacterChanged);
+            _messageBroker.Subscribe<SetInteractButtonStateMessage>(SetInteractState);
 
+            _interactIndicator.SetActive(false);
+            
             _infoPanelTimer = _infoPanelShowTime;
 
             if (!_gameClient.IsConnected)
@@ -93,6 +91,7 @@ namespace UI.WindowsSystem.WindowTypes
         private void OnDestroy()
         {
             _messageBroker.Unsubscribe<ChangeCharacterMessage>(OnCharacterChanged);
+            _messageBroker.Unsubscribe<SetInteractButtonStateMessage>(SetInteractState);
         }
 
         private void Update()
@@ -172,6 +171,14 @@ namespace UI.WindowsSystem.WindowTypes
         private void OnCharacterChanged(ref ChangeCharacterMessage message)
         {
             SetLayout(message.isThinMouse);
+
+            var player = GameContainer.InGame.Resolve<IPlayer>();
+            _interactIndicator.SetActive(player.CurrentMovement.MoveValues.CurrentInteractiveObject != null);
+        }
+
+        private void SetInteractState(ref SetInteractButtonStateMessage message)
+        {
+            _interactIndicator.SetActive(message.state);
         }
 
         private void SetLayout(bool isThinMouse)

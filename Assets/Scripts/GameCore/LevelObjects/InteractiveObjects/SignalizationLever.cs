@@ -42,7 +42,7 @@ namespace GameCore.LevelObjects.InteractiveObjects
 
         protected override void OnPlayerEnter()
         {
-            Movement.MoveValues.CurrentInteractiveObject = this;
+            base.OnPlayerEnter();
             if (IsSeen)
                 return;
             

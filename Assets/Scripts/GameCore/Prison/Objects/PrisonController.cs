@@ -44,6 +44,7 @@ namespace GameCore.Prison.Objects
             
             IsUsed = true;
             OpenDoor();
+            OnPlayerExit();
         }
 
         public override void InteractWithoutPlayer(Vector3 playerPosition)
@@ -56,7 +57,7 @@ namespace GameCore.Prison.Objects
 
         protected override void OnPlayerEnter()
         {
-            Movement.MoveValues.CurrentInteractiveObject = this;
+            base.OnPlayerEnter();
             if (IsSeen) return;
             IsSeen = true;
 

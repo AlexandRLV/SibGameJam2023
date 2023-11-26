@@ -7,6 +7,7 @@ using GameCore.Character.Animation;
 using GameCore.Character.Movement.States;
 using GameCore.Common.Messages;
 using GameCore.Input;
+using GameCore.LevelObjects.Abstract;
 using GameCore.Sounds;
 using GameCore.StateMachine;
 using LocalMessages;
@@ -260,6 +261,16 @@ namespace GameCore.Character.Movement
             {
                 _visuals.SpeedUp.SetActive(state);
             }
+        }
+
+        public void SetCurrentInteractiveObject(InteractiveObject value)
+        {
+            MoveValues.CurrentInteractiveObject = value;
+            var message = new SetInteractButtonStateMessage
+            {
+                state = value != null
+            };
+            _messageBroker.Trigger(ref message);
         }
 #endregion
     }

@@ -25,23 +25,18 @@ namespace GameCore.LevelObjects.Abstract
         private void OnDestroy()
         {
             _levelObjectService?.UnregisterInteractiveObject(this);
+            OnPlayerExit();
         }
         
         protected override void OnPlayerEnter()
         {
-            Movement.MoveValues.CurrentInteractiveObject = this;
-            _windowsSystem.TryGetWindow(out InGameUI inGameUI);
-            inGameUI.InteractIndicatorState = true;
+            Movement.SetCurrentInteractiveObject(this);
         }
 
         protected override void OnPlayerExit()
         {
-            if (Movement.MoveValues.CurrentInteractiveObject != this)
-                return;
-            
-            Movement.MoveValues.CurrentInteractiveObject = null;
-            _windowsSystem.TryGetWindow(out InGameUI inGameUI);
-            inGameUI.InteractIndicatorState = false;
+            if (Movement.MoveValues.CurrentInteractiveObject == this)
+                Movement.SetCurrentInteractiveObject(null);
         }
 
         protected virtual void OnInitialize() { }
