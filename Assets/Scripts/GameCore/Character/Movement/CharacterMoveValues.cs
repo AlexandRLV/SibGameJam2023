@@ -5,8 +5,9 @@ namespace GameCore.Character.Movement
     public class CharacterMoveValues
     {
         public float SpeedMultiplier;
-        public float JumpHeightMultiplier;
-        public float FloatingHeightMultiplier;
+
+        public bool IsGrounded;
+        public float DistanceToGround;
 
         public bool IsKnockdown;
         public bool IsHit;

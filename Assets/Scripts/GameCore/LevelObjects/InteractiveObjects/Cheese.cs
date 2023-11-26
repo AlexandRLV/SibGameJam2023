@@ -31,7 +31,7 @@ namespace GameCore.LevelObjects.InteractiveObjects
 
         protected override void OnPlayerEnter()
         {
-            Movement.MoveValues.CurrentInteractiveObject = this;
+            base.OnPlayerEnter();
             Movement.MoveValues.ForceInteract = true;
             
             if (IsSeen) return;
@@ -39,11 +39,6 @@ namespace GameCore.LevelObjects.InteractiveObjects
             
             var player = GameContainer.InGame.Resolve<IPlayer>();
             soundService.PlaySound(player.MouseType == PlayerMouseType.ThinMouse ? SoundType.ThinCheese : SoundType.FatCheese);
-        }
-
-        protected override void OnPlayerExit()
-        {
-            Movement.MoveValues.CurrentInteractiveObject = null;
         }
     }
 }

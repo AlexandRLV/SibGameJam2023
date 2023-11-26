@@ -9,11 +9,15 @@ namespace GameCore.LevelObjects.InteractiveObjects
     public class EvacuationInteractive : BaseTriggerObject
     {
         [Inject] private LocalMessageBroker _messageBroker;
+        [Inject] private LevelObjectService _levelObjectService;
         
         private void Start()
         {
             GameContainer.InjectToInstance(this);
+            
             _messageBroker.Subscribe<ActivateEvacuationMessage>(OnEvacuationActivated);
+            _levelObjectService.evacuation = this;
+            
             gameObject.SetActive(false);
         }
 

@@ -3,6 +3,7 @@ using Common.DI;
 using GameCore.Enemies;
 using GameCore.Enemies.EnemyObject;
 using GameCore.LevelObjects.Abstract;
+using GameCore.LevelObjects.InteractiveObjects;
 using GameCore.LevelObjects.TriggerObjects;
 using GameCore.Player;
 using GameCore.Player.Network;
@@ -16,6 +17,8 @@ namespace GameCore.LevelObjects
 {
     public class LevelObjectService
     {
+        public EvacuationInteractive evacuation;
+        
         private List<InteractiveObject> _interactiveObjects = new();
         private List<PushableObject> _pushableObjects = new();
         private List<EnemyController> _enemies = new();

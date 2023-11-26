@@ -18,7 +18,7 @@ namespace GameCore.Character.Movement.States
 
         public override bool CanEnter(MovementStateType prevState)
         {
-            return !movement.IsGrounded || JumpPressed();
+            return (!moveValues.IsGrounded && moveValues.DistanceToGround > 1f) || JumpPressed();
         }
 
         public override void OnEnter(MovementStateType prevState)
@@ -28,7 +28,7 @@ namespace GameCore.Character.Movement.States
             
             float jumpForce = Mathf.Sqrt(-2f
                                          * Physics.gravity.y
-                                         * parameters.jumpHeight * moveValues.JumpHeightMultiplier
+                                         * parameters.jumpHeight
                                          * parameters.gravityMultiplier
                                          * 1.1f) * rigidbody.mass;
             

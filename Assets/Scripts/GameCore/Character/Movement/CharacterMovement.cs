@@ -7,6 +7,7 @@ using GameCore.Character.Animation;
 using GameCore.Character.Movement.States;
 using GameCore.Common.Messages;
 using GameCore.Input;
+using GameCore.LevelObjects.Abstract;
 using GameCore.Sounds;
 using GameCore.StateMachine;
 using LocalMessages;
@@ -18,7 +19,6 @@ namespace GameCore.Character.Movement
 {
     public class CharacterMovement : MonoBehaviour, IAnimationSource
     {
-        public bool IsGrounded { get; private set; }
         public bool IsControlledByPlayer { get; private set; }
         public InputState InputState => _inputState;
         public CharacterMoveValues MoveValues { get; private set; }
@@ -78,15 +78,16 @@ namespace GameCore.Character.Movement
         {
             bool hitTriggers = Physics.queriesHitTriggers;
             Physics.queriesHitTriggers = false;
-            float checkHeight = _floatingHeight * 1.5f * MoveValues.FloatingHeightMultiplier;
+            float checkHeight = _floatingHeight * 1.5f;
             var groundCheckOrigin = transform.position + Vector3.up * checkHeight;
-            Physics.Raycast(groundCheckOrigin, Vector3.down, out var hit, _floatingHeight * 3f, _groundMask);
+            Physics.Raycast(groundCheckOrigin, Vector3.down, out var hit, 10f, _groundMask);
             Physics.queriesHitTriggers = hitTriggers;
 
             if (hit.colliderInstanceID == 0)
             {
                 Debug.DrawLine(groundCheckOrigin, groundCheckOrigin + Vector3.down * (_floatingHeight * 3f), Color.red);
-                IsGrounded = false;
+                MoveValues.IsGrounded = false;
+                MoveValues.DistanceToGround = 10f;
                 return;
             }
 
@@ -94,12 +95,14 @@ namespace GameCore.Character.Movement
             if (distanceToGround > checkHeight)
             {
                 Debug.DrawLine(groundCheckOrigin, hit.point, Color.blue);
-                IsGrounded = false;
+                MoveValues.IsGrounded = false;
+                MoveValues.DistanceToGround = distanceToGround - checkHeight;
                 return;
             }
 
             Debug.DrawLine(groundCheckOrigin, hit.point, Color.green);
-            IsGrounded = true;
+            MoveValues.IsGrounded = true;
+            MoveValues.DistanceToGround = 0f;
 
             if (!_applySpring) return;
 
@@ -148,8 +151,6 @@ namespace GameCore.Character.Movement
             MoveValues = new CharacterMoveValues
             {
                 SpeedMultiplier = 1f,
-                JumpHeightMultiplier = 1f,
-                FloatingHeightMultiplier = 1f,
             };
 
             Lives = new CharacterLives
@@ -260,6 +261,16 @@ namespace GameCore.Character.Movement
             {
                 _visuals.SpeedUp.SetActive(state);
             }
+        }
+
+        public void SetCurrentInteractiveObject(InteractiveObject value)
+        {
+            MoveValues.CurrentInteractiveObject = value;
+            var message = new SetInteractButtonStateMessage
+            {
+                state = value != null
+            };
+            _messageBroker.Trigger(ref message);
         }
 #endregion
     }

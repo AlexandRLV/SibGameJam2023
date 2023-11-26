@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Common.DI;
 using GameCore.Character.Animation;
@@ -12,8 +13,12 @@ namespace GameCore.Prison.Objects
 {
     public class PrisonController : InteractiveObject
     {
+        private const float Smooth = 2.0f;
+        
         private enum OpenType { Angle, Move, }
         private enum OpenAxis { X, Y, Z, }
+
+        public event Action OnDoorOpen;
         
         public override AnimationType InteractAnimation => AnimationType.OpenDoor;
         public override InteractiveObjectType Type => InteractiveObjectType.Prison;
@@ -25,17 +30,14 @@ namespace GameCore.Prison.Objects
         [SerializeField] private float doorOpenDistance = 3f;
         [SerializeField] private float timeToOpen = 2f;
         [SerializeField] private Transform door;
-        [SerializeField] private PrisonMouseController[] mouseControllers;
 
-        [Inject] private IPlayer _player;
         [Inject] private LocalMessageBroker _messageBroker;
         
-        private float _smooth = 2.0f;
         private bool _isOpened;
         
         private void Awake()
         {
-            mouseControllers = GetComponentsInChildren<PrisonMouseController>();
+            GameContainer.InjectToInstance(this);
         }
 
         public override void Interact()
@@ -44,6 +46,7 @@ namespace GameCore.Prison.Objects
             
             IsUsed = true;
             OpenDoor();
+            OnPlayerExit();
         }
 
         public override void InteractWithoutPlayer(Vector3 playerPosition)
@@ -56,16 +59,18 @@ namespace GameCore.Prison.Objects
 
         protected override void OnPlayerEnter()
         {
-            Movement.MoveValues.CurrentInteractiveObject = this;
+            base.OnPlayerEnter();
+            
             if (IsSeen) return;
             IsSeen = true;
-            
-            soundService.PlaySound(_player.MouseType == PlayerMouseType.ThinMouse ? SoundType.ThinHostage : SoundType.FatHostage);
+
+            var player = GameContainer.InGame.Resolve<IPlayer>();
+            soundService.PlaySound(player.MouseType == PlayerMouseType.ThinMouse ? SoundType.ThinHostage : SoundType.FatHostage);
         }
 
         private void OpenDoor()
         {
-            if (door == null || mouseControllers.Length == 0) return;
+            if (door == null) return;
             if (_isOpened) return;
             
             StartCoroutine(OpenDoorCoroutine());
@@ -118,11 +123,8 @@ namespace GameCore.Prison.Objects
                     yield return null;
                 }
             }
-
-            foreach (var controller in mouseControllers)
-            {
-                controller.isReleased = true;
-            }
+            
+            OnDoorOpen?.Invoke();
         }
     }
 }
