@@ -18,7 +18,7 @@ MonoBehaviour:
     priority: 1
   - audioClip: {fileID: 8300000, guid: e268eb65f1b9ac74c9e178ad4afd2836, type: 3}
     soundType: 6
-    priority: 1
+    priority: 2
   - audioClip: {fileID: 8300000, guid: 726eeb7d725697543b6ca9605fb6428e, type: 3}
     soundType: 7
     priority: 1
@@ -27,7 +27,7 @@ MonoBehaviour:
     priority: 1
   - audioClip: {fileID: 8300000, guid: 14514bcae7e540940838b94905ae6317, type: 3}
     soundType: 9
-    priority: 1
+    priority: 2
   - audioClip: {fileID: 8300000, guid: 209a130721a5fbf4eaf840e61f12b6d1, type: 3}
     soundType: 5
     priority: 1
@@ -51,10 +51,10 @@ MonoBehaviour:
     priority: 1
   - audioClip: {fileID: 8300000, guid: 38909d2f43d5cb14e87d2effe67ae7c7, type: 3}
     soundType: 14
-    priority: 1
+    priority: 2
   - audioClip: {fileID: 8300000, guid: 61a453d328855794790b280d37be41bd, type: 3}
     soundType: 15
     priority: 1
   - audioClip: {fileID: 8300000, guid: ddd91022b90ad4942b915cddfbbd2fce, type: 3}
     soundType: 16
-    priority: 1
+    priority: 2
