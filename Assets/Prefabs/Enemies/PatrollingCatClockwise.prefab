@@ -1329,6 +1329,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animationPlayer: {fileID: 1602203678396206643}
+  _speedUpVFX: {fileID: 0}
+  _stepSounds: {fileID: 0}
+  _knockdownEffect: {fileID: 0}
 --- !u!1 &4945887175423586668
 GameObject:
   m_ObjectHideFlags: 0
@@ -2174,8 +2177,8 @@ MonoBehaviour:
   timeToAlert: 3
   questionTimeAfterDetect: 5
   moveSpeed: 1.6
-  normalConeColor: {r: 0.04431629, g: 1, b: 0, a: 0.78431374}
-  alertConeColor: {r: 1, g: 0, b: 0, a: 0.78431374}
+  normalConeColor: {r: 0.019607844, g: 0.6674254, b: 1, a: 0.47058824}
+  alertConeColor: {r: 1, g: 0, b: 0, a: 0.47058824}
 --- !u!54 &7302715816161827797
 Rigidbody:
   m_ObjectHideFlags: 0
