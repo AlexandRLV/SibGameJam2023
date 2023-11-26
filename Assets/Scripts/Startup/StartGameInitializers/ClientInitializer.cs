@@ -13,6 +13,7 @@ namespace Startup.StartGameInitializers
     public class ClientInitializer : IInitializer
     {
         private GameClient _gameClient;
+        private RoomController _roomController;
         
         public IEnumerator Initialize()
         {
@@ -38,8 +39,8 @@ namespace Startup.StartGameInitializers
             GameContainer.Common.Register(_gameClient);
 
             // Создание контроллера комнат
-            var roomController = GameContainer.Create<RoomController>();
-            GameContainer.Common.Register(roomController);
+            _roomController = GameContainer.Create<RoomController>();
+            GameContainer.Common.Register(_roomController);
 
             yield return null;
         }
@@ -48,6 +49,8 @@ namespace Startup.StartGameInitializers
         {
             if (_gameClient != null)
                 _gameClient.Shutdown();
+
+            _roomController?.Dispose();
         }
     }
 }

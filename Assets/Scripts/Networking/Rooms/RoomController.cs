@@ -1,6 +1,7 @@
 ﻿using Common.DI;
 using NetFrame.Client;
 using Networking.Dataframes;
+using Networking.Dataframes.InGame;
 
 namespace Networking
 {
@@ -17,6 +18,14 @@ namespace Networking
             _client = client;
             _client.Subscribe<JoinedRoomDataframe>(OnJoinedRoom);
             _client.Subscribe<PlayerLeftRoomDataframe>(OnLeftRoom);
+            _client.Subscribe<GameFinishedDataframe>(OnGameFinished);
+        }
+
+        public void Dispose()
+        {
+            _client.Unsubscribe<JoinedRoomDataframe>(OnJoinedRoom);
+            _client.Unsubscribe<PlayerLeftRoomDataframe>(OnLeftRoom);
+            _client.Unsubscribe<GameFinishedDataframe>(OnGameFinished);
         }
 
         public void LeaveCurrentRoom()
@@ -36,6 +45,12 @@ namespace Networking
         private void OnLeftRoom(PlayerLeftRoomDataframe dataframe)
         {
             currentRoom.guestName = "";
+        }
+        
+        private void OnGameFinished(GameFinishedDataframe dataframe)
+        {
+            currentRoom.player1Ready = false;
+            currentRoom.player2Ready = false;
         }
     }
 }
