@@ -35,7 +35,7 @@ namespace GameCore.LevelObjects.Abstract
 
         protected override void OnPlayerExit()
         {
-            if (Movement.MoveValues.CurrentInteractiveObject == this)
+            if (Movement != null && Movement.MoveValues.CurrentInteractiveObject == this)
                 Movement.SetCurrentInteractiveObject(null);
         }
 

@@ -19,7 +19,7 @@ namespace GameCore.Character.Movement.States
 
         public override bool CanEnter(MovementStateType prevState)
         {
-            return movement.IsGrounded;
+            return moveValues.IsGrounded;
         }
 
         public override bool CanExit(MovementStateType nextState)

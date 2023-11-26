@@ -114,5 +114,5 @@ MonoBehaviour:
   _groundMask:
     serializedVersion: 2
     m_Bits: 321
-  _floatingHeight: 0.5
+  _floatingHeight: 0.3
   _applySpring: 1
