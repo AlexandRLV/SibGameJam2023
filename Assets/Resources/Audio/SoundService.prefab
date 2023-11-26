@@ -338,7 +338,7 @@ MonoBehaviour:
   fatDetect: {fileID: 8300000, guid: 38909d2f43d5cb14e87d2effe67ae7c7, type: 3}
   fatPanel: {fileID: 8300000, guid: 61a453d328855794790b280d37be41bd, type: 3}
   fatHostage: {fileID: 8300000, guid: ddd91022b90ad4942b915cddfbbd2fce, type: 3}
-  fadingTime: 1
+  fadingTime: 0.1
   _soundsData: {fileID: 11400000, guid: 32535499d8794184cb63a53f7763db02, type: 2}
 --- !u!1 &4052400699098873195
 GameObject:
