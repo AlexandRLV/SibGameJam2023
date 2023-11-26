@@ -91,9 +91,10 @@ namespace Startup
             if (!_isActive)
                 return;
             
-            if (InGame) StopGame();
+            if (InGame) StopGame(false);
             
             DisposeList(_startupInitializers);
+            _windowsSystem.DestroyAll();
         }
 
         public void StartGame()
