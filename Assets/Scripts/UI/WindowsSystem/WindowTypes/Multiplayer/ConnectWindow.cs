@@ -46,6 +46,7 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer
 
         private void OnDestroy()
         {
+            Debug.Log("Destroy connect window");
             _gameClient.Client.Unsubscribe<PlayerInfoRequestDataframe>(SendPlayerInfo);
             _gameClient.Client.Unsubscribe<PlayerInfoReceivedDataframe>(ProcessPlayerInfoReceived);
             _gameClient.Client.Unsubscribe<DisconnectByReasonDataframe>(DisconnectByReason);
@@ -63,6 +64,7 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer
             }
             
             _gameClient.Connect();
+            _notificationsManager.ShowNotification("Подключаемся к серверу...", NotificationsManager.NotificationType.Center, 0.5f);
         }
 
         private void Cancel()
@@ -73,6 +75,7 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer
 
         private void OnConnected(ref ConnectedMessage message)
         {
+            Debug.Log("Connected!");
             _gameClient.PlayerName = _nicknameText.text;
         }
 
@@ -92,6 +95,7 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer
 
         private void SendPlayerInfo(PlayerInfoRequestDataframe obj)
         {
+            Debug.Log("Sending player info");
             var dataframe = new PlayerInfoDataframe
             {
                 name = _nicknameText.text,

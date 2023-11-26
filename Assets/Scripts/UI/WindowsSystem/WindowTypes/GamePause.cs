@@ -51,6 +51,15 @@ namespace UI.WindowsSystem.WindowTypes
             _settingsButton.onClick.AddListener(OpenSettings);
         }
 
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                _gameCamera.FollowTarget.SetInPause(false);
+                _windowsSystem.DestroyWindow(this);
+            }
+        }
+
         private void OpenSettings()
         {
             _windowsSystem.CreateWindow<SettingsScreen>();

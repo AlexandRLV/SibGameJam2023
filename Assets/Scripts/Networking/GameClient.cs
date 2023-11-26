@@ -109,8 +109,8 @@ namespace Networking
 
         private void OnGameFinished(GameFinishedDataframe dataframe)
         {
-            Debug.Log("Game finished dataframe");
-           FinishGameByReason(dataframe.reason);
+            Debug.Log("Game finished dataframe"); 
+            FinishGameByReason(dataframe.reason);
         }
 
         private void FinishGameByReason(GameFinishedReason reason)

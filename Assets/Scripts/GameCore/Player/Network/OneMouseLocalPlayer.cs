@@ -62,6 +62,9 @@ namespace GameCore.Player.Network
             if (!_client.IsConnected)
                 return;
             
+            if (CurrentMovement == null)
+                return;
+            
             var dataframe = new PlayerPositionDataframe
             {
                 Tick = _tick,

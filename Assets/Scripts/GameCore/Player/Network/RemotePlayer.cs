@@ -65,7 +65,8 @@ namespace GameCore.Player.Network
             }
             else if (dataframe.type == EffectType.SpeedUp)
             {
-                _visuals.SpeedUp.SetActive(dataframe.active);
+                if (_visuals.SpeedUp != null)
+                    _visuals.SpeedUp.SetActive(dataframe.active);
             }
         }
     }
