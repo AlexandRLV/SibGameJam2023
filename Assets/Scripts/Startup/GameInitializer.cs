@@ -32,6 +32,7 @@ namespace Startup
         private static List<IInitializer> _singlePlayerInitializers = new()
         {
             new GameMapInitializer(),
+            // new NetworkObjectsInitializer(), // Todo: fix it and use it
             new InputInitializer(),
             new SinglePlayerCharacterInitializer(),
             new RoundInitializer(),
@@ -42,6 +43,7 @@ namespace Startup
         private static List<IInitializer> _multiplayerInitializers = new()
         {
             new GameMapInitializer(),
+            // new NetworkObjectsInitializer(),
             new InputInitializer(),
             new MultiplayerCharacterInitializer(),
             new RoundInitializer(),
@@ -54,7 +56,7 @@ namespace Startup
         [Inject] private LoadingScreen _loadingScreen;
         [Inject] private WindowsSystem _windowsSystem;
 
-        private bool _isGameController;
+        private bool _isActive;
         private bool _wasMultiplayer;
 
         private void Awake()
@@ -65,7 +67,7 @@ namespace Startup
                 return;
             }
 
-            _isGameController = true;
+            _isActive = true;
             var currentScene = SceneManager.GetActiveScene();
             if (currentScene.name != MainMenuSceneName)
             {
@@ -86,7 +88,7 @@ namespace Startup
 
         private void OnDestroy()
         {
-            if (!_isGameController)
+            if (!_isActive)
                 return;
             
             if (InGame) StopGame();

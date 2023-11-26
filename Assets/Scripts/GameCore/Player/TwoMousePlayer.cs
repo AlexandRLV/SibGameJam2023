@@ -11,6 +11,8 @@ namespace GameCore.Player
 {
     public class TwoMousePlayer : MonoBehaviour, IPlayer
     {
+        private const float MinChangeMouseTime = 0.5f;
+        
         public PlayerMouseType MouseType { get; private set; }
         public CharacterMovement CurrentMovement { get; private set; }
         
@@ -20,6 +22,8 @@ namespace GameCore.Player
         private RoundController _roundController;
         private CharacterMovement _fatMouseCharacter;
         private CharacterMovement _thinMouseCharacter;
+
+        private float _changeMouseTimer;
         
         // Not injecting round controller, because it doesn't exist yet
         private IEnumerator Start()
@@ -36,13 +40,18 @@ namespace GameCore.Player
         {
             if (_roundController == null)
                 return;
+
+            _changeMouseTimer += Time.deltaTime;
+            if (_changeMouseTimer < MinChangeMouseTime)
+                return;
             
             if (!UnityEngine.Input.GetKeyDown(_roundController.settings.mouseChangeKey))
                 return;
             
             if (_roundController.Stage != RoundStage.Game)
                 return;
-            
+
+            _changeMouseTimer = 0f;
             PosessAnother();
                 
             var message = new ChangeCharacterMessage();
