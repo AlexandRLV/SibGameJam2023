@@ -396,8 +396,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u0413\u043E\u0442\u043E\u0432"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 31142700317cc1545b54861dee8d702f, type: 2}
-  m_sharedMaterial: {fileID: -8280315841266541375, guid: 31142700317cc1545b54861dee8d702f, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: e14ed2603735ff146a642f421bbb1a10, type: 2}
+  m_sharedMaterial: {fileID: -5206466236793226350, guid: e14ed2603735ff146a642f421bbb1a10, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
