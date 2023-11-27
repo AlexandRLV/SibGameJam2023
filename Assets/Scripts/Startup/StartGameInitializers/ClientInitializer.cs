@@ -38,6 +38,10 @@ namespace Startup.StartGameInitializers
             Object.DontDestroyOnLoad(_gameClient);
             GameContainer.Common.Register(_gameClient);
 
+            var webSocketClient = GameContainer.Create<WebSocketGameClient>();
+            webSocketClient.Connect();
+            GameContainer.Common.Register(webSocketClient);
+
             // Создание контроллера комнат
             _roomController = GameContainer.Create<RoomController>();
             GameContainer.Common.Register(_roomController);

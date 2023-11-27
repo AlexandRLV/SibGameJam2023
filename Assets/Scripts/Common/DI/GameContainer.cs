@@ -26,9 +26,14 @@ namespace Common.DI
             var constructors = type.GetConstructors()
                 .Where(x => x.IsDefined(typeof(ConstructAttribute)));
 
+            object instance = null;
             var constructor = constructors.FirstOrDefault();
             if (constructor == null)
-                return Activator.CreateInstance<T>();
+            {
+                instance = Activator.CreateInstance<T>();
+                InjectToInstance(instance);
+                return (T)instance;
+            }
 
             var parameters = constructor.GetParameters();
             object[] parametersValues = ArrayPool<object>.New(parameters.Length);
@@ -43,7 +48,7 @@ namespace Common.DI
                 parametersValues[i] = value;
             }
 
-            object instance = constructor.Invoke(parametersValues);
+            instance = constructor.Invoke(parametersValues);
             InjectToInstance(instance);
             return (T)instance;
         }
