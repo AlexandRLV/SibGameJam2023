@@ -15,7 +15,8 @@ namespace GameCore.Player.Network
         [HideInInspector] public bool Teleported;
         [SerializeField] private NetworkParameters _parameters;
 
-        [Inject] private GameClient _client;
+        [Inject] private GameClientData _gameClientData;
+        [Inject] private IGameClient _gameClient;
         [Inject] private GameCamera _gameCamera;
 
         private int _tick;
@@ -54,12 +55,12 @@ namespace GameCore.Player.Network
             {
                 tick = _tick
             };
-            _client.Send(ref dataframe);
+            _gameClient.Send(ref dataframe);
         }
 
         private void SendCurrentPosition()
         {
-            if (!_client.IsConnected)
+            if (!_gameClientData.IsConnected)
                 return;
             
             if (CurrentMovement == null)
@@ -74,7 +75,7 @@ namespace GameCore.Player.Network
                 animationType = CurrentMovement.CurrentAnimation,
                 animationSpeed = CurrentMovement.AnimationSpeed
             };
-            _client.Send(ref dataframe);
+            _gameClient.Send(ref dataframe);
             Teleported = false;
         }
     }

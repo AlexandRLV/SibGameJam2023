@@ -28,7 +28,7 @@ namespace Startup.GameplayInitializers.Multiplayer
             var remotePlayerPrefab = Resources.Load<RemotePlayer>("Prefabs/RemotePlayer");
             var remotePlayer = GameContainer.InstantiateAndResolve(remotePlayerPrefab);
 
-            bool isMaster = GameContainer.Common.Resolve<GameClient>().IsMaster;
+            bool isMaster = GameContainer.Common.Resolve<GameClientData>().IsMaster;
             if (isMaster)
             {
                 var fatMouseMovementPrefab = Resources.Load<CharacterMovement>("Prefabs/Characters/FatMouseCharacter");

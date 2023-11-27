@@ -23,7 +23,8 @@ namespace GameCore.Character.Movement
         public InputState InputState => _inputState;
         public CharacterMoveValues MoveValues { get; private set; }
         public CharacterLives Lives { get; private set; }
-        public GameClient GameClient => _gameClient;
+        public GameClientData GameClientData => _gameClientData;
+        public IGameClient GameClient => _gameClient;
         
         public Rigidbody Rigidbody => _rigidbody;
         public CharacterParameters Parameters => _parameters;
@@ -44,7 +45,8 @@ namespace GameCore.Character.Movement
         [SerializeField] private bool _applySpring;
         
         [Inject] private GameCamera _gameCamera;
-        [Inject] private GameClient _gameClient;
+        [Inject] private GameClientData _gameClientData;
+        [Inject] private IGameClient _gameClient;
         [Inject] private LocalMessageBroker _messageBroker;
         [Inject] private InputState _inputState;
 
@@ -127,8 +129,9 @@ namespace GameCore.Character.Movement
             MoveValues.SpeedMultiplier = 1f;
             _isSpeedModified = false;
 
-            if (!GameClient.IsConnected)
+            if (!GameClientData.IsConnected)
                 yield break;
+            
             var dataframe = new PlayerEffectStateDataframe
             {
                 type = EffectType.SpeedUp,
@@ -234,7 +237,7 @@ namespace GameCore.Character.Movement
             {
                 SetEffectState(EffectType.SpeedUp, true);
                 
-                if (GameClient.IsConnected)
+                if (GameClientData.IsConnected)
                 {
                     var dataframe = new PlayerEffectStateDataframe
                     {

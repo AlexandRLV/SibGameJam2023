@@ -20,7 +20,8 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer
 
         [Inject] private NotificationsManager _notificationsManager;
         [Inject] private WindowsSystem _windowsSystem;
-        [Inject] private GameClient _gameClient;
+        [Inject] private GameClientData _gameClientData;
+        [Inject] private IGameClient _gameClient;
         [Inject] private LocalMessageBroker _messageBroker;
 
         private void Start()
@@ -28,9 +29,9 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer
             _connectButton.onClick.AddListener(Connect);
             _cancelButton.onClick.AddListener(Cancel);
 
-            _gameClient.Client.Subscribe<PlayerInfoRequestDataframe>(SendPlayerInfo);
-            _gameClient.Client.Subscribe<PlayerInfoReceivedDataframe>(ProcessPlayerInfoReceived);
-            _gameClient.Client.Subscribe<DisconnectByReasonDataframe>(DisconnectByReason);
+            _messageBroker.Subscribe<PlayerInfoRequestDataframe>(SendPlayerInfo);
+            _messageBroker.Subscribe<PlayerInfoReceivedDataframe>(ProcessPlayerInfoReceived);
+            _messageBroker.Subscribe<DisconnectByReasonDataframe>(DisconnectByReason);
 
             _messageBroker.Subscribe<ConnectedMessage>(OnConnected);
             _messageBroker.Subscribe<ConnectionFailedMessage>(OnConnectionFailed);
@@ -47,9 +48,9 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer
         private void OnDestroy()
         {
             Debug.Log("Destroy connect window");
-            _gameClient.Client.Unsubscribe<PlayerInfoRequestDataframe>(SendPlayerInfo);
-            _gameClient.Client.Unsubscribe<PlayerInfoReceivedDataframe>(ProcessPlayerInfoReceived);
-            _gameClient.Client.Unsubscribe<DisconnectByReasonDataframe>(DisconnectByReason);
+            _messageBroker.Unsubscribe<PlayerInfoRequestDataframe>(SendPlayerInfo);
+            _messageBroker.Unsubscribe<PlayerInfoReceivedDataframe>(ProcessPlayerInfoReceived);
+            _messageBroker.Unsubscribe<DisconnectByReasonDataframe>(DisconnectByReason);
 
             _messageBroker.Unsubscribe<ConnectedMessage>(OnConnected);
             _messageBroker.Unsubscribe<ConnectionFailedMessage>(OnConnectionFailed);
@@ -76,7 +77,7 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer
         private void OnConnected(ref ConnectedMessage message)
         {
             Debug.Log("Connected!");
-            _gameClient.PlayerName = _nicknameText.text;
+            _gameClientData.PlayerName = _nicknameText.text;
         }
 
         private void OnConnectionFailed(ref ConnectionFailedMessage message)
@@ -93,7 +94,7 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer
             _notificationsManager.ShowNotification($"Ошибка подключения: {reason}", NotificationsManager.NotificationType.Center);
         }
 
-        private void SendPlayerInfo(PlayerInfoRequestDataframe obj)
+        private void SendPlayerInfo(ref PlayerInfoRequestDataframe obj)
         {
             Debug.Log("Sending player info");
             var dataframe = new PlayerInfoDataframe
@@ -101,16 +102,16 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer
                 name = _nicknameText.text,
                 clientVersion = GameClient.ClientVersion,
             };
-            _gameClient.Client.Send(ref dataframe);
+            _gameClient.Send(ref dataframe);
         }
 
-        private void ProcessPlayerInfoReceived(PlayerInfoReceivedDataframe dataframe)
+        private void ProcessPlayerInfoReceived(ref PlayerInfoReceivedDataframe dataframe)
         {
             _windowsSystem.DestroyWindow(this);
             _windowsSystem.CreateWindow<RoomsListWindow>();
         }
 
-        private void DisconnectByReason(DisconnectByReasonDataframe dataframe)
+        private void DisconnectByReason(ref DisconnectByReasonDataframe dataframe)
         {
             string reason = dataframe.reason switch
             {

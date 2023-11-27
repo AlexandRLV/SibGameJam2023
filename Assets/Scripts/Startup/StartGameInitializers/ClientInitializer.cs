@@ -12,37 +12,37 @@ namespace Startup.StartGameInitializers
 {
     public class ClientInitializer : IInitializer
     {
-        private GameClient _gameClient;
+        private IGameClient _gameClient;
         private RoomController _roomController;
         
         public IEnumerator Initialize()
         {
-            // Инициализация сетевых сообщений
             NetFrameDataframeCollection.Initialize(Assembly.GetExecutingAssembly());
     
-            // Создание и регистрация локальной системы сообщений
             var messageBroker = new LocalMessageBroker();
             GameContainer.Common.Register(messageBroker);
 
-            // Создание сетевого клиента
-            var netClient = new NetFrameClient();
-            GameContainer.Common.Register(netClient);
-
-            // Загрузка сетевых параметров
             var parameters = Resources.Load<ClientParameters>("Client Parameters");
             GameContainer.Common.Register(parameters);
 
-            // Создание внутриигрового клиента
-            var gameClientPrefab = Resources.Load<GameClient>("Prefabs/GameClient");
-            _gameClient = GameContainer.InstantiateAndResolve(gameClientPrefab);
-            Object.DontDestroyOnLoad(_gameClient);
-            GameContainer.Common.Register(_gameClient);
-
+            var clientData = new GameClientData();
+            GameContainer.Common.Register(clientData);
+            
+#if UNITY_WEBGL
+            var monoUpdater = new GameObject("MonoUpdater").AddComponent<MonoUpdater>();
+            GameContainer.Common.Register(monoUpdater);
+            Object.DontDestroyOnLoad(monoUpdater.gameObject);
+            
             var webSocketClient = GameContainer.Create<WebSocketGameClient>();
-            webSocketClient.Connect();
-            GameContainer.Common.Register(webSocketClient);
-
-            // Создание контроллера комнат
+            _gameClient = webSocketClient;
+#else
+            var gameClientPrefab = Resources.Load<GameClient>("Prefabs/GameClient");
+            var gameClient = GameContainer.InstantiateAndResolve(gameClientPrefab);
+            Object.DontDestroyOnLoad(gameClient);
+#endif
+            
+            GameContainer.Common.Register(_gameClient);
+            
             _roomController = GameContainer.Create<RoomController>();
             GameContainer.Common.Register(_roomController);
 
@@ -51,9 +51,7 @@ namespace Startup.StartGameInitializers
 
         public void Dispose()
         {
-            if (_gameClient != null)
-                _gameClient.Shutdown();
-
+            _gameClient?.Disconnect();
             _roomController?.Dispose();
         }
     }

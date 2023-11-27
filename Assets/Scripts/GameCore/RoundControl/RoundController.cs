@@ -24,7 +24,8 @@ namespace GameCore.Common
         [Inject] private LocalMessageBroker _messageBroker;
         [Inject] private IPlayer _player;
         [Inject] private SoundService _soundService;
-        [Inject] private GameClient _gameClient;
+        [Inject] private GameClientData _gameClientData;
+        [Inject] private IGameClient _gameClient;
         
         private LoseGameReason _loseGameReason;
 
@@ -58,7 +59,7 @@ namespace GameCore.Common
             _loseGameReason = reason;
             
             if (!send) return;
-            if (!_gameClient.IsConnected) return;
+            if (!_gameClientData.IsConnected) return;
 
             Debug.Log("Sending lose game dataframe");
             var dataframe = new LoseGameDataframe

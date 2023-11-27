@@ -24,26 +24,27 @@ namespace GameCore.LevelObjects
         private List<EnemyController> _enemies = new();
         private List<Mousetrap> _mousetraps = new();
 
-        private GameClient _gameClient;
+        private GameClientData _gameClientData;
+        private LocalMessageBroker _messageBroker;
         
         [Construct]
-        public LevelObjectService(GameClient gameClient)
+        public LevelObjectService(GameClientData gameClientData, LocalMessageBroker messageBroker)
         {
-            _gameClient = gameClient;
-            _gameClient.Client.Subscribe<InteractedWithObjectDataframe>(OnInteracted);
-            _gameClient.Client.Subscribe<PushablePositionDataframe>(OnPushableMoved);
-            _gameClient.Client.Subscribe<EnemyDetectPlayerDataframe>(OnEnemyDetectPlayer);
-            _gameClient.Client.Subscribe<EnemyAlertPlayerDataframe>(OnEnemyAlert);
-            _gameClient.Client.Subscribe<ActivateMouseTrapDataframe>(OnMousetrapActivated);
+            _messageBroker = messageBroker;
+            _messageBroker.Subscribe<InteractedWithObjectDataframe>(OnInteracted);
+            _messageBroker.Subscribe<PushablePositionDataframe>(OnPushableMoved);
+            _messageBroker.Subscribe<EnemyDetectPlayerDataframe>(OnEnemyDetectPlayer);
+            _messageBroker.Subscribe<EnemyAlertPlayerDataframe>(OnEnemyAlert);
+            _messageBroker.Subscribe<ActivateMouseTrapDataframe>(OnMousetrapActivated);
         }
 
         public void Dispose()
         {
-            _gameClient.Client.Unsubscribe<InteractedWithObjectDataframe>(OnInteracted);
-            _gameClient.Client.Unsubscribe<PushablePositionDataframe>(OnPushableMoved);
-            _gameClient.Client.Unsubscribe<EnemyDetectPlayerDataframe>(OnEnemyDetectPlayer);
-            _gameClient.Client.Unsubscribe<EnemyAlertPlayerDataframe>(OnEnemyAlert);
-            _gameClient.Client.Unsubscribe<ActivateMouseTrapDataframe>(OnMousetrapActivated);
+            _messageBroker.Unsubscribe<InteractedWithObjectDataframe>(OnInteracted);
+            _messageBroker.Unsubscribe<PushablePositionDataframe>(OnPushableMoved);
+            _messageBroker.Unsubscribe<EnemyDetectPlayerDataframe>(OnEnemyDetectPlayer);
+            _messageBroker.Unsubscribe<EnemyAlertPlayerDataframe>(OnEnemyAlert);
+            _messageBroker.Unsubscribe<ActivateMouseTrapDataframe>(OnMousetrapActivated);
         }
 
         public void RegisterInteractiveObject(InteractiveObject value) => _interactiveObjects.Add(value);
@@ -58,7 +59,7 @@ namespace GameCore.LevelObjects
         public void RegisterMousetrap(Mousetrap value) => _mousetraps.Add(value);
         public void UnregisterMousetrap(Mousetrap value) => _mousetraps.Remove(value);
 
-        private void OnInteracted(InteractedWithObjectDataframe dataframe)
+        private void OnInteracted(ref InteractedWithObjectDataframe dataframe)
         {
             if (!TryFindObject(_interactiveObjects, dataframe.objectPosition, out var target))
                 return;
@@ -69,7 +70,7 @@ namespace GameCore.LevelObjects
             target.InteractWithoutPlayer(remotePlayer.transform.position);
         }
 
-        private void OnPushableMoved(PushablePositionDataframe dataframe)
+        private void OnPushableMoved(ref PushablePositionDataframe dataframe)
         {
             if (!TryFindObject(_pushableObjects, dataframe.startPosition, out var target))
                 return;
@@ -77,14 +78,14 @@ namespace GameCore.LevelObjects
             target.transform.SetPositionAndRotation(dataframe.position, dataframe.rotation);
         }
 
-        private void OnEnemyDetectPlayer(EnemyDetectPlayerDataframe dataframe)
+        private void OnEnemyDetectPlayer(ref EnemyDetectPlayerDataframe dataframe)
         {
             if (!TryFindObject(_enemies, dataframe.checkPosition, out var enemy))
                 return;
             
             if (dataframe.isDetect)
             {
-                var otherMouseType = _gameClient.IsMaster ? PlayerMouseType.ThinMouse : PlayerMouseType.FatMouse;
+                var otherMouseType = _gameClientData.IsMaster ? PlayerMouseType.ThinMouse : PlayerMouseType.FatMouse;
                 enemy.DetectPlayer(otherMouseType, false);
             }
             else
@@ -93,7 +94,7 @@ namespace GameCore.LevelObjects
             }
         }
 
-        private void OnEnemyAlert(EnemyAlertPlayerDataframe dataframe)
+        private void OnEnemyAlert(ref EnemyAlertPlayerDataframe dataframe)
         {
             var message = new PlayerDetectedMessage
             {
@@ -103,7 +104,7 @@ namespace GameCore.LevelObjects
             GameContainer.Common.Resolve<SoundService>().PlaySound(SoundType.Alert);
         }
         
-        private void OnMousetrapActivated(ActivateMouseTrapDataframe dataframe)
+        private void OnMousetrapActivated(ref ActivateMouseTrapDataframe dataframe)
         {
             if (!TryFindObject(_mousetraps, dataframe.mousetrapPosition, out var mousetrap))
                 return;

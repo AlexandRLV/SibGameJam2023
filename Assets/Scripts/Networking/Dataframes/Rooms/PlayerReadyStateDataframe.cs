@@ -1,12 +1,14 @@
 ﻿using NetFrame;
 using NetFrame.WriteAndRead;
+using Newtonsoft.Json;
 
 namespace Networking.Dataframes
 {
+    [JsonObject]
     public struct PlayerReadyStateDataframe : INetworkDataframe
     {
-        public int playerId;
-        public bool ready;
+        [JsonProperty("i")] public int playerId;
+        [JsonProperty("r")] public bool ready;
         
         public void Write(NetFrameWriter writer)
         {

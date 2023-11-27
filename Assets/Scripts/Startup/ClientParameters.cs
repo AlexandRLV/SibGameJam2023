@@ -10,6 +10,7 @@ namespace Startup
         [SerializeField] public string ipAddress;
         [SerializeField] public bool isLocal;
         [SerializeField] public int port;
+        [SerializeField] public int webSocketPort;
         [SerializeField] public float roomsRequestInterval;
     }
 }

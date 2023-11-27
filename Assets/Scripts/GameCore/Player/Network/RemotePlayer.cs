@@ -2,7 +2,9 @@
 using Common.DI;
 using GameCore.Character.Animation;
 using GameCore.Character.Movement;
+using LocalMessages;
 using NetFrame.Client;
+using Networking;
 using Networking.Dataframes.InGame;
 using UnityEngine;
 
@@ -15,7 +17,7 @@ namespace GameCore.Player.Network
 
         [SerializeField] private CharacterPositionInterpolator _interpolator;
         
-        [Inject] private NetFrameClient _client;
+        [Inject] private LocalMessageBroker _messageBroker;
         
         private CharacterVisuals _visuals;
         
@@ -26,16 +28,16 @@ namespace GameCore.Player.Network
             _visuals.transform.ToLocalZero();
             _visuals.Initialize(this);
             
-            _client.Subscribe<PlayerPositionDataframe>(ProcessPlayerPosition);
-            _client.Subscribe<SetCurrentTickDataframe>(SetOwnerTick);
-            _client.Subscribe<PlayerEffectStateDataframe>(SetEffectState);
+            _messageBroker.Subscribe<PlayerPositionDataframe>(ProcessPlayerPosition);
+            _messageBroker.Subscribe<SetCurrentTickDataframe>(SetOwnerTick);
+            _messageBroker.Subscribe<PlayerEffectStateDataframe>(SetEffectState);
         }
 
         private void OnDestroy()
         {
-            _client.Unsubscribe<PlayerPositionDataframe>(ProcessPlayerPosition);
-            _client.Unsubscribe<SetCurrentTickDataframe>(SetOwnerTick);
-            _client.Subscribe<PlayerEffectStateDataframe>(SetEffectState);
+            _messageBroker.Unsubscribe<PlayerPositionDataframe>(ProcessPlayerPosition);
+            _messageBroker.Unsubscribe<SetCurrentTickDataframe>(SetOwnerTick);
+            _messageBroker.Unsubscribe<PlayerEffectStateDataframe>(SetEffectState);
         }
 
         private void Update()
@@ -46,17 +48,17 @@ namespace GameCore.Player.Network
             AnimationSpeed = snapshot.animationSpeed;
         }
 
-        private void ProcessPlayerPosition(PlayerPositionDataframe dataframe)
+        private void ProcessPlayerPosition(ref PlayerPositionDataframe dataframe)
         {
             _interpolator.AddSnapshot(dataframe);
         }
 
-        private void SetOwnerTick(SetCurrentTickDataframe dataframe)
+        private void SetOwnerTick(ref SetCurrentTickDataframe dataframe)
         {
             _interpolator.SetOwnerTick(dataframe.tick);
         }
 
-        private void SetEffectState(PlayerEffectStateDataframe dataframe)
+        private void SetEffectState(ref PlayerEffectStateDataframe dataframe)
         {
             if (dataframe.type == EffectType.Knockdown)
             {

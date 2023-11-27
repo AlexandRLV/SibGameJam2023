@@ -30,7 +30,7 @@ namespace GameCore.Character.Movement.States
             _timer = parameters.hitTime;
             movement.SetEffectState(EffectType.Knockdown, true);
 
-            if (!movement.GameClient.IsConnected) return;
+            if (!movement.GameClientData.IsConnected) return;
 
             var dataframe = new PlayerEffectStateDataframe
             {
@@ -51,7 +51,7 @@ namespace GameCore.Character.Movement.States
             _timer -= Time.deltaTime;
             movement.Move(Vector2.zero);
             
-            if (!movement.GameClient.IsConnected) return;
+            if (!movement.GameClientData.IsConnected) return;
 
             var dataframe = new PlayerEffectStateDataframe
             {

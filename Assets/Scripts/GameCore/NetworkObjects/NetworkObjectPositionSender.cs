@@ -1,4 +1,6 @@
-﻿using GameCore.Player.Network;
+﻿using Common.DI;
+using GameCore.Player.Network;
+using Networking;
 using Networking.Dataframes.InGame.LevelObjects;
 using UnityEngine;
 
@@ -11,6 +13,8 @@ namespace GameCore.NetworkObjects
         [SerializeField] private NetworkObject _networkObject;
         [SerializeField] private NetworkParameters _networkParameters;
 
+        [Inject] private IGameClient _gameClient;
+        
         private int _tick;
 
         private void FixedUpdate()
@@ -33,7 +37,7 @@ namespace GameCore.NetworkObjects
                 objectId = _networkObject.Id,
                 tick = _tick
             };
-            _networkObject.Client.Send(ref dataframe);
+            _gameClient.Send(ref dataframe);
         }
 
         private void SendPosition()
@@ -46,7 +50,7 @@ namespace GameCore.NetworkObjects
                 Position = transform.position,
                 Rotation = transform.rotation,
             };
-            _networkObject.Client.Send(ref dataframe);
+            _gameClient.Send(ref dataframe);
 
             _networkObject.Teleported = false;
         }

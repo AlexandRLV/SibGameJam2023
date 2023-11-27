@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Common.DI;
+using LocalMessages;
 using Networking;
 using Networking.Dataframes.InGame.LevelObjects;
 using UnityEngine;
@@ -8,8 +9,10 @@ namespace GameCore.NetworkObjects
 {
     public class NetworkObjectsController : MonoBehaviour
     {
-        [Inject] private GameClient _gameClient;
+        [Inject] private GameClientData _gameClientData;
+        [Inject] private IGameClient _gameClient;
         [Inject] private RemoteNetworkObjects _remoteNetworkObjects;
+        [Inject] private LocalMessageBroker _messageBroker;
 
         private int _objectId;
         private bool _subscribed;
@@ -19,18 +22,18 @@ namespace GameCore.NetworkObjects
         private void Start()
         {
             _spawnedObjects = new List<NetworkObject>(); 
-            if (!_gameClient.IsConnected) return;
-            if (_gameClient.IsMaster)
+            if (!_gameClientData.IsConnected) return;
+            if (_gameClientData.IsMaster)
                 return;
             
-            _gameClient.Client.Subscribe<CreateNetworkObjectDataframe>(CreateNetworkObject);
+            _messageBroker.Subscribe<CreateNetworkObjectDataframe>(CreateNetworkObject);
             _subscribed = true;
         }
 
         private void OnDestroy()
         {
             if (_subscribed)
-                _gameClient.Client.Unsubscribe<CreateNetworkObjectDataframe>(CreateNetworkObject);
+                _messageBroker.Unsubscribe<CreateNetworkObjectDataframe>(CreateNetworkObject);
 
             foreach (var spawnedObject in _spawnedObjects)
             {
@@ -41,8 +44,8 @@ namespace GameCore.NetworkObjects
 
         public void RegisterObject(NetworkObject target)
         {
-            if (!_gameClient.IsConnected) return;
-            if (!_gameClient.IsMaster)
+            if (!_gameClientData.IsConnected) return;
+            if (!_gameClientData.IsMaster)
             {
                 Destroy(target.gameObject);
                 return;
@@ -61,7 +64,7 @@ namespace GameCore.NetworkObjects
             _gameClient.Send(ref dataframe);
         }
         
-        private void CreateNetworkObject(CreateNetworkObjectDataframe dataframe)
+        private void CreateNetworkObject(ref CreateNetworkObjectDataframe dataframe)
         {
             var prefab = _remoteNetworkObjects.GetPrefabByType(dataframe.objectType);
             var networkObject = Object.Instantiate(prefab, dataframe.position, dataframe.rotation);

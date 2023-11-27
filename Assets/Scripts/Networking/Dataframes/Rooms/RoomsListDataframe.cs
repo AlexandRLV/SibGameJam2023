@@ -1,13 +1,15 @@
 ﻿using System.Collections.Generic;
 using NetFrame;
 using NetFrame.WriteAndRead;
+using Newtonsoft.Json;
 
 namespace Networking.Dataframes
 {
+    [JsonObject]
     public struct RoomsListDataframe : INetworkDataframe
     {
-        public int onlinePlayers;
-        public List<RoomInfoDataframe> rooms;
+        [JsonProperty("o")] public int onlinePlayers;
+        [JsonProperty("r")] public List<RoomInfoDataframe> rooms;
     
         public void Write(NetFrameWriter writer)
         {

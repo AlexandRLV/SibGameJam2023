@@ -38,7 +38,7 @@ namespace GameCore.Character.Movement.States
             _timer = parameters.interactTime;
             interactiveObject.Interact();
             
-            if (!movement.GameClient.IsConnected) return;
+            if (!movement.GameClientData.IsConnected) return;
 
             var dataframe = new InteractedWithObjectDataframe
             {

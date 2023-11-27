@@ -52,7 +52,7 @@ namespace Startup
 
         public bool InGame { get; private set; }
 
-        [Inject] private GameClient _gameClient;
+        [Inject] private GameClientData _gameClientData;
         [Inject] private LoadingScreen _loadingScreen;
         [Inject] private WindowsSystem _windowsSystem;
 
@@ -147,7 +147,7 @@ namespace Startup
             GameContainer.InGame = new Container();
             
             Debug.Log("Initializing gameplay");
-            bool isMultiplayer = _gameClient.IsConnected;
+            bool isMultiplayer = _gameClientData.IsConnected;
             
             Debug.Log($"Initializing multiplayer: {isMultiplayer}");
             if (isMultiplayer) yield return InitializeList(_multiplayerInitializers);

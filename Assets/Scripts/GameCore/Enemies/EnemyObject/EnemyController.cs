@@ -30,7 +30,8 @@ namespace GameCore.Enemies.EnemyObject
         [SerializeField] private float moveSpeed = 3.5f;
         [SerializeField] private Color normalConeColor, alertConeColor;
 
-        [Inject] private GameClient _gameClient;
+        [Inject] private GameClientData _gameClientData;
+        [Inject] private IGameClient _gameClient;
         [Inject] private SoundService _soundService;
         [Inject] private LevelObjectService _levelObjectService;
 
@@ -95,7 +96,7 @@ namespace GameCore.Enemies.EnemyObject
                 var player = GameContainer.InGame.Resolve<IPlayer>();
                 DetectPlayer(player.MouseType);
 
-                if (!_gameClient.IsConnected) return;
+                if (!_gameClientData.IsConnected) return;
             
                 var dataframe = new EnemyDetectPlayerDataframe
                 {
@@ -106,7 +107,7 @@ namespace GameCore.Enemies.EnemyObject
             }
             else
             {
-                if (_isPlayerDetected && _gameClient.IsConnected)
+                if (_isPlayerDetected && _gameClientData.IsConnected)
                 {
                     var dataframe = new EnemyDetectPlayerDataframe
                     {
@@ -205,7 +206,7 @@ namespace GameCore.Enemies.EnemyObject
             if (!_canTriggerAlert)
                 return;
 
-            if (_gameClient.IsConnected)
+            if (_gameClientData.IsConnected)
             {
                 var dataframe = new EnemyAlertPlayerDataframe
                 {

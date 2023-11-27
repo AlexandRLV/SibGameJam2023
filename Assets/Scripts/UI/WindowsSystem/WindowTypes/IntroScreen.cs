@@ -1,4 +1,5 @@
 ﻿using Common.DI;
+using LocalMessages;
 using Networking;
 using Networking.Dataframes.InGame;
 using Startup;
@@ -15,7 +16,9 @@ namespace UI.WindowsSystem.WindowTypes
 
         [Inject] private GameInitializer _gameInitializer;
         [Inject] private WindowsSystem _windowsSystem;
-        [Inject] private GameClient _gameClient;
+        [Inject] private GameClientData _gameClientData;
+        [Inject] private IGameClient _gameClient;
+        [Inject] private LocalMessageBroker _messageBroker;
         
         private bool _otherSkipped;
         private bool _skipped;
@@ -31,14 +34,14 @@ namespace UI.WindowsSystem.WindowTypes
             
             _otherSkippedLabel.SetActive(false);
 
-            _gameClient.Client.Subscribe<SkipIntroDataframe>(ProcessSkipIntro);
+            _messageBroker.Subscribe<SkipIntroDataframe>(ProcessSkipIntro);
         }
 
         private void OnDestroy()
         {
-            _gameClient.Client.Unsubscribe<SkipIntroDataframe>(ProcessSkipIntro);
+            _messageBroker.Unsubscribe<SkipIntroDataframe>(ProcessSkipIntro);
         }
-
+        
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.Space))
@@ -57,7 +60,7 @@ namespace UI.WindowsSystem.WindowTypes
         {
             _skipped = true;
             
-            if (_gameClient.IsConnected)
+            if (_gameClientData.IsConnected)
             {
                 var dataframe = new SkipIntroDataframe();
                 _gameClient.Send(ref dataframe);
@@ -70,7 +73,7 @@ namespace UI.WindowsSystem.WindowTypes
             _gameInitializer.StartGame();
         }
 
-        private void ProcessSkipIntro(SkipIntroDataframe dataframe)
+        private void ProcessSkipIntro(ref SkipIntroDataframe dataframe)
         {
             _otherSkipped = true;
             _otherSkippedLabel.SetActive(true);

@@ -15,4 +15,5 @@ MonoBehaviour:
   ipAddress: 91.220.109.117
   isLocal: 1
   port: 8080
+  webSocketPort: 8090
   roomsRequestInterval: 3

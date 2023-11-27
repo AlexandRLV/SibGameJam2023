@@ -18,11 +18,12 @@ namespace UI.WindowsSystem.WindowTypes
 
         [Inject] private GameCamera _gameCamera;
         [Inject] private GameInitializer _gameInitializer;
-        [Inject] private GameClient _gameClient;
+        [Inject] private GameClientData _gameClientData;
+        [Inject] private IGameClient _gameClient;
         
         private void Start()
         {
-            if (_gameClient.IsConnected)
+            if (_gameClientData.IsConnected)
             {
                 var dataframe = new GameFinishedDataframe
                 {

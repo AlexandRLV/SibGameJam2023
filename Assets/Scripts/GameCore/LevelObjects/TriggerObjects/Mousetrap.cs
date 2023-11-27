@@ -14,7 +14,8 @@ namespace GameCore.LevelObjects.TriggerObjects
         [SerializeField] private GameObject cheese;
 
         [Inject] private LevelObjectService _levelObjectService;
-        [Inject] private GameClient _gameClient;
+        [Inject] private GameClientData _gameClientData;
+        [Inject] private IGameClient _gameClient;
 
         private void Start()
         {
@@ -49,7 +50,7 @@ namespace GameCore.LevelObjects.TriggerObjects
             
             IsUsed = true;
             
-            if (!_gameClient.IsConnected) return;
+            if (!_gameClientData.IsConnected) return;
 
             var dataframe = new ActivateMouseTrapDataframe
             {

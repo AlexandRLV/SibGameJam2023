@@ -1,17 +1,19 @@
 ﻿using NetFrame;
 using NetFrame.WriteAndRead;
+using Newtonsoft.Json;
 
 namespace Networking.Dataframes
 {
+    [JsonObject]
     public struct RoomInfoDataframe : INetworkDataframe
     {
-        public int roomId;
-        public string name;
-        public string ownerName;
-        public string guestName;
-        public bool player1Ready;
-        public bool player2Ready;
-        public bool hasPassword;
+        [JsonProperty("i")] public int roomId;
+        [JsonProperty("n")] public string name;
+        [JsonProperty("o")] public string ownerName;
+        [JsonProperty("g")] public string guestName;
+        [JsonProperty("1")] public bool player1Ready;
+        [JsonProperty("2")] public bool player2Ready;
+        [JsonProperty("p")] public bool hasPassword;
     
         public void Write(NetFrameWriter writer)
         {

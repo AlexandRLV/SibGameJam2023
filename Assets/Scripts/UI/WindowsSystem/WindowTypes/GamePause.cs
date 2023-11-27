@@ -16,12 +16,13 @@ namespace UI.WindowsSystem.WindowTypes
 
         [Inject] private GameCamera _gameCamera;
         [Inject] private WindowsSystem _windowsSystem;
-        [Inject] private GameClient _gameClient;
+        [Inject] private GameClientData _gameClientData;
+        [Inject] private IGameClient _gameClient;
         [Inject] private GameInitializer _gameInitializer;
 
         private void Start()
         {
-            if (!_gameClient.IsConnected)
+            if (!_gameClientData.IsConnected)
                 Time.timeScale = 0f;
             
             _gameCamera.FollowTarget.SetInPause(true);
@@ -34,7 +35,7 @@ namespace UI.WindowsSystem.WindowTypes
             
             _backToMenuButton.onClick.AddListener(() =>
             {
-                if (_gameClient.IsConnected)
+                if (_gameClientData.IsConnected)
                 {
                     var dataframe = new GameFinishedDataframe
                     {
@@ -67,7 +68,7 @@ namespace UI.WindowsSystem.WindowTypes
 
         private void OnDestroy()
         {
-            if (!_gameClient.IsConnected)
+            if (!_gameClientData.IsConnected)
                 Time.timeScale = 1f;
         }
     }

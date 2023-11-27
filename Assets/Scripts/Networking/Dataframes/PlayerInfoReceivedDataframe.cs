@@ -1,8 +1,10 @@
 ﻿using NetFrame;
 using NetFrame.WriteAndRead;
+using Newtonsoft.Json;
 
 namespace Networking.Dataframes
 {
+    [JsonObject]
     public struct PlayerInfoReceivedDataframe : INetworkDataframe
     {
         public void Write(NetFrameWriter writer)

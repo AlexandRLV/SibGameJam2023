@@ -17,7 +17,8 @@ namespace GameCore.LevelObjects.TriggerObjects
         private bool _isOnline;
         private int _tick;
 
-        private GameClient _client;
+        private IGameClient _client;
+        private GameClientData _gameClientData;
         
         protected override void OnPlayerEnter()
         {
@@ -65,7 +66,8 @@ namespace GameCore.LevelObjects.TriggerObjects
             GameContainer.InGame.Resolve<LevelObjectService>().RegisterPushableObject(this);
 
             _client = GameContainer.Common.Resolve<GameClient>();
-            _isOnline = _client.IsConnected;
+            _gameClientData = GameContainer.Common.Resolve<GameClientData>();
+            _isOnline = _gameClientData.IsConnected;
             
             CheckPosition = transform.position;
         }

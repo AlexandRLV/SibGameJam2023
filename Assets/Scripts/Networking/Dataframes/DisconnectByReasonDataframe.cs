@@ -1,5 +1,7 @@
 ﻿using NetFrame;
 using NetFrame.WriteAndRead;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace Networking.Dataframes
 {
@@ -7,11 +9,13 @@ namespace Networking.Dataframes
     {
         ClientVersion,
         NicknameTaken,
+        ServerError,
     }
     
+    [JsonObject]
     public struct DisconnectByReasonDataframe : INetworkDataframe
     {
-        public DisconnectReason reason;
+        [JsonProperty("r")] [JsonConverter(typeof(StringEnumConverter))] public DisconnectReason reason;
     
         public void Write(NetFrameWriter writer)
         {

@@ -25,7 +25,7 @@ namespace GameCore.Character.Movement.States
 
         public override void OnEnter(MovementStateType prevState)
         {
-            if (!movement.GameClient.IsConnected) return;
+            if (!movement.GameClientData.IsConnected) return;
 
             var dataframe = new PlayerEffectStateDataframe
             {

@@ -1,4 +1,5 @@
 ﻿using Common.DI;
+using LocalMessages;
 using NetFrame.Client;
 using Networking.Dataframes;
 using Networking.Dataframes.InGame;
@@ -10,22 +11,24 @@ namespace Networking
         public bool inRoom;
         public RoomInfoDataframe currentRoom;
         
-        private NetFrameClient _client;
+        private IGameClient _client;
+        private LocalMessageBroker _messageBroker;
 
         [Construct]
-        public RoomController(NetFrameClient client)
+        public RoomController(IGameClient client, LocalMessageBroker messageBroker)
         {
             _client = client;
-            _client.Subscribe<JoinedRoomDataframe>(OnJoinedRoom);
-            _client.Subscribe<PlayerLeftRoomDataframe>(OnLeftRoom);
-            _client.Subscribe<GameFinishedDataframe>(OnGameFinished);
+            _messageBroker = messageBroker;
+            _messageBroker.Subscribe<JoinedRoomDataframe>(OnJoinedRoom);
+            _messageBroker.Subscribe<PlayerLeftRoomDataframe>(OnLeftRoom);
+            _messageBroker.Subscribe<GameFinishedDataframe>(OnGameFinished);
         }
 
         public void Dispose()
         {
-            _client.Unsubscribe<JoinedRoomDataframe>(OnJoinedRoom);
-            _client.Unsubscribe<PlayerLeftRoomDataframe>(OnLeftRoom);
-            _client.Unsubscribe<GameFinishedDataframe>(OnGameFinished);
+            _messageBroker.Unsubscribe<JoinedRoomDataframe>(OnJoinedRoom);
+            _messageBroker.Unsubscribe<PlayerLeftRoomDataframe>(OnLeftRoom);
+            _messageBroker.Unsubscribe<GameFinishedDataframe>(OnGameFinished);
         }
 
         public void LeaveCurrentRoom()
@@ -36,18 +39,18 @@ namespace Networking
             inRoom = false;
         }
 
-        private void OnJoinedRoom(JoinedRoomDataframe dataframe)
+        private void OnJoinedRoom(ref JoinedRoomDataframe dataframe)
         {
             currentRoom = dataframe.roomInfo;
             inRoom = true;
         }
 
-        private void OnLeftRoom(PlayerLeftRoomDataframe dataframe)
+        private void OnLeftRoom(ref PlayerLeftRoomDataframe dataframe)
         {
             currentRoom.guestName = "";
         }
         
-        private void OnGameFinished(GameFinishedDataframe dataframe)
+        private void OnGameFinished(ref GameFinishedDataframe dataframe)
         {
             currentRoom.player1Ready = false;
             currentRoom.player2Ready = false;

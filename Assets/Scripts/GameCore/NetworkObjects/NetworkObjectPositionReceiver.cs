@@ -1,4 +1,7 @@
-﻿using Networking.Dataframes.InGame.LevelObjects;
+﻿using Common.DI;
+using LocalMessages;
+using Networking;
+using Networking.Dataframes.InGame.LevelObjects;
 using UnityEngine;
 
 namespace GameCore.NetworkObjects
@@ -10,6 +13,9 @@ namespace GameCore.NetworkObjects
         [SerializeField] private NetworkObject _networkObject;
         [SerializeField] private NetworkObjectPositionInterpolator _interpolator;
 
+        [Inject] private LocalMessageBroker _messageBroker;
+        [Inject] private IGameClient _gameClient;
+
         private bool _subscribed;
         
         private void Start()
@@ -17,8 +23,8 @@ namespace GameCore.NetworkObjects
             if (!_networkObject.IsOnline)
                 return;
             
-            _networkObject.Client.Client.Subscribe<NetworkObjectSetTickDataframe>(SetTick);
-            _networkObject.Client.Client.Subscribe<NetworkObjectInterpolatePositionDataframe>(PushPositionSnapshot);
+            _messageBroker.Subscribe<NetworkObjectSetTickDataframe>(SetTick);
+            _messageBroker.Subscribe<NetworkObjectInterpolatePositionDataframe>(PushPositionSnapshot);
             _subscribed = true;
         }
 
@@ -27,8 +33,8 @@ namespace GameCore.NetworkObjects
             if (!_subscribed)
                 return;
 
-            _networkObject.Client.Client.Unsubscribe<NetworkObjectSetTickDataframe>(SetTick);
-            _networkObject.Client.Client.Unsubscribe<NetworkObjectInterpolatePositionDataframe>(PushPositionSnapshot);
+            _messageBroker.Unsubscribe<NetworkObjectSetTickDataframe>(SetTick);
+            _messageBroker.Unsubscribe<NetworkObjectInterpolatePositionDataframe>(PushPositionSnapshot);
         }
 
         private void Update()
@@ -37,12 +43,12 @@ namespace GameCore.NetworkObjects
             transform.SetPositionAndRotation(snapshot.Position, snapshot.Rotation);
         }
 
-        private void SetTick(NetworkObjectSetTickDataframe dataframe)
+        private void SetTick(ref NetworkObjectSetTickDataframe dataframe)
         {
             _interpolator.SetOwnerTick(dataframe.tick);
         }
 
-        private void PushPositionSnapshot(NetworkObjectInterpolatePositionDataframe dataframe)
+        private void PushPositionSnapshot(ref NetworkObjectInterpolatePositionDataframe dataframe)
         {
             if (dataframe.objectId != _networkObject.Id)
                 return;

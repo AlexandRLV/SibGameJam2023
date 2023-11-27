@@ -1,12 +1,14 @@
 ﻿using NetFrame;
 using NetFrame.WriteAndRead;
+using Newtonsoft.Json;
 
 namespace Networking.Dataframes
 {
+    [JsonObject]
     public struct PlayerInfoDataframe : INetworkDataframe
     {
-        public string name;
-        public string clientVersion;
+        [JsonProperty("n")] public string name;
+        [JsonProperty("c")] public string clientVersion;
         
         public void Write(NetFrameWriter writer)
         {

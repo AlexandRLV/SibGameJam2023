@@ -36,7 +36,7 @@ namespace UI.WindowsSystem.WindowTypes
         
         [Inject] private RoundController _roundController;
         [Inject] private WindowsSystem _windowsSystem;
-        [Inject] private GameClient _gameClient;
+        [Inject] private GameClientData _gameClientData;
         [Inject] private LocalMessageBroker _messageBroker;
         
         private bool _initialized;
@@ -74,13 +74,13 @@ namespace UI.WindowsSystem.WindowTypes
             
             _infoPanelTimer = _infoPanelShowTime;
 
-            if (!_gameClient.IsConnected)
+            if (!_gameClientData.IsConnected)
             {
                 SetLayout(false);
                 return;
             }
 
-            SetLayout(!_gameClient.IsMaster);
+            SetLayout(!_gameClientData.IsMaster);
             
             foreach (var disableObject in _objectsToDisableInMultiplayer)
             {

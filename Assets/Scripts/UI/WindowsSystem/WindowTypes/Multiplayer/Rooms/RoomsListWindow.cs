@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Common.DI;
+using LocalMessages;
 using NetFrame.Client;
 using Networking;
 using Networking.Dataframes;
@@ -27,9 +28,10 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
 
         [Inject] private NotificationsManager _notificationsManager;
         [Inject] private ClientParameters _clientParameters;
+        [Inject] private LocalMessageBroker _messageBroker;
         [Inject] private RoomController _roomController;
         [Inject] private WindowsSystem _windowsSystem;
-        [Inject] private GameClient _gameClient;
+        [Inject] private IGameClient _gameClient;
         
         private float _roomsRequestTimer;
         private List<RoomListItem> _createdRooms;
@@ -56,9 +58,9 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
 
         private void Start()
         {
-            _gameClient.Client.Subscribe<RoomsListDataframe>(SetRooms);
-            _gameClient.Client.Subscribe<JoinedRoomDataframe>(ProcessJoinedRoom);
-            _gameClient.Client.Subscribe<JoinRoomFailedDataframe>(ProcessJoinFailed);
+            _messageBroker.Subscribe<RoomsListDataframe>(SetRooms);
+            _messageBroker.Subscribe<JoinedRoomDataframe>(ProcessJoinedRoom);
+            _messageBroker.Subscribe<JoinRoomFailedDataframe>(ProcessJoinFailed);
             
             if (!_roomController.inRoom) return;
             
@@ -73,18 +75,18 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
             if (_roomsRequestTimer > 0f) return;
             
             var request = new RoomsRequestDataframe();
-            _gameClient.Client.Send(ref request);
+            _gameClient.Send(ref request);
             _roomsRequestTimer = _clientParameters.roomsRequestInterval;
         }
 
         private void OnDestroy()
         {
-            _gameClient.Client.Unsubscribe<RoomsListDataframe>(SetRooms);
-            _gameClient.Client.Unsubscribe<JoinedRoomDataframe>(ProcessJoinedRoom);
-            _gameClient.Client.Unsubscribe<JoinRoomFailedDataframe>(ProcessJoinFailed);
+            _messageBroker.Unsubscribe<RoomsListDataframe>(SetRooms);
+            _messageBroker.Unsubscribe<JoinedRoomDataframe>(ProcessJoinedRoom);
+            _messageBroker.Unsubscribe<JoinRoomFailedDataframe>(ProcessJoinFailed);
         }
 
-        private void SetRooms(RoomsListDataframe dataframe)
+        private void SetRooms(ref RoomsListDataframe dataframe)
         {
             _playersOnlineText.text = dataframe.onlinePlayers.ToString();
             var roomsToCreate = ListPool<RoomInfoDataframe>.Get();
@@ -144,7 +146,7 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
                 roomId = _joinRoomPopup.SelectedRoom.RoomId,
                 password = _joinRoomPopup.EnteredPassword,
             };
-            _gameClient.Client.Send(ref dataframe);
+            _gameClient.Send(ref dataframe);
         }
 
         private void CloseJoinRoom()
@@ -159,14 +161,14 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
             _joinRoomPopup.Setup(item);
         }
 
-        private void ProcessJoinedRoom(JoinedRoomDataframe dataframe)
+        private void ProcessJoinedRoom(ref JoinedRoomDataframe dataframe)
         {
             _windowsSystem.DestroyWindow(this);
             var currentRoom = _windowsSystem.CreateWindow<CurrentRoomWindow>();
             currentRoom.Setup(dataframe.roomInfo);
         }
 
-        private void ProcessJoinFailed(JoinRoomFailedDataframe dataframe)
+        private void ProcessJoinFailed(ref JoinRoomFailedDataframe dataframe)
         {
             string reason = dataframe.reason switch
             {
@@ -203,7 +205,7 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
                 name = _createRoomPopup.RoomName,
                 password = _createRoomPopup.Password
             };
-            _gameClient.Client.Send(ref dataframe);
+            _gameClient.Send(ref dataframe);
             CloseCreateRoom();
             _notificationsManager.ShowNotification("Комната создаётся...", NotificationsManager.NotificationType.Center, 0.5f);
         }

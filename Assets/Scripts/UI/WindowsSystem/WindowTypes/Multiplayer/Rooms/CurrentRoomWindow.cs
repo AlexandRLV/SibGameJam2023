@@ -1,4 +1,5 @@
 ﻿using Common.DI;
+using LocalMessages;
 using Networking;
 using Networking.Dataframes;
 using TMPro;
@@ -26,7 +27,9 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
 
         [Inject] private RoomController _roomController;
         [Inject] private WindowsSystem _windowsSystem;
-        [Inject] private GameClient _gameClient;
+        [Inject] private GameClientData _gameClientData;
+        [Inject] private IGameClient _gameClient;
+        [Inject] private LocalMessageBroker _messageBroker;
         
         private int _localId;
 
@@ -36,11 +39,11 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
             _notReadyButton.onClick.AddListener(SendNotReady);
             _leaveButton.onClick.AddListener(LeaveRoom);
             
-            _gameClient.Client.Subscribe<PlayerLeftRoomDataframe>(OnPlayerLeftRoom);
-            _gameClient.Client.Subscribe<PlayerReadyStateDataframe>(OnPlayerReadyStateChanged);
-            _gameClient.Client.Subscribe<PlayerJoinedRoomDataframe>(OnPlayerJoinedRoom);
-            _gameClient.Client.Subscribe<JoinedRoomDataframe>(OnJoinedRoom);
-            _gameClient.Client.Subscribe<RoomPrepareToPlayDataframe>(PrepareToPlay);
+            _messageBroker.Subscribe<PlayerLeftRoomDataframe>(OnPlayerLeftRoom);
+            _messageBroker.Subscribe<PlayerReadyStateDataframe>(OnPlayerReadyStateChanged);
+            _messageBroker.Subscribe<PlayerJoinedRoomDataframe>(OnPlayerJoinedRoom);
+            _messageBroker.Subscribe<JoinedRoomDataframe>(OnJoinedRoom);
+            _messageBroker.Subscribe<RoomPrepareToPlayDataframe>(PrepareToPlay);
 
             _gameStartTimerPopup.OnTimerEnd += StartGame;
             _gameStartTimerPopup.gameObject.SetActive(false);
@@ -48,11 +51,11 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
 
         private void OnDestroy()
         {
-            _gameClient.Client.Unsubscribe<PlayerLeftRoomDataframe>(OnPlayerLeftRoom);
-            _gameClient.Client.Unsubscribe<PlayerReadyStateDataframe>(OnPlayerReadyStateChanged);
-            _gameClient.Client.Unsubscribe<PlayerJoinedRoomDataframe>(OnPlayerJoinedRoom);
-            _gameClient.Client.Unsubscribe<JoinedRoomDataframe>(OnJoinedRoom);
-            _gameClient.Client.Unsubscribe<RoomPrepareToPlayDataframe>(PrepareToPlay);
+            _messageBroker.Unsubscribe<PlayerLeftRoomDataframe>(OnPlayerLeftRoom);
+            _messageBroker.Unsubscribe<PlayerReadyStateDataframe>(OnPlayerReadyStateChanged);
+            _messageBroker.Unsubscribe<PlayerJoinedRoomDataframe>(OnPlayerJoinedRoom);
+            _messageBroker.Unsubscribe<JoinedRoomDataframe>(OnJoinedRoom);
+            _messageBroker.Unsubscribe<RoomPrepareToPlayDataframe>(PrepareToPlay);
         }
 
         public void Setup(RoomInfoDataframe room)
@@ -62,9 +65,9 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
             _player1Text.text = room.ownerName;
             _player2Text.text = room.guestName;
 
-            if (_gameClient.PlayerName.Equals(room.ownerName))
+            if (_gameClientData.PlayerName.Equals(room.ownerName))
                 _player1Text.text += "(вы)";
-            if (_gameClient.PlayerName.Equals(room.guestName))
+            if (_gameClientData.PlayerName.Equals(room.guestName))
                 _player2Text.text += "(вы)";
             
             _player1ReadyState.SetActive(room.player1Ready);
@@ -73,7 +76,7 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
             _player2ReadyState.SetActive(!string.IsNullOrWhiteSpace(room.guestName) && room.player2Ready);
             _player2NotReadyState.SetActive(!string.IsNullOrWhiteSpace(room.guestName) && !room.player2Ready);
 
-            bool isLocalOwner = room.ownerName.Equals(_gameClient.PlayerName);
+            bool isLocalOwner = room.ownerName.Equals(_gameClientData.PlayerName);
             _localId = isLocalOwner ? 0 : 1;
             
             bool localReady = isLocalOwner ? room.player1Ready : room.player2Ready;
@@ -87,7 +90,7 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
             {
                 ready = true,
             };
-            _gameClient.Client.Send(ref dataframe);
+            _gameClient.Send(ref dataframe);
         }
 
         private void SendNotReady()
@@ -96,7 +99,7 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
             {
                 ready = false,
             };
-            _gameClient.Client.Send(ref dataframe);
+            _gameClient.Send(ref dataframe);
         }
 
         private void LeaveRoom()
@@ -107,7 +110,7 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
             _windowsSystem.CreateWindow<RoomsListWindow>();
         }
 
-        private void OnPlayerReadyStateChanged(PlayerReadyStateDataframe dataframe)
+        private void OnPlayerReadyStateChanged(ref PlayerReadyStateDataframe dataframe)
         {
             bool player1 = dataframe.playerId == 0;
             if (player1)
@@ -128,7 +131,7 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
             }
         }
 
-        private void OnPlayerLeftRoom(PlayerLeftRoomDataframe dataframe)
+        private void OnPlayerLeftRoom(ref PlayerLeftRoomDataframe dataframe)
         {
             _player2Text.text = "";
             _player2ReadyState.SetActive(false);
@@ -137,7 +140,7 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
             _roomController.currentRoom.guestName = "";
         }
 
-        private void OnPlayerJoinedRoom(PlayerJoinedRoomDataframe dataframe)
+        private void OnPlayerJoinedRoom(ref PlayerJoinedRoomDataframe dataframe)
         {
             _player2Text.text = dataframe.playerName;
             _player2ReadyState.SetActive(false);
@@ -146,15 +149,15 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
             _roomController.currentRoom.guestName = dataframe.playerName;
         }
 
-        private void OnJoinedRoom(JoinedRoomDataframe dataframe)
+        private void OnJoinedRoom(ref JoinedRoomDataframe dataframe)
         {
             Setup(dataframe.roomInfo);
         }
 
-        private void PrepareToPlay(RoomPrepareToPlayDataframe dataframe)
+        private void PrepareToPlay(ref RoomPrepareToPlayDataframe dataframe)
         {
             _gameStartTimerPopup.gameObject.SetActive(true);
-            _gameClient.IsMaster = dataframe.isMasterClient;
+            _gameClientData.IsMaster = dataframe.isMasterClient;
         }
 
         private void StartGame()
