@@ -34,17 +34,17 @@ namespace Networking
             _monoUpdater = monoUpdater;
 
             _incomingDataframes = new ConcurrentQueue<IDataframeWrapper>();
-            
+        }
+
+        public async void Connect()
+        {
             Debug.Log("Creating web socket");
             _webSocket = new WebSocket($"ws://{_parameters.Ip}:{_parameters.webSocketPort.ToString()}");
             _webSocket.OnOpen += OnOpen;
             _webSocket.OnClose += OnClose;
             _webSocket.OnError += OnError;
             _webSocket.OnMessage += OnMessage;
-        }
-
-        public async void Connect()
-        {
+            
             Debug.Log("Connecting web socket");
             _monoUpdater.OnUpdate += OnUpdate;
             await _webSocket.Connect();
@@ -54,17 +54,21 @@ namespace Networking
 
         public void Disconnect()
         {
-            _webSocket.Close().RunSynchronously();
+            _webSocket.Close();
             _webSocket.OnOpen -= OnOpen;
             _webSocket.OnClose -= OnClose;
             _webSocket.OnError -= OnError;
             _webSocket.OnMessage -= OnMessage;
             _monoUpdater.OnUpdate -= OnUpdate;
             _incomingDataframes.Clear();
+            _webSocket = null;
         }
 
         public void Send<T>(ref T dataframe) where T : struct, INetworkDataframe
         {
+            if (_webSocket == null)
+                return;
+            
             var type = typeof(T);
             var wrapper = new DataframeWrapper<T>
             {
