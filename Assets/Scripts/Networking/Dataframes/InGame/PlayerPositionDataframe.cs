@@ -2,27 +2,43 @@
 using GameCore.Player.Network;
 using NetFrame;
 using NetFrame.WriteAndRead;
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace Networking.Dataframes.InGame
 {
+    [JsonObject]
     public struct PlayerPositionDataframe : INetworkDataframe, IInterpolateSnapshot<PlayerPositionDataframe>
     {
-        public int Tick { get; set; }
-        public bool Teleported { get; set; }
-        public Vector3 Position { get; set; }
-        public Quaternion Rotation { get; set; }
+        [JsonIgnore] public AnimationType AnimationType => (AnimationType)animationType;
 
-        public AnimationType animationType;
-        public float animationSpeed;
+        [JsonIgnore]
+        public Vector3 Position
+        {
+            get => position;
+            set => position = value;
+        }
+        [JsonIgnore]public Quaternion Rotation
+        {
+            get => Quaternion.Euler(rotation);
+            set => rotation = value.eulerAngles;
+        }
+        
+        [JsonProperty("t")] public int Tick { get; set; }
+        [JsonProperty("tp")] public bool Teleported { get; set; }
+        [JsonProperty("p")] public Vector3Dataframe position;
+        [JsonProperty("r")] public Vector3Dataframe rotation;
+
+        [JsonProperty("at")] public byte animationType;
+        [JsonProperty("as")] public float animationSpeed;
     
         public void Write(NetFrameWriter writer)
         {
             writer.WriteInt(Tick);
             writer.WriteBool(Teleported);
-            writer.Write((Vector3Dataframe)Position);
-            writer.Write((Vector3Dataframe)Rotation.eulerAngles);
-            writer.WriteByte((byte)animationType);
+            writer.Write(position);
+            writer.Write(rotation);
+            writer.WriteByte(animationType);
             writer.WriteFloat(animationSpeed);
         }
 
@@ -30,9 +46,9 @@ namespace Networking.Dataframes.InGame
         {
             Tick = reader.ReadInt();
             Teleported = reader.ReadBool();
-            Position = reader.Read<Vector3Dataframe>();
-            Rotation = Quaternion.Euler(reader.Read<Vector3Dataframe>());
-            animationType = (AnimationType)reader.ReadByte();
+            position = reader.Read<Vector3Dataframe>();
+            rotation = reader.Read<Vector3Dataframe>();
+            animationType = reader.ReadByte();
             animationSpeed = reader.ReadFloat();
         }
         

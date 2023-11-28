@@ -64,7 +64,7 @@ namespace GameCore.Common
             Debug.Log("Sending lose game dataframe");
             var dataframe = new LoseGameDataframe
             {
-                reason = reason
+                reason = (byte)reason
             };
             _gameClient.Send(ref dataframe);
         }

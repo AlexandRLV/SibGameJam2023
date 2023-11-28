@@ -134,7 +134,7 @@ namespace GameCore.Character.Movement
             
             var dataframe = new PlayerEffectStateDataframe
             {
-                type = EffectType.SpeedUp,
+                type = (byte)EffectType.SpeedUp,
                 active = false,
             };
             GameClient.Send(ref dataframe);
@@ -241,7 +241,7 @@ namespace GameCore.Character.Movement
                 {
                     var dataframe = new PlayerEffectStateDataframe
                     {
-                        type = EffectType.SpeedUp,
+                        type = (byte)EffectType.SpeedUp,
                         active = true,
                     };
                     GameClient.Send(ref dataframe);

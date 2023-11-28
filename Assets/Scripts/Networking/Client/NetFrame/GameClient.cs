@@ -180,9 +180,9 @@ namespace Networking
             if (GameContainer.InGame == null) return;
             if (!GameContainer.InGame.CanResolve<RoundController>()) return;
 
-            Debug.Log($"Game lose by reason: {dataframe.reason}");
+            Debug.Log($"Game lose by reason: {dataframe.Reason}");
             var roundController = GameContainer.InGame.Resolve<RoundController>();
-            roundController.LoseGameByReason(dataframe.reason, false);
+            roundController.LoseGameByReason(dataframe.Reason, false);
         }
 
         private void OnDestroy() => Disconnect();

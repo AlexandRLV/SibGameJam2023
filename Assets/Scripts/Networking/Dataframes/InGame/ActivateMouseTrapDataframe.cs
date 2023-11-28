@@ -1,11 +1,13 @@
 ﻿using NetFrame;
 using NetFrame.WriteAndRead;
+using Newtonsoft.Json;
 
 namespace Networking.Dataframes.InGame
 {
+    [JsonObject]
     public struct ActivateMouseTrapDataframe : INetworkDataframe
     {
-        public Vector3Dataframe mousetrapPosition;
+        [JsonProperty("p")] public Vector3Dataframe mousetrapPosition;
         
         public void Write(NetFrameWriter writer)
         {

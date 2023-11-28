@@ -10,5 +10,9 @@ namespace Networking
         [JsonProperty("d")] public T dataframe;
         
         public void Trigger(LocalMessageBroker broker) => broker.Trigger(ref dataframe);
+
+        public static void Warmup()
+        {
+        }
     }
 }

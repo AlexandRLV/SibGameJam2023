@@ -44,7 +44,7 @@ namespace GameCore.Player.Network
         {
             ref var snapshot = ref _interpolator.Current;
             transform.SetPositionAndRotation(snapshot.Position, snapshot.Rotation);
-            CurrentAnimation = snapshot.animationType;
+            CurrentAnimation = snapshot.AnimationType;
             AnimationSpeed = snapshot.animationSpeed;
         }
 
@@ -60,12 +60,12 @@ namespace GameCore.Player.Network
 
         private void SetEffectState(ref PlayerEffectStateDataframe dataframe)
         {
-            if (dataframe.type == EffectType.Knockdown)
+            if (dataframe.Type == EffectType.Knockdown)
             {
                 _visuals.KnockdownEffect.SetActive(dataframe.active);
                 if (dataframe.active) _visuals.KnockdownEffect.GetComponent<ParticleSystem>().Play();
             }
-            else if (dataframe.type == EffectType.SpeedUp)
+            else if (dataframe.Type == EffectType.SpeedUp)
             {
                 if (_visuals.SpeedUp != null)
                     _visuals.SpeedUp.SetActive(dataframe.active);

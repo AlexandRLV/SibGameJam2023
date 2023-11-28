@@ -1,10 +1,8 @@
 ﻿using System.Collections;
 using System.Reflection;
-using Common;
 using Common.DI;
 using Networking;
 using LocalMessages;
-using NetFrame.Client;
 using NetFrame.Utils;
 using UnityEngine;
 
@@ -33,12 +31,13 @@ namespace Startup.StartGameInitializers
             GameContainer.Common.Register(monoUpdater);
             Object.DontDestroyOnLoad(monoUpdater.gameObject);
             
-            var webSocketClient = GameContainer.Create<WebSocketGameClient>();
-            _gameClient = webSocketClient;
+            var nativeSocketClient = GameContainer.Create<NativeWebSocketClient>();
+            _gameClient = nativeSocketClient;
 #else
             var gameClientPrefab = Resources.Load<GameClient>("Prefabs/GameClient");
             var gameClient = GameContainer.InstantiateAndResolve(gameClientPrefab);
-            Object.DontDestroyOnLoad(gameClient);
+            Object.DontDestroyOnLoad(gameClient.gameObject);
+            _gameClient = gameClient;
 #endif
             
             GameContainer.Common.Register(_gameClient);

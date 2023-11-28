@@ -75,7 +75,7 @@ namespace GameCore.LevelObjects
             if (!TryFindObject(_pushableObjects, dataframe.startPosition, out var target))
                 return;
 
-            target.transform.SetPositionAndRotation(dataframe.position, dataframe.rotation);
+            target.transform.SetPositionAndRotation(dataframe.position, dataframe.Rotation);
         }
 
         private void OnEnemyDetectPlayer(ref EnemyDetectPlayerDataframe dataframe)

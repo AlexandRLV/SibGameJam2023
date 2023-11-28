@@ -41,7 +41,7 @@ namespace GameCore.LevelObjects.TriggerObjects
             {
                 startPosition = CheckPosition,
                 position = _rigidbody.position,
-                rotation = _rigidbody.rotation,
+                Rotation = _rigidbody.rotation,
             };
             _client.Send(ref dataframe);
         }
@@ -54,7 +54,7 @@ namespace GameCore.LevelObjects.TriggerObjects
                 {
                     startPosition = CheckPosition,
                     position = _rigidbody.position,
-                    rotation = _rigidbody.rotation,
+                    Rotation = _rigidbody.rotation,
                 };
                 _client.Send(ref dataframe);
             }

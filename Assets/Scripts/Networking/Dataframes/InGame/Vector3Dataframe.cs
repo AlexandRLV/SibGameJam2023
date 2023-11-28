@@ -1,14 +1,16 @@
 ﻿using NetFrame;
 using NetFrame.WriteAndRead;
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace Networking.Dataframes.InGame
 {
+    [JsonObject]
     public struct Vector3Dataframe : INetworkDataframe
     {
-        public float x;
-        public float y;
-        public float z;
+        [JsonProperty("x")] public float x;
+        [JsonProperty("y")] public float y;
+        [JsonProperty("z")] public float z;
     
         public void Write(NetFrameWriter writer)
         {

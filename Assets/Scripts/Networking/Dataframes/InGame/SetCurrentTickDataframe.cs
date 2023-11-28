@@ -1,11 +1,13 @@
 ﻿using NetFrame;
 using NetFrame.WriteAndRead;
+using Newtonsoft.Json;
 
 namespace Networking.Dataframes.InGame
 {
+    [JsonObject]
     public struct SetCurrentTickDataframe : INetworkDataframe
     {
-        public int tick;
+        [JsonProperty("t")] public int tick;
         
         public void Write(NetFrameWriter writer)
         {

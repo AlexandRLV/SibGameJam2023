@@ -1,11 +1,13 @@
 ﻿using NetFrame;
 using NetFrame.WriteAndRead;
+using Newtonsoft.Json;
 
 namespace Networking.Dataframes.InGame
 {
+    [JsonObject]
     public struct EnemyAlertPlayerDataframe : INetworkDataframe
     {
-        public Vector3Dataframe playerPosition;
+        [JsonProperty("p")] public Vector3Dataframe playerPosition;
         
         public void Write(NetFrameWriter writer)
         {

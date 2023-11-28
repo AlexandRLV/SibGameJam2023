@@ -29,7 +29,7 @@ namespace GameCore.Character.Movement.States
 
             var dataframe = new PlayerEffectStateDataframe
             {
-                type = EffectType.Knockdown,
+                type = (byte) EffectType.Knockdown,
                 active = true,
             };
             movement.GameClient.Send(ref dataframe);

@@ -72,7 +72,7 @@ namespace GameCore.Player.Network
                 Teleported = Teleported,
                 Position = CurrentMovement.transform.position,
                 Rotation = CurrentMovement.transform.rotation,
-                animationType = CurrentMovement.CurrentAnimation,
+                animationType = (byte)CurrentMovement.CurrentAnimation,
                 animationSpeed = CurrentMovement.AnimationSpeed
             };
             _gameClient.Send(ref dataframe);

@@ -1,5 +1,7 @@
 ﻿using NetFrame;
 using NetFrame.WriteAndRead;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace Networking.Dataframes.InGame
 {
@@ -11,9 +13,10 @@ namespace Networking.Dataframes.InGame
         YouLeft,
     }
 
+    [JsonObject]
     public struct GameFinishedDataframe : INetworkDataframe
     {
-        public GameFinishedReason reason;
+        [JsonProperty("r")] [JsonConverter(typeof(StringEnumConverter))] public GameFinishedReason reason;
     
         public void Write(NetFrameWriter writer)
         {

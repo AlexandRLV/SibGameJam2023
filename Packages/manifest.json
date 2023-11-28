@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.endel.nativewebsocket": "https://github.com/endel/NativeWebSocket.git#upm",
     "com.jeskvo.net-frame": "https://github.com/CaptainJekson/NetFrame.git?path=/Packages/com.jeskvo.net-frame",
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.cinemachine": "2.8.9",
