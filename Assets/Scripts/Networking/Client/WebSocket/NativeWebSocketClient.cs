@@ -48,8 +48,6 @@ namespace Networking
             Debug.Log("Connecting web socket");
             _monoUpdater.OnUpdate += OnUpdate;
             await _webSocket.Connect();
-            
-            Debug.Log("Web socket connected!");
         }
 
         public void Disconnect()
