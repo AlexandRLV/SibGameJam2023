@@ -44,7 +44,7 @@ namespace UI.WindowsSystem.WindowTypes
         
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
             {
                 StartGame();
                 return;
