@@ -52,6 +52,9 @@ namespace Networking
 
         public void Disconnect()
         {
+            if (_webSocket == null)
+                return;
+            
             _webSocket.Close();
             _webSocket.OnOpen -= OnOpen;
             _webSocket.OnClose -= OnClose;
