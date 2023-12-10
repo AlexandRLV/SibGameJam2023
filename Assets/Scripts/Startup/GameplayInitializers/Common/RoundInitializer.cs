@@ -1,8 +1,10 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using Common;
 using Common.DI;
 using GameCore.Common;
 using GameCore.RoundMissions;
+using GameCore.RoundMissions.Missions;
 using UnityEngine;
 
 namespace Startup.GameplayInitializers
@@ -15,11 +17,20 @@ namespace Startup.GameplayInitializers
             var roundController = GameContainer.InstantiateAndResolve(roundControllerPrefab);
             GameContainer.InGame.Register(roundController);
 
+            var missionsData = Resources.Load<MissionsData>("Missions/Missions Data");
+            GameContainer.InGame.Register(missionsData);
+
             var missionsControllerPrefab = Resources.Load<MissionsController>("Prefabs/MissionsController");
             var missionsController = GameContainer.InstantiateAndResolve(missionsControllerPrefab);
             GameContainer.InGame.Register(missionsController);
             
-            missionsController.Initialize();
+            var missions = new List<MissionBase>
+            {
+                GameContainer.Create<SaveAgentsMission>(),
+                GameContainer.Create<FindCactusMission>(),
+                GameContainer.Create<EvacuateMission>(),
+            };
+            missionsController.Initialize(missions);
             
             yield return null;
         }

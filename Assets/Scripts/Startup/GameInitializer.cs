@@ -4,6 +4,7 @@ using Common.DI;
 using Networking;
 using Startup.GameplayInitializers;
 using Startup.GameplayInitializers.Multiplayer;
+using Startup.GameplayInitializers.Tutorial;
 using Startup.Initializers;
 using Startup.StartGameInitializers;
 using UI;
@@ -26,6 +27,15 @@ namespace Startup
             new ClientInitializer(),
             new SoundServiceInitializer(),
             new UIInitializer(),
+        };
+
+        private static List<IInitializer> _tutorialInitializers = new()
+        {
+            new TutorialMapInitializer(),
+            new InputInitializer(),
+            new TutorialCharacterInitializer(),
+            new TutorialRoundInitializer(),
+            new TutorialUiInitializer(),
         };
 
         // These guys allow you to play singleplayer
@@ -51,6 +61,7 @@ namespace Startup
         };
 
         public bool InGame { get; private set; }
+        public bool IsTutorial { get; private set; }
 
         [Inject] private GameClientData _gameClientData;
         [Inject] private LoadingScreen _loadingScreen;
@@ -97,15 +108,17 @@ namespace Startup
             _windowsSystem.DestroyAll();
         }
 
-        public void StartGame()
+        public void StartGame(bool isTutorial)
         {
-            Debug.Log("Starting game!");
-            StartCoroutine(StartGameCoroutine());
+            if (_gameClientData.IsConnected)
+                isTutorial = false;
+            
+            IsTutorial = isTutorial;
+            StartCoroutine(isTutorial ? StartTutorialCoroutine() : StartGameCoroutine());
         }
 
         public void StopGame(bool toMainMenu = true)
         {
-            Debug.Log($"Stopping game, to main menu: {toMainMenu}");
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
             
@@ -113,12 +126,10 @@ namespace Startup
 
             if (toMainMenu)
             {
-                Debug.Log("Switching to main menu scene");
                 SceneManager.LoadScene(MainMenuSceneName);
                 _windowsSystem.CreateWindow<MainMenu>();
             }
             
-            Debug.Log("Disposing gameplay initializers");
             DisposeList(_wasMultiplayer ? _multiplayerInitializers : _singlePlayerInitializers);
             
             GameContainer.InGame = null;
@@ -130,7 +141,7 @@ namespace Startup
             _loadingScreen.Active = true;
             
             StopGame(false);
-            StartGame();
+            StartGame(IsTutorial);
         }
 
         private IEnumerator InitializeGameCoroutine()
@@ -139,17 +150,23 @@ namespace Startup
             GameContainer.InjectToInstance(this);
         }
 
+        private IEnumerator StartTutorialCoroutine()
+        {
+            _loadingScreen.Active = true;
+            GameContainer.InGame = new Container();
+
+            yield return InitializeList(_tutorialInitializers);
+
+            _loadingScreen.Active = false;
+            InGame = true;
+        }
+
         private IEnumerator StartGameCoroutine()
         {
-            Debug.Log("Starting game coroutine");
             _loadingScreen.Active = true;
-            
             GameContainer.InGame = new Container();
-            
-            Debug.Log("Initializing gameplay");
             bool isMultiplayer = _gameClientData.IsConnected;
             
-            Debug.Log($"Initializing multiplayer: {isMultiplayer}");
             if (isMultiplayer) yield return InitializeList(_multiplayerInitializers);
             else yield return InitializeList(_singlePlayerInitializers);
 
@@ -161,7 +178,6 @@ namespace Startup
         {
             foreach (var initializer in initializers)
             {
-                Debug.Log($"Initializing initializer {initializer.GetType().Name}");
                 yield return initializer.Initialize();
             }
         }
@@ -170,7 +186,6 @@ namespace Startup
         {
             foreach (var initializer in initializers)
             {
-                Debug.Log($"Disposing initializer {initializer.GetType().Name}");
                 initializer.Dispose();
             }
         }

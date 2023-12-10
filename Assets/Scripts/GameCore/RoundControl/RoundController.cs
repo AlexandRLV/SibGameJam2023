@@ -15,9 +15,8 @@ namespace GameCore.Common
     public class RoundController : MonoBehaviour
     {
         public float Timer { get; private set; }
-
-        public RoundStage Stage { get; set; }
-        public RoundSettings settings => _settings;
+        public RoundStage Stage { get; private set; }
+        public RoundSettings Settings => _settings;
 
         [SerializeField] private RoundSettings _settings;
 

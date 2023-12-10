@@ -7,9 +7,14 @@ namespace GameCore
     [DefaultExecutionOrder(-10)]
     public class PlayerSpawns : MonoBehaviour
     {
-        [SerializeField] private Transform[] _spawnPoint;
+        public Transform FatSpawn => _fatMouseSpawn;
+        public Transform ThinSpawn => _thinMouseSpawn;
+        
+        [SerializeField] private Transform _fatMouseSpawn;
+        [SerializeField] private Transform _thinMouseSpawn;
+        // [SerializeField] private Transform[] _spawnPoint;
 
-        public Transform[] SpawnPoints => _spawnPoint;
+        // public Transform[] SpawnPoints => _spawnPoint;
         
         public void Awake()
         {

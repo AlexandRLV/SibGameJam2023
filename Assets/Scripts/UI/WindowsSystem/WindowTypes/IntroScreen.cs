@@ -70,7 +70,7 @@ namespace UI.WindowsSystem.WindowTypes
             }
             
             _windowsSystem.DestroyWindow(this);
-            _gameInitializer.StartGame();
+            _gameInitializer.StartGame(true);
         }
 
         private void ProcessSkipIntro(ref SkipIntroDataframe dataframe)
@@ -81,7 +81,7 @@ namespace UI.WindowsSystem.WindowTypes
             if (!_skipped) return;
             
             _windowsSystem.DestroyWindow(this);
-            _gameInitializer.StartGame();
+            _gameInitializer.StartGame(false);
         }
     }
 }

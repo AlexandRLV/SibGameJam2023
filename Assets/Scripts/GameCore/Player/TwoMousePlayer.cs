@@ -23,6 +23,7 @@ namespace GameCore.Player
         private CharacterMovement _fatMouseCharacter;
         private CharacterMovement _thinMouseCharacter;
 
+        private bool _canChangeMouse;
         private float _changeMouseTimer;
         
         // Not injecting round controller, because it doesn't exist yet
@@ -35,42 +36,44 @@ namespace GameCore.Player
 
             _roundController = GameContainer.InGame.Resolve<RoundController>();
         }
-        
+
         private void Update()
         {
-            if (_roundController == null)
-                return;
-
+            if (_roundController == null) return;
+            if (!_canChangeMouse) return;
+            
             _changeMouseTimer += Time.deltaTime;
-            if (_changeMouseTimer < MinChangeMouseTime)
-                return;
-            
-            if (!UnityEngine.Input.GetKeyDown(_roundController.settings.mouseChangeKey))
-                return;
-            
-            if (_roundController.Stage != RoundStage.Game)
-                return;
+            if (_changeMouseTimer < MinChangeMouseTime) return;
+            if (_roundController.Stage != RoundStage.Game) return;
+            if (!UnityEngine.Input.GetKeyDown(_roundController.Settings.mouseChangeKey)) return;
 
             _changeMouseTimer = 0f;
-            PosessAnother();
+            PosessCharacter(CurrentMovement == _fatMouseCharacter ? _thinMouseCharacter : _fatMouseCharacter);
                 
-            var message = new ChangeCharacterMessage();
-            message.isThinMouse = MouseType == PlayerMouseType.ThinMouse;
+            var message = new ChangeCharacterMessage
+            {
+                isThinMouse = MouseType == PlayerMouseType.ThinMouse
+            };
             _messageBroker.Trigger(ref message);
         }
 
-        public void Initialize(CharacterMovement fatMouse, CharacterMovement thinMouse)
+        public void Initialize(CharacterMovement fatMouse, CharacterMovement thinMouse, bool canChangeCharacter = true)
         {
             _fatMouseCharacter = fatMouse;
             _thinMouseCharacter = thinMouse;
+            _canChangeMouse = canChangeCharacter;
             
             _thinMouseCharacter.Unposess();
             PosessCharacter(_fatMouseCharacter);
+            
+            _messageBroker.Subscribe<CharacterSavedMessage>(OnCharacterSaved);
         }
 
-        public void PosessAnother() =>
-            PosessCharacter(CurrentMovement == _fatMouseCharacter ? _thinMouseCharacter : _fatMouseCharacter);
-        
+        private void OnDestroy()
+        {
+            _messageBroker.Unsubscribe<CharacterSavedMessage>(OnCharacterSaved);
+        }
+
         public void Unposess()
         {
             if (CurrentMovement != null)
@@ -92,6 +95,11 @@ namespace GameCore.Player
             CurrentMovement = movement;
             CurrentMovement.Posess();
             _gameCamera.SetTarget(CurrentMovement.transform);
+        }
+
+        private void OnCharacterSaved(ref CharacterSavedMessage value)
+        {
+            _canChangeMouse = true;
         }
     }
 }

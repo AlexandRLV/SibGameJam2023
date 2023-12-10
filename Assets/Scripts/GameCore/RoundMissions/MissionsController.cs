@@ -15,26 +15,20 @@ namespace GameCore.RoundMissions
     {
         public MissionsData Data => _data;
         public RoundData RoundData { get; private set; }
-        
-        [SerializeField] private MissionsData _data;
 
+        [Inject] private MissionsData _data;
         [Inject] private LocalMessageBroker _messageBroker;
         [Inject] private WindowsSystem _windowsSystem;
 
         private StringBuilder _stringBuilder;
         private List<MissionBase> _missions;
         
-        public void Initialize()
+        public void Initialize(List<MissionBase> missions)
         {
+            _missions = missions;
+            
             RoundData = new RoundData();
             _stringBuilder = new StringBuilder();
-            
-            _missions = new List<MissionBase>
-            {
-                GameContainer.Create<SaveAgentsMission>(),
-                GameContainer.Create<FindCactusMission>(),
-                GameContainer.Create<EvacuateMission>(),
-            };
             
             UpdateMissionsState();
         }

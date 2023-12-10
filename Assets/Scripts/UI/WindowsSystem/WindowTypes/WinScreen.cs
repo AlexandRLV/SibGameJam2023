@@ -32,7 +32,10 @@ namespace UI.WindowsSystem.WindowTypes
             _gameCamera.FollowTarget.SetInPause(true);
             _menuButton.onClick.AddListener(() =>
             {
-                _gameInitializer.StopGame();
+                if (_gameInitializer.IsTutorial)
+                    _gameInitializer.StartGame(false);
+                else
+                    _gameInitializer.StopGame();
             });
         }
     }

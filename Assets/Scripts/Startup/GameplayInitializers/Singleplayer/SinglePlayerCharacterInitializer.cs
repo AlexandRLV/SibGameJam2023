@@ -22,12 +22,12 @@ namespace Startup.GameplayInitializers
 
             var thinMousePrefab = Resources.Load<CharacterMovement>("Prefabs/Characters/ThinMouseCharacter");
             var thinMouseMovement = GameContainer.InstantiateAndResolve(thinMousePrefab);
-            thinMouseMovement.transform.SetPositionAndRotation(spawns.SpawnPoints[0].position, spawns.SpawnPoints[0].rotation);
+            thinMouseMovement.transform.SetPositionAndRotation(spawns.ThinSpawn.position, spawns.ThinSpawn.rotation);
             thinMouseMovement.Initialize(thinMouseVisuals);
 
             var fatMousePrefab = Resources.Load<CharacterMovement>("Prefabs/Characters/FatMouseCharacter");
             var fatMouseMovement = GameContainer.InstantiateAndResolve(fatMousePrefab);
-            fatMouseMovement.transform.SetPositionAndRotation(spawns.SpawnPoints[1].position, spawns.SpawnPoints[1].rotation);
+            fatMouseMovement.transform.SetPositionAndRotation(spawns.FatSpawn.position, spawns.FatSpawn.rotation);
             fatMouseMovement.Initialize(fatMouseVisuals);
 
             Physics.IgnoreCollision(thinMouseMovement.Collider, fatMouseMovement.Collider);

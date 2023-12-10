@@ -33,7 +33,7 @@ namespace Startup.GameplayInitializers.Multiplayer
             {
                 var fatMouseMovementPrefab = Resources.Load<CharacterMovement>("Prefabs/Characters/FatMouseCharacter");
                 var fatMouseMovement = GameContainer.InstantiateAndResolve(fatMouseMovementPrefab);
-                fatMouseMovement.transform.SetPositionAndRotation(spawns.SpawnPoints[1].position, spawns.SpawnPoints[1].rotation);
+                fatMouseMovement.transform.SetPositionAndRotation(spawns.FatSpawn.position, spawns.FatSpawn.rotation);
                 fatMouseMovement.Initialize(fatMouseVisuals);
                 localPlayer.Initialize(fatMouseMovement, PlayerMouseType.FatMouse);
                 
@@ -43,7 +43,7 @@ namespace Startup.GameplayInitializers.Multiplayer
             {
                 var littleMousePrefab = Resources.Load<CharacterMovement>("Prefabs/Characters/ThinMouseCharacter");
                 var thinMouseMovement = GameContainer.InstantiateAndResolve(littleMousePrefab);
-                thinMouseMovement.transform.SetPositionAndRotation(spawns.SpawnPoints[0].position, spawns.SpawnPoints[0].rotation);
+                thinMouseMovement.transform.SetPositionAndRotation(spawns.ThinSpawn.position, spawns.ThinSpawn.rotation);
                 thinMouseMovement.Initialize(thinMouseVisuals);
                 localPlayer.Initialize(thinMouseMovement, PlayerMouseType.ThinMouse);
                 
