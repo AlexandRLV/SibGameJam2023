@@ -29,5 +29,8 @@ namespace GameCore.Sounds
         // UI Sounds
         Click,
         Hover,
+        
+        // Empty
+        None
     }
 }

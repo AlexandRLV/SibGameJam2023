@@ -18,8 +18,7 @@ namespace GameCore.Common
         public RoundStage Stage { get; private set; }
         public RoundSettings Settings => _settings;
 
-        [SerializeField] private RoundSettings _settings;
-
+        [Inject] private RoundSettings _settings;
         [Inject] private LocalMessageBroker _messageBroker;
         [Inject] private IPlayer _player;
         [Inject] private SoundService _soundService;

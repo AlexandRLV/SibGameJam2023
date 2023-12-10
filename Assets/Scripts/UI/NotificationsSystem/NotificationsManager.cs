@@ -8,6 +8,7 @@ namespace UI.NotificationsSystem
         {
             Top,
             Center,
+            Side,
         }
 
         [SerializeField] private float _showTime;
@@ -17,8 +18,26 @@ namespace UI.NotificationsSystem
         [SerializeField] private RectTransform _topNotificationsParent;
         [SerializeField] private RectTransform _centerNotificationsParent;
 
+        [SerializeField] private Notification _sideNotification;
+
+        private void Start()
+        {
+            _sideNotification.gameObject.SetActive(false);
+        }
+
         public void ShowNotification(string text, NotificationType type, float time = -1)
         {
+            var notification = GetNotificationForType(type);
+            notification.gameObject.SetActive(true);
+
+            float showTime = time > 0f ? time : _showTime;
+            notification.Initialize(text, showTime);
+        }
+
+        private Notification GetNotificationForType(NotificationType type)
+        {
+            if (type == NotificationType.Side) return _sideNotification;
+            
             var parent = type switch
             {
                 NotificationType.Center => _centerNotificationsParent,
@@ -32,11 +51,8 @@ namespace UI.NotificationsSystem
             };
             
             var notification = pool.GetForTime(_showTime);
-            notification.gameObject.SetActive(true);
             notification.transform.SetParent(parent);
-
-            float showTime = time > 0f ? time : _showTime;
-            notification.Initialize(text, showTime);
+            return notification;
         }
     }
 }

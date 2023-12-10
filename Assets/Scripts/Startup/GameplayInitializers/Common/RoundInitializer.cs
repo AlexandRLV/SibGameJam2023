@@ -13,6 +13,9 @@ namespace Startup.GameplayInitializers
     {
         public IEnumerator Initialize()
         {
+            var roundSettings = Resources.Load<RoundSettings>("Round/Round Settings");
+            GameContainer.InGame.Register(roundSettings);
+
             var roundControllerPrefab = Resources.Load<RoundController>("Round/RoundController");
             var roundController = GameContainer.InstantiateAndResolve(roundControllerPrefab);
             GameContainer.InGame.Register(roundController);
