@@ -7,12 +7,26 @@
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
+    "com.cysharp.unitask": {
+      "version": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "fe8bf834e604234c77a13af3e38b07a55c9a18f8"
+    },
     "com.endel.nativewebsocket": {
       "version": "https://github.com/endel/NativeWebSocket.git#upm",
       "depth": 0,
       "source": "git",
       "dependencies": {},
       "hash": "c5101c07762251edc82caad9e8a39d51b1229c31"
+    },
+    "com.github-glitchenzo.nugetforunity": {
+      "version": "https://github.com/GlitchEnzo/NuGetForUnity.git?path=/src/NuGetForUnity",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "7388d28922b2144497f639630fd8b8b7a3c1ee6d"
     },
     "com.jeskvo.net-frame": {
       "version": "https://github.com/CaptainJekson/NetFrame.git?path=/Packages/com.jeskvo.net-frame",

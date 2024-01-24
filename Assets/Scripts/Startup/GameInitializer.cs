@@ -21,10 +21,10 @@ namespace Startup
         private const string MainMenuSceneName = "MainMenuScene";
         private static bool _initialized;
 
-        // These guys bring game to life
         private static List<IInitializer> _startupInitializers = new()
         {
             new ClientInitializer(),
+            new LocalizationInitializer(),
             new SoundServiceInitializer(),
             new UIInitializer(),
         };
@@ -38,7 +38,6 @@ namespace Startup
             new TutorialUiInitializer(),
         };
 
-        // These guys allow you to play singleplayer
         private static List<IInitializer> _singlePlayerInitializers = new()
         {
             new GameMapInitializer(),
@@ -49,7 +48,6 @@ namespace Startup
             new InGameUIInitializer(),
         };
 
-        // These guys allow you to play multiplayer
         private static List<IInitializer> _multiplayerInitializers = new()
         {
             new GameMapInitializer(),
