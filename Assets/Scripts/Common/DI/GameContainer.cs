@@ -11,7 +11,7 @@ namespace Common.DI
         public static Container Common { get; set; }
         public static Container InGame { get; set; }
 
-        public static void InjectToInstance<T>(T instance) where T : class
+        public static void InjectToInstance<T>(T instance)
         {
             var type = typeof(T);
             
@@ -26,13 +26,16 @@ namespace Common.DI
             var constructors = type.GetConstructors()
                 .Where(x => x.IsDefined(typeof(ConstructAttribute)));
 
-            object instance = null;
+            object instance;
+            T typedInstance;
+            
             var constructor = constructors.FirstOrDefault();
             if (constructor == null)
             {
                 instance = Activator.CreateInstance<T>();
-                InjectToInstance(instance);
-                return (T)instance;
+                typedInstance = (T)instance;
+                InjectToInstance(typedInstance);
+                return typedInstance;
             }
 
             var parameters = constructor.GetParameters();
@@ -49,8 +52,9 @@ namespace Common.DI
             }
 
             instance = constructor.Invoke(parametersValues);
-            InjectToInstance(instance);
-            return (T)instance;
+            typedInstance = (T)instance;
+            InjectToInstance(typedInstance);
+            return typedInstance;
         }
         
         // Method for instantiating prefab and passing all [Inject] fields and methods in it
