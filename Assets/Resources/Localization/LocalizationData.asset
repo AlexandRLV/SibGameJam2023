@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: LocalizationData
   m_EditorClassIdentifier: 
   data:
-  - language: 0
+  - language: 30
     values:
     - key: $MAIN_MENU_NEW_GAME
       value: "\u041D\u043E\u0432\u0430\u044F \u0438\u0433\u0440\u0430"
@@ -27,7 +27,7 @@ MonoBehaviour:
       value: "\u041C\u0443\u043B\u044C\u0442\u0438\u043F\u043B\u0435\u0435\u0440"
     - key: $MAIN_MENU_LOGO_TEXT
       value: "\u041E\u041F\u0415\u0420\u0410\u0426\u0418\u042F: \u041A\u0410\u041A\u0422\u0423\u0421"
-  - language: 1
+  - language: 10
     values:
     - key: $MAIN_MENU_NEW_GAME
       value: New game

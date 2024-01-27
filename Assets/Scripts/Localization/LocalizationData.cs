@@ -7,7 +7,7 @@ namespace Localization
     [Serializable]
     public class LocalizationDataContainer
     {
-        [SerializeField] public LocalizationLanguage language;
+        [SerializeField] public SystemLanguage language;
         [SerializeField] public List<LanguageContainer> values;
     }
 

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: LocalizationConfig
   m_EditorClassIdentifier: 
   languages:
-  - language: 0
+  - language: 30
     columnId: 1
-  - language: 1
+  - language: 10
     columnId: 2

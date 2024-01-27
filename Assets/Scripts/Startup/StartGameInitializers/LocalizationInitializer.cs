@@ -10,12 +10,15 @@ namespace Startup.StartGameInitializers
         public IEnumerator Initialize()
         {
             var data = Resources.Load<LocalizationData>("Localization/LocalizationData");
-            var config = Resources.Load<LocalizationConfig>("Localization/LocalizationConfig");
 
             var provider = GameContainer.Create<LocalizationProvider>();
             provider.ReadData(data);
-            provider.SetLanguage(config.defaultLanguage);
-            
+
+            provider.SetLanguage(
+                provider.HasLanguage(Application.systemLanguage)
+                    ? Application.systemLanguage
+                    : SystemLanguage.Russian);
+
             GameContainer.Common.Register(provider);
             
             yield return null;
