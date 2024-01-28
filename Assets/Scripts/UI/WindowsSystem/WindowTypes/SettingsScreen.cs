@@ -1,5 +1,6 @@
 ﻿using Common.DI;
 using GameCore.Camera;
+using Localization;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,8 +14,11 @@ namespace UI.WindowsSystem.WindowTypes
         [SerializeField] private Toggle _invertXToggle;
         [SerializeField] private Toggle _invertYToggle;
         [SerializeField] private Button _saveButton;
+        [SerializeField] private Button _russianLanguageButton;
+        [SerializeField] private Button _englishLanguageButton;
 
         [Inject] private WindowsSystem _windowsSystem;
+        [Inject] private LocalizationProvider _localizationProvider;
 
         private void Start()
         {
@@ -27,6 +31,9 @@ namespace UI.WindowsSystem.WindowTypes
 
             _volumeSlider.value = AudioListener.volume;
             _volumeSlider.onValueChanged.AddListener(value => AudioListener.volume = value);
+            
+            _russianLanguageButton.onClick.AddListener(() => _localizationProvider.SetLanguage(SystemLanguage.Russian));
+            _englishLanguageButton.onClick.AddListener(() => _localizationProvider.SetLanguage(SystemLanguage.English));
             
             _saveButton.onClick.AddListener(Save);
         }

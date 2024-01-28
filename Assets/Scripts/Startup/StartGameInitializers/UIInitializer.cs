@@ -18,7 +18,7 @@ namespace Startup.Initializers
             Object.DontDestroyOnLoad(uiRoot);
             GameContainer.Common.Register(uiRoot);
             
-            var gameWindows = Resources.Load<GameWindows>("WindowsSystem/Game Windows");
+            var gameWindows = Resources.Load<GameWindows>("Game Windows");
             GameContainer.Common.Register(gameWindows);
             
             var windowsSystem = GameContainer.Create<WindowsSystem>();
