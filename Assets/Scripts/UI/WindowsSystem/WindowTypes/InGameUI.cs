@@ -68,10 +68,8 @@ namespace UI.WindowsSystem.WindowTypes
             _initialized = true;
 
             _messageBroker.Subscribe<ChangeCharacterMessage>(OnCharacterChanged);
-            _messageBroker.Subscribe<SetInteractButtonStateMessage>(SetInteractState);
 
             _interactIndicator.SetActive(false);
-            
             _infoPanelTimer = _infoPanelShowTime;
 
             if (!_gameClientData.IsConnected)
@@ -81,7 +79,6 @@ namespace UI.WindowsSystem.WindowTypes
             }
 
             SetLayout(!_gameClientData.IsMaster);
-            
             foreach (var disableObject in _objectsToDisableInMultiplayer)
             {
                 disableObject.SetActive(false);
@@ -91,7 +88,6 @@ namespace UI.WindowsSystem.WindowTypes
         private void OnDestroy()
         {
             _messageBroker.Unsubscribe<ChangeCharacterMessage>(OnCharacterChanged);
-            _messageBroker.Unsubscribe<SetInteractButtonStateMessage>(SetInteractState);
         }
 
         private void Update()
@@ -174,11 +170,6 @@ namespace UI.WindowsSystem.WindowTypes
 
             var player = GameContainer.InGame.Resolve<IPlayer>();
             _interactIndicator.SetActive(player.CurrentMovement.MoveValues.CurrentInteractiveObject != null);
-        }
-
-        private void SetInteractState(ref SetInteractButtonStateMessage message)
-        {
-            _interactIndicator.SetActive(message.state);
         }
 
         private void SetLayout(bool isThinMouse)

@@ -11,6 +11,8 @@ namespace GameCore.LevelObjects.Abstract
         public abstract AnimationType InteractAnimation { get; }
         public abstract InteractiveObjectType Type { get; }
         public abstract Vector3 CheckPosition { get; }
+
+        [SerializeField] private GameObject _interactIndicator;
         
         [Inject] private LevelObjectService _levelObjectService;
         [Inject] private WindowsSystem _windowsSystem;
@@ -19,6 +21,7 @@ namespace GameCore.LevelObjects.Abstract
         {
             GameContainer.InjectToInstance(this);
             _levelObjectService.RegisterInteractiveObject(this);
+            _interactIndicator.SetActive(false);
             OnInitialize();
         }
 
@@ -26,6 +29,22 @@ namespace GameCore.LevelObjects.Abstract
         {
             _levelObjectService?.UnregisterInteractiveObject(this);
             OnPlayerExit();
+        }
+        
+        public void Interact()
+        {
+            if (IsUsed)
+                return;
+
+            IsUsed = true;
+            OnInteractInternal();
+            SetInteractIndicatorState(false);
+        }
+
+        public void SetInteractIndicatorState(bool state)
+        {
+            if (IsUsed) state = false;
+            _interactIndicator.SetActive(state);
         }
         
         protected override void OnPlayerEnter()
@@ -41,7 +60,7 @@ namespace GameCore.LevelObjects.Abstract
 
         protected virtual void OnInitialize() { }
         
-        public abstract void Interact();
+        protected abstract void OnInteractInternal();
         public abstract void InteractWithoutPlayer(Vector3 playerPosition);
     }
 }

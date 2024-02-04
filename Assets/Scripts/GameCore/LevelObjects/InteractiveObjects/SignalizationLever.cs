@@ -24,11 +24,8 @@ namespace GameCore.LevelObjects.InteractiveObjects
             GameContainer.InjectToInstance(this);
         }
 
-        public override void Interact()
+        protected override void OnInteractInternal()
         {
-            if (IsUsed) return;
-            
-            IsUsed = true;
             DisableLasers();
             OnPlayerExit();
         }

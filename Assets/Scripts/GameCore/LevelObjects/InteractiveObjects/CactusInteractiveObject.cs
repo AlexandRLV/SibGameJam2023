@@ -23,18 +23,8 @@ namespace GameCore.LevelObjects.InteractiveObjects
             GameContainer.InjectToInstance(this);
         }
 
-        public override void Interact()
+        protected override void OnInteractInternal()
         {
-            Debug.Log("Interact with cactus");
-            if (IsUsed)
-            {
-                Debug.Log("Already interacted");
-                return;
-            }
-
-            IsUsed = true;
-            Debug.Log("Set interacted to true, start animation");
-            
             var message = new CactusFoundMessage();
             _messageBroker.Trigger(ref message);
 
@@ -45,7 +35,6 @@ namespace GameCore.LevelObjects.InteractiveObjects
 
         public override void InteractWithoutPlayer(Vector3 playerPosition)
         {
-            Debug.Log("Trigger cactus found message");
             IsUsed = true;
             
             var message = new CactusFoundMessage();

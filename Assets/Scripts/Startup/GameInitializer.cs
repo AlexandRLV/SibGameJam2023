@@ -146,6 +146,8 @@ namespace Startup
         {
             yield return InitializeList(_startupInitializers);
             GameContainer.InjectToInstance(this);
+            var loadingScreen = GameContainer.Common.Resolve<LoadingScreen>();
+            loadingScreen.Active = false;
         }
 
         private IEnumerator StartTutorialCoroutine()

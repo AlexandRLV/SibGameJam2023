@@ -16,7 +16,7 @@ namespace GameCore.LevelObjects.InteractiveObjects
         [SerializeField] private float speedMultiplier;
         [SerializeField] private float speedMultiplierDuration;
 
-        public override void Interact()
+        protected override void OnInteractInternal()
         {
             soundService.PlaySound(SoundType.Eating);
             Movement.ChangeMovementSpeed(speedMultiplier, speedMultiplierDuration);

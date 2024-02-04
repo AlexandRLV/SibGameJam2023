@@ -196,19 +196,23 @@ namespace GameCore.Character.Movement
         
         public void Posess()
         {
-            Debug.Log("Character posess");
             IsControlledByPlayer = true;
             _rigidbody.drag = 0f;
     
             _gameCamera = GameContainer.InGame.Resolve<GameCamera>();
             _gameCamera.FollowTarget.Height = _parameters.cameraHeight;
+            
+            if (MoveValues.CurrentInteractiveObject != null)
+                MoveValues.CurrentInteractiveObject.SetInteractIndicatorState(true);
         }
 
         public void Unposess()
         {
-            Debug.Log("Character unposess");
             IsControlledByPlayer = false;
             _rigidbody.velocity = Vector3.zero;
+            
+            if (MoveValues.CurrentInteractiveObject != null)
+                MoveValues.CurrentInteractiveObject.SetInteractIndicatorState(false);
         }
 
         public void Move(Vector2 input)
@@ -268,12 +272,13 @@ namespace GameCore.Character.Movement
 
         public void SetCurrentInteractiveObject(InteractiveObject value)
         {
+            if (MoveValues.CurrentInteractiveObject != null)
+                MoveValues.CurrentInteractiveObject.SetInteractIndicatorState(false);
+            
             MoveValues.CurrentInteractiveObject = value;
-            var message = new SetInteractButtonStateMessage
-            {
-                state = value != null
-            };
-            _messageBroker.Trigger(ref message);
+            
+            if (value != null)
+                value.SetInteractIndicatorState(true);
         }
 #endregion
     }

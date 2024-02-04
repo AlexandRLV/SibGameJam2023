@@ -26,7 +26,7 @@ namespace Startup.Initializers
             
             var loadingScreenPrefab = Resources.Load<LoadingScreen>("UI/LoadingScreen");
             var loadingScreen = Object.Instantiate(loadingScreenPrefab, uiRoot.OverlayParent);
-            loadingScreen.Active = false;
+            loadingScreen.Active = true;
             GameContainer.Common.Register(loadingScreen);
 
             var notificationsManagerPrefab = Resources.Load<NotificationsManager>("UI/NotificationsScreen");
