@@ -1,13 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Common;
 using Common.DI;
 using GameCore.Common;
 using GameCore.RoundMissions;
 using GameCore.RoundMissions.Missions;
 using UnityEngine;
 
-namespace Startup.GameplayInitializers
+namespace Startup.GameplayInitializers.Common
 {
     public class RoundInitializer : IInitializer
     {

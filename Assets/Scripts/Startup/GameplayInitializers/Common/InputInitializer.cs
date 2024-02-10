@@ -4,7 +4,7 @@ using GameCore.Camera;
 using GameCore.Input;
 using UnityEngine;
 
-namespace Startup.GameplayInitializers
+namespace Startup.GameplayInitializers.Common
 {
     public class InputInitializer : IInitializer
     {

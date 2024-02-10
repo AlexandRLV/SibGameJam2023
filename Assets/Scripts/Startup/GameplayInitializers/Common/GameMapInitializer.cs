@@ -3,7 +3,7 @@ using Common.DI;
 using GameCore.LevelObjects;
 using UnityEngine.SceneManagement;
 
-namespace Startup.GameplayInitializers
+namespace Startup.GameplayInitializers.Common
 {
     public class GameMapInitializer : IInitializer
     {

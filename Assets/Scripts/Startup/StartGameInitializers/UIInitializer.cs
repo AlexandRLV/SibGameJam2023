@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using Common;
 using Common.DI;
 using UI;
 using UI.NotificationsSystem;
@@ -7,7 +6,7 @@ using UI.WindowsSystem;
 using UI.WindowsSystem.WindowTypes;
 using UnityEngine;
 
-namespace Startup.Initializers
+namespace Startup.StartGameInitializers
 {
     public class UIInitializer : IInitializer
     {
