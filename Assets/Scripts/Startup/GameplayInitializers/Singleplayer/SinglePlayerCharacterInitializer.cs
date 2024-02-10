@@ -6,7 +6,7 @@ using GameCore.Character.Movement;
 using GameCore.Player;
 using UnityEngine;
 
-namespace Startup.GameplayInitializers
+namespace Startup.GameplayInitializers.Singleplayer
 {
     public class SinglePlayerCharacterInitializer : IInitializer
     {

@@ -3,7 +3,7 @@ using Common.DI;
 using GameCore.NetworkObjects;
 using UnityEngine;
 
-namespace Startup.GameplayInitializers.Multiplayer
+namespace Startup.GameplayInitializers.Common
 {
     public class NetworkObjectsInitializer : IInitializer
     {

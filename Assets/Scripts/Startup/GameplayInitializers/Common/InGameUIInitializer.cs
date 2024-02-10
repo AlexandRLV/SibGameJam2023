@@ -3,7 +3,7 @@ using Common.DI;
 using UI.WindowsSystem;
 using UI.WindowsSystem.WindowTypes;
 
-namespace Startup.GameplayInitializers
+namespace Startup.GameplayInitializers.Common
 {
     public class InGameUIInitializer : IInitializer
     {

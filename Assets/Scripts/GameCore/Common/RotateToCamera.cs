@@ -21,7 +21,7 @@ namespace GameCore.Common
                 _hasCamera = true;
             }
             
-            var direction = _cameraTransform.position - transform.position;
+            var direction = transform.position - _cameraTransform.position;
             transform.rotation = Quaternion.LookRotation(direction, Vector3.up);
         }
     }
