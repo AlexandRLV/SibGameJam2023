@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Reflection;
+﻿using System.Reflection;
 using Common.DI;
 using Networking;
 using LocalMessages;
@@ -8,12 +7,12 @@ using UnityEngine;
 
 namespace Startup.StartGameInitializers
 {
-    public class ClientInitializer : IInitializer
+    public class ClientInitializer : InitializerBase
     {
         private IGameClient _gameClient;
         private RoomController _roomController;
         
-        public IEnumerator Initialize()
+        public override void Initialize()
         {
             NetFrameDataframeCollection.Initialize(Assembly.GetExecutingAssembly());
     
@@ -44,11 +43,9 @@ namespace Startup.StartGameInitializers
             
             _roomController = GameContainer.Create<RoomController>();
             GameContainer.Common.Register(_roomController);
-
-            yield return null;
         }
 
-        public void Dispose()
+        public override void Dispose()
         {
             _gameClient?.Disconnect();
             _roomController?.Dispose();

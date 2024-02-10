@@ -23,5 +23,18 @@ namespace Common.DI
         // Methods for automatic injection
         public object Resolve(Type type) => _registrations.GetValueOrDefault(type);
         public bool HasRegistration(Type type) => _registrations.ContainsKey(type);
+        
+        public void Dispose()
+        {
+            foreach (var registration in _registrations)
+            {
+                if (registration.Value is IDisposable disposable)
+                {
+                    disposable.Dispose();
+                }
+            }
+            
+            _registrations.Clear();
+        }
     }
 }

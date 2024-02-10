@@ -1,99 +1,74 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Common.DI;
 using Networking;
-using Startup.GameplayInitializers;
-using Startup.GameplayInitializers.Common;
-using Startup.GameplayInitializers.Multiplayer;
-using Startup.GameplayInitializers.Singleplayer;
-using Startup.GameplayInitializers.Tutorial;
-using Startup.StartGameInitializers;
+using Startup.GameStateMachine;
 using UI;
 using UI.WindowsSystem;
 using UI.WindowsSystem.WindowTypes;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace Startup
 {
     [DefaultExecutionOrder(-1000)]
     public class GameInitializer : MonoBehaviour
     {
-        private const string MainMenuSceneName = "MainMenuScene";
-        private static bool _initialized;
-
-        private static List<IInitializer> _startupInitializers = new()
-        {
-            new ClientInitializer(),
-            new LocalizationInitializer(),
-            new SoundServiceInitializer(),
-            new UIInitializer(),
-        };
-
-        private static List<IInitializer> _tutorialInitializers = new()
-        {
-            new TutorialMapInitializer(),
-            new InputInitializer(),
-            new TutorialCharacterInitializer(),
-            new TutorialRoundInitializer(),
-            new TutorialUiInitializer(),
-        };
-
-        private static List<IInitializer> _singlePlayerInitializers = new()
-        {
-            new GameMapInitializer(),
-            // new NetworkObjectsInitializer(), // Todo: fix it and use it
-            new InputInitializer(),
-            new SinglePlayerCharacterInitializer(),
-            new RoundInitializer(),
-            new InGameUIInitializer(),
-        };
-
-        private static List<IInitializer> _multiplayerInitializers = new()
-        {
-            new GameMapInitializer(),
-            // new NetworkObjectsInitializer(),
-            new InputInitializer(),
-            new MultiplayerCharacterInitializer(),
-            new RoundInitializer(),
-            new InGameUIInitializer(),
-        };
-
         public bool InGame { get; private set; }
         public bool IsTutorial { get; private set; }
+        
+        [SerializeField] private List<InitializerBase> _startupInitializers = new();
 
+        // private static List<InitializerBase> _tutorialInitializers = new()
+        // {
+        //     new TutorialMapInitializer(),
+        //     new InputInitializer(),
+        //     new TutorialCharacterInitializer(),
+        //     new TutorialRoundInitializer(),
+        //     new TutorialUiInitializer(),
+        // };
+        //
+        // private static List<InitializerBase> _singlePlayerInitializers = new()
+        // {
+        //     // new NetworkObjectsInitializer(), // Todo: fix it and use it
+        //     new InputInitializer(),
+        //     new SinglePlayerCharacterInitializer(),
+        //     new RoundInitializer(),
+        //     new InGameUIInitializer(),
+        // };
+        //
+        // private static List<InitializerBase> _multiplayerInitializers = new()
+        // {
+        //     // new NetworkObjectsInitializer(),
+        //     new InputInitializer(),
+        //     new MultiplayerCharacterInitializer(),
+        //     new RoundInitializer(),
+        //     new InGameUIInitializer(),
+        // };
+        
         [Inject] private GameClientData _gameClientData;
-        [Inject] private LoadingScreen _loadingScreen;
         [Inject] private WindowsSystem _windowsSystem;
 
         private bool _isActive;
         private bool _wasMultiplayer;
 
+        private GameStateMachine.GameStateMachine _gameStateMachine;
+
         private void Awake()
         {
-            if (_initialized)
-            {
-                Destroy(gameObject);
-                return;
-            }
-
             _isActive = true;
-            var currentScene = SceneManager.GetActiveScene();
-            if (currentScene.name != MainMenuSceneName)
-            {
-                Debug.LogError($"Пожалуйста, зайдите в игру со сцены {MainMenuSceneName}");
-                Application.Quit();
-                return;
-            }
-
             DontDestroyOnLoad(gameObject);
 
             GameContainer.Common = new Container();
             GameContainer.Common.Register(this);
 
-            StartCoroutine(InitializeGameCoroutine());
+            foreach (var initializer in _startupInitializers)
+            {
+                initializer.Initialize();
+            }
             
-            _initialized = true;
+            GameContainer.InjectToInstance(this);
+
+            _gameStateMachine = new GameStateMachine.GameStateMachine();
+            _gameStateMachine.SwitchToState(GameStateType.Menu, true);
         }
 
         private void OnDestroy()
@@ -113,7 +88,8 @@ namespace Startup
                 isTutorial = false;
             
             IsTutorial = isTutorial;
-            StartCoroutine(isTutorial ? StartTutorialCoroutine() : StartGameCoroutine());
+            if (isTutorial) StartTutorial();
+            else StartPlayGame();
         }
 
         public void StopGame(bool toMainMenu = true)
@@ -125,11 +101,11 @@ namespace Startup
 
             if (toMainMenu)
             {
-                SceneManager.LoadScene(MainMenuSceneName);
+                // SceneManager.LoadScene(MainMenuSceneName);
                 _windowsSystem.CreateWindow<MainMenu>();
             }
             
-            DisposeList(_wasMultiplayer ? _multiplayerInitializers : _singlePlayerInitializers);
+            // DisposeList(_wasMultiplayer ? _multiplayerInitializers : _singlePlayerInitializers);
             
             GameContainer.InGame = null;
             InGame = false;
@@ -137,53 +113,31 @@ namespace Startup
 
         public void RestartGame()
         {
-            _loadingScreen.Active = true;
-            
             StopGame(false);
             StartGame(IsTutorial);
         }
 
-        private IEnumerator InitializeGameCoroutine()
+        private void StartTutorial()
         {
-            yield return InitializeList(_startupInitializers);
-            GameContainer.InjectToInstance(this);
-            var loadingScreen = GameContainer.Common.Resolve<LoadingScreen>();
-            loadingScreen.Active = false;
-        }
-
-        private IEnumerator StartTutorialCoroutine()
-        {
-            _loadingScreen.Active = true;
             GameContainer.InGame = new Container();
+            
+            // InitializeList(_tutorialInitializers);
 
-            yield return InitializeList(_tutorialInitializers);
-
-            _loadingScreen.Active = false;
             InGame = true;
         }
 
-        private IEnumerator StartGameCoroutine()
+        private void StartPlayGame()
         {
-            _loadingScreen.Active = true;
             GameContainer.InGame = new Container();
             bool isMultiplayer = _gameClientData.IsConnected;
             
-            if (isMultiplayer) yield return InitializeList(_multiplayerInitializers);
-            else yield return InitializeList(_singlePlayerInitializers);
+            // if (isMultiplayer) yield return InitializeList(_multiplayerInitializers);
+            // else yield return InitializeList(_singlePlayerInitializers);
 
-            _loadingScreen.Active = false;
             InGame = true;
         }
 
-        private IEnumerator InitializeList(List<IInitializer> initializers)
-        {
-            foreach (var initializer in initializers)
-            {
-                yield return initializer.Initialize();
-            }
-        }
-
-        private void DisposeList(List<IInitializer> initializers)
+        private void DisposeList(List<InitializerBase> initializers)
         {
             foreach (var initializer in initializers)
             {

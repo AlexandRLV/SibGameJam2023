@@ -8,9 +8,9 @@ using UnityEngine;
 
 namespace Startup.GameplayInitializers.Common
 {
-    public class RoundInitializer : IInitializer
+    public class RoundInitializer : InitializerBase
     {
-        public IEnumerator Initialize()
+        public override void Initialize()
         {
             var roundSettings = Resources.Load<RoundSettings>("Round/Round Settings");
             GameContainer.InGame.Register(roundSettings);
@@ -33,11 +33,9 @@ namespace Startup.GameplayInitializers.Common
                 GameContainer.Create<EvacuateMission>(),
             };
             missionsController.Initialize(missions);
-            
-            yield return null;
         }
 
-        public void Dispose()
+        public override void Dispose()
         {
         }
     }

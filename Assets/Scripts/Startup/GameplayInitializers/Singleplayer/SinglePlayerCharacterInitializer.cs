@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using Common.DI;
+﻿using Common.DI;
 using GameCore;
 using GameCore.Character.Animation;
 using GameCore.Character.Movement;
@@ -8,9 +7,9 @@ using UnityEngine;
 
 namespace Startup.GameplayInitializers.Singleplayer
 {
-    public class SinglePlayerCharacterInitializer : IInitializer
+    public class SinglePlayerCharacterInitializer : InitializerBase
     {
-        public IEnumerator Initialize()
+        public override void Initialize()
         {
             var spawns = GameContainer.InGame.Resolve<PlayerSpawns>();
             
@@ -37,11 +36,9 @@ namespace Startup.GameplayInitializers.Singleplayer
             player.Initialize(fatMouseMovement, thinMouseMovement);
 
             GameContainer.InGame.Register<IPlayer>(player);
-
-            yield return null;
         }
 
-        public void Dispose()
+        public override void Dispose()
         {
         }
     }

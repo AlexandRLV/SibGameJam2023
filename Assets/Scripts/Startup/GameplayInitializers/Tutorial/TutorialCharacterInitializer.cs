@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using Common.DI;
+﻿using Common.DI;
 using GameCore;
 using GameCore.Character.Animation;
 using GameCore.Character.Movement;
@@ -8,10 +7,11 @@ using UnityEngine;
 
 namespace Startup.GameplayInitializers.Tutorial
 {
-    public class TutorialCharacterInitializer : IInitializer
+    public class TutorialCharacterInitializer : InitializerBase
     {
-        public IEnumerator Initialize()
-        {var spawns = GameContainer.InGame.Resolve<PlayerSpawns>();
+        public override void Initialize()
+        {
+            var spawns = GameContainer.InGame.Resolve<PlayerSpawns>();
             
             var thinMouseVisualsPrefab = Resources.Load<CharacterVisuals>("Prefabs/CharacterVisuals/ThinMouseVisuals");
             var thinMouseVisuals = Object.Instantiate(thinMouseVisualsPrefab);
@@ -36,10 +36,9 @@ namespace Startup.GameplayInitializers.Tutorial
             player.Initialize(fatMouseMovement, thinMouseMovement, false);
 
             GameContainer.InGame.Register<IPlayer>(player);
-            yield return null;
         }
 
-        public void Dispose()
+        public override void Dispose()
         {
         }
     }

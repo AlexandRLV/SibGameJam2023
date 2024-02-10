@@ -1,14 +1,13 @@
-﻿using System.Collections;
-using Common.DI;
+﻿using Common.DI;
 using GameCore.Camera;
 using GameCore.Input;
 using UnityEngine;
 
 namespace Startup.GameplayInitializers.Common
 {
-    public class InputInitializer : IInitializer
+    public class InputInitializer : InitializerBase
     {
-        public IEnumerator Initialize()
+        public override void Initialize()
         {
             var inputState = new InputState();
             GameContainer.InGame.Register(inputState);
@@ -19,11 +18,9 @@ namespace Startup.GameplayInitializers.Common
             var gameCameraPrefab = Resources.Load<GameCamera>("Prefabs/GameCamera");
             var gameCamera = Object.Instantiate(gameCameraPrefab);
             GameContainer.InGame.Register(gameCamera);
-            
-            yield return null;
         }
 
-        public void Dispose()
+        public override void Dispose()
         {
         }
     }

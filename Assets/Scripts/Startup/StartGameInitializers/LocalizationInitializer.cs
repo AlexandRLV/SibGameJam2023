@@ -1,13 +1,12 @@
-﻿using System.Collections;
-using Common.DI;
+﻿using Common.DI;
 using Localization;
 using UnityEngine;
 
 namespace Startup.StartGameInitializers
 {
-    public class LocalizationInitializer : IInitializer
+    public class LocalizationInitializer : InitializerBase
     {
-        public IEnumerator Initialize()
+        public override void Initialize()
         {
             var data = Resources.Load<LocalizationData>("Localization/LocalizationData");
 
@@ -20,11 +19,9 @@ namespace Startup.StartGameInitializers
                     : SystemLanguage.Russian);
 
             GameContainer.Common.Register(provider);
-            
-            yield return null;
         }
 
-        public void Dispose()
+        public override void Dispose()
         {
         }
     }

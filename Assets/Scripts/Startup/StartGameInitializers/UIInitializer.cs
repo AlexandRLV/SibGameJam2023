@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using Common.DI;
+﻿using Common.DI;
 using UI;
 using UI.NotificationsSystem;
 using UI.WindowsSystem;
@@ -8,13 +7,13 @@ using UnityEngine;
 
 namespace Startup.StartGameInitializers
 {
-    public class UIInitializer : IInitializer
+    public class UIInitializer : InitializerBase
     {
-        public IEnumerator Initialize()
+        public override void Initialize()
         {
             var uiRootPrefab = Resources.Load<UIRoot>("UI/UIRoot");
-            var uiRoot = Object.Instantiate(uiRootPrefab);
-            Object.DontDestroyOnLoad(uiRoot);
+            var uiRoot = Instantiate(uiRootPrefab);
+            DontDestroyOnLoad(uiRoot);
             GameContainer.Common.Register(uiRoot);
             
             var gameWindows = Resources.Load<GameWindows>("Game Windows");
@@ -24,20 +23,16 @@ namespace Startup.StartGameInitializers
             GameContainer.Common.Register(windowsSystem);
             
             var loadingScreenPrefab = Resources.Load<LoadingScreen>("UI/LoadingScreen");
-            var loadingScreen = Object.Instantiate(loadingScreenPrefab, uiRoot.OverlayParent);
+            var loadingScreen = Instantiate(loadingScreenPrefab, uiRoot.OverlayParent);
             loadingScreen.Active = true;
             GameContainer.Common.Register(loadingScreen);
 
             var notificationsManagerPrefab = Resources.Load<NotificationsManager>("UI/NotificationsScreen");
-            var notificationsManager = Object.Instantiate(notificationsManagerPrefab, uiRoot.NotificationsParent);
+            var notificationsManager = Instantiate(notificationsManagerPrefab, uiRoot.NotificationsParent);
             GameContainer.Common.Register(notificationsManager);
-            
-            windowsSystem.CreateWindow<MainMenu>();
-
-            yield return null;
         }
 
-        public void Dispose()
+        public override void Dispose()
         {
             var windowsSystem = GameContainer.Common.Resolve<WindowsSystem>();
             windowsSystem.DestroyAll();

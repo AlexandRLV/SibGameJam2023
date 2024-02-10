@@ -1,20 +1,18 @@
-﻿using System.Collections;
-using Common.DI;
+﻿using Common.DI;
 using UI.WindowsSystem;
 using UI.WindowsSystem.WindowTypes;
 
 namespace Startup.GameplayInitializers.Common
 {
-    public class InGameUIInitializer : IInitializer
+    public class InGameUIInitializer : InitializerBase
     {
-        public IEnumerator Initialize()
+        public override void Initialize()
         {
             var windowsSystem = GameContainer.Common.Resolve<WindowsSystem>();
             windowsSystem.CreateNamedWindow<InGameUI>("InGameUI");
-            yield break;
         }
 
-        public void Dispose()
+        public override void Dispose()
         {
             var windowsSystem = GameContainer.Common.Resolve<WindowsSystem>();
             windowsSystem.DestroyWindow<InGameUI>();

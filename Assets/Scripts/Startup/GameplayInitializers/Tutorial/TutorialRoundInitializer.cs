@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Common.DI;
 using GameCore.Common;
 using GameCore.RoundMissions;
@@ -8,9 +7,9 @@ using UnityEngine;
 
 namespace Startup.GameplayInitializers.Tutorial
 {
-    public class TutorialRoundInitializer : IInitializer
+    public class TutorialRoundInitializer : InitializerBase
     {
-        public IEnumerator Initialize()
+        public override void Initialize()
         {
             var roundSettings = Resources.Load<RoundSettings>("Round/Round Settings Tutorial");
             GameContainer.InGame.Register(roundSettings);
@@ -32,11 +31,9 @@ namespace Startup.GameplayInitializers.Tutorial
                 GameContainer.Create<EvacuateMission>(),
             };
             missionsController.Initialize(missions);
-
-            yield return null;
         }
 
-        public void Dispose()
+        public override void Dispose()
         {
         }
     }

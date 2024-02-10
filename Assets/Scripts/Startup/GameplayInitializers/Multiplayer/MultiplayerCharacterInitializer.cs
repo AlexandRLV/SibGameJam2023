@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using Common.DI;
+﻿using Common.DI;
 using GameCore;
 using GameCore.Character.Animation;
 using GameCore.Character.Movement;
@@ -10,9 +9,9 @@ using UnityEngine;
 
 namespace Startup.GameplayInitializers.Multiplayer
 {
-    public class MultiplayerCharacterInitializer : IInitializer
+    public class MultiplayerCharacterInitializer : InitializerBase
     {
-        public IEnumerator Initialize()
+        public override void Initialize()
         {
             var spawns = GameContainer.InGame.Resolve<PlayerSpawns>();
 
@@ -52,10 +51,9 @@ namespace Startup.GameplayInitializers.Multiplayer
             
             GameContainer.InGame.Register<IPlayer>(localPlayer);
             GameContainer.InGame.Register(remotePlayer);
-            yield return null;
         }
 
-        public void Dispose()
+        public override void Dispose()
         {
         }
     }

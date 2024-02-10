@@ -1,24 +1,20 @@
-using System.Collections;
-using Common;
 using Common.DI;
 using GameCore.Sounds;
 using UnityEngine;
 
 namespace Startup.StartGameInitializers
 {
-    public class SoundServiceInitializer : IInitializer
+    public class SoundServiceInitializer : InitializerBase
     {
-        public IEnumerator Initialize()
+        public override void Initialize()
         {
             var soundServicePrefab = Resources.Load<SoundService>("Audio/SoundService");
-            var soundService = Object.Instantiate(soundServicePrefab);
-            Object.DontDestroyOnLoad(soundService);
+            var soundService = Instantiate(soundServicePrefab);
+            DontDestroyOnLoad(soundService);
             GameContainer.Common.Register(soundService);
-            
-            yield return null;
         }
 
-        public void Dispose()
+        public override void Dispose()
         {
         }
     }

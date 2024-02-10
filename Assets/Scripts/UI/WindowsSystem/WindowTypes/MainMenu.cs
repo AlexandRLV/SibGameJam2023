@@ -1,5 +1,4 @@
 ﻿using Common.DI;
-using GameCore.Sounds;
 using UI.WindowsSystem.WindowTypes.Multiplayer;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,13 +13,10 @@ namespace UI.WindowsSystem.WindowTypes
         [SerializeField] private Button _settingsButton;
         [SerializeField] private Button _onlineButton;
 
-        [Inject] private SoundService _soundService;
         [Inject] private WindowsSystem _windowsSystem;
         
         private void Start()
         {
-            _soundService.PlayMusic(MusicType.Menu);
-
             _startGameButton.onClick.AddListener(StartGame);
             _leaveButton.onClick.AddListener(LeaveGame);
             _settingsButton.onClick.AddListener(OpenSettings);
