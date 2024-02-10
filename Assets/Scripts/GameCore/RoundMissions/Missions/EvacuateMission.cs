@@ -9,7 +9,7 @@ namespace GameCore.RoundMissions.Missions
     {
         public sealed override string MissionText { get; protected set; }
 
-        private LocalMessageBroker _messageBroker;
+        private readonly LocalMessageBroker _messageBroker;
         
         [Construct]
         public EvacuateMission(MissionsController controller, LocalMessageBroker messageBroker) : base(controller)
@@ -22,11 +22,16 @@ namespace GameCore.RoundMissions.Missions
 
         public override void Update()
         {
-            if (!controller.RoundData.CactusFound) return;
-            if (controller.RoundData.AgentsSaved < controller.Data.agentsToSave) return;
+            foreach (var mission in controller.activeMissions)
+            {
+                if (mission == this) continue;
+                if (!mission.IsCompleted) return;
+            }
             
-            var message = new ActivateEvacuationMessage();
-            message.active = true;
+            var message = new ActivateEvacuationMessage
+            {
+                active = true
+            };
             _messageBroker.Trigger(ref message);
         }
 
