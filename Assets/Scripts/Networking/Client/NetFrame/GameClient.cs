@@ -98,6 +98,8 @@ namespace Networking
             _client.Unsubscribe<GameFinishedDataframe>(OnGameFinished);
             _client.Unsubscribe<LoseGameDataframe>(OnLoseGame);
             
+            if (_subscribedDataframes == null) return;
+            
             var unsubscribeMethod = _client.GetType().GetMethod(nameof(_client.Unsubscribe));
             foreach (var container in _subscribedDataframes)
             {
