@@ -43,6 +43,7 @@ namespace GameCore.LevelObjects.InteractiveObjects
 
         private void OnEvacuationActivated(ref ActivateEvacuationMessage value)
         {
+            IsUsed = false;
             gameObject.SetActive(value.active);
             _timer = TimeToShowEvacuateNotif;
         }

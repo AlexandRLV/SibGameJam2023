@@ -3,7 +3,6 @@ using System.Text;
 using Common.DI;
 using GameCore.Common;
 using GameCore.RoundMissions.LocalMessages;
-using GameCore.RoundMissions.Missions;
 using LocalMessages;
 using UI.WindowsSystem;
 using UI.WindowsSystem.WindowTypes;
@@ -15,17 +14,18 @@ namespace GameCore.RoundMissions
     {
         public MissionsData Data => _data;
         public RoundData RoundData { get; private set; }
+        
+        public List<MissionBase> activeMissions;
 
         [Inject] private MissionsData _data;
         [Inject] private LocalMessageBroker _messageBroker;
         [Inject] private WindowsSystem _windowsSystem;
 
         private StringBuilder _stringBuilder;
-        private List<MissionBase> _missions;
         
         public void Initialize(List<MissionBase> missions)
         {
-            _missions = missions;
+            activeMissions = missions;
             
             RoundData = new RoundData();
             _stringBuilder = new StringBuilder();
@@ -37,9 +37,9 @@ namespace GameCore.RoundMissions
         {
             _stringBuilder.Clear();
             bool allCompleted = true;
-            for (int i = 0; i < _missions.Count; i++)
+            for (int i = 0; i < activeMissions.Count; i++)
             {
-                var mission = _missions[i];
+                var mission = activeMissions[i];
                 mission.Update();
 
                 if (!mission.IsCompleted)
@@ -72,11 +72,11 @@ namespace GameCore.RoundMissions
 
         private void OnDestroy()
         {
-            foreach (var mission in _missions)
+            foreach (var mission in activeMissions)
             {
                 mission.Dispose();
             }
-            _missions.Clear();
+            activeMissions.Clear();
         }
     }
 }
