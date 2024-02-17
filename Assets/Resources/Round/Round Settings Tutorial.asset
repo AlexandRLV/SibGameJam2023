@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Round Settings Tutorial
   m_EditorClassIdentifier: 
   mouseChangeKey: 113
-  roundLengthMinutes: 7
+  roundLengthMinutes: 5
   playerDetectedToLoseSeconds: 2
