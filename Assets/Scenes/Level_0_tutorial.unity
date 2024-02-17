@@ -79024,6 +79024,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1761039926}
   - component: {fileID: 1761039927}
+  - component: {fileID: 1761039932}
   - component: {fileID: 1761039931}
   - component: {fileID: 1761039930}
   - component: {fileID: 1761039929}
@@ -79063,6 +79064,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _initializers:
+  - {fileID: 1761039932}
   - {fileID: 1761039931}
   - {fileID: 1761039930}
   - {fileID: 1761039929}
@@ -79117,6 +79119,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4a646cec63fd4833b8995a45da9c8767, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _desktopInputSource: {fileID: 200455950073377358, guid: 89f045512cc03b940ad1fce2d7709dde, type: 3}
+  _gameCamera: {fileID: 4285045109539262713, guid: 77428b010006be1469e4364f77f40c43, type: 3}
+--- !u!114 &1761039932
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1761039925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c295925a71d412eaf314678fd6dfb46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!43 &1761868101

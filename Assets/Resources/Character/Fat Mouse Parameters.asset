@@ -13,9 +13,6 @@ MonoBehaviour:
   m_Name: Fat Mouse Parameters
   m_EditorClassIdentifier: 
   speed: 3.5
-  crouchSpeedMultiplier: 0.6
-  crouchHeightMultiplier: 0.4
-  sneakSpeedMultiplier: 0.8
   standStillTimeToStartAnimation: 5
   standStillAnimationTime: 2
   lives: 3

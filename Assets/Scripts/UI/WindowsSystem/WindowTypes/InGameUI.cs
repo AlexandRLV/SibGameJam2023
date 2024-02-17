@@ -1,6 +1,6 @@
 ﻿using System.Text;
+using Common;
 using Common.DI;
-using GameCore.Common;
 using GameCore.Common.Messages;
 using GameCore.Player;
 using GameCore.RoundControl;
@@ -116,8 +116,6 @@ namespace UI.WindowsSystem.WindowTypes
                 _infoPanel.SetActive(!_infoPanel.activeSelf);
                 _infoPanelTimer = 0f;
             }
-            
-            CheckPause();
 
             if (_roundController.Stage != RoundStage.Game)
             {
@@ -125,23 +123,9 @@ namespace UI.WindowsSystem.WindowTypes
                 return;
             }
             
+            CheckPause();
             CheckPulseTimer();
-
-            int seconds = Mathf.RoundToInt(_roundController.Timer);
-            if (_seconds == seconds || seconds < 0) return;
-
-            _seconds = seconds;
-            
-            int minutes = seconds / 60;
-            seconds %= 60;
-            
-            _stringBuilder.Clear();
-            _stringBuilder.Append(minutes);
-            _stringBuilder.Append(":");
-            if (seconds < 10) _stringBuilder.Append("0");
-            _stringBuilder.Append(seconds);
-
-            _timerLabel.text = _stringBuilder.ToString();
+            UiUtils.SetTimerText(_timerLabel, _roundController.Timer, ref _seconds);
         }
 
         private void CheckPause()

@@ -78,9 +78,8 @@ namespace Startup
                 isTutorial = false;
             
             IsTutorial = isTutorial;
-            // if (isTutorial) StartTutorial();
-            // else StartPlayGame();
-            StartPlayGame();
+            if (isTutorial) StartTutorial();
+            else StartPlayGame();
         }
 
         public void StopGame(bool toMainMenu = true)

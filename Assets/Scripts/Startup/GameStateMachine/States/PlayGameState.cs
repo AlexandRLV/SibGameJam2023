@@ -20,6 +20,7 @@ namespace Startup.GameStateMachine.States
             GameContainer.InGame.Register(service);
 
             SceneManager.LoadScene(SceneName);
+            _loadingScreen.Active = false;
         }
 
         public void OnExit()
