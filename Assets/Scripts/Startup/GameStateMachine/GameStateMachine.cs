@@ -9,7 +9,6 @@ namespace Startup.GameStateMachine
         Menu,
         Tutorial,
         Game,
-        MultiplayerLobby,
         MultiplayerGame
     }
     
@@ -19,7 +18,6 @@ namespace Startup.GameStateMachine
         {
             { GameStateType.Menu, new MainMenuGameState() },
             { GameStateType.Game, new PlayGameState() },
-            
         };
 
         private GameStateType _currentStateType;

@@ -11,6 +11,7 @@ namespace Startup.StartGameInitializers
     {
         private IGameClient _gameClient;
         private RoomController _roomController;
+        private GameClientData _gameClientData;
         
         public override void Initialize()
         {
@@ -22,8 +23,8 @@ namespace Startup.StartGameInitializers
             var parameters = Resources.Load<ClientParameters>("Client Parameters");
             GameContainer.Common.Register(parameters);
 
-            var clientData = new GameClientData();
-            GameContainer.Common.Register(clientData);
+            _gameClientData = new GameClientData();
+            GameContainer.Common.Register(_gameClientData);
             
 #if UNITY_WEBGL
             var monoUpdater = new GameObject("MonoUpdater").AddComponent<MonoUpdater>();
@@ -35,7 +36,7 @@ namespace Startup.StartGameInitializers
 #else
             var gameClientPrefab = Resources.Load<GameClient>("Prefabs/GameClient");
             var gameClient = GameContainer.InstantiateAndResolve(gameClientPrefab);
-            Object.DontDestroyOnLoad(gameClient.gameObject);
+            DontDestroyOnLoad(gameClient.gameObject);
             _gameClient = gameClient;
 #endif
             
@@ -47,7 +48,9 @@ namespace Startup.StartGameInitializers
 
         public override void Dispose()
         {
-            _gameClient?.Disconnect();
+            if (_gameClient != null && _gameClientData.IsConnected)
+                _gameClient.Disconnect();
+            
             _roomController?.Dispose();
         }
     }
