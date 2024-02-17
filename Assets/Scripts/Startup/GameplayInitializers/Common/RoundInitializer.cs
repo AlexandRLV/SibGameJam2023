@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Common.DI;
-using GameCore.Common;
 using GameCore.RoundControl;
 using GameCore.RoundMissions;
 using GameCore.RoundMissions.Missions;
@@ -11,20 +9,18 @@ namespace Startup.GameplayInitializers.Common
 {
     public class RoundInitializer : InitializerBase
     {
+        [SerializeField] private RoundSettings _roundSettings;
+        [SerializeField] private MissionsData _missionsData;
+        
         public override void Initialize()
         {
-            var roundSettings = Resources.Load<RoundSettings>("Round/Round Settings");
-            GameContainer.InGame.Register(roundSettings);
+            GameContainer.InGame.Register(_roundSettings);
+            GameContainer.InGame.Register(_missionsData);
 
-            var roundControllerPrefab = Resources.Load<RoundController>("Round/RoundController");
-            var roundController = GameContainer.InstantiateAndResolve(roundControllerPrefab);
+            var roundController = GameContainer.CreateGameObjectWithComponent<RoundController>("RoundController");
             GameContainer.InGame.Register(roundController);
 
-            var missionsData = Resources.Load<MissionsData>("Missions/Missions Data");
-            GameContainer.InGame.Register(missionsData);
-
-            var missionsControllerPrefab = Resources.Load<MissionsController>("Prefabs/MissionsController");
-            var missionsController = GameContainer.InstantiateAndResolve(missionsControllerPrefab);
+            var missionsController = GameContainer.CreateGameObjectWithComponent<MissionsController>("MissionsController");
             GameContainer.InGame.Register(missionsController);
             
             var missions = new List<MissionBase>

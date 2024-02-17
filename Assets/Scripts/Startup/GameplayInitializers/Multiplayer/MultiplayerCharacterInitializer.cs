@@ -11,28 +11,27 @@ namespace Startup.GameplayInitializers.Multiplayer
 {
     public class MultiplayerCharacterInitializer : InitializerBase
     {
+        [SerializeField] private CharacterVisuals _thinMouseVisuals;
+        [SerializeField] private CharacterVisuals _fatMouseVisuals;
+        [SerializeField] private CharacterMovement _thinMovement;
+        [SerializeField] private CharacterMovement _fatMovement;
+        [SerializeField] private PlayerSpawns _playerSpawns;
+        [SerializeField] private OneMouseLocalPlayer _oneMouseLocalPlayer;
+        [SerializeField] private RemotePlayer _remotePlayer;
+        
         public override void Initialize()
         {
-            var spawns = GameContainer.InGame.Resolve<PlayerSpawns>();
+            var thinMouseVisuals = Instantiate(_thinMouseVisuals);
+            var fatMouseVisuals = Instantiate(_fatMouseVisuals);
 
-            var thinMouseVisualsPrefab = Resources.Load<CharacterVisuals>("Prefabs/CharacterVisuals/ThinMouseVisuals");
-            var thinMouseVisuals = Instantiate(thinMouseVisualsPrefab);
-
-            var fatMouseVisualsPrefab = Resources.Load<CharacterVisuals>("Prefabs/CharacterVisuals/FatMouseVisuals");
-            var fatMouseVisuals = Instantiate(fatMouseVisualsPrefab);
-
-            var localPlayerPrefab = Resources.Load<OneMouseLocalPlayer>("Prefabs/OneMousePlayer");
-            var localPlayer = GameContainer.InstantiateAndResolve(localPlayerPrefab);
-
-            var remotePlayerPrefab = Resources.Load<RemotePlayer>("Prefabs/RemotePlayer");
-            var remotePlayer = GameContainer.InstantiateAndResolve(remotePlayerPrefab);
+            var localPlayer = GameContainer.InstantiateAndResolve(_oneMouseLocalPlayer);
+            var remotePlayer = GameContainer.InstantiateAndResolve(_remotePlayer);
 
             bool isMaster = GameContainer.Common.Resolve<GameClientData>().IsMaster;
             if (isMaster)
             {
-                var fatMouseMovementPrefab = Resources.Load<CharacterMovement>("Prefabs/Characters/FatMouseCharacter");
-                var fatMouseMovement = GameContainer.InstantiateAndResolve(fatMouseMovementPrefab);
-                fatMouseMovement.transform.SetPositionAndRotation(spawns.FatSpawn.position, spawns.FatSpawn.rotation);
+                var fatMouseMovement = GameContainer.InstantiateAndResolve(_fatMovement);
+                fatMouseMovement.transform.SetPositionAndRotation(_playerSpawns.FatSpawn.position, _playerSpawns.FatSpawn.rotation);
                 fatMouseMovement.Initialize(fatMouseVisuals);
                 localPlayer.Initialize(fatMouseMovement, PlayerMouseType.FatMouse);
                 
@@ -40,9 +39,8 @@ namespace Startup.GameplayInitializers.Multiplayer
             }
             else
             {
-                var littleMousePrefab = Resources.Load<CharacterMovement>("Prefabs/Characters/ThinMouseCharacter");
-                var thinMouseMovement = GameContainer.InstantiateAndResolve(littleMousePrefab);
-                thinMouseMovement.transform.SetPositionAndRotation(spawns.ThinSpawn.position, spawns.ThinSpawn.rotation);
+                var thinMouseMovement = GameContainer.InstantiateAndResolve(_thinMovement);
+                thinMouseMovement.transform.SetPositionAndRotation(_playerSpawns.ThinSpawn.position, _playerSpawns.ThinSpawn.rotation);
                 thinMouseMovement.Initialize(thinMouseVisuals);
                 localPlayer.Initialize(thinMouseMovement, PlayerMouseType.ThinMouse);
                 

@@ -7,16 +7,17 @@ namespace Startup.GameplayInitializers.Common
 {
     public class InputInitializer : InitializerBase
     {
+        [SerializeField] private DesktopInputSource _desktopInputSource;
+        [SerializeField] private GameCamera _gameCamera;
+        
         public override void Initialize()
         {
             var inputState = new InputState();
             GameContainer.InGame.Register(inputState);
 
-            var inputSourcePrefab = Resources.Load<DesktopInputSource>("Input/DesktopInputSource");
-            GameContainer.InstantiateAndResolve(inputSourcePrefab);
+            GameContainer.InstantiateAndResolve(_desktopInputSource);
             
-            var gameCameraPrefab = Resources.Load<GameCamera>("Prefabs/GameCamera");
-            var gameCamera = Instantiate(gameCameraPrefab);
+            var gameCamera = Instantiate(_gameCamera);
             GameContainer.InGame.Register(gameCamera);
         }
 

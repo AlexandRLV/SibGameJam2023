@@ -9,33 +9,29 @@ namespace Startup.GameplayInitializers.Singleplayer
 {
     public class SinglePlayerCharacterInitializer : InitializerBase
     {
+        [SerializeField] private CharacterVisuals _thinMouseVisuals;
+        [SerializeField] private CharacterVisuals _fatMouseVisuals;
+        [SerializeField] private CharacterMovement _thinMovement;
+        [SerializeField] private CharacterMovement _fatMovement;
+        [SerializeField] private PlayerSpawns _playerSpawns;
+        
         public override void Initialize()
         {
-            var spawns = GameContainer.InGame.Resolve<PlayerSpawns>();
-            
-            var thinMouseVisualsPrefab = Resources.Load<CharacterVisuals>("Prefabs/CharacterVisuals/ThinMouseVisuals");
-            var thinMouseVisuals = Instantiate(thinMouseVisualsPrefab);
+            var thinMouseVisuals = Instantiate(_thinMouseVisuals);
 
-            var fatMouseVisualsPrefab = Resources.Load<CharacterVisuals>("Prefabs/CharacterVisuals/FatMouseVisuals");
-            var fatMouseVisuals = Instantiate(fatMouseVisualsPrefab);
-
-            var thinMousePrefab = Resources.Load<CharacterMovement>("Prefabs/Characters/ThinMouseCharacter");
-            var thinMouseMovement = GameContainer.InstantiateAndResolve(thinMousePrefab);
-            thinMouseMovement.transform.SetPositionAndRotation(spawns.ThinSpawn.position, spawns.ThinSpawn.rotation);
+            var thinMouseMovement = GameContainer.InstantiateAndResolve(_thinMovement);
+            thinMouseMovement.transform.SetPositionAndRotation(_playerSpawns.ThinSpawn.position, _playerSpawns.ThinSpawn.rotation);
             thinMouseMovement.Initialize(thinMouseVisuals);
 
-            var fatMousePrefab = Resources.Load<CharacterMovement>("Prefabs/Characters/FatMouseCharacter");
-            var fatMouseMovement = GameContainer.InstantiateAndResolve(fatMousePrefab);
-            fatMouseMovement.transform.SetPositionAndRotation(spawns.FatSpawn.position, spawns.FatSpawn.rotation);
+            var fatMouseVisuals = Instantiate(_fatMouseVisuals);
+            var fatMouseMovement = GameContainer.InstantiateAndResolve(_fatMovement);
+            fatMouseMovement.transform.SetPositionAndRotation(_playerSpawns.FatSpawn.position, _playerSpawns.FatSpawn.rotation);
             fatMouseMovement.Initialize(fatMouseVisuals);
 
             Physics.IgnoreCollision(thinMouseMovement.Collider, fatMouseMovement.Collider);
 
-            var playerGo = new GameObject("Two mouse player");
-            var player = playerGo.AddComponent<TwoMousePlayer>();
-            GameContainer.InjectToInstance(player);
+            var player = GameContainer.CreateGameObjectWithComponent<TwoMousePlayer>("TwoMousePlayer");
             player.Initialize(fatMouseMovement, thinMouseMovement);
-
             GameContainer.InGame.Register<IPlayer>(player);
         }
 

@@ -6,13 +6,13 @@ namespace Startup.GameplayInitializers.Common
 {
     public class NetworkObjectsInitializer : InitializerBase
     {
+        [SerializeField] private RemoteNetworkObjects _remoteNetworkObjects;
+        
         public override void Initialize()
         {
-            var remoteObjects = Resources.Load<RemoteNetworkObjects>("Remote Network Objects");
-            GameContainer.InGame.Register(remoteObjects);
+            GameContainer.InGame.Register(_remoteNetworkObjects);
 
-            var controllerPrefab = Resources.Load<NetworkObjectsController>("Prefabs/NetworkObjectsController");
-            var controller = GameContainer.InstantiateAndResolve(controllerPrefab);
+            var controller = GameContainer.CreateGameObjectWithComponent<NetworkObjectsController>("NetworkObjectsController");
             GameContainer.InGame.Register(controller);
         }
 
