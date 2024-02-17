@@ -14,20 +14,20 @@ namespace GameCore.LevelObjects.Abstract
 
         [SerializeField] private GameObject _interactIndicator;
         
-        [Inject] private LevelObjectService _levelObjectService;
-        [Inject] private WindowsSystem _windowsSystem;
+        [Inject] protected LevelObjectService levelObjectService;
+        [Inject] protected WindowsSystem windowsSystem;
 
         private void Start()
         {
             GameContainer.InjectToInstance(this);
-            _levelObjectService.RegisterInteractiveObject(this);
+            levelObjectService.RegisterInteractiveObject(this);
             _interactIndicator.SetActive(false);
             OnInitialize();
         }
 
         private void OnDestroy()
         {
-            _levelObjectService?.UnregisterInteractiveObject(this);
+            levelObjectService?.UnregisterInteractiveObject(this);
             OnPlayerExit();
         }
         

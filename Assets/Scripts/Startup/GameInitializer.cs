@@ -2,7 +2,6 @@
 using Common.DI;
 using Networking;
 using Startup.GameStateMachine;
-using UI;
 using UI.WindowsSystem;
 using UI.WindowsSystem.WindowTypes;
 using UnityEngine;
@@ -16,16 +15,7 @@ namespace Startup
         public bool IsTutorial { get; private set; }
         
         [SerializeField] private List<InitializerBase> _startupInitializers = new();
-
-        // private static List<InitializerBase> _tutorialInitializers = new()
-        // {
-        //     new TutorialMapInitializer(),
-        //     new InputInitializer(),
-        //     new TutorialCharacterInitializer(),
-        //     new TutorialRoundInitializer(),
-        //     new TutorialUiInitializer(),
-        // };
-        //
+        
         // private static List<InitializerBase> _singlePlayerInitializers = new()
         // {
         //     // new NetworkObjectsInitializer(), // Todo: fix it and use it
@@ -100,14 +90,8 @@ namespace Startup
             _windowsSystem.DestroyAll();
 
             if (toMainMenu)
-            {
-                // SceneManager.LoadScene(MainMenuSceneName);
                 _windowsSystem.CreateWindow<MainMenu>();
-            }
             
-            // DisposeList(_wasMultiplayer ? _multiplayerInitializers : _singlePlayerInitializers);
-            
-            GameContainer.InGame = null;
             InGame = false;
         }
 
@@ -119,22 +103,15 @@ namespace Startup
 
         private void StartTutorial()
         {
-            GameContainer.InGame = new Container();
-            
-            // InitializeList(_tutorialInitializers);
-
             InGame = true;
+            _gameStateMachine.SwitchToState(GameStateType.Tutorial);
         }
 
         private void StartPlayGame()
         {
-            GameContainer.InGame = new Container();
-            bool isMultiplayer = _gameClientData.IsConnected;
-            
-            // if (isMultiplayer) yield return InitializeList(_multiplayerInitializers);
-            // else yield return InitializeList(_singlePlayerInitializers);
-
             InGame = true;
+            bool isMultiplayer = _gameClientData.IsConnected;
+            _gameStateMachine.SwitchToState(isMultiplayer ? GameStateType.MultiplayerGame : GameStateType.Game);
         }
 
         private void DisposeList(List<InitializerBase> initializers)

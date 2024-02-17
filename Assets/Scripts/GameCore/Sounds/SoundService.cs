@@ -1,15 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace GameCore.Sounds
 {
     public class SoundService : MonoBehaviour
     {
-        [SerializeField] private AudioSource soundsSource;
-        [SerializeField] private AudioSource voiceSource;
-        [SerializeField] private AudioSource firstTrackSource;
-        [SerializeField] private AudioSource secondTrackSource;
+        [FormerlySerializedAs("soundsSource")] [SerializeField] private AudioSource _soundsSource;
+        [FormerlySerializedAs("voiceSource")] [SerializeField] private AudioSource _voiceSource;
+        [FormerlySerializedAs("firstTrackSource")] [SerializeField] private AudioSource _firstTrackSource;
+        [FormerlySerializedAs("secondTrackSource")] [SerializeField] private AudioSource _secondTrackSource;
 
         [SerializeField] private AudioClip menuTrack;
         [SerializeField] private AudioClip thinTrack;
@@ -63,39 +64,47 @@ namespace GameCore.Sounds
 
         private int _playingSoundPriority;
         
-        private void Start()
+        private void Awake()
         {
             _sounds = new Dictionary<SoundType, AudioClip>();
             _tracks = new Dictionary<MusicType, AudioClip>();
-            _sounds.Add(SoundType.Buff, buffSound);
-            _sounds.Add(SoundType.Eating, eatingSound);
-            _sounds.Add(SoundType.Mousetrap1, mousetrapSound1);
-            _sounds.Add(SoundType.Mousetrap2, mousetrapSound2);
-            _sounds.Add(SoundType.Mousetrap3, mousetrapSound3);
-            _sounds.Add(SoundType.Panel, panelSound);
-            _sounds.Add(SoundType.Alert, alertSound);
-            _sounds.Add(SoundType.SubmissionComplete, submissionCompleteSound);
+            
+            // _sounds.Add(SoundType.Buff, buffSound);
+            // _sounds.Add(SoundType.Eating, eatingSound);
+            // _sounds.Add(SoundType.Mousetrap1, mousetrapSound1);
+            // _sounds.Add(SoundType.Mousetrap2, mousetrapSound2);
+            // _sounds.Add(SoundType.Mousetrap3, mousetrapSound3);
+            // _sounds.Add(SoundType.Panel, panelSound);
+            // _sounds.Add(SoundType.Alert, alertSound);
+            // _sounds.Add(SoundType.SubmissionComplete, submissionCompleteSound);
             
             // UI
-            _sounds.Add(SoundType.Click, clickSound);
-            _sounds.Add(SoundType.Hover, hoverSound);
-
-            _tracks.Add(MusicType.Menu, menuTrack);
-            _tracks.Add(MusicType.ThinCharacter, thinTrack);
-            _tracks.Add(MusicType.FatCharacter, fatTrack);
-            _tracks.Add(MusicType.Lose, loseTrack);
-            _tracks.Add(MusicType.Win, winTrack);
+            // _sounds.Add(SoundType.Click, clickSound);
+            // _sounds.Add(SoundType.Hover, hoverSound);
+            //
+            // _tracks.Add(MusicType.Menu, menuTrack);
+            // _tracks.Add(MusicType.ThinCharacter, thinTrack);
+            // _tracks.Add(MusicType.FatCharacter, fatTrack);
+            // _tracks.Add(MusicType.Lose, loseTrack);
+            // _tracks.Add(MusicType.Win, winTrack);
 
             _prioritizedSounds = new Dictionary<SoundType, PrioritizedSound>();
             foreach (var sound in _soundsData.prioritizedSounds)
             {
-                if (_prioritizedSounds.ContainsKey(sound.soundType))
-                {
+                if (!_prioritizedSounds.TryAdd(sound.soundType, sound))
+                    Debug.LogError($"Ошибка: повторяющийся тип приоритетного звука: {sound.soundType}");
+            }
+
+            foreach (var sound in _soundsData.sounds)
+            {
+                if (!_sounds.TryAdd(sound.soundType, sound.audioClip))
                     Debug.LogError($"Ошибка: повторяющийся тип звука: {sound.soundType}");
-                    continue;
-                }
-                
-                _prioritizedSounds.Add(sound.soundType, sound);
+            }
+
+            foreach (var music in _soundsData.music)
+            {
+                if (!_tracks.TryAdd(music.musicType, music.audioClip))
+                    Debug.LogError($"Ошибка: повторяющийся тип музыки: {music.musicType}");
             }
         }
 
@@ -111,43 +120,43 @@ namespace GameCore.Sounds
             {
                 var clip = _sounds[soundType];
                 if (clip != null)
-                    soundsSource.PlayOneShot(clip);
+                    _soundsSource.PlayOneShot(clip);
             }
         }
 
         private void PlaySoundByPriority(AudioClip clip, int priority)
         {
-            if (voiceSource.isPlaying && priority <= _playingSoundPriority)
+            if (_voiceSource.isPlaying && priority <= _playingSoundPriority)
                 return;
 
             _playingSoundPriority = priority;
-            voiceSource.clip = clip;
-            voiceSource.Play();
+            _voiceSource.clip = clip;
+            _voiceSource.Play();
         }
 
         public void PlayMusic(MusicType musicType, bool adjustTime = false)
         {
             var clip = _tracks[musicType];
-            if (firstTrackSource.isPlaying)
+            if (_firstTrackSource.isPlaying)
             {
                 FadeToMusic(clip, adjustTime);
             }
             else
             {
-                firstTrackSource.clip = clip;
-                firstTrackSource.Play();
+                _firstTrackSource.clip = clip;
+                _firstTrackSource.Play();
             }
         }
 
         public void StopSound()
         {
-            soundsSource.Stop();
+            _soundsSource.Stop();
         }
         
         public void StopMusic()
         {
-            firstTrackSource.Stop();
-            secondTrackSource.Stop();
+            _firstTrackSource.Stop();
+            _secondTrackSource.Stop();
         }
 
         public void PlayRandomSound(params SoundType[] sounds)
@@ -166,31 +175,31 @@ namespace GameCore.Sounds
 
         private IEnumerator FadeTracks(AudioClip nextTrack, bool adjustTime = false)
         {
-            secondTrackSource.clip = nextTrack;
-            secondTrackSource.volume = 0.0f;
-            secondTrackSource.Play();
+            _secondTrackSource.clip = nextTrack;
+            _secondTrackSource.volume = 0.0f;
+            _secondTrackSource.Play();
             if (adjustTime)
-                secondTrackSource.time = firstTrackSource.time;
+                _secondTrackSource.time = _firstTrackSource.time;
 
-            float firstVolume = firstTrackSource.volume;
+            float firstVolume = _firstTrackSource.volume;
 
             float time = 0.0f;
             while (time < fadingTime)
             {
                 float t = time / fadingTime;
 
-                firstTrackSource.volume = Mathf.Lerp(firstVolume, 0.0f, t);
-                secondTrackSource.volume = Mathf.Lerp(0.0f, 1.0f, t);
+                _firstTrackSource.volume = Mathf.Lerp(firstVolume, 0.0f, t);
+                _secondTrackSource.volume = Mathf.Lerp(0.0f, 1.0f, t);
 
                 time += Time.deltaTime;
 
                 yield return null;
             }
 
-            firstTrackSource.volume = 0.0f;
-            secondTrackSource.volume = 1.0f;
-            firstTrackSource.Stop();
-            (firstTrackSource, secondTrackSource) = (secondTrackSource, firstTrackSource);
+            _firstTrackSource.volume = 0.0f;
+            _secondTrackSource.volume = 1.0f;
+            _firstTrackSource.Stop();
+            (_firstTrackSource, _secondTrackSource) = (_secondTrackSource, _firstTrackSource);
             _fadingCoroutine = null;
         }
     }

@@ -6,10 +6,11 @@ namespace Startup.StartGameInitializers
 {
     public class SoundServiceInitializer : InitializerBase
     {
+        [SerializeField] private SoundService _soundService;
+        
         public override void Initialize()
         {
-            var soundServicePrefab = Resources.Load<SoundService>("Audio/SoundService");
-            var soundService = Instantiate(soundServicePrefab);
+            var soundService = Instantiate(_soundService);
             DontDestroyOnLoad(soundService);
             GameContainer.Common.Register(soundService);
         }

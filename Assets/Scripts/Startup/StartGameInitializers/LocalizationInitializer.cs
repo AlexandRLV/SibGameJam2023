@@ -6,12 +6,12 @@ namespace Startup.StartGameInitializers
 {
     public class LocalizationInitializer : InitializerBase
     {
+        [SerializeField] private LocalizationData _localizationData;
+        
         public override void Initialize()
         {
-            var data = Resources.Load<LocalizationData>("Localization/LocalizationData");
-
             var provider = GameContainer.Create<LocalizationProvider>();
-            provider.ReadData(data);
+            provider.ReadData(_localizationData);
 
             provider.SetLanguage(
                 provider.HasLanguage(Application.systemLanguage)

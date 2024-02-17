@@ -16,10 +16,10 @@ namespace Startup.GameplayInitializers.Multiplayer
             var spawns = GameContainer.InGame.Resolve<PlayerSpawns>();
 
             var thinMouseVisualsPrefab = Resources.Load<CharacterVisuals>("Prefabs/CharacterVisuals/ThinMouseVisuals");
-            var thinMouseVisuals = Object.Instantiate(thinMouseVisualsPrefab);
+            var thinMouseVisuals = Instantiate(thinMouseVisualsPrefab);
 
             var fatMouseVisualsPrefab = Resources.Load<CharacterVisuals>("Prefabs/CharacterVisuals/FatMouseVisuals");
-            var fatMouseVisuals = Object.Instantiate(fatMouseVisualsPrefab);
+            var fatMouseVisuals = Instantiate(fatMouseVisualsPrefab);
 
             var localPlayerPrefab = Resources.Load<OneMouseLocalPlayer>("Prefabs/OneMousePlayer");
             var localPlayer = GameContainer.InstantiateAndResolve(localPlayerPrefab);

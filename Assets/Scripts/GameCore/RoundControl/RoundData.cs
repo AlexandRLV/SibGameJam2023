@@ -1,4 +1,4 @@
-﻿namespace GameCore.Common
+﻿namespace GameCore.RoundControl
 {
     public class RoundData
     {

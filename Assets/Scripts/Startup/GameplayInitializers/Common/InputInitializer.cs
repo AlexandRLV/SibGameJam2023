@@ -16,7 +16,7 @@ namespace Startup.GameplayInitializers.Common
             GameContainer.InstantiateAndResolve(inputSourcePrefab);
             
             var gameCameraPrefab = Resources.Load<GameCamera>("Prefabs/GameCamera");
-            var gameCamera = Object.Instantiate(gameCameraPrefab);
+            var gameCamera = Instantiate(gameCameraPrefab);
             GameContainer.InGame.Register(gameCamera);
         }
 

@@ -1,9 +1,12 @@
 ﻿using System.Collections;
+using Common;
 using Common.DI;
 using GameCore.Camera;
 using GameCore.Character.Movement;
 using GameCore.Common;
 using GameCore.Common.Messages;
+using GameCore.Input;
+using GameCore.RoundControl;
 using LocalMessages;
 using UnityEngine;
 
@@ -18,6 +21,7 @@ namespace GameCore.Player
         
         [Inject] private GameCamera _gameCamera;
         [Inject] private LocalMessageBroker _messageBroker;
+        [Inject] private InputState _inputState;
 
         private RoundController _roundController;
         private CharacterMovement _fatMouseCharacter;
@@ -45,7 +49,7 @@ namespace GameCore.Player
             _changeMouseTimer += Time.deltaTime;
             if (_changeMouseTimer < MinChangeMouseTime) return;
             if (_roundController.Stage != RoundStage.Game) return;
-            if (!UnityEngine.Input.GetKeyDown(_roundController.Settings.mouseChangeKey)) return;
+            if (!_inputState.changeCharacter.IsDown()) return;
 
             _changeMouseTimer = 0f;
             PosessCharacter(CurrentMovement == _fatMouseCharacter ? _thinMouseCharacter : _fatMouseCharacter);
@@ -65,13 +69,6 @@ namespace GameCore.Player
             
             _thinMouseCharacter.Unposess();
             PosessCharacter(_fatMouseCharacter);
-            
-            _messageBroker.Subscribe<CharacterSavedMessage>(OnCharacterSaved);
-        }
-
-        private void OnDestroy()
-        {
-            _messageBroker.Unsubscribe<CharacterSavedMessage>(OnCharacterSaved);
         }
 
         public void Unposess()
@@ -95,11 +92,6 @@ namespace GameCore.Player
             CurrentMovement = movement;
             CurrentMovement.Posess();
             _gameCamera.SetTarget(CurrentMovement.transform);
-        }
-
-        private void OnCharacterSaved(ref CharacterSavedMessage value)
-        {
-            _canChangeMouse = true;
         }
     }
 }

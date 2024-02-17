@@ -9,26 +9,27 @@ namespace Startup.StartGameInitializers
 {
     public class UIInitializer : InitializerBase
     {
+        [SerializeField] private UIRoot _uiRoot;
+        [SerializeField] private GameWindows _gameWindows;
+        [SerializeField] private LoadingScreen _loadingScreen;
+        [SerializeField] private NotificationsManager _notificationsManager;
+        
         public override void Initialize()
         {
-            var uiRootPrefab = Resources.Load<UIRoot>("UI/UIRoot");
-            var uiRoot = Instantiate(uiRootPrefab);
+            GameContainer.Common.Register(_gameWindows);
+            
+            var uiRoot = Instantiate(_uiRoot);
             DontDestroyOnLoad(uiRoot);
             GameContainer.Common.Register(uiRoot);
-            
-            var gameWindows = Resources.Load<GameWindows>("Game Windows");
-            GameContainer.Common.Register(gameWindows);
             
             var windowsSystem = GameContainer.Create<WindowsSystem>();
             GameContainer.Common.Register(windowsSystem);
             
-            var loadingScreenPrefab = Resources.Load<LoadingScreen>("UI/LoadingScreen");
-            var loadingScreen = Instantiate(loadingScreenPrefab, uiRoot.OverlayParent);
+            var loadingScreen = Instantiate(_loadingScreen, uiRoot.OverlayParent);
             loadingScreen.Active = true;
             GameContainer.Common.Register(loadingScreen);
 
-            var notificationsManagerPrefab = Resources.Load<NotificationsManager>("UI/NotificationsScreen");
-            var notificationsManager = Instantiate(notificationsManagerPrefab, uiRoot.NotificationsParent);
+            var notificationsManager = Instantiate(_notificationsManager, uiRoot.NotificationsParent);
             GameContainer.Common.Register(notificationsManager);
         }
 

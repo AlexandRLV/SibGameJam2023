@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Common.DI;
 using Startup.GameStateMachine.States;
 using UnityEngine;
 
@@ -16,8 +17,9 @@ namespace Startup.GameStateMachine
     {
         private readonly Dictionary<GameStateType, IGameState> _states = new()
         {
-            { GameStateType.Menu, new MainMenuGameState() },
-            { GameStateType.Game, new PlayGameState() },
+            { GameStateType.Menu, GameContainer.Create<MainMenuGameState>() },
+            { GameStateType.Game, GameContainer.Create<PlayGameState>() },
+            { GameStateType.Tutorial, GameContainer.Create<TutorialGameState>() },
         };
 
         private GameStateType _currentStateType;

@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa53b822cf0143e9be2371b4b50b4fd9, type: 3}
+  m_Name: LocalizationData
+  m_EditorClassIdentifier: 
+  data:
+  - language: 30
+    values:
+    - key: $MAIN_MENU_NEW_GAME
+      value: "\u041D\u043E\u0432\u0430\u044F \u0438\u0433\u0440\u0430"
+    - key: $MAIN_MENU_SETTINGS
+      value: "\u041D\u0430\u0441\u0442\u0440\u043E\u0439\u043A\u0438"
+    - key: $MAIN_MENU_TITLES
+      value: "\u0422\u0438\u0442\u0440\u044B"
+    - key: $MAIN_MENU_EXIT
+      value: "\u0412\u044B\u0445\u043E\u0434"
+    - key: $MAIN_MENU_MULTIPLAYER
+      value: "\u041C\u0443\u043B\u044C\u0442\u0438\u043F\u043B\u0435\u0435\u0440"
+    - key: $MAIN_MENU_LOGO_TEXT
+      value: "\u041E\u041F\u0415\u0420\u0410\u0426\u0418\u042F: \u041A\u0410\u041A\u0422\u0423\u0421"
+  - language: 10
+    values:
+    - key: $MAIN_MENU_NEW_GAME
+      value: New game
+    - key: $MAIN_MENU_SETTINGS
+      value: Settings
+    - key: $MAIN_MENU_TITLES
+      value: Titles
+    - key: $MAIN_MENU_EXIT
+      value: Exit
+    - key: $MAIN_MENU_MULTIPLAYER
+      value: Multiplayer
+    - key: $MAIN_MENU_LOGO_TEXT
+      value: 'OPERATION: CACTUS'

@@ -43,6 +43,7 @@ namespace GameCore.LevelObjects.InteractiveObjects
 
         private void OnEvacuationActivated(ref ActivateEvacuationMessage value)
         {
+            Debug.Log("Evacuation activated");
             IsUsed = false;
             gameObject.SetActive(value.active);
             _timer = TimeToShowEvacuateNotif;
@@ -50,6 +51,7 @@ namespace GameCore.LevelObjects.InteractiveObjects
 
         protected override void OnPlayerEnter()
         {
+            Debug.Log("Player evacuated!");
             var message = new PlayerEvacuatedMessage();
             _messageBroker.Trigger(ref message);
         }

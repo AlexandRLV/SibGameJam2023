@@ -7,5 +7,7 @@ namespace GameCore.Sounds
     public class SoundsData : ScriptableObject
     {
         [SerializeField] [ArrayDisplayPropertyName("soundType")] public PrioritizedSound[] prioritizedSounds;
+        [SerializeField] [ArrayDisplayPropertyName("soundType")] public SoundContainer[] sounds;
+        [SerializeField] [ArrayDisplayPropertyName("musicType")] public MusicContainer[] music;
     }
 }

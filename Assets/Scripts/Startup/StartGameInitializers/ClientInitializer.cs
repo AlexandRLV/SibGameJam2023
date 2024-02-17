@@ -9,6 +9,8 @@ namespace Startup.StartGameInitializers
 {
     public class ClientInitializer : InitializerBase
     {
+        [SerializeField] private ClientParameters _clientParameters;
+        
         private IGameClient _gameClient;
         private RoomController _roomController;
         private GameClientData _gameClientData;
@@ -20,8 +22,7 @@ namespace Startup.StartGameInitializers
             var messageBroker = new LocalMessageBroker();
             GameContainer.Common.Register(messageBroker);
 
-            var parameters = Resources.Load<ClientParameters>("Client Parameters");
-            GameContainer.Common.Register(parameters);
+            GameContainer.Common.Register(_clientParameters);
 
             _gameClientData = new GameClientData();
             GameContainer.Common.Register(_gameClientData);
@@ -34,8 +35,7 @@ namespace Startup.StartGameInitializers
             var nativeSocketClient = GameContainer.Create<NativeWebSocketClient>();
             _gameClient = nativeSocketClient;
 #else
-            var gameClientPrefab = Resources.Load<GameClient>("Prefabs/GameClient");
-            var gameClient = GameContainer.InstantiateAndResolve(gameClientPrefab);
+            var gameClient = GameContainer.CreateGameObjectWithComponent<GameClient>("GameClient");
             DontDestroyOnLoad(gameClient.gameObject);
             _gameClient = gameClient;
 #endif

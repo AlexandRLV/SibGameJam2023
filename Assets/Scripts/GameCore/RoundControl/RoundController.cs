@@ -1,4 +1,5 @@
 ﻿using Common.DI;
+using GameCore.Common;
 using GameCore.Common.Messages;
 using GameCore.Enemies;
 using GameCore.Player;
@@ -10,13 +11,12 @@ using UI.WindowsSystem;
 using UI.WindowsSystem.WindowTypes;
 using UnityEngine;
 
-namespace GameCore.Common
+namespace GameCore.RoundControl
 {
     public class RoundController : MonoBehaviour
     {
         public float Timer { get; private set; }
         public RoundStage Stage { get; private set; }
-        public RoundSettings Settings => _settings;
 
         [Inject] private RoundSettings _settings;
         [Inject] private LocalMessageBroker _messageBroker;
@@ -113,6 +113,8 @@ namespace GameCore.Common
 
         private void OnPlayerEvacuated(ref PlayerEvacuatedMessage value)
         {
+            Debug.Log("Player evacuated!");
+            
             _soundService.StopSound();
             _soundService.PlayMusic(MusicType.Win);
             Stage = RoundStage.None;

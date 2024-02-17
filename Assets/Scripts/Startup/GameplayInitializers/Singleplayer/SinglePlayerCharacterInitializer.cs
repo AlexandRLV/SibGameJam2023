@@ -14,10 +14,10 @@ namespace Startup.GameplayInitializers.Singleplayer
             var spawns = GameContainer.InGame.Resolve<PlayerSpawns>();
             
             var thinMouseVisualsPrefab = Resources.Load<CharacterVisuals>("Prefabs/CharacterVisuals/ThinMouseVisuals");
-            var thinMouseVisuals = Object.Instantiate(thinMouseVisualsPrefab);
+            var thinMouseVisuals = Instantiate(thinMouseVisualsPrefab);
 
             var fatMouseVisualsPrefab = Resources.Load<CharacterVisuals>("Prefabs/CharacterVisuals/FatMouseVisuals");
-            var fatMouseVisuals = Object.Instantiate(fatMouseVisualsPrefab);
+            var fatMouseVisuals = Instantiate(fatMouseVisualsPrefab);
 
             var thinMousePrefab = Resources.Load<CharacterMovement>("Prefabs/Characters/ThinMouseCharacter");
             var thinMouseMovement = GameContainer.InstantiateAndResolve(thinMousePrefab);
@@ -31,8 +31,9 @@ namespace Startup.GameplayInitializers.Singleplayer
 
             Physics.IgnoreCollision(thinMouseMovement.Collider, fatMouseMovement.Collider);
 
-            var playerPrefab = Resources.Load<TwoMousePlayer>("Prefabs/TwoMousePlayer");
-            var player = GameContainer.InstantiateAndResolve(playerPrefab);
+            var playerGo = new GameObject("Two mouse player");
+            var player = playerGo.AddComponent<TwoMousePlayer>();
+            GameContainer.InjectToInstance(player);
             player.Initialize(fatMouseMovement, thinMouseMovement);
 
             GameContainer.InGame.Register<IPlayer>(player);

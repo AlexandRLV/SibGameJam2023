@@ -11,9 +11,9 @@ namespace Common.DI
         public static Container Common { get; set; }
         public static Container InGame { get; set; }
 
-        public static void InjectToInstance<T>(T instance)
+        public static void InjectToInstance(object instance)
         {
-            var type = typeof(T);
+            var type = instance.GetType();
             
             InjectFields(instance, type);
             InjectMethods(type, instance);
@@ -72,9 +72,17 @@ namespace Common.DI
             return spawnedObject;
         }
 
+        public static T CreateGameObjectWithComponent<T>(string name) where T : MonoBehaviour
+        {
+            var gameObject = new GameObject(name);
+            var instance = gameObject.AddComponent<T>();
+            InjectToInstance(instance);
+            return instance;
+        }
+
         private static void InjectFields(object spawnedObject, Type type)
         {
-            var fields = type.GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
+            var fields = type.GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.FlattenHierarchy)
                 .Where(x => x.IsDefined(typeof(InjectAttribute)));
             
             foreach (var field in fields)

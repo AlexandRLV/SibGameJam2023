@@ -19,13 +19,13 @@ namespace GameCore.LevelObjects
     {
         public EvacuationInteractive evacuation;
         
-        private List<InteractiveObject> _interactiveObjects = new();
-        private List<PushableObject> _pushableObjects = new();
-        private List<EnemyController> _enemies = new();
-        private List<Mousetrap> _mousetraps = new();
+        private readonly List<InteractiveObject> _interactiveObjects = new();
+        private readonly List<PushableObject> _pushableObjects = new();
+        private readonly List<EnemyController> _enemies = new();
+        private readonly List<Mousetrap> _mousetraps = new();
 
         private GameClientData _gameClientData;
-        private LocalMessageBroker _messageBroker;
+        private readonly LocalMessageBroker _messageBroker;
         
         [Construct]
         public LevelObjectService(GameClientData gameClientData, LocalMessageBroker messageBroker)
