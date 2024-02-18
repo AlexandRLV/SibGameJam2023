@@ -12,27 +12,8 @@ namespace Startup
     public class GameInitializer : MonoBehaviour
     {
         public bool InGame { get; private set; }
-        public bool IsTutorial { get; private set; }
         
         [SerializeField] private List<InitializerBase> _startupInitializers = new();
-        
-        // private static List<InitializerBase> _singlePlayerInitializers = new()
-        // {
-        //     // new NetworkObjectsInitializer(), // Todo: fix it and use it
-        //     new InputInitializer(),
-        //     new SinglePlayerCharacterInitializer(),
-        //     new RoundInitializer(),
-        //     new InGameUIInitializer(),
-        // };
-        //
-        // private static List<InitializerBase> _multiplayerInitializers = new()
-        // {
-        //     // new NetworkObjectsInitializer(),
-        //     new InputInitializer(),
-        //     new MultiplayerCharacterInitializer(),
-        //     new RoundInitializer(),
-        //     new InGameUIInitializer(),
-        // };
         
         [Inject] private GameClientData _gameClientData;
         [Inject] private WindowsSystem _windowsSystem;
@@ -72,14 +53,11 @@ namespace Startup
             _windowsSystem.DestroyAll();
         }
 
-        public void StartGame(bool isTutorial)
+        public void StartGame()
         {
-            if (_gameClientData.IsConnected)
-                isTutorial = false;
-            
-            IsTutorial = isTutorial;
-            if (isTutorial) StartTutorial();
-            else StartPlayGame();
+            InGame = true;
+            // bool isMultiplayer = _gameClientData.IsConnected; // TODO: fix multiplayer
+            _gameStateMachine.SwitchToState(GameStateType.Game, true);
         }
 
         public void StopGame(bool toMainMenu = true)
@@ -98,20 +76,7 @@ namespace Startup
         public void RestartGame()
         {
             StopGame(false);
-            StartGame(IsTutorial);
-        }
-
-        private void StartTutorial()
-        {
-            InGame = true;
-            _gameStateMachine.SwitchToState(GameStateType.Tutorial);
-        }
-
-        private void StartPlayGame()
-        {
-            InGame = true;
-            bool isMultiplayer = _gameClientData.IsConnected;
-            _gameStateMachine.SwitchToState(isMultiplayer ? GameStateType.MultiplayerGame : GameStateType.Game);
+            StartGame();
         }
 
         private void DisposeList(List<InitializerBase> initializers)

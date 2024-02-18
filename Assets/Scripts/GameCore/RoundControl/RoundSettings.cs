@@ -2,7 +2,7 @@
 
 namespace GameCore.RoundControl
 {
-    [CreateAssetMenu(fileName = "Round Settings")]
+    [CreateAssetMenu(menuName = "Configs/Round Settings")]
     public class RoundSettings : ScriptableObject
     {
         public float RoundLengthSeconds => roundLengthMinutes * 60f;

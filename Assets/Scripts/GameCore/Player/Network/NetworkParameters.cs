@@ -2,7 +2,7 @@
 
 namespace GameCore.Player.Network
 {
-    [CreateAssetMenu(fileName = "Network Movement Parameters")]
+    [CreateAssetMenu(menuName = "Configs/Network Movement Parameters")]
     public class NetworkParameters : ScriptableObject
     {
         [SerializeField] public int SendTickUpdateRate;

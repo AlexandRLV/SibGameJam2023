@@ -9,14 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d3f97f3dc98f43009dda89535fc91b5f, type: 3}
-  m_Name: Input Key Settings
+  m_Script: {fileID: 11500000, guid: 24ceac98a7ad468db4b9552dbddd4596, type: 3}
+  m_Name: Levels Data
   m_EditorClassIdentifier: 
-  forwardMoveKey: 119
-  backMoveKey: 115
-  rightMoveKey: 100
-  leftMoveKey: 97
-  jumpKey: 32
-  crouchKey: 306
-  interactKey: 101
-  changeCharacterKey: 113
+  levels:
+  - hasIntro: 0
+    sceneName: Level_0_tutorial
+  - hasIntro: 1
+    sceneName: Level_01

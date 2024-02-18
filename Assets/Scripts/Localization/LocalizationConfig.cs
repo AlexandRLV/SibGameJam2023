@@ -11,7 +11,7 @@ namespace Localization
         [SerializeField] public int columnId;
     }
     
-    [CreateAssetMenu(menuName = "Localization/Localization Config")]
+    [CreateAssetMenu(menuName = "Configs/Localization/Localization Config")]
     public class LocalizationConfig : ScriptableObject
     {
         [SerializeField] public List<LocalizationLanguageConfig> languages;

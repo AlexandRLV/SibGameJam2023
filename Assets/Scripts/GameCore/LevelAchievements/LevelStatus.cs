@@ -1,4 +1,6 @@
-﻿namespace GameCore.LevelAchievements
+﻿using GameCore.Levels;
+
+namespace GameCore.LevelAchievements
 {
     public class LevelStatus
     {

@@ -30,6 +30,7 @@ namespace GameCore.LevelObjects.InteractiveObjects
 
         private void Update()
         {
+            if (IsUsed) return;
             if (_timer <= 0f) return;
 
             _timer -= Time.deltaTime;

@@ -2,7 +2,7 @@
 
 namespace GameCore.Character.Movement
 {
-    [CreateAssetMenu(fileName = "Character Parameters")]
+    [CreateAssetMenu(menuName = "Configs/Character Parameters")]
     public class CharacterParameters : ScriptableObject
     {
         [Header("Movement")]

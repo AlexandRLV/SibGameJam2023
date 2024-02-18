@@ -11,7 +11,7 @@ namespace UI.WindowsSystem
         [SerializeField] public WindowBase Window;
     }
     
-    [CreateAssetMenu(fileName = "Game Windows")]
+    [CreateAssetMenu(menuName = "Configs/Game Windows")]
     public class GameWindows : ScriptableObject
     {
         [SerializeField] public List<WindowBase> windows;

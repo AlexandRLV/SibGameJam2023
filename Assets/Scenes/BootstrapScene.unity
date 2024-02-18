@@ -165,6 +165,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _startupInitializers:
+  - {fileID: 9132857578577277280}
   - {fileID: 9132857578577277278}
   - {fileID: 9132857578577277279}
   - {fileID: 7}
@@ -179,6 +180,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7358086542060702276}
   - component: {fileID: 636710610879532147}
+  - component: {fileID: 9132857578577277280}
   - component: {fileID: 9132857578577277278}
   - component: {fileID: 6}
   - component: {fileID: 7}
@@ -231,3 +233,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _localizationData: {fileID: 11400000, guid: 220db786674eaaf448c6884757a00643, type: 2}
+--- !u!114 &9132857578577277280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 769851868602834382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2b31c13ca574b1381e99eab3e997e58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _levelsData: {fileID: 11400000, guid: d2aedaee1fcb33740b782f6cd717275b, type: 2}

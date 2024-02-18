@@ -2,7 +2,7 @@
 
 namespace GameCore.Camera
 {
-    [CreateAssetMenu(fileName = "Camera Settings")]
+    [CreateAssetMenu(menuName = "Configs/Camera Settings")]
     public class CameraSettings : ScriptableObject
     {
         [SerializeField] public bool invertX;

@@ -18,7 +18,7 @@ namespace Localization
         [SerializeField] public string value;
     }
     
-    [CreateAssetMenu(menuName = "Localization/Localization Data")]
+    [CreateAssetMenu(menuName = "Configs/Localization/Localization Data")]
     public class LocalizationData : ScriptableObject
     {
         [SerializeField] public List<LocalizationDataContainer> data;

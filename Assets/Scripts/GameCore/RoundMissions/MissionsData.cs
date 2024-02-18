@@ -2,7 +2,7 @@
 
 namespace GameCore.RoundMissions
 {
-    [CreateAssetMenu(fileName = "Missions Data")]
+    [CreateAssetMenu(menuName = "Configs/Missions Data")]
     public class MissionsData : ScriptableObject
     {
         [Header("Миссия - спасти агентов")]

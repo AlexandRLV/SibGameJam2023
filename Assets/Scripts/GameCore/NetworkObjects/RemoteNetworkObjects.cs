@@ -11,7 +11,7 @@ namespace GameCore.NetworkObjects
         [SerializeField] public NetworkObject prefab;
     }
     
-    [CreateAssetMenu(fileName = "Remote Network Objects")]
+    [CreateAssetMenu(menuName = "Configs/Remote Network Objects")]
     public class RemoteNetworkObjects : ScriptableObject
     {
         [SerializeField] public List<RemoteObjectContainer> remoteObjects;

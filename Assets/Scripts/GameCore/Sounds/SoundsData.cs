@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace GameCore.Sounds
 {
-    [CreateAssetMenu(fileName = "Sounds Data")]
+    [CreateAssetMenu(menuName = "Configs/Sounds Data")]
     public class SoundsData : ScriptableObject
     {
         [SerializeField] [ArrayDisplayPropertyName("soundType")] public PrioritizedSound[] prioritizedSounds;
