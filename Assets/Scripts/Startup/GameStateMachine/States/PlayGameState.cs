@@ -7,9 +7,8 @@ namespace Startup.GameStateMachine.States
 {
     public class PlayGameState : IGameState
     {
-        private const string SceneName = "Level_01";
-        
         [Inject] private LoadingScreen _loadingScreen;
+        [Inject] private GameInfo _gameInfo;
         
         public void OnEnter()
         {
@@ -19,7 +18,7 @@ namespace Startup.GameStateMachine.States
             var service = GameContainer.Create<LevelObjectService>();
             GameContainer.InGame.Register(service);
 
-            SceneManager.LoadScene(SceneName);
+            SceneManager.LoadScene(_gameInfo.currentLevel.sceneName);
             _loadingScreen.Active = false;
         }
 

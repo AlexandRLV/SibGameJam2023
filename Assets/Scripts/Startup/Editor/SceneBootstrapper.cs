@@ -10,8 +10,9 @@ namespace Startup.Editor
         private const string PreviousSceneKey = "PreviousScene";
         private const string ShouldLoadBootstrapKey = "LoadBootstrapScene";
 
-        private const string LoadBootstrapMenuKey = "Tools/Load Bootstrap Scene On Play";
-        private const string DontLoadBootstrapMenuKey = "Tools/Don't Load Bootstrap Scene On Play";
+        private const string LoadBootstrapMenuLabel = "Tools/Load Bootstrap Scene On Play";
+        private const string DontLoadBootstrapMenuLabel = "Tools/Don't Load Bootstrap Scene On Play";
+        private const string OpenBootstrapSceneLabel = "Tools/Open Bootstrap Scene";
 
         private static string BootstrapScene => EditorBuildSettings.scenes[0].path;
 
@@ -50,29 +51,35 @@ namespace Startup.Editor
             }
         }
 
-        [MenuItem(LoadBootstrapMenuKey)]
+        [MenuItem(LoadBootstrapMenuLabel)]
         private static void EnableBootstrapper()
         {
             ShouldLoadBootstrapScene = true;
         }
 
-        [MenuItem(LoadBootstrapMenuKey, true)]
+        [MenuItem(LoadBootstrapMenuLabel, true)]
         private static bool ValidateEnableBootstrapper()
         {
             return !ShouldLoadBootstrapScene;
         }
 
         // disables the behavior if selected.
-        [MenuItem(DontLoadBootstrapMenuKey)]
+        [MenuItem(DontLoadBootstrapMenuLabel)]
         private static void DisableBootstrapper()
         {
             ShouldLoadBootstrapScene = false;
         }
 
-        [MenuItem(DontLoadBootstrapMenuKey, true)]
+        [MenuItem(DontLoadBootstrapMenuLabel, true)]
         private static bool ValidateDisableBootstrapper()
         {
             return ShouldLoadBootstrapScene;
+        }
+
+        [MenuItem(OpenBootstrapSceneLabel)]
+        private static void OpenBootstrapScene()
+        {
+            EditorSceneManager.OpenScene(BootstrapScene);
         }
 
         private static bool IsSceneInBuildSettings(string scenePath)

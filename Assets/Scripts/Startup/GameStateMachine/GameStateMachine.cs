@@ -8,7 +8,6 @@ namespace Startup.GameStateMachine
     public enum GameStateType
     {
         Menu,
-        Tutorial,
         Game,
         MultiplayerGame
     }
@@ -19,7 +18,6 @@ namespace Startup.GameStateMachine
         {
             { GameStateType.Menu, GameContainer.Create<MainMenuGameState>() },
             { GameStateType.Game, GameContainer.Create<PlayGameState>() },
-            { GameStateType.Tutorial, GameContainer.Create<TutorialGameState>() },
         };
 
         private GameStateType _currentStateType;

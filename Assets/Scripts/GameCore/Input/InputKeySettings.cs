@@ -2,7 +2,7 @@
 
 namespace GameCore.Input
 {
-    [CreateAssetMenu(fileName = "Input Key Settings")]
+    [CreateAssetMenu(menuName = "Configs/Input Key Settings")]
     public class InputKeySettings : ScriptableObject
     {
         public KeyCode forwardMoveKey;
