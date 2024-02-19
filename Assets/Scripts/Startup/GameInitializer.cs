@@ -3,7 +3,6 @@ using Common.DI;
 using Networking;
 using Startup.GameStateMachine;
 using UI.WindowsSystem;
-using UI.WindowsSystem.WindowTypes;
 using UnityEngine;
 
 namespace Startup
