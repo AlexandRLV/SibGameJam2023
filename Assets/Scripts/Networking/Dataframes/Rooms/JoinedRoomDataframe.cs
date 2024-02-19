@@ -2,7 +2,7 @@
 using NetFrame.WriteAndRead;
 using Newtonsoft.Json;
 
-namespace Networking.Dataframes
+namespace Networking.Dataframes.Rooms
 {
     [JsonObject]
     public struct JoinedRoomDataframe : INetworkDataframe

@@ -6,7 +6,7 @@ namespace GameCore.RoundMissions
     public abstract class MissionBase
     {
         public bool IsCompleted { get; private set; }
-        public abstract string MissionText { get; protected set; }
+        public abstract string MissionLocalizationKey { get; protected set; }
 
         [Inject] protected SoundService soundService;
         

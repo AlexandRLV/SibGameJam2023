@@ -8,7 +8,7 @@ namespace GameCore.RoundMissions.Missions
 {
     public class FindCactusMission : MissionBase
     {
-        public sealed override string MissionText { get; protected set; }
+        public sealed override string MissionLocalizationKey { get; protected set; }
 
         private readonly LocalMessageBroker _messageBroker;
         private readonly NotificationsManager _notificationsManager;
@@ -16,7 +16,7 @@ namespace GameCore.RoundMissions.Missions
         [Construct]
         public FindCactusMission(MissionsController controller, LocalMessageBroker messageBroker, NotificationsManager notificationsManager) : base(controller)
         {
-            MissionText = controller.Data.findCactusText;
+            MissionLocalizationKey = controller.Data.findCactusLocalizationKey;
             
             _messageBroker = messageBroker;
             _messageBroker.Subscribe<CactusFoundMessage>(OnCactusFound);
@@ -35,7 +35,7 @@ namespace GameCore.RoundMissions.Missions
             Complete();
             controller.UpdateMissionsState();
             
-            _notificationsManager.ShowNotification("Кактус найден!", NotificationType.Top);
+            _notificationsManager.ShowNotification("$MISSION_COMPLETED_CACTUS_FOUND", NotificationType.Top);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Common.DI;
 using LocalMessages;
 using Networking;
+using Networking.Client;
 using Networking.Dataframes.InGame;
 using Startup;
 using UnityEngine;

@@ -3,6 +3,9 @@ using Common.DI;
 using Networking;
 using LocalMessages;
 using NetFrame.Utils;
+using Networking.Client;
+using Networking.Client.NetFrame;
+using Networking.Rooms;
 using UnityEngine;
 
 namespace Startup.StartGameInitializers

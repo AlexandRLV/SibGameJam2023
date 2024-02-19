@@ -1,4 +1,4 @@
-﻿namespace Networking
+﻿namespace Networking.Client
 {
     public class GameClientData
     {

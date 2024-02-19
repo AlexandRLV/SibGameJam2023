@@ -1,4 +1,4 @@
-﻿namespace Networking
+﻿namespace Networking.Rooms
 {
     public class RoomInfo
     {

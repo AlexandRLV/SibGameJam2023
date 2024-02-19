@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace Networking
+namespace Networking.Client.WebSocket
 {
     [JsonObject]
     public struct DataframeContainer

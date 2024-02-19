@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Common.DI;
 using Networking;
+using Networking.Client;
 using Startup.GameStateMachine;
 using UI.WindowsSystem;
 using UnityEngine;

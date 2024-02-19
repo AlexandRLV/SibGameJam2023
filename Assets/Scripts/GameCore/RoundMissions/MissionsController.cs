@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 using Common.DI;
-using GameCore.Common;
 using GameCore.RoundControl;
 using GameCore.RoundMissions.LocalMessages;
+using Localization;
 using LocalMessages;
+using LocalMessages.MessageTypes;
 using UI.WindowsSystem;
 using UI.WindowsSystem.WindowTypes;
 using UnityEngine;
@@ -21,6 +22,7 @@ namespace GameCore.RoundMissions
         [Inject] private MissionsData _data;
         [Inject] private LocalMessageBroker _messageBroker;
         [Inject] private WindowsSystem _windowsSystem;
+        [Inject] private LocalizationProvider _localizationProvider;
 
         private StringBuilder _stringBuilder;
         
@@ -32,19 +34,31 @@ namespace GameCore.RoundMissions
             _stringBuilder = new StringBuilder();
             
             UpdateMissionsState();
+            
+            _messageBroker.Subscribe<LocalizationChangedMessage>(OnLocalizationMessage);
         }
-        
+
         public void UpdateMissionsState()
         {
+            UpdateMissionsText();
+            
+            foreach (var mission in activeMissions)
+            {
+                if (!mission.IsCompleted)
+                    return;
+            }
+            
+            var message = new AllMissionsCompletedMessage();
+            _messageBroker.Trigger(ref message);
+        }
+
+        private void UpdateMissionsText()
+        {
             _stringBuilder.Clear();
-            bool allCompleted = true;
             for (int i = 0; i < activeMissions.Count; i++)
             {
                 var mission = activeMissions[i];
                 mission.Update();
-
-                if (!mission.IsCompleted)
-                    allCompleted = false;
                 
                 _stringBuilder.Append(" ");
                 _stringBuilder.Append(i + 1);
@@ -53,20 +67,15 @@ namespace GameCore.RoundMissions
                 if (mission.IsCompleted)
                     _stringBuilder.Append("<s>");
 
-                _stringBuilder.Append(mission.MissionText);
+                string localizedText = _localizationProvider.GetLocalization(mission.MissionLocalizationKey);
+                _stringBuilder.Append(localizedText);
 
                 if (mission.IsCompleted)
                     _stringBuilder.Append("</s>");
 
                 _stringBuilder.Append("\n");
             }
-
-            if (allCompleted)
-            {
-                var message = new AllMissionsCompletedMessage();
-                _messageBroker.Trigger(ref message);
-            }
-
+            
             if (_windowsSystem.TryGetWindow<InGameUI>(out var inGameUI))
                 inGameUI.SetMissionsText(_stringBuilder.ToString());
         }
@@ -78,6 +87,13 @@ namespace GameCore.RoundMissions
                 mission.Dispose();
             }
             activeMissions.Clear();
+            
+            _messageBroker.Unsubscribe<LocalizationChangedMessage>(OnLocalizationMessage);
+        }
+
+        private void OnLocalizationMessage(ref LocalizationChangedMessage message)
+        {
+            UpdateMissionsText();
         }
     }
 }

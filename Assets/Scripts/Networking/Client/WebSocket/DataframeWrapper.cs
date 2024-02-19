@@ -2,7 +2,7 @@ using LocalMessages;
 using NetFrame;
 using Newtonsoft.Json;
 
-namespace Networking
+namespace Networking.Client.WebSocket
 {
     [JsonObject]
     public class DataframeWrapper<T> : IDataframeWrapper where T : struct, INetworkDataframe

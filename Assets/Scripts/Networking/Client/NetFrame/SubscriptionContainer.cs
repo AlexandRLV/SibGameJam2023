@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Networking
+namespace Networking.Client.NetFrame
 {
     public class SubscriptionContainer
     {

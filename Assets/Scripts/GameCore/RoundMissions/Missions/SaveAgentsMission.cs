@@ -1,5 +1,6 @@
 ﻿using Common.DI;
 using GameCore.RoundMissions.LocalMessages;
+using Localization;
 using LocalMessages;
 using UI.NotificationsSystem;
 
@@ -7,7 +8,9 @@ namespace GameCore.RoundMissions.Missions
 {
     public class SaveAgentsMission : MissionBase
     {
-        public sealed override string MissionText { get; protected set; }
+        public sealed override string MissionLocalizationKey { get; protected set; }
+
+        [Inject] private LocalizationProvider _localizationProvider;
 
         private readonly LocalMessageBroker _messageBroker;
         private readonly NotificationsManager _notificationsManager;
@@ -15,7 +18,7 @@ namespace GameCore.RoundMissions.Missions
         [Construct]
         public SaveAgentsMission(MissionsController controller, LocalMessageBroker messageBroker, NotificationsManager notificationsManager) : base(controller)
         {
-            MissionText = controller.Data.saveAgentsText;
+            MissionLocalizationKey = controller.Data.saveAgentsLocalizationKey;
             
             _messageBroker = messageBroker;
             _messageBroker.Subscribe<AgentSavedMessage>(OnAgentSaved);
@@ -33,7 +36,7 @@ namespace GameCore.RoundMissions.Missions
             if (IsCompleted) return;
 
             controller.RoundData.AgentsSaved++;
-            _notificationsManager.ShowNotification("Агент спасён! Так держать!", NotificationType.Top);
+            _notificationsManager.ShowNotification("$MISSION_COMPLETED_AGENT_SAVED", NotificationType.Top);
             
             if (controller.RoundData.AgentsSaved >= controller.Data.agentsToSave)
                 Complete();

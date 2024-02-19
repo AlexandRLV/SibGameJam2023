@@ -1,5 +1,6 @@
 ﻿using System;
 using Networking.Dataframes;
+using Networking.Dataframes.Rooms;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;

@@ -8,14 +8,14 @@ namespace GameCore.RoundMissions.Missions
 {
     public class EvacuateMission : MissionBase
     {
-        public sealed override string MissionText { get; protected set; }
+        public sealed override string MissionLocalizationKey { get; protected set; }
 
         private readonly LocalMessageBroker _messageBroker;
         
         [Construct]
         public EvacuateMission(MissionsController controller, LocalMessageBroker messageBroker) : base(controller)
         {
-            MissionText = controller.Data.evacuationText;
+            MissionLocalizationKey = controller.Data.evacuationLocalizationKey;
 
             _messageBroker = messageBroker;
             _messageBroker.Subscribe<PlayerEvacuatedMessage>(OnPlayerEvacuated);

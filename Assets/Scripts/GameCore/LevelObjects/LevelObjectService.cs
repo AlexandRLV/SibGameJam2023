@@ -10,6 +10,7 @@ using GameCore.Player.Network;
 using GameCore.Sounds;
 using LocalMessages;
 using Networking;
+using Networking.Client;
 using Networking.Dataframes.InGame;
 using UnityEngine;
 

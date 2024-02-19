@@ -1,6 +1,6 @@
 using LocalMessages;
 
-namespace Networking
+namespace Networking.Client.WebSocket
 {
     public interface IDataframeWrapper
     {

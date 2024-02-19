@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using Common.DI;
+using Localization;
 using UnityEngine;
 
 namespace UI.NotificationsSystem
@@ -21,6 +23,8 @@ namespace UI.NotificationsSystem
 
         [SerializeField] private Notification _sideNotification;
 
+        [Inject] private LocalizationProvider _localizationProvider;
+        
         private float _sideTimer;
         private List<NotificationContainer> _activeNotifications;
 
@@ -50,19 +54,21 @@ namespace UI.NotificationsSystem
             _sideNotification.gameObject.SetActive(false);
         }
 
-        public void ShowNotification(string text, NotificationType type, float time = -1)
+        public void ShowNotification(string localizationKey, NotificationType type, float time = -1, List<LocalizationParameter> parameters = null)
         {
+            string localizedText = _localizationProvider.GetLocalization(localizationKey, parameters);
+            
             float showTime = time > 0f ? time : _showTime;
             if (type == NotificationType.Side)
             {
                 _sideNotification.gameObject.SetActive(true);
-                _sideNotification.Initialize(text);
+                _sideNotification.Initialize(localizedText);
                 _sideTimer = showTime;
                 return;
             }
             
             var container = GetNotificationForType(type);
-            container.notification.Initialize(text);
+            container.notification.Initialize(localizedText);
             container.showTimer = showTime;
             _activeNotifications.Add(container);
         }

@@ -3,6 +3,7 @@ using Common.DI;
 using GameCore.Camera;
 using GameCore.Common;
 using Networking;
+using Networking.Client;
 using Networking.Dataframes.InGame;
 using Startup;
 using TMPro;

@@ -1,8 +1,11 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using Common.DI;
+using Localization;
 using LocalMessages;
 using NetFrame.Enums;
 using Networking;
+using Networking.Client;
+using Networking.Client.NetFrame;
 using Networking.Dataframes;
 using Networking.LocalMessages;
 using TMPro;
@@ -25,8 +28,18 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer
         [Inject] private IGameClient _gameClient;
         [Inject] private LocalMessageBroker _messageBroker;
 
+        private List<LocalizationParameter> _parameters;
+
         private void Start()
         {
+            _parameters = new List<LocalizationParameter>
+            {
+                new LocalizationParameter
+                {
+                    key = "reason",
+                    value = ""
+                }
+            };
             _connectButton.onClick.AddListener(Connect);
             _cancelButton.onClick.AddListener(Cancel);
 
@@ -61,12 +74,12 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer
         {
             if (string.IsNullOrWhiteSpace(_nicknameText.text))
             {
-                _notificationsManager.ShowNotification("Введите никнейм!", NotificationType.Center);
+                _notificationsManager.ShowNotification("$LOBBY_ROOM_ENTER_NICKNAME_ERROR", NotificationType.Center);
                 return;
             }
             
             _gameClient.Connect();
-            _notificationsManager.ShowNotification("Подключаемся к серверу...", NotificationType.Center, 0.5f);
+            _notificationsManager.ShowNotification("$LOBBY_ROOM_CONNECTING_TO_SERVER", NotificationType.Center, 0.5f);
         }
 
         private void Cancel()
@@ -85,15 +98,15 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer
         {
             string reason = message.reason switch
             {
-                ReasonServerConnectionFailed.AlreadyConnected => "Вы уже подключены",
-                ReasonServerConnectionFailed.ConnectionLost => "Потеряно соединение с сервером",
-                ReasonServerConnectionFailed.ImpossibleToConnect => "Невозможно подключиться к серверу",
-                _ => "Невозможно подключиться к серверу"
+                ReasonServerConnectionFailed.AlreadyConnected => "$LOBBY_CONNECTION_ALREADY_CONNECTED",
+                ReasonServerConnectionFailed.ConnectionLost => "$LOBBY_CONNECTION_TO_SERVER_LOST",
+                _ => "$LOBBY_CONNECTION_FAILED"
             };
             
             Debug.Log($"Connection failed by reason: {reason}");
-            
-            _notificationsManager.ShowNotification($"Ошибка подключения: {reason}", NotificationType.Center);
+
+            _parameters[0].value = reason;
+            _notificationsManager.ShowNotification("$LOBBY_CONNECTION_TO_SERVER_ERROR", NotificationType.Center, parameters: _parameters);
         }
 
         private void SendPlayerInfo(ref PlayerInfoRequestDataframe obj)
@@ -117,12 +130,13 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer
         {
             string reason = dataframe.reason switch
             {
-                DisconnectReason.ClientVersion => "Версия клиента устарела, пожалуйста, обновите клиент",
-                DisconnectReason.NicknameTaken => "Такой никнейм уже занят, выберите другой!",
-                _ => "Ошибка сервера, попробуйте ещё раз"
+                DisconnectReason.ClientVersion => "$LOBBY_CONNECTION_OLD_CLIENT_VERSION",
+                DisconnectReason.NicknameTaken => "$LOBBY_DISCONNECTED_NICKNAME_TAKEN",
+                _ => "$LOBBY_DISCONNECTED_SERVER_ERROR"
             };
             
-            _notificationsManager.ShowNotification($"Ошибка подключения: {reason}", NotificationType.Center, 3f);
+            _parameters[0].value = reason;
+            _notificationsManager.ShowNotification("$LOBBY_CONNECTION_TO_SERVER_ERROR", NotificationType.Center, 3f, parameters: _parameters);
         }
     }
 }
