@@ -1,14 +1,15 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace UI.NotificationsSystem
 {
     public class NotificationsManager : MonoBehaviour
     {
-        public enum NotificationType
+        private struct NotificationContainer
         {
-            Top,
-            Center,
-            Side,
+            public Notification notification;
+            public float showTimer;
+            public NotificationsPool pool;
         }
 
         [SerializeField] private float _showTime;
@@ -20,24 +21,66 @@ namespace UI.NotificationsSystem
 
         [SerializeField] private Notification _sideNotification;
 
+        private float _sideTimer;
+        private List<NotificationContainer> _activeNotifications;
+
         private void Start()
         {
+            _activeNotifications = new List<NotificationContainer>();
+            _sideNotification.gameObject.SetActive(false);
+        }
+
+        private void Update()
+        {
+            for (int i = _activeNotifications.Count - 1; i >= 0; i--)
+            {
+                var container = _activeNotifications[i];
+                container.showTimer -= Time.deltaTime;
+                if (container.showTimer > 0f) continue;
+                
+                container.pool.Return(container.notification);
+                _activeNotifications.RemoveAt(i);
+            }
+            
+            if (_sideTimer <= 0f) return;
+
+            _sideTimer -= Time.deltaTime;
+            if (_sideTimer > 0f) return;
+            
             _sideNotification.gameObject.SetActive(false);
         }
 
         public void ShowNotification(string text, NotificationType type, float time = -1)
         {
-            var notification = GetNotificationForType(type);
-            notification.gameObject.SetActive(true);
-
             float showTime = time > 0f ? time : _showTime;
-            notification.Initialize(text, showTime);
+            if (type == NotificationType.Side)
+            {
+                _sideNotification.gameObject.SetActive(true);
+                _sideNotification.Initialize(text);
+                _sideTimer = showTime;
+                return;
+            }
+            
+            var container = GetNotificationForType(type);
+            container.notification.Initialize(text);
+            container.showTimer = showTime;
+            _activeNotifications.Add(container);
         }
 
-        private Notification GetNotificationForType(NotificationType type)
+        public void ClearAll()
         {
-            if (type == NotificationType.Side) return _sideNotification;
+            _sideNotification.gameObject.SetActive(false);
+            for (int i = _activeNotifications.Count - 1; i >= 0; i--)
+            {
+                var container = _activeNotifications[i];
+                container.pool.Return(container.notification);
+            }
             
+            _activeNotifications.Clear();
+        }
+        
+        private NotificationContainer GetNotificationForType(NotificationType type)
+        {
             var parent = type switch
             {
                 NotificationType.Center => _centerNotificationsParent,
@@ -50,9 +93,15 @@ namespace UI.NotificationsSystem
                 _ => _topNotificationsPool
             };
             
-            var notification = pool.GetForTime(_showTime);
+            var notification = pool.Get();
             notification.transform.SetParent(parent);
-            return notification;
+            notification.gameObject.SetActive(true);
+            
+            return new NotificationContainer
+            {
+                notification = notification,
+                pool = pool,
+            };
         }
     }
 }

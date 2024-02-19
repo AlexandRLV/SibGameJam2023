@@ -33,7 +33,7 @@ namespace GameCore.RoundMissions.Missions
             if (IsCompleted) return;
 
             controller.RoundData.AgentsSaved++;
-            _notificationsManager.ShowNotification("Агент спасён! Так держать!", NotificationsManager.NotificationType.Top);
+            _notificationsManager.ShowNotification("Агент спасён! Так держать!", NotificationType.Top);
             
             if (controller.RoundData.AgentsSaved >= controller.Data.agentsToSave)
                 Complete();

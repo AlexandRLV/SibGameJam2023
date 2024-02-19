@@ -1,4 +1,5 @@
-﻿using Common.DI;
+﻿using System;
+using Common.DI;
 using LocalMessages;
 using NetFrame.Enums;
 using Networking;
@@ -60,12 +61,12 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer
         {
             if (string.IsNullOrWhiteSpace(_nicknameText.text))
             {
-                _notificationsManager.ShowNotification("Введите никнейм!", NotificationsManager.NotificationType.Center);
+                _notificationsManager.ShowNotification("Введите никнейм!", NotificationType.Center);
                 return;
             }
             
             _gameClient.Connect();
-            _notificationsManager.ShowNotification("Подключаемся к серверу...", NotificationsManager.NotificationType.Center, 0.5f);
+            _notificationsManager.ShowNotification("Подключаемся к серверу...", NotificationType.Center, 0.5f);
         }
 
         private void Cancel()
@@ -86,12 +87,13 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer
             {
                 ReasonServerConnectionFailed.AlreadyConnected => "Вы уже подключены",
                 ReasonServerConnectionFailed.ConnectionLost => "Потеряно соединение с сервером",
-                ReasonServerConnectionFailed.ImpossibleToConnect => "Невозможно подключиться к серверу"
+                ReasonServerConnectionFailed.ImpossibleToConnect => "Невозможно подключиться к серверу",
+                _ => "Невозможно подключиться к серверу"
             };
             
             Debug.Log($"Connection failed by reason: {reason}");
             
-            _notificationsManager.ShowNotification($"Ошибка подключения: {reason}", NotificationsManager.NotificationType.Center);
+            _notificationsManager.ShowNotification($"Ошибка подключения: {reason}", NotificationType.Center);
         }
 
         private void SendPlayerInfo(ref PlayerInfoRequestDataframe obj)
@@ -116,10 +118,11 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer
             string reason = dataframe.reason switch
             {
                 DisconnectReason.ClientVersion => "Версия клиента устарела, пожалуйста, обновите клиент",
-                DisconnectReason.NicknameTaken => "Такой никнейм уже занят, выберите другой!"
+                DisconnectReason.NicknameTaken => "Такой никнейм уже занят, выберите другой!",
+                _ => "Ошибка сервера, попробуйте ещё раз"
             };
             
-            _notificationsManager.ShowNotification($"Ошибка подключения: {reason}", NotificationsManager.NotificationType.Center, 3f);
+            _notificationsManager.ShowNotification($"Ошибка подключения: {reason}", NotificationType.Center, 3f);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Common.DI;
 using GameCore.LevelObjects;
 using UI;
+using UI.NotificationsSystem;
 using UnityEngine.SceneManagement;
 
 namespace Startup.GameStateMachine.States
@@ -9,6 +10,7 @@ namespace Startup.GameStateMachine.States
     {
         [Inject] private LoadingScreen _loadingScreen;
         [Inject] private GameInfo _gameInfo;
+        [Inject] private NotificationsManager _notificationsManager;
         
         public void OnEnter()
         {
@@ -24,6 +26,7 @@ namespace Startup.GameStateMachine.States
 
         public void OnExit()
         {
+            _notificationsManager.ClearAll();
             GameContainer.InGame.Dispose();
             GameContainer.InGame = null;
         }

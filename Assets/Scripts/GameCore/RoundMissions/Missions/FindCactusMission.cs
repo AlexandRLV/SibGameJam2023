@@ -35,7 +35,7 @@ namespace GameCore.RoundMissions.Missions
             Complete();
             controller.UpdateMissionsState();
             
-            _notificationsManager.ShowNotification("Кактус найден!", NotificationsManager.NotificationType.Top);
+            _notificationsManager.ShowNotification("Кактус найден!", NotificationType.Top);
         }
     }
 }

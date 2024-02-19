@@ -18,6 +18,7 @@ namespace Startup.StartGameInitializers
             var gameInfo = new GameInfo();
             GameContainer.Common.Register(gameInfo);
             
+            _levelsData.Initialize();
             GameContainer.Common.Register(_levelsData);
         }
 

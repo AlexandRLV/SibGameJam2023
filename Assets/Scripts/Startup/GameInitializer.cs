@@ -56,7 +56,6 @@ namespace Startup
         public void StartGame()
         {
             InGame = true;
-            // bool isMultiplayer = _gameClientData.IsConnected; // TODO: fix multiplayer
             _gameStateMachine.SwitchToState(GameStateType.Game, true);
         }
 
@@ -68,7 +67,7 @@ namespace Startup
             _windowsSystem.DestroyAll();
 
             if (toMainMenu)
-                _windowsSystem.CreateWindow<MainMenu>();
+                _gameStateMachine.SwitchToState(GameStateType.Menu);
             
             InGame = false;
         }

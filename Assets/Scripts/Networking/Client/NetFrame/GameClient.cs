@@ -162,10 +162,11 @@ namespace Networking
                 GameFinishedReason.Lose => "Миссия провалена!",
                 GameFinishedReason.Leave => "Напарник вышел из игры",
                 GameFinishedReason.YouLeft => "Ты вышел из игры",
+                _ => "Потеряно соединение"
             };
             
             var notificationsManager = GameContainer.Common.Resolve<NotificationsManager>();
-            notificationsManager.ShowNotification(notif, NotificationsManager.NotificationType.Center);
+            notificationsManager.ShowNotification(notif, NotificationType.Center);
             
             var gameInitializer = GameContainer.Common.Resolve<GameInitializer>();
             if (!gameInitializer.InGame) return;

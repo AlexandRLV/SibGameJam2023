@@ -24,7 +24,7 @@ namespace GameCore.LevelObjects.TriggerObjects
             if (_shown) return;
 
             _shown = true;
-            _notificationsManager.ShowNotification(_showText, NotificationsManager.NotificationType.Side, _showSeconds);
+            _notificationsManager.ShowNotification(_showText, NotificationType.Side, _showSeconds);
         }
     }
 }

@@ -38,7 +38,7 @@ namespace GameCore.LevelObjects.InteractiveObjects
             
             _notificationsManager.ShowNotification(
                 "Все задачи выполнены! Возвращайтесь ко входу для эвакуации.",
-                NotificationsManager.NotificationType.Top,
+                NotificationType.Top,
                 5f);
         }
 

@@ -1,4 +1,5 @@
-﻿using Common.DI;
+﻿using System;
+using Common.DI;
 using GameCore.Camera;
 using GameCore.Common;
 using Networking;
@@ -51,7 +52,8 @@ namespace UI.WindowsSystem.WindowTypes
             {
                 LoseGameReason.TimeOut => "Время вышло!",
                 LoseGameReason.Catched => "Агента поймали!",
-                LoseGameReason.Dead => "Агент погиб!"
+                LoseGameReason.Dead => "Агент погиб!",
+                _ => "Агента поймали!"
             };
         }
     }

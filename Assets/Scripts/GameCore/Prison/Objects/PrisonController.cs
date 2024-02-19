@@ -13,8 +13,6 @@ namespace GameCore.Prison.Objects
 {
     public class PrisonController : InteractiveObject
     {
-        private const float Smooth = 2.0f;
-        
         private enum OpenType { Angle, Move, }
         private enum OpenAxis { X, Y, Z, }
 
@@ -87,6 +85,7 @@ namespace GameCore.Prison.Objects
                     OpenAxis.X => new Vector3(doorOpenAngle, 0f, 0f),
                     OpenAxis.Y => new Vector3(0f, doorOpenAngle, 0f),
                     OpenAxis.Z => new Vector3(0f, 0f, doorOpenAngle),
+                    _ => new Vector3(doorOpenAngle, 0f, 0f)
                 };
                 var targetRotation = Quaternion.Euler(targetEuler);
                 var originRotation = door.rotation;
@@ -102,14 +101,14 @@ namespace GameCore.Prison.Objects
             }
             else if (_openType == OpenType.Move)
             {
-                var targetPosition = door.position;
-                targetPosition += _openAxis switch
+                var originPosition = door.position;
+                var targetPosition = originPosition + _openAxis switch
                 {
                     OpenAxis.X => Vector3.right * doorOpenDistance,
                     OpenAxis.Y => Vector3.up * doorOpenDistance,
-                    OpenAxis.Z => Vector3.forward * doorOpenDistance
+                    OpenAxis.Z => Vector3.forward * doorOpenDistance,
+                    _ => Vector3.right * doorOpenDistance
                 };
-                var originPosition = door.position;
                 
                 float timer = 0f;
                 while (timer < timeToOpen)
