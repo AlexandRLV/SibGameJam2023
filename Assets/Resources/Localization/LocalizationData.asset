@@ -1,0 +1,163 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa53b822cf0143e9be2371b4b50b4fd9, type: 3}
+  m_Name: LocalizationData
+  m_EditorClassIdentifier: 
+  data:
+  - language: 30
+    values:
+    - key: $MAIN_MENU_NEW_GAME
+      value: "\u041D\u043E\u0432\u0430\u044F \u0438\u0433\u0440\u0430"
+    - key: $MAIN_MENU_SETTINGS
+      value: "\u041D\u0430\u0441\u0442\u0440\u043E\u0439\u043A\u0438"
+    - key: $MAIN_MENU_TITLES
+      value: "\u0422\u0438\u0442\u0440\u044B"
+    - key: $MAIN_MENU_EXIT
+      value: "\u0412\u044B\u0445\u043E\u0434"
+    - key: $MAIN_MENU_MULTIPLAYER
+      value: "\u041C\u0443\u043B\u044C\u0442\u0438\u043F\u043B\u0435\u0435\u0440"
+    - key: $MAIN_MENU_LOGO_TEXT
+      value: "\u041E\u041F\u0415\u0420\u0410\u0426\u0418\u042F: \u041A\u0410\u041A\u0422\u0423\u0421"
+    - key: $MISSION_LABEL_SAVE_AGENTS
+      value: "\u041E\u0441\u0432\u043E\u0431\u043E\u0434\u0438\u0442\u0435 \u043D\u0430\u0448\u0438\u0445
+        \u0430\u0433\u0435\u043D\u0442\u043E\u0432"
+    - key: $MISSION_LABEL_FIND_CACTUS
+      value: "\u0423\u043A\u0440\u0430\u0434\u0438\u0442\u0435 \u0437\u043E\u043B\u043E\u0442\u043E\u0439
+        \u043A\u0430\u043A\u0442\u0443\u0441"
+    - key: $MISSION_LABEL_EVACUATE
+      value: "\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435\u0441\u044C \u0432
+        \u0437\u043E\u043D\u0443 \u044D\u0432\u0430\u043A\u0443\u0430\u0446\u0438\u0438"
+    - key: $MISSION_COMPLETED_CACTUS_FOUND
+      value: "\u041A\u0430\u043A\u0442\u0443\u0441 \u043D\u0430\u0439\u0434\u0435\u043D!"
+    - key: $MISSION_COMPLETED_AGENT_SAVED
+      value: "\u0410\u0433\u0435\u043D\u0442 \u0441\u043F\u0430\u0441\u0451\u043D!
+        \u0422\u0430\u043A \u0434\u0435\u0440\u0436\u0430\u0442\u044C!"
+    - key: $MISSION_COMPLETED_EVACUATION_ACTIVATED
+      value: "\u0412\u0441\u0435 \u0437\u0430\u0434\u0430\u0447\u0438 \u0432\u044B\u043F\u043E\u043B\u043D\u0435\u043D\u044B!
+        \u0412\u043E\u0437\u0432\u0440\u0430\u0449\u0430\u0439\u0442\u0435\u0441\u044C
+        \u043A\u043E \u0432\u0445\u043E\u0434\u0443 \u0434\u043B\u044F \u044D\u0432\u0430\u043A\u0443\u0430\u0446\u0438\u0438."
+    - key: $LOBBY_ENTER_ROOM_NAME_ERROR
+      value: "\u0412\u0432\u0435\u0434\u0438\u0442\u0435 \u0438\u043C\u044F \u043A\u043E\u043C\u043D\u0430\u0442\u044B!"
+    - key: $LOBBY_ENTER_ROOM_CREATING
+      value: "\u041A\u043E\u043C\u043D\u0430\u0442\u0430 \u0441\u043E\u0437\u0434\u0430\u0451\u0442\u0441\u044F..."
+    - key: $LOBBY_ROOM_ENTER_NICKNAME_ERROR
+      value: "\u0412\u0432\u0435\u0434\u0438\u0442\u0435 \u043D\u0438\u043A\u043D\u0435\u0439\u043C!"
+    - key: $LOBBY_ROOM_CONNECTING_TO_SERVER
+      value: "\u041F\u043E\u0434\u043A\u043B\u044E\u0447\u0430\u0435\u043C\u0441\u044F
+        \u043A \u0441\u0435\u0440\u0432\u0435\u0440\u0443..."
+    - key: $LOBBY_CONNECTION_TO_SERVER_ERROR
+      value: "\u041E\u0448\u0438\u0431\u043A\u0430 \u043F\u043E\u0434\u043A\u043B\u044E\u0447\u0435\u043D\u0438\u044F:
+        [{reason}]"
+    - key: $LOBBY_CONNECTION_ALREADY_CONNECTED
+      value: "\u0412\u044B \u0443\u0436\u0435 \u043F\u043E\u0434\u043A\u043B\u044E\u0447\u0435\u043D\u044B"
+    - key: $LOBBY_CONNECTION_TO_SERVER_LOST
+      value: "\u041F\u043E\u0442\u0435\u0440\u044F\u043D\u043E \u0441\u043E\u0435\u0434\u0438\u043D\u0435\u043D\u0438\u0435
+        \u0441 \u0441\u0435\u0440\u0432\u0435\u0440\u043E\u043C"
+    - key: $LOBBY_CONNECTION_FAILED
+      value: "\u041D\u0435\u0432\u043E\u0437\u043C\u043E\u0436\u043D\u043E \u043F\u043E\u0434\u043A\u043B\u044E\u0447\u0438\u0442\u044C\u0441\u044F
+        \u043A \u0441\u0435\u0440\u0432\u0435\u0440\u0443"
+    - key: $LOBBY_DISCONNECTED_OLD_CLIENT_VERSION
+      value: "\u0412\u0435\u0440\u0441\u0438\u044F \u043A\u043B\u0438\u0435\u043D\u0442\u0430
+        \u0443\u0441\u0442\u0430\u0440\u0435\u043B\u0430, \u043F\u043E\u0436\u0430\u043B\u0443\u0439\u0441\u0442\u0430,
+        \u043E\u0431\u043D\u043E\u0432\u0438\u0442\u0435 \u0438\u0433\u0440\u0443"
+    - key: $LOBBY_DISCONNECTED_NICKNAME_TAKEN
+      value: "\u0422\u0430\u043A\u043E\u0439 \u043D\u0438\u043A\u043D\u0435\u0439\u043C
+        \u0443\u0436\u0435 \u0437\u0430\u043D\u044F\u0442, \u0432\u044B\u0431\u0435\u0440\u0438\u0442\u0435
+        \u0434\u0440\u0443\u0433\u043E\u0439!"
+    - key: $LOBBY_DISCONNECTED_SERVER_ERROR
+      value: "\u041E\u0448\u0438\u0431\u043A\u0430 \u0441\u0435\u0440\u0432\u0435\u0440\u0430,
+        \u043F\u043E\u043F\u0440\u043E\u0431\u0443\u0439\u0442\u0435 \u0435\u0449\u0451
+        \u0440\u0430\u0437"
+    - key: $MULTIPLAYER_GAME_END_MISSION_COMPLETE
+      value: "\u041C\u0438\u0441\u0441\u0438\u044F \u043F\u0440\u043E\u0439\u0434\u0435\u043D\u0430!"
+    - key: $MULTIPLAYER_GAME_END_MISSION_FAILED
+      value: "\u041C\u0438\u0441\u0441\u0438\u044F \u043F\u0440\u043E\u0432\u0430\u043B\u0435\u043D\u0430!"
+    - key: $MULTIPLAYER_GAME_END_OTHER_PLAYER_LEFT
+      value: "\u041D\u0430\u043F\u0430\u0440\u043D\u0438\u043A \u0432\u044B\u0448\u0435\u043B
+        \u0438\u0437 \u0438\u0433\u0440\u044B"
+    - key: $MULTIPLAYER_GAME_END_YOU_LEFT
+      value: "\u0422\u044B \u0432\u044B\u0448\u0435\u043B \u0438\u0437 \u0438\u0433\u0440\u044B"
+    - key: $TUTORIAL_DISABLE_LASER_HINT_NOTIF
+      value: "\u0410\u0433\u0435\u043D\u0442 \u0414\u0436\u043E\u043D\u0441\u043E\u043D,
+        \u0431\u0443\u0434\u044C \u0430\u043A\u043A\u0443\u0440\u0430\u0442\u0435\u043D.
+        \u041E\u0442\u043A\u043B\u044E\u0447\u0438 \u043B\u0430\u0437\u0435\u0440
+        \u0438 \u043D\u0435 \u043F\u043E\u043F\u0430\u0434\u0438 \u0432 \u043B\u043E\u0432\u0443\u0448\u043A\u0438."
+    - key: $TUTORIAL_CHEESE_HINT_NOTIF
+      value: "\u0414\u0436\u043E\u043D\u0441\u043E\u043D, \u0441\u044B\u0440 \u0434\u0430\u0435\u0442
+        \u043D\u0430\u043C \u0441\u043A\u043E\u0440\u043E\u0441\u0442\u044C. \u0421\u044A\u0435\u0448\u044C
+        \u0435\u0433\u043E!"
+    - key: $TUTORIAL_MOVE_CHAIRS_HINT_NOTIF
+      value: "\u0410\u0433\u0435\u043D\u0442 \u0414\u0436\u043E\u043D\u0441\u043E\u043D,
+        \u0434\u0432\u0438\u0433\u0430\u0439 \u0442\u0430\u0431\u0443\u0440\u0435\u0442\u043A\u0438!"
+  - language: 10
+    values:
+    - key: $MAIN_MENU_NEW_GAME
+      value: New game
+    - key: $MAIN_MENU_SETTINGS
+      value: Settings
+    - key: $MAIN_MENU_TITLES
+      value: Titles
+    - key: $MAIN_MENU_EXIT
+      value: Exit
+    - key: $MAIN_MENU_MULTIPLAYER
+      value: Multiplayer
+    - key: $MAIN_MENU_LOGO_TEXT
+      value: 'OPERATION: CACTUS'
+    - key: $MISSION_LABEL_SAVE_AGENTS
+      value: Save trapped agents
+    - key: $MISSION_LABEL_FIND_CACTUS
+      value: Steal golden cactus
+    - key: $MISSION_LABEL_EVACUATE
+      value: Go to escape zone
+    - key: $MISSION_COMPLETED_CACTUS_FOUND
+      value: Cactus found!
+    - key: $MISSION_COMPLETED_AGENT_SAVED
+      value: Agent escaped! Well done!
+    - key: $MISSION_COMPLETED_EVACUATION_ACTIVATED
+      value: All tasks completed! Return to entrance for evacuation
+    - key: $LOBBY_ENTER_ROOM_NAME_ERROR
+      value: Enter room name!
+    - key: $LOBBY_ENTER_ROOM_CREATING
+      value: Room is creating...
+    - key: $LOBBY_ROOM_ENTER_NICKNAME_ERROR
+      value: Enter nickname!
+    - key: $LOBBY_ROOM_CONNECTING_TO_SERVER
+      value: Connecting to server...
+    - key: $LOBBY_CONNECTION_TO_SERVER_ERROR
+      value: 'Connection error: [{reason}]'
+    - key: $LOBBY_CONNECTION_ALREADY_CONNECTED
+      value: Already connected!
+    - key: $LOBBY_CONNECTION_TO_SERVER_LOST
+      value: Lost connection to server
+    - key: $LOBBY_CONNECTION_FAILED
+      value: Cannot connect to server
+    - key: $LOBBY_DISCONNECTED_OLD_CLIENT_VERSION
+      value: Your client version is outdated, please, update game
+    - key: $LOBBY_DISCONNECTED_NICKNAME_TAKEN
+      value: Your nickname already taken, please, choose another
+    - key: $LOBBY_DISCONNECTED_SERVER_ERROR
+      value: Server error, try again
+    - key: $MULTIPLAYER_GAME_END_MISSION_COMPLETE
+      value: Mission completed!
+    - key: $MULTIPLAYER_GAME_END_MISSION_FAILED
+      value: Mission failed!
+    - key: $MULTIPLAYER_GAME_END_OTHER_PLAYER_LEFT
+      value: Teammate left the game
+    - key: $MULTIPLAYER_GAME_END_YOU_LEFT
+      value: You left the game
+    - key: $TUTORIAL_DISABLE_LASER_HINT_NOTIF
+      value: Agent Johnson, be careful. Turn off the laser and don't fall into the
+        traps.
+    - key: $TUTORIAL_CHEESE_HINT_NOTIF
+      value: Johnson, this cheese gives us speed. Eat it!
+    - key: $TUTORIAL_MOVE_CHAIRS_HINT_NOTIF
+      value: Agent Johnson, move this chairs!

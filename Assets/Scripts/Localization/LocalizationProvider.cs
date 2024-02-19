@@ -71,6 +71,9 @@ namespace Localization
 
         public string GetLocalization(string key, List<LocalizationParameter> parameters)
         {
+            if (parameters == null)
+                return GetLocalization(key);
+            
             if (_currentLocalization == null)
             {
                 Debug.LogError($"Невозможно получить локализацию для ключа {key}! Текущий язык не установлен!");

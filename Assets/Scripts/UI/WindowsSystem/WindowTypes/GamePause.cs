@@ -1,6 +1,7 @@
 ﻿using Common.DI;
 using GameCore.Camera;
 using Networking;
+using Networking.Client;
 using Networking.Dataframes.InGame;
 using Startup;
 using UnityEngine;

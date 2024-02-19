@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using Common.DI;
-using GameCore.Common;
 using GameCore.RoundControl;
 using LocalMessages;
 using NetFrame;
 using NetFrame.Client;
 using NetFrame.Enums;
-using Networking.Dataframes;
 using Networking.Dataframes.InGame;
+using Networking.Dataframes.Rooms;
 using Networking.LocalMessages;
 using Startup;
 using UI.NotificationsSystem;
@@ -19,7 +19,7 @@ using UI.WindowsSystem.WindowTypes;
 using UI.WindowsSystem.WindowTypes.Multiplayer.Rooms;
 using UnityEngine;
 
-namespace Networking
+namespace Networking.Client.NetFrame
 {
     public class GameClient : MonoBehaviour, IGameClient
     {
@@ -48,6 +48,7 @@ namespace Networking
                 _client?.Run();
         }
 
+        [SuppressMessage("ReSharper", "PossibleNullReferenceException")]
         public void Connect()
         {
             _client.ConnectionSuccessful += OnConnectionSuccessful;
@@ -75,7 +76,7 @@ namespace Networking
                 var actionType = typeof(Action<,>).MakeGenericType(type, typeof(int));
                 var handler = Delegate.CreateDelegate(actionType, this, resendGenericMethod);
                 var subscribeGenericMethod = subscribeMethod.MakeGenericMethod(type);
-                subscribeGenericMethod.Invoke(_client, new[] { handler });
+                subscribeGenericMethod.Invoke(_client, new object[] { handler });
             
                 _subscribedDataframes.Add(new SubscriptionContainer
                 {
@@ -87,6 +88,7 @@ namespace Networking
             _client.Connect(_parameters.Ip, _parameters.port);
         }
 
+        [SuppressMessage("ReSharper", "PossibleNullReferenceException")]
         public void Disconnect()
         {
             _client.Disconnect();
@@ -105,7 +107,7 @@ namespace Networking
             foreach (var container in _subscribedDataframes)
             {
                 var unsubscribeGenericMethod = unsubscribeMethod.MakeGenericMethod(container.dataframeType);
-                unsubscribeGenericMethod.Invoke(_client, new[] { container.handler });
+                unsubscribeGenericMethod.Invoke(_client, new object[] { container.handler });
             }
         }
 
@@ -113,7 +115,7 @@ namespace Networking
 
         private void OnConnectionSuccessful()
         {
-            Debug.Log("Connection successfull, sending connected message");
+            Debug.Log("Connection successful, sending connected message");
             _data.IsConnected = true;
             var message = new ConnectedMessage();
             _messageBroker.Trigger(ref message);
@@ -158,14 +160,15 @@ namespace Networking
             Debug.Log($"Game finished by reason: {reason}");
             string notif = reason switch
             {
-                GameFinishedReason.Win => "Миссия пройдена!",
-                GameFinishedReason.Lose => "Миссия провалена!",
-                GameFinishedReason.Leave => "Напарник вышел из игры",
-                GameFinishedReason.YouLeft => "Ты вышел из игры",
+                GameFinishedReason.Win => "$MULTIPLAYER_GAME_END_MISSION_COMPLETE",
+                GameFinishedReason.Lose => "$MULTIPLAYER_GAME_END_MISSION_FAILED",
+                GameFinishedReason.Leave => "$MULTIPLAYER_GAME_END_OTHER_PLAYER_LEFT",
+                GameFinishedReason.YouLeft => "$MULTIPLAYER_GAME_END_YOU_LEFT",
+                _ => "$LOBBY_CONNECTION_TO_SERVER_LOST"
             };
             
             var notificationsManager = GameContainer.Common.Resolve<NotificationsManager>();
-            notificationsManager.ShowNotification(notif, NotificationsManager.NotificationType.Center);
+            notificationsManager.ShowNotification(notif, NotificationType.Center);
             
             var gameInitializer = GameContainer.Common.Resolve<GameInitializer>();
             if (!gameInitializer.InGame) return;

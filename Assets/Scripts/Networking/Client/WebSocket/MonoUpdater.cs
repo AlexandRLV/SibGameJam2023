@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Networking
+namespace Networking.Client.WebSocket
 {
     public class MonoUpdater : MonoBehaviour
     {

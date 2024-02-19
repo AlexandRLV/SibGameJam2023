@@ -1,7 +1,12 @@
 ﻿using Common.DI;
+using GameCore.Levels;
 using LocalMessages;
 using Networking;
+using Networking.Client;
 using Networking.Dataframes;
+using Networking.Dataframes.Rooms;
+using Networking.Rooms;
+using Startup;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -30,6 +35,8 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
         [Inject] private GameClientData _gameClientData;
         [Inject] private IGameClient _gameClient;
         [Inject] private LocalMessageBroker _messageBroker;
+        [Inject] private LevelsData _levelsData;
+        [Inject] private GameInfo _gameInfo;
         
         private int _localId;
 
@@ -162,6 +169,7 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
 
         private void StartGame()
         {
+            _gameInfo.currentLevel = _levelsData.multiplayerLevel;
             _windowsSystem.DestroyWindow(this);
             _windowsSystem.CreateWindow<IntroScreen>();
         }

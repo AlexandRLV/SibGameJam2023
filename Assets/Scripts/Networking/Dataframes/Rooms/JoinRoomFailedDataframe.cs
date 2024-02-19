@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using UI.WindowsSystem.WindowTypes.Multiplayer.Rooms;
 
-namespace Networking.Dataframes
+namespace Networking.Dataframes.Rooms
 {
     [JsonObject]
     public struct JoinRoomFailedDataframe : INetworkDataframe

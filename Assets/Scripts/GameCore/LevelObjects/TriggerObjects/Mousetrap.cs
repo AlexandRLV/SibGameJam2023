@@ -2,6 +2,7 @@ using Common.DI;
 using GameCore.LevelObjects.Abstract;
 using GameCore.Sounds;
 using Networking;
+using Networking.Client;
 using Networking.Dataframes.InGame;
 using UnityEngine;
 

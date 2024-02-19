@@ -5,6 +5,7 @@ using GameCore.Character.Movement;
 using GameCore.Player;
 using GameCore.Player.Network;
 using Networking;
+using Networking.Client;
 using UnityEngine;
 
 namespace Startup.GameplayInitializers.Multiplayer

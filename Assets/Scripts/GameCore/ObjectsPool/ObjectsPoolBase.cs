@@ -58,6 +58,7 @@ namespace GameCore.ObjectsPool
         public void Return(T value)
         {
             value.gameObject.SetActive(false);
+            value.transform.parent = _parent.transform;
             _queue.Enqueue(value);
         }
 

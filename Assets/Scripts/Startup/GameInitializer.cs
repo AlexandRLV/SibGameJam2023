@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using Common.DI;
 using Networking;
+using Networking.Client;
 using Startup.GameStateMachine;
 using UI.WindowsSystem;
-using UI.WindowsSystem.WindowTypes;
 using UnityEngine;
 
 namespace Startup
@@ -56,7 +56,6 @@ namespace Startup
         public void StartGame()
         {
             InGame = true;
-            // bool isMultiplayer = _gameClientData.IsConnected; // TODO: fix multiplayer
             _gameStateMachine.SwitchToState(GameStateType.Game, true);
         }
 
@@ -68,7 +67,7 @@ namespace Startup
             _windowsSystem.DestroyAll();
 
             if (toMainMenu)
-                _windowsSystem.CreateWindow<MainMenu>();
+                _gameStateMachine.SwitchToState(GameStateType.Menu);
             
             InGame = false;
         }

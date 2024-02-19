@@ -12,7 +12,7 @@ using Newtonsoft.Json;
 using Startup;
 using UnityEngine;
 
-namespace Networking
+namespace Networking.Client.WebSocket
 {
     public class NativeWebSocketClient : IGameClient
     {
@@ -21,7 +21,7 @@ namespace Networking
         private GameClientData _data;
         private MonoUpdater _monoUpdater;
         
-        private WebSocket _webSocket;
+        private NativeWebSocket.WebSocket _webSocket;
         
         private ConcurrentQueue<IDataframeWrapper> _incomingDataframes;
 
@@ -39,7 +39,7 @@ namespace Networking
         public async void Connect()
         {
             Debug.Log("Creating web socket");
-            _webSocket = new WebSocket($"ws://{_parameters.Ip}:{_parameters.webSocketPort.ToString()}");
+            _webSocket = new NativeWebSocket.WebSocket($"ws://{_parameters.Ip}:{_parameters.webSocketPort.ToString()}");
             _webSocket.OnOpen += OnOpen;
             _webSocket.OnClose += OnClose;
             _webSocket.OnError += OnError;

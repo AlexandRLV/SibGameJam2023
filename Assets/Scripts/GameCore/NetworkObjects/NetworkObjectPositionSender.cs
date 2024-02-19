@@ -1,6 +1,7 @@
 ﻿using Common.DI;
 using GameCore.Player.Network;
 using Networking;
+using Networking.Client;
 using Networking.Dataframes.InGame.LevelObjects;
 using UnityEngine;
 

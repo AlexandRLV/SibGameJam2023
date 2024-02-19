@@ -1,10 +1,10 @@
 ﻿using Common.DI;
 using LocalMessages;
-using NetFrame.Client;
-using Networking.Dataframes;
+using Networking.Client;
 using Networking.Dataframes.InGame;
+using Networking.Dataframes.Rooms;
 
-namespace Networking
+namespace Networking.Rooms
 {
     public class RoomController
     {

@@ -1,6 +1,8 @@
 ﻿using Common.DI;
 using GameCore.LevelObjects.Abstract;
 using Networking;
+using Networking.Client;
+using Networking.Client.NetFrame;
 using Networking.Dataframes.InGame;
 using UnityEngine;
 

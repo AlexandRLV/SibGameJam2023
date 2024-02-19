@@ -5,6 +5,7 @@ namespace GameCore.Levels
     [CreateAssetMenu(menuName = "Configs/Levels Data")]
     public class LevelsData : ScriptableObject
     {
+        [SerializeField] public LevelInfo multiplayerLevel; 
         [SerializeField] public LevelInfo[] levels;
 
         public void Initialize()

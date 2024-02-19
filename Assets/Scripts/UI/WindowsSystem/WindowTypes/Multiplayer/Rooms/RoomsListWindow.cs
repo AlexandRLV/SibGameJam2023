@@ -1,9 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Common.DI;
 using LocalMessages;
 using NetFrame.Client;
 using Networking;
+using Networking.Client;
 using Networking.Dataframes;
+using Networking.Dataframes.Rooms;
+using Networking.Rooms;
 using Startup;
 using TMPro;
 using UI.NotificationsSystem;
@@ -174,7 +178,8 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
             {
                 JoinRoomFailedReason.WrongPassword => "Неправильный пароль!",
                 JoinRoomFailedReason.RoomAlreadyFull => "Комната уже заполнена",
-                JoinRoomFailedReason.RoomWasClosed => "Комната была закрыта"
+                JoinRoomFailedReason.RoomWasClosed => "Комната была закрыта",
+                _ => "Комната была закрыта"
             };
             
             Debug.Log($"Join room failed: {reason}");
@@ -182,7 +187,7 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
             if (dataframe.reason != JoinRoomFailedReason.WrongPassword)
                 CloseJoinRoom();
             
-            _notificationsManager.ShowNotification(reason, NotificationsManager.NotificationType.Center);
+            _notificationsManager.ShowNotification(reason, NotificationType.Center);
         }
 
         private void OpenCreateRoom()
@@ -195,7 +200,7 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
         {
             if (string.IsNullOrWhiteSpace(_createRoomPopup.RoomName))
             {
-                _notificationsManager.ShowNotification("Введите имя комнаты!", NotificationsManager.NotificationType.Center);
+                _notificationsManager.ShowNotification("$LOBBY_ENTER_ROOM_NAME_ERROR", NotificationType.Center);
                 return;
             }
             
@@ -207,7 +212,7 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
             };
             _gameClient.Send(ref dataframe);
             CloseCreateRoom();
-            _notificationsManager.ShowNotification("Комната создаётся...", NotificationsManager.NotificationType.Center, 0.5f);
+            _notificationsManager.ShowNotification("$LOBBY_ENTER_ROOM_CREATING", NotificationType.Center, 0.5f);
         }
 
         private void CloseCreateRoom()

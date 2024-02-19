@@ -37,8 +37,8 @@ namespace GameCore.LevelObjects.InteractiveObjects
             if (_timer > 0f) return;
             
             _notificationsManager.ShowNotification(
-                "Все задачи выполнены! Возвращайтесь ко входу для эвакуации.",
-                NotificationsManager.NotificationType.Top,
+                "$MISSION_COMPLETED_EVACUATION_ACTIVATED",
+                NotificationType.Top,
                 5f);
         }
 

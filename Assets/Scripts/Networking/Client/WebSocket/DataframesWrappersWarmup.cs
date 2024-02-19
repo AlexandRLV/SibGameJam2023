@@ -1,11 +1,9 @@
-﻿using System.Linq;
-using System.Reflection;
-using NetFrame;
-using Networking.Dataframes;
+﻿using Networking.Dataframes;
 using Networking.Dataframes.InGame;
 using Networking.Dataframes.InGame.LevelObjects;
+using Networking.Dataframes.Rooms;
 
-namespace Networking
+namespace Networking.Client.WebSocket
 {
     public static class DataframesWrappersWarmup
     {

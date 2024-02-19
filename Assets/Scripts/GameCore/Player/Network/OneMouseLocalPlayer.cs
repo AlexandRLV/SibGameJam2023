@@ -2,6 +2,7 @@
 using GameCore.Camera;
 using GameCore.Character.Movement;
 using Networking;
+using Networking.Client;
 using Networking.Dataframes.InGame;
 using UnityEngine;
 

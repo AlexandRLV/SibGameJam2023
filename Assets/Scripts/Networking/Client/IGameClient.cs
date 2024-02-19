@@ -1,6 +1,6 @@
 ﻿using NetFrame;
 
-namespace Networking
+namespace Networking.Client
 {
     public interface IGameClient
     {

@@ -2,6 +2,7 @@
 using Common.DI;
 using LocalMessages;
 using Networking;
+using Networking.Client;
 using Networking.Dataframes.InGame.LevelObjects;
 using UnityEngine;
 
