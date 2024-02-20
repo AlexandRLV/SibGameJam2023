@@ -29,7 +29,7 @@ namespace Startup.StartGameInitializers
             loadingScreen.Active = true;
             GameContainer.Common.Register(loadingScreen);
 
-            var notificationsManager = Instantiate(_notificationsManager, uiRoot.NotificationsParent);
+            var notificationsManager = GameContainer.InstantiateAndResolve(_notificationsManager, uiRoot.NotificationsParent);
             GameContainer.Common.Register(notificationsManager);
         }
 
