@@ -23,9 +23,6 @@ namespace UI.WindowsSystem.WindowTypes
 
         private void Start()
         {
-            if (!_gameClientData.IsConnected)
-                Time.timeScale = 0f;
-            
             _gameCamera.FollowTarget.SetInPause(true);
             
             _continueButton.onClick.AddListener(() =>
@@ -65,12 +62,6 @@ namespace UI.WindowsSystem.WindowTypes
         private void OpenSettings()
         {
             _windowsSystem.CreateWindow<SettingsScreen>();
-        }
-
-        private void OnDestroy()
-        {
-            if (!_gameClientData.IsConnected)
-                Time.timeScale = 1f;
         }
     }
 }

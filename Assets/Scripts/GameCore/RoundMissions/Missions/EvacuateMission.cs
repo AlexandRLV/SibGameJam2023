@@ -2,7 +2,6 @@
 using GameCore.Common.Messages;
 using GameCore.LevelObjects.Messages;
 using LocalMessages;
-using UnityEngine;
 
 namespace GameCore.RoundMissions.Missions
 {
@@ -23,13 +22,14 @@ namespace GameCore.RoundMissions.Missions
 
         public override void Update()
         {
+            if (IsCompleted) return;
+            
             foreach (var mission in controller.activeMissions)
             {
                 if (mission == this) continue;
                 if (!mission.IsCompleted) return;
             }
             
-            Debug.Log("Activating evacuation, all missions completed");
             var message = new ActivateEvacuationMessage
             {
                 active = true
@@ -44,7 +44,6 @@ namespace GameCore.RoundMissions.Missions
 
         private void OnPlayerEvacuated(ref PlayerEvacuatedMessage message)
         {
-            Debug.Log("Completing evacuation mission");
             Complete();
             controller.UpdateMissionsState();
         }
