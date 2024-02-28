@@ -39,12 +39,11 @@ namespace GameCore.LevelObjects.InteractiveObjects
             _notificationsManager.ShowNotification(
                 "$MISSION_COMPLETED_EVACUATION_ACTIVATED",
                 NotificationType.Top,
-                5f);
+                3f);
         }
 
         private void OnEvacuationActivated(ref ActivateEvacuationMessage value)
         {
-            Debug.Log("Evacuation activated");
             IsUsed = false;
             gameObject.SetActive(value.active);
             _timer = TimeToShowEvacuateNotif;
@@ -52,7 +51,6 @@ namespace GameCore.LevelObjects.InteractiveObjects
 
         protected override void OnPlayerEnter()
         {
-            Debug.Log("Player evacuated!");
             var message = new PlayerEvacuatedMessage();
             _messageBroker.Trigger(ref message);
         }

@@ -3,7 +3,6 @@ using Common.DI;
 using GameCore.Camera;
 using GameCore.LevelAchievements;
 using GameCore.Levels;
-using Networking;
 using Networking.Client;
 using Networking.Dataframes.InGame;
 using PlayerProgress;
