@@ -40,7 +40,11 @@ namespace UI.NotificationsSystem
             {
                 var container = _activeNotifications[i];
                 container.showTimer -= Time.deltaTime;
-                if (container.showTimer > 0f) continue;
+                if (container.showTimer > 0f)
+                {
+                    _activeNotifications[i] = container;
+                    continue;
+                }
                 
                 container.pool.Return(container.notification);
                 _activeNotifications.RemoveAt(i);
