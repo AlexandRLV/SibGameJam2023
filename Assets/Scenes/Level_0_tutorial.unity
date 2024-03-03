@@ -70635,6 +70635,7 @@ MonoBehaviour:
   sound: 25
   _showSeconds: 5
   _showText: $TUTORIAL_MOVE_CHAIRS_HINT_NOTIF
+  _notificationId: 
 --- !u!65 &1609341782
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -78291,6 +78292,7 @@ MonoBehaviour:
   sound: 25
   _showSeconds: 3
   _showText: $TUTORIAL_DISABLE_LASER_HINT_NOTIF
+  _notificationId: DisableLaserHint
 --- !u!65 &1756724497
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -83696,6 +83698,7 @@ MonoBehaviour:
   sound: 25
   _showSeconds: 3
   _showText: $TUTORIAL_CHEESE_HINT_NOTIF
+  _notificationId: CheeseHint
 --- !u!1001 &1918007484
 PrefabInstance:
   m_ObjectHideFlags: 0

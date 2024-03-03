@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f31ec98f7aea48f49ce39eba66fc1c5f, type: 3}
+  m_Name: NotificationsSettings
+  m_EditorClassIdentifier: 
+  notifications:
+  - id: AgentSaved
+    localizationKey: $MISSION_COMPLETED_AGENT_SAVED
+    enabled: 1
+    type: 0
+    showTime: 3
+    maxWaitTime: 5
+    cooldown: 3
+  - id: CactusFound
+    localizationKey: $MISSION_COMPLETED_CACTUS_FOUND
+    enabled: 1
+    type: 0
+    showTime: 3
+    maxWaitTime: 5
+    cooldown: 3
+  - id: EvacuationActivated
+    localizationKey: $MISSION_COMPLETED_EVACUATION_ACTIVATED
+    enabled: 1
+    type: 0
+    showTime: 3
+    maxWaitTime: 5
+    cooldown: 3
+  - id: DisableLaserHint
+    localizationKey: $TUTORIAL_DISABLE_LASER_HINT_NOTIF
+    enabled: 1
+    type: 2
+    showTime: 3
+    maxWaitTime: 5
+    cooldown: 3
+  - id: CheeseHint
+    localizationKey: $TUTORIAL_CHEESE_HINT_NOTIF
+    enabled: 1
+    type: 2
+    showTime: 3
+    maxWaitTime: 5
+    cooldown: 3

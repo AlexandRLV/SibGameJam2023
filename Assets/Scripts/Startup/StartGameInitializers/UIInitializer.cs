@@ -13,10 +13,12 @@ namespace Startup.StartGameInitializers
         [SerializeField] private GameWindows _gameWindows;
         [SerializeField] private LoadingScreen _loadingScreen;
         [SerializeField] private NotificationsManager _notificationsManager;
+        [SerializeField] private NotificationsSettings _notificationsSettings;
         
         public override void Initialize()
         {
             GameContainer.Common.Register(_gameWindows);
+            GameContainer.Common.Register(_notificationsSettings);
             
             var uiRoot = Instantiate(_uiRoot);
             DontDestroyOnLoad(uiRoot);

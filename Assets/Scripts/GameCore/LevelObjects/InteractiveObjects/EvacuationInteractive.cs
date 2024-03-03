@@ -1,3 +1,4 @@
+using Common;
 using Common.DI;
 using GameCore.Common.Messages;
 using GameCore.LevelObjects.Abstract;
@@ -36,10 +37,7 @@ namespace GameCore.LevelObjects.InteractiveObjects
             _timer -= Time.deltaTime;
             if (_timer > 0f) return;
             
-            _notificationsManager.ShowNotification(
-                "$MISSION_COMPLETED_EVACUATION_ACTIVATED",
-                NotificationType.Top,
-                3f);
+            _notificationsManager.ShowNotification(Const.Notifications.EvacuationActivated); //$MISSION_COMPLETED_EVACUATION_ACTIVATED
         }
 
         private void OnEvacuationActivated(ref ActivateEvacuationMessage value)

@@ -139,6 +139,7 @@ MonoBehaviour:
   _gameWindows: {fileID: 11400000, guid: 5ab61e1f5271fb348867b9c1ea5d35ee, type: 2}
   _loadingScreen: {fileID: 6389271796287322328, guid: bb19226246c4ee54c90bd87ed7c942e8, type: 3}
   _notificationsManager: {fileID: 6045297264165776737, guid: b76a7c9378265b24e9b81daead7fde1b, type: 3}
+  _notificationsSettings: {fileID: 11400000, guid: facdef24bbc7d2e49a17c74d7524d805, type: 2}
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 0
