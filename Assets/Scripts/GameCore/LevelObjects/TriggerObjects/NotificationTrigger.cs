@@ -7,8 +7,6 @@ namespace GameCore.LevelObjects.TriggerObjects
 {
     public class NotificationTrigger : BaseTriggerObject
     {
-        [SerializeField] private float _showSeconds;
-        [SerializeField] private string _showText;
         [SerializeField] private string _notificationId;
         
         [Inject] private NotificationsManager _notificationsManager;
