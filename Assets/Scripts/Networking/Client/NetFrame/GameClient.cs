@@ -168,7 +168,8 @@ namespace Networking.Client.NetFrame
             };
             
             var notificationsManager = GameContainer.Common.Resolve<NotificationsManager>();
-            notificationsManager.ShowNotification(notif, NotificationType.Center);
+            // notificationsManager.ShowNotification(notif, NotificationType.Center);
+            // TODO: move notifs to configs
             
             var gameInitializer = GameContainer.Common.Resolve<GameInitializer>();
             if (!gameInitializer.InGame) return;

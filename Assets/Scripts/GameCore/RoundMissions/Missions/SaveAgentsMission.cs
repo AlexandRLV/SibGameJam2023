@@ -1,4 +1,5 @@
-﻿using Common.DI;
+﻿using Common;
+using Common.DI;
 using GameCore.RoundMissions.LocalMessages;
 using Localization;
 using LocalMessages;
@@ -36,7 +37,7 @@ namespace GameCore.RoundMissions.Missions
             if (IsCompleted) return;
 
             controller.RoundData.AgentsSaved++;
-            _notificationsManager.ShowNotification("$MISSION_COMPLETED_AGENT_SAVED", NotificationType.Top);
+            _notificationsManager.ShowNotification(Const.Notifications.AgentSaved); //$MISSION_COMPLETED_AGENT_SAVED
             
             if (controller.RoundData.AgentsSaved >= controller.Data.agentsToSave)
                 Complete();

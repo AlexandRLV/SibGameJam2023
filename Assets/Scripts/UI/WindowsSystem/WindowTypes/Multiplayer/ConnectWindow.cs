@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
+using Common;
 using Common.DI;
 using Localization;
 using LocalMessages;
 using NetFrame.Enums;
-using Networking;
 using Networking.Client;
 using Networking.Client.NetFrame;
 using Networking.Dataframes;
@@ -74,12 +74,12 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer
         {
             if (string.IsNullOrWhiteSpace(_nicknameText.text))
             {
-                _notificationsManager.ShowNotification("$LOBBY_ROOM_ENTER_NICKNAME_ERROR", NotificationType.Center);
+                _notificationsManager.ShowNotification(Const.Notifications.LobbyEnterNicknameError); // "$LOBBY_ROOM_ENTER_NICKNAME_ERROR"
                 return;
             }
             
             _gameClient.Connect();
-            _notificationsManager.ShowNotification("$LOBBY_ROOM_CONNECTING_TO_SERVER", NotificationType.Center, 0.5f);
+            _notificationsManager.ShowNotification(Const.Notifications.LobbyConnectingToServer); //"$LOBBY_ROOM_CONNECTING_TO_SERVER"
         }
 
         private void Cancel()
@@ -106,7 +106,7 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer
             Debug.Log($"Connection failed by reason: {reason}");
 
             _parameters[0].value = reason;
-            _notificationsManager.ShowNotification("$LOBBY_CONNECTION_TO_SERVER_ERROR", NotificationType.Center, parameters: _parameters);
+            _notificationsManager.ShowNotification(Const.Notifications.ConnectToServerError, _parameters); // "$LOBBY_CONNECTION_TO_SERVER_ERROR"
         }
 
         private void SendPlayerInfo(ref PlayerInfoRequestDataframe obj)
@@ -136,7 +136,7 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer
             };
             
             _parameters[0].value = reason;
-            _notificationsManager.ShowNotification("$LOBBY_CONNECTION_TO_SERVER_ERROR", NotificationType.Center, 3f, parameters: _parameters);
+            _notificationsManager.ShowNotification(Const.Notifications.ConnectToServerError, _parameters); // "$LOBBY_CONNECTION_TO_SERVER_ERROR"
         }
     }
 }

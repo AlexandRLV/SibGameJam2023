@@ -8,6 +8,7 @@ using Networking.Dataframes.InGame;
 using PlayerProgress;
 using Startup;
 using TMPro;
+using UI.NotificationsSystem;
 using UI.WindowsSystem.WindowTypes.Extra;
 using UnityEngine;
 using UnityEngine.UI;
@@ -31,9 +32,12 @@ namespace UI.WindowsSystem.WindowTypes
         [Inject] private ProgressManager _progressManager;
         [Inject] private GameInfo _gameInfo;
         [Inject] private LevelsData _levelsData;
+        [Inject] private NotificationsManager _notificationsManager;
 
         private void Start()
         {
+            _notificationsManager.ClearQueue();
+            
             float time = Time.time - _levelStatus.timeStarted;
             UiUtils.SetTimerText(_timerText, time);
             _medalView.SetMedal(MedalType.Gold);

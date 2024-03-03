@@ -1,4 +1,5 @@
-﻿using Common.DI;
+﻿using Common;
+using Common.DI;
 using GameCore.RoundMissions.LocalMessages;
 using LocalMessages;
 using UI.NotificationsSystem;
@@ -35,7 +36,7 @@ namespace GameCore.RoundMissions.Missions
             Complete();
             controller.UpdateMissionsState();
             
-            _notificationsManager.ShowNotification("$MISSION_COMPLETED_CACTUS_FOUND", NotificationType.Top);
+            _notificationsManager.ShowNotification(Const.Notifications.CactusFound); //"$MISSION_COMPLETED_CACTUS_FOUND"
         }
     }
 }

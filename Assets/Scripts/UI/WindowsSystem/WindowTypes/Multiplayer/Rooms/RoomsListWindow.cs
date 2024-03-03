@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Common;
 using Common.DI;
 using LocalMessages;
 using NetFrame.Client;
@@ -187,7 +188,9 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
             if (dataframe.reason != JoinRoomFailedReason.WrongPassword)
                 CloseJoinRoom();
             
-            _notificationsManager.ShowNotification(reason, NotificationType.Center);
+            // _notificationsManager.ShowNotification("$LOBBY_ENTER_ROOM_NAME_ERROR", NotificationType.Center);
+            // _notificationsManager.ShowNotification(reason, NotificationType.Center);
+            // TODO: create notifs for all reasons
         }
 
         private void OpenCreateRoom()
@@ -200,7 +203,7 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
         {
             if (string.IsNullOrWhiteSpace(_createRoomPopup.RoomName))
             {
-                _notificationsManager.ShowNotification("$LOBBY_ENTER_ROOM_NAME_ERROR", NotificationType.Center);
+                _notificationsManager.ShowNotification(Const.Notifications.LobbyRoomNameError); // "$LOBBY_ENTER_ROOM_NAME_ERROR"
                 return;
             }
             
@@ -212,7 +215,7 @@ namespace UI.WindowsSystem.WindowTypes.Multiplayer.Rooms
             };
             _gameClient.Send(ref dataframe);
             CloseCreateRoom();
-            _notificationsManager.ShowNotification("$LOBBY_ENTER_ROOM_CREATING", NotificationType.Center, 0.5f);
+            _notificationsManager.ShowNotification(Const.Notifications.LobbyRoomCreating); // "$LOBBY_ENTER_ROOM_CREATING"
         }
 
         private void CloseCreateRoom()

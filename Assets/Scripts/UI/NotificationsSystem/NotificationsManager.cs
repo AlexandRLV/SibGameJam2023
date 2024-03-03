@@ -7,111 +7,143 @@ namespace UI.NotificationsSystem
 {
     public class NotificationsManager : MonoBehaviour
     {
-        private struct NotificationContainer
+        private struct NotificationQueueContainer
         {
-            public Notification notification;
-            public float showTimer;
-            public NotificationsPool pool;
+            public float requestedTime;
+            public List<LocalizationParameter> parameters;
+            public NotificationsSettingsContainer settings;
         }
 
-        [SerializeField] private float _showTime;
-        [SerializeField] private NotificationsPool _centerNotificationsPool;
-        [SerializeField] private NotificationsPool _topNotificationsPool;
-     
-        [SerializeField] private RectTransform _topNotificationsParent;
-        [SerializeField] private RectTransform _centerNotificationsParent;
-
         [SerializeField] private Notification _sideNotification;
+        [SerializeField] private Notification _topNotification;
+        [SerializeField] private Notification _centerNotification;
 
         [Inject] private LocalizationProvider _localizationProvider;
+        [Inject] private NotificationsSettings _notificationsSettings;
         
-        private float _sideTimer;
-        private List<NotificationContainer> _activeNotifications;
+        private float _currentShowTimer;
+        private Notification _currentNotification;
+        private Queue<NotificationQueueContainer> _queuedNotifications;
+        private Dictionary<string, float> _lastNotificationsShowTimes;
 
         private void Start()
         {
-            _activeNotifications = new List<NotificationContainer>();
+            _queuedNotifications = new Queue<NotificationQueueContainer>();
+            _lastNotificationsShowTimes = new Dictionary<string, float>();
+            
             _sideNotification.gameObject.SetActive(false);
+            _topNotification.gameObject.SetActive(false);
+            _centerNotification.gameObject.SetActive(false);
         }
 
         private void Update()
         {
-            for (int i = _activeNotifications.Count - 1; i >= 0; i--)
-            {
-                var container = _activeNotifications[i];
-                container.showTimer -= Time.deltaTime;
-                if (container.showTimer > 0f)
-                {
-                    _activeNotifications[i] = container;
-                    continue;
-                }
-                
-                container.pool.Return(container.notification);
-                _activeNotifications.RemoveAt(i);
-            }
-            
-            if (_sideTimer <= 0f) return;
-
-            _sideTimer -= Time.deltaTime;
-            if (_sideTimer > 0f) return;
-            
-            _sideNotification.gameObject.SetActive(false);
+            UpdateCurrentNotification();
+            UpdateQueuedNotifications();
         }
 
-        public void ShowNotification(string localizationKey, NotificationType type, float time = -1, List<LocalizationParameter> parameters = null)
+        private void UpdateCurrentNotification()
         {
-            string localizedText = _localizationProvider.GetLocalization(localizationKey, parameters);
+            if (_currentNotification == null) return;
+            if (_currentShowTimer <= 0f) return;
+
+            _currentShowTimer -= Time.deltaTime;
+            if (_currentShowTimer > 0f) return;
             
-            float showTime = time > 0f ? time : _showTime;
-            if (type == NotificationType.Side)
+            _currentNotification.gameObject.SetActive(false);
+            _currentNotification = null;
+        }
+
+        private void UpdateQueuedNotifications()
+        {
+            if (_currentNotification != null) return;
+            if (_queuedNotifications.Count == 0) return;
+
+            bool foundNotification = false;
+            while (_queuedNotifications.Count > 0 && !foundNotification)
             {
-                _sideNotification.gameObject.SetActive(true);
-                _sideNotification.Initialize(localizedText);
-                _sideTimer = showTime;
+                var queuedNotif = _queuedNotifications.Peek();
+                float aliveTime = Time.time - queuedNotif.requestedTime;
+                if (aliveTime > queuedNotif.settings.maxWaitTime)
+                {
+                    _queuedNotifications.Dequeue();
+                    continue;
+                }
+
+                float lastShowTime = _lastNotificationsShowTimes.GetValueOrDefault(queuedNotif.settings.id, float.MinValue);
+                if (Time.time - lastShowTime < queuedNotif.settings.cooldown)
+                {
+                    _queuedNotifications.Dequeue();
+                    continue;
+                }
+
+                foundNotification = true;
+                ShowNotification(queuedNotif.settings, queuedNotif.parameters);
+                _currentShowTimer = queuedNotif.settings.showTime;
+            }
+        }
+        
+        public void ShowNotification(string id, List<LocalizationParameter> parameters = null)
+        {
+            if (!_notificationsSettings.TryGetNotificationById(id, out var notification))
+            {
+                Debug.LogError($"Не получилось найти конфиг для нотифа {id}! Проверьте id нотифов и конфиг с их настройками");
                 return;
             }
             
-            var container = GetNotificationForType(type);
-            container.notification.Initialize(localizedText);
-            container.showTimer = showTime;
-            _activeNotifications.Add(container);
+            if (!notification.enabled)
+                return;
+
+            if (_currentNotification == null)
+            {
+                ShowNotification(notification, parameters);
+                return;
+            }
+
+            var queueContainer = new NotificationQueueContainer
+            {
+                requestedTime = Time.time,
+                parameters = parameters,
+                settings = notification
+            };
+            _queuedNotifications.Enqueue(queueContainer);
         }
 
-        public void ClearAll()
+        private void ShowNotification(NotificationsSettingsContainer settings, List<LocalizationParameter> parameters)
         {
-            _sideNotification.gameObject.SetActive(false);
-            for (int i = _activeNotifications.Count - 1; i >= 0; i--)
-            {
-                var container = _activeNotifications[i];
-                container.pool.Return(container.notification);
-            }
+            _lastNotificationsShowTimes[settings.id] = Time.time;
             
-            _activeNotifications.Clear();
+            string localizedText = _localizationProvider.GetLocalization(settings.localizationKey, parameters);
+            
+            var notification = settings.type switch
+            {
+                NotificationType.Side => _sideNotification,
+                NotificationType.Center => _centerNotification,
+                NotificationType.Top => _topNotification,
+                _ => _topNotification
+            };
+            
+            notification.gameObject.SetActive(true);
+            notification.Initialize(localizedText);
+            _currentShowTimer = settings.showTime;
+            _currentNotification = notification;
         }
         
-        private NotificationContainer GetNotificationForType(NotificationType type)
+        public void ClearAll()
         {
-            var parent = type switch
+            if (_currentNotification != null)
             {
-                NotificationType.Center => _centerNotificationsParent,
-                _ => _topNotificationsParent
-            };
+                _currentNotification.gameObject.SetActive(false);
+                _currentNotification = null;
+            }
+            
+            _currentShowTimer = 0f;
+            _queuedNotifications.Clear();
+        }
 
-            var pool = type switch
-            {
-                NotificationType.Center => _centerNotificationsPool,
-                _ => _topNotificationsPool
-            };
-            
-            var notification = pool.Get();
-            notification.transform.SetParent(parent);
-            notification.gameObject.SetActive(true);
-            
-            return new NotificationContainer
-            {
-                notification = notification,
-                pool = pool,
-            };
+        public void ClearQueue()
+        {
+            _queuedNotifications.Clear();
         }
     }
 }
