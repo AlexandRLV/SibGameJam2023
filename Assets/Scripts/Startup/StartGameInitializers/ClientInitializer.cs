@@ -3,6 +3,7 @@ using Common.DI;
 using LocalMessages;
 using NetFrame.Utils;
 using Networking.Client;
+using Networking.Client.NetFrame;
 using Networking.Client.WebSocket;
 using Networking.Rooms;
 using UnityEngine;
