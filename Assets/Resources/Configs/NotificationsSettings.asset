@@ -15,9 +15,9 @@ MonoBehaviour:
   notifications:
   - id: AgentSaved
     localizationKey: $MISSION_COMPLETED_AGENT_SAVED
-    enabled: 1
+    enabled: 0
     type: 0
-    showTime: 3
+    showTime: 5
     maxWaitTime: 5
     cooldown: 3
   - id: CactusFound
@@ -31,14 +31,14 @@ MonoBehaviour:
     localizationKey: $MISSION_COMPLETED_EVACUATION_ACTIVATED
     enabled: 1
     type: 0
-    showTime: 3
+    showTime: 6
     maxWaitTime: 5
     cooldown: 3
   - id: DisableLaserHint
     localizationKey: $TUTORIAL_DISABLE_LASER_HINT_NOTIF
     enabled: 1
     type: 2
-    showTime: 3
+    showTime: 5
     maxWaitTime: 5
     cooldown: 3
   - id: CheeseHint
