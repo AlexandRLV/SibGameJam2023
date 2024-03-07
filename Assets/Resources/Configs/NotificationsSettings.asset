@@ -45,6 +45,6 @@ MonoBehaviour:
     localizationKey: $TUTORIAL_CHEESE_HINT_NOTIF
     enabled: 1
     type: 2
-    showTime: 3
+    showTime: 5
     maxWaitTime: 5
     cooldown: 3

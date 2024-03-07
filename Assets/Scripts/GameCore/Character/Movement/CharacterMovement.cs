@@ -11,7 +11,6 @@ using GameCore.LevelObjects.Abstract;
 using GameCore.Sounds;
 using GameCore.StateMachine;
 using LocalMessages;
-using Networking;
 using Networking.Client;
 using Networking.Dataframes.InGame;
 using UnityEngine;

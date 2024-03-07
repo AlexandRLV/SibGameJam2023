@@ -1,11 +1,10 @@
-﻿using System.Text;
-using Common;
+﻿using Common;
 using Common.DI;
 using GameCore.Common.Messages;
 using GameCore.Player;
 using GameCore.RoundControl;
 using LocalMessages;
-using Networking;
+using LocalMessages.MessageTypes;
 using Networking.Client;
 using TMPro;
 using UnityEngine;
@@ -24,7 +23,8 @@ namespace UI.WindowsSystem.WindowTypes
         [Header("Missions")]
         [SerializeField] private TextMeshProUGUI _missionsText;
         [SerializeField] private float _infoPanelShowTime;
-        [SerializeField] private GameObject _infoPanel;
+        [SerializeField] private GameObject _portraitPanel;
+        [SerializeField] private GameObject _tasksPanel;
 
         [Header("Indicators")]
         [SerializeField] private float _poisonIndicatorHideDelay;
@@ -43,7 +43,8 @@ namespace UI.WindowsSystem.WindowTypes
         
         private bool _initialized;
         private int _seconds;
-        private StringBuilder _stringBuilder;
+
+        private bool _sideNotificationActive;
 
         private float _infoPanelTimer;
         private float _poisonIndicatorHideTimer;
@@ -66,10 +67,10 @@ namespace UI.WindowsSystem.WindowTypes
         {
             SetPoisonState(false, false);
 
-            _stringBuilder = new StringBuilder();
             _initialized = true;
 
             _messageBroker.Subscribe<ChangeCharacterMessage>(OnCharacterChanged);
+            _messageBroker.Subscribe<SideNotificationStateChangedMessage>(OnSideNotificationStateChanged);
 
             _interactIndicator.SetActive(false);
             _infoPanelTimer = _infoPanelShowTime;
@@ -90,6 +91,7 @@ namespace UI.WindowsSystem.WindowTypes
         private void OnDestroy()
         {
             _messageBroker.Unsubscribe<ChangeCharacterMessage>(OnCharacterChanged);
+            _messageBroker.Unsubscribe<SideNotificationStateChangedMessage>(OnSideNotificationStateChanged);
         }
 
         private void Update()
@@ -108,13 +110,15 @@ namespace UI.WindowsSystem.WindowTypes
                 _infoPanelTimer -= Time.deltaTime;
                 if (_infoPanelTimer <= 0f)
                 {
-                    _infoPanel.SetActive(false);
+                    _portraitPanel.SetActive(false);
+                    _tasksPanel.SetActive(false);
                 }
             }
 
-            if (Input.GetKeyDown(KeyCode.Tab))
+            if (!_sideNotificationActive && Input.GetKeyDown(KeyCode.Tab))
             {
-                _infoPanel.SetActive(!_infoPanel.activeSelf);
+                _portraitPanel.SetActive(!_portraitPanel.activeSelf);
+                _tasksPanel.SetActive(!_tasksPanel.activeSelf);
                 _infoPanelTimer = 0f;
             }
 
@@ -156,6 +160,14 @@ namespace UI.WindowsSystem.WindowTypes
 
             var player = GameContainer.InGame.Resolve<IPlayer>();
             _interactIndicator.SetActive(player.CurrentMovement.MoveValues.CurrentInteractiveObject != null);
+        }
+
+        private void OnSideNotificationStateChanged(ref SideNotificationStateChangedMessage message)
+        {
+            _sideNotificationActive = message.value;
+            _portraitPanel.SetActive(_sideNotificationActive);
+            _tasksPanel.SetActive(false);
+            _infoPanelTimer = 0f;
         }
 
         private void SetLayout(bool isThinMouse)

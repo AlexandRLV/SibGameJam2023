@@ -3,8 +3,13 @@ using Common.DI;
 using LocalMessages;
 using NetFrame.Utils;
 using Networking.Client;
-using Networking.Client.NetFrame;
+
+#if UNITY_WEBGL
 using Networking.Client.WebSocket;
+#else
+using Networking.Client.NetFrame;
+#endif
+
 using Networking.Rooms;
 using UnityEngine;
 
@@ -33,7 +38,7 @@ namespace Startup.StartGameInitializers
 #if UNITY_WEBGL
             var monoUpdater = new GameObject("MonoUpdater").AddComponent<MonoUpdater>();
             GameContainer.Common.Register(monoUpdater);
-            Object.DontDestroyOnLoad(monoUpdater.gameObject);
+            DontDestroyOnLoad(monoUpdater.gameObject);
             
             var nativeSocketClient = GameContainer.Create<NativeWebSocketClient>();
             _gameClient = nativeSocketClient;

@@ -18,7 +18,7 @@ namespace UI.Tween.Tweens
 
         public override void SetCurrentToInitial()
         {
-            SetValue(_initialValue);
+            SetValue(_from);
         }
 
         protected override void OnUpdateInternal(float t)

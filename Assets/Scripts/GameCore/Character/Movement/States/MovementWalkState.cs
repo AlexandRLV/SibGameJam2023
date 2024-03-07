@@ -1,5 +1,4 @@
-﻿using Common;
-using GameCore.Character.Animation;
+﻿using GameCore.Character.Animation;
 using GameCore.LevelObjects.TriggerObjects;
 using UnityEngine;
 

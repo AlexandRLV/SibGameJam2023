@@ -29,6 +29,7 @@ namespace UI.Tween
             {
                 tweenPlayer.playOnEnable = false;
                 tweenPlayer.initialOnDisable = false;
+                tweenPlayer.ReadInitial();
             }
             
             if (_playOnEnable) Play();

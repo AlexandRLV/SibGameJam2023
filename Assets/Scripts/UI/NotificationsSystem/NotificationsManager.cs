@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using Common.DI;
 using Localization;
+using LocalMessages;
+using LocalMessages.MessageTypes;
 using UnityEngine;
 
 namespace UI.NotificationsSystem
@@ -20,6 +22,7 @@ namespace UI.NotificationsSystem
 
         [Inject] private LocalizationProvider _localizationProvider;
         [Inject] private NotificationsSettings _notificationsSettings;
+        [Inject] private LocalMessageBroker _localMessageBroker;
         
         private float _currentShowTimer;
         private Notification _currentNotification;
@@ -49,6 +52,15 @@ namespace UI.NotificationsSystem
 
             _currentShowTimer -= Time.deltaTime;
             if (_currentShowTimer > 0f) return;
+            
+            if (_currentNotification == _sideNotification)
+            {
+                var message = new SideNotificationStateChangedMessage
+                {
+                    value = false
+                };
+                _localMessageBroker.Trigger(ref message);
+            }
             
             _currentNotification.gameObject.SetActive(false);
             _currentNotification = null;
@@ -111,6 +123,7 @@ namespace UI.NotificationsSystem
 
         private void ShowNotification(NotificationsSettingsContainer settings, List<LocalizationParameter> parameters)
         {
+            Debug.Log($"Trigger notification {settings.id}");
             _lastNotificationsShowTimes[settings.id] = Time.time;
             
             string localizedText = _localizationProvider.GetLocalization(settings.localizationKey, parameters);
@@ -122,9 +135,18 @@ namespace UI.NotificationsSystem
                 NotificationType.Top => _topNotification,
                 _ => _topNotification
             };
+
+            if (settings.type == NotificationType.Side)
+            {
+                var message = new SideNotificationStateChangedMessage
+                {
+                    value = true
+                };
+                _localMessageBroker.Trigger(ref message);
+            }
             
-            notification.gameObject.SetActive(true);
             notification.Initialize(localizedText);
+            notification.gameObject.SetActive(true);
             _currentShowTimer = settings.showTime;
             _currentNotification = notification;
         }
@@ -133,6 +155,14 @@ namespace UI.NotificationsSystem
         {
             if (_currentNotification != null)
             {
+                if (_currentNotification == _sideNotification)
+                {
+                    var message = new SideNotificationStateChangedMessage
+                    {
+                        value = false
+                    };
+                    _localMessageBroker.Trigger(ref message);
+                }
                 _currentNotification.gameObject.SetActive(false);
                 _currentNotification = null;
             }
