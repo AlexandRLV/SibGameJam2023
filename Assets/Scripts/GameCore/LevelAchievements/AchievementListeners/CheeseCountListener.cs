@@ -4,9 +4,7 @@ namespace GameCore.LevelAchievements.AchievementListeners
 {
     public class CheeseCountListener : AchievementListenerBase
     {
-        private int _collectedCount;
-        
-        protected override void OnInitializeInternal()
+        public override void Initialize()
         {
             messageBroker.Subscribe<CheeseCollectedMessage>(OnCheeseCollected);
         }
@@ -18,7 +16,7 @@ namespace GameCore.LevelAchievements.AchievementListeners
 
         private void OnCheeseCollected(ref CheeseCollectedMessage message)
         {
-            _collectedCount++;
+            levelStatus.cheeseCount++;
         }
     }
 }

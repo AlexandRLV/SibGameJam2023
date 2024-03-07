@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 0.57
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1582946144}
-  m_IndirectSpecularColor: {r: 0.34009823, g: 0.37440395, b: 0.4159778, a: 0.57}
+  m_IndirectSpecularColor: {r: 0.3400984, g: 0.37440428, b: 0.41597813, a: 0.57}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -80192,6 +80192,7 @@ GameObject:
   - component: {fileID: 1761039929}
   - component: {fileID: 1761039928}
   - component: {fileID: 1761039933}
+  - component: {fileID: 1761039934}
   m_Layer: 0
   m_Name: LevelInitializer
   m_TagString: Untagged
@@ -80233,6 +80234,7 @@ MonoBehaviour:
   - {fileID: 1761039929}
   - {fileID: 1761039928}
   - {fileID: 1761039933}
+  - {fileID: 1761039934}
 --- !u!114 &1761039928
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80311,6 +80313,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _missionsData: {fileID: 11400000, guid: 3a8feb7b94ff5b14c824711e72cb6ce3, type: 2}
+--- !u!114 &1761039934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1761039925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 303d0633329a4b54a922bcca303bf14a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!43 &1761868101
 Mesh:
   m_ObjectHideFlags: 0

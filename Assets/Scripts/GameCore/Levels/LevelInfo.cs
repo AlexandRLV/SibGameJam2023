@@ -9,5 +9,6 @@ namespace GameCore.Levels
         [NonSerialized] public int id;
         [SerializeField] public bool hasIntro;
         [SerializeField] public string sceneName;
+        [SerializeField] public int cheeseCount;
     }
 }

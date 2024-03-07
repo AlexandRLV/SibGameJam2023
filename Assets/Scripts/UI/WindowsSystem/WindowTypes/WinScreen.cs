@@ -2,6 +2,7 @@
 using Common.DI;
 using GameCore.Camera;
 using GameCore.LevelAchievements;
+using GameCore.LevelAchievements.AchievementView;
 using GameCore.Levels;
 using Networking.Client;
 using Networking.Dataframes.InGame;
@@ -22,6 +23,8 @@ namespace UI.WindowsSystem.WindowTypes
         [SerializeField] private Button _continueButton;
         [SerializeField] private TextMeshProUGUI _timerText;
         [SerializeField] private MedalView _medalView;
+        [SerializeField] private CheeseAchievementView _cheeseAchievementView;
+        [SerializeField] private HpAchievementView _hpAchievementView;
 
         [Inject] private WindowsSystem _windowsSystem;
         [Inject] private GameCamera _gameCamera;
@@ -38,9 +41,21 @@ namespace UI.WindowsSystem.WindowTypes
         {
             _notificationsManager.ClearQueue();
             
+            _cheeseAchievementView.Setup();
+            _hpAchievementView.Setup();
+            
             float time = Time.time - _levelStatus.timeStarted;
             UiUtils.SetTimerText(_timerText, time);
-            _medalView.SetMedal(MedalType.Gold);
+
+            var medalType = MedalType.Bronze;
+            if (_levelStatus.cheeseCount >= _gameInfo.currentLevel.cheeseCount)
+            {
+                medalType = MedalType.Silver;
+                if (!_levelStatus.damaged)
+                    medalType = MedalType.Gold;
+            }
+            
+            _medalView.SetMedal(medalType);
             
             if (_gameClientData.IsConnected)
             {

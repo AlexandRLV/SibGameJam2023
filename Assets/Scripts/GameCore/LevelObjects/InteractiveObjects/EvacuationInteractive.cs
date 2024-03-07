@@ -31,20 +31,21 @@ namespace GameCore.LevelObjects.InteractiveObjects
 
         private void Update()
         {
-            if (IsUsed) return;
-            if (_timer <= 0f) return;
-
-            _timer -= Time.deltaTime;
-            if (_timer > 0f) return;
-            
-            _notificationsManager.ShowNotification(Const.Notifications.EvacuationActivated); //$MISSION_COMPLETED_EVACUATION_ACTIVATED
+            // if (IsUsed) return;
+            // if (_timer <= 0f) return;
+            //
+            // _timer -= Time.deltaTime;
+            // if (_timer > 0f) return;
+            //
+            // _notificationsManager.ShowNotification(Const.Notifications.EvacuationActivated); //$MISSION_COMPLETED_EVACUATION_ACTIVATED
         }
 
         private void OnEvacuationActivated(ref ActivateEvacuationMessage value)
         {
             IsUsed = false;
             gameObject.SetActive(value.active);
-            _timer = TimeToShowEvacuateNotif;
+            _notificationsManager.ShowNotification(Const.Notifications.EvacuationActivated); //$MISSION_COMPLETED_EVACUATION_ACTIVATED
+            // _timer = TimeToShowEvacuateNotif;
         }
 
         protected override void OnPlayerEnter()

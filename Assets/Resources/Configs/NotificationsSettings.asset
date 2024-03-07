@@ -38,13 +38,13 @@ MonoBehaviour:
     localizationKey: $TUTORIAL_DISABLE_LASER_HINT_NOTIF
     enabled: 1
     type: 2
-    showTime: 5
+    showTime: 4
     maxWaitTime: 5
     cooldown: 3
   - id: CheeseHint
     localizationKey: $TUTORIAL_CHEESE_HINT_NOTIF
     enabled: 1
     type: 2
-    showTime: 5
+    showTime: 4
     maxWaitTime: 5
     cooldown: 3

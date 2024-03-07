@@ -12,8 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24ceac98a7ad468db4b9552dbddd4596, type: 3}
   m_Name: Levels Data
   m_EditorClassIdentifier: 
+  multiplayerLevel:
+    hasIntro: 0
+    sceneName: 
+    cheeseCount: 0
   levels:
   - hasIntro: 0
     sceneName: Level_0_tutorial
+    cheeseCount: 1
   - hasIntro: 1
     sceneName: Level_01
+    cheeseCount: 2

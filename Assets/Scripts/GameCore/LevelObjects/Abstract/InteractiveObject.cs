@@ -1,5 +1,6 @@
 using Common.DI;
 using GameCore.Character.Animation;
+using LocalMessages;
 using UI.WindowsSystem;
 using UI.WindowsSystem.WindowTypes;
 using UnityEngine;
@@ -16,6 +17,7 @@ namespace GameCore.LevelObjects.Abstract
         
         [Inject] protected LevelObjectService levelObjectService;
         [Inject] protected WindowsSystem windowsSystem;
+        [Inject] protected LocalMessageBroker localMessageBroker;
 
         private void Start()
         {

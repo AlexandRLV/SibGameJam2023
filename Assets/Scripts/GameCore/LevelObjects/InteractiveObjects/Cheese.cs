@@ -1,8 +1,11 @@
 using Common.DI;
 using GameCore.Character.Animation;
+using GameCore.LevelAchievements.LocalMessages;
 using GameCore.LevelObjects.Abstract;
+using GameCore.LevelObjects.Messages;
 using GameCore.Player;
 using GameCore.Sounds;
+using LocalMessages;
 using UnityEngine;
 
 namespace GameCore.LevelObjects.InteractiveObjects
@@ -18,6 +21,9 @@ namespace GameCore.LevelObjects.InteractiveObjects
 
         protected override void OnInteractInternal()
         {
+            var message = new CheeseCollectedMessage();
+            localMessageBroker.Trigger(ref message);
+            
             soundService.PlaySound(SoundType.Eating);
             Movement.ChangeMovementSpeed(speedMultiplier, speedMultiplierDuration);
             Destroy(gameObject);

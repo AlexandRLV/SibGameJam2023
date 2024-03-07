@@ -6,14 +6,9 @@ namespace GameCore.LevelAchievements
     public abstract class AchievementListenerBase
     {
         [Inject] protected LocalMessageBroker messageBroker;
-
-        public void Initialize()
-        {
-            GameContainer.InjectToInstance(this);
-            OnInitializeInternal();
-        }
+        [Inject] protected LevelStatus levelStatus;
         
-        protected abstract void OnInitializeInternal();
+        public abstract void Initialize();
         public abstract void Dispose();
     }
 }
