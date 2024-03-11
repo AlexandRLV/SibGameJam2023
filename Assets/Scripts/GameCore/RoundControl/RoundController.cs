@@ -5,7 +5,6 @@ using GameCore.Enemies;
 using GameCore.Player;
 using GameCore.Sounds;
 using LocalMessages;
-using Networking;
 using Networking.Client;
 using Networking.Dataframes.InGame;
 using UI.WindowsSystem;

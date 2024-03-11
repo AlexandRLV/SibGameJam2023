@@ -7,6 +7,7 @@ using GameCore.Character.Animation;
 using GameCore.Character.Movement.States;
 using GameCore.Common.Messages;
 using GameCore.Input;
+using GameCore.LevelAchievements.LocalMessages;
 using GameCore.LevelObjects.Abstract;
 using GameCore.Sounds;
 using GameCore.StateMachine;
@@ -186,6 +187,11 @@ namespace GameCore.Character.Movement
         {
             Lives.Lives--;
             Lives.LivesChanged?.Invoke();
+            
+            if (!IsControlledByPlayer) return;
+
+            var damagedMessage = new PlayerDamagedMessage();
+            _messageBroker.Trigger(ref damagedMessage);
             
             if (Lives.Lives > 0) return;
 

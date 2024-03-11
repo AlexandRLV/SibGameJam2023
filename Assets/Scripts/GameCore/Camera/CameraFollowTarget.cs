@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using Common;
 using Common.DI;
 using GameCore.Input;
 using UnityEngine;
@@ -22,7 +21,6 @@ namespace GameCore.Camera
 
         private InputState _inputState;
 
-#region Private Methods
         private IEnumerator Start()
         {
             while (GameContainer.InGame == null || !GameContainer.InGame.CanResolve<InputState>())
@@ -86,9 +84,7 @@ namespace GameCore.Camera
                 }
             }
         }
-#endregion
 
-#region Public Methods
         public void SetTarget(Transform target)
         {
             _hasTarget = true;
@@ -116,6 +112,5 @@ namespace GameCore.Camera
 
             _inPause = value;
         }
-#endregion
     }
 }
