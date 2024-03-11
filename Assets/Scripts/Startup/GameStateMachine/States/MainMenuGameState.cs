@@ -1,4 +1,5 @@
 ﻿using Common.DI;
+using Cysharp.Threading.Tasks;
 using GameCore.Sounds;
 using UI;
 using UI.WindowsSystem;
@@ -15,20 +16,21 @@ namespace Startup.GameStateMachine.States
         [Inject] private WindowsSystem _windowsSystem;
         [Inject] private LoadingScreen _loadingScreen;
         
-        public void OnEnter()
+        public async UniTask OnEnter()
         {
             _loadingScreen.Active = true;
             var currentScene = SceneManager.GetActiveScene();
             if (currentScene.name != MainMenuScene)
-                SceneManager.LoadScene(MainMenuScene);
+                await SceneManager.LoadSceneAsync(MainMenuScene);
             
             _windowsSystem.CreateWindow<MainMenu>();
             _soundService.PlayMusic(MusicType.Menu);
             _loadingScreen.Active = false;
         }
 
-        public void OnExit()
+        public UniTask OnExit()
         {
+            return UniTask.CompletedTask;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Common.DI;
+using Cysharp.Threading.Tasks;
 using GameCore.Levels;
 using PlayerProgress;
 using Startup;
@@ -50,7 +51,7 @@ namespace UI.WindowsSystem.WindowTypes
             if (_gameInfo.currentLevel.hasIntro)
                 _windowsSystem.CreateWindow<IntroScreen>();
             else
-                _gameInitializer.StartGame();
+                _gameInitializer.StartGame().Forget();
             
             _windowsSystem.DestroyWindow(this);
         }
@@ -64,7 +65,7 @@ namespace UI.WindowsSystem.WindowTypes
             if (_gameInfo.currentLevel.hasIntro)
                 _windowsSystem.CreateWindow<IntroScreen>();
             else
-                _gameInitializer.StartGame();
+                _gameInitializer.StartGame().Forget();
             
             _windowsSystem.DestroyWindow(this);
         }

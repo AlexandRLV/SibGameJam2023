@@ -58,5 +58,13 @@ namespace Common
         {
             return float.IsInfinity(v.x) || float.IsInfinity(v.y) || float.IsInfinity(v.z) || float.IsInfinity(v.w);
         }
+
+        public static T GetRandom<T>(this T[] array)
+        {
+            if (array == null || array.Length == 0)
+                return default;
+
+            return array[Random.Range(0, array.Length)];
+        }
     }
 }

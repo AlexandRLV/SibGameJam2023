@@ -1,8 +1,7 @@
-﻿using System;
-using Common.DI;
+﻿using Common.DI;
+using Cysharp.Threading.Tasks;
 using GameCore.Camera;
 using GameCore.Common;
-using Networking;
 using Networking.Client;
 using Networking.Dataframes.InGame;
 using Startup;
@@ -38,12 +37,12 @@ namespace UI.WindowsSystem.WindowTypes
             _gameCamera.FollowTarget.SetInPause(true);
             _restartButton.onClick.AddListener(() =>
             {
-                _gameInitializer.RestartGame();
+                _gameInitializer.RestartGame().Forget();
             });
             
             _menuButton.onClick.AddListener(() =>
             {
-                _gameInitializer.StopGame();
+                _gameInitializer.StopGame().Forget();
             });
         }
 

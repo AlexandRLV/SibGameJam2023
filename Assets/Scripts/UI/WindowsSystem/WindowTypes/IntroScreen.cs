@@ -1,6 +1,6 @@
 ﻿using Common.DI;
+using Cysharp.Threading.Tasks;
 using LocalMessages;
-using Networking;
 using Networking.Client;
 using Networking.Dataframes.InGame;
 using Startup;
@@ -71,7 +71,7 @@ namespace UI.WindowsSystem.WindowTypes
             }
             
             _windowsSystem.DestroyWindow(this);
-            _gameInitializer.StartGame();
+            _gameInitializer.StartGame().Forget();
         }
 
         private void ProcessSkipIntro(ref SkipIntroDataframe dataframe)
@@ -82,7 +82,7 @@ namespace UI.WindowsSystem.WindowTypes
             if (!_skipped) return;
             
             _windowsSystem.DestroyWindow(this);
-            _gameInitializer.StartGame();
+            _gameInitializer.StartGame().Forget();
         }
     }
 }

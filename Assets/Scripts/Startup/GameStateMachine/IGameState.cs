@@ -1,8 +1,10 @@
-﻿namespace Startup.GameStateMachine
+﻿using Cysharp.Threading.Tasks;
+
+namespace Startup.GameStateMachine
 {
     public interface IGameState
     {
-        public void OnEnter();
-        public void OnExit();
+        public UniTask OnEnter();
+        public UniTask OnExit();
     }
 }

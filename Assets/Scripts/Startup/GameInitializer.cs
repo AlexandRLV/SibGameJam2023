@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Common.DI;
+using Cysharp.Threading.Tasks;
 using Networking;
 using Networking.Client;
 using Startup.GameStateMachine;
@@ -39,7 +40,7 @@ namespace Startup
             GameContainer.InjectToInstance(this);
 
             _gameStateMachine = new GameStateMachine.GameStateMachine();
-            _gameStateMachine.SwitchToState(GameStateType.Menu, true);
+            _gameStateMachine.SwitchToState(GameStateType.Menu, true).Forget();
         }
 
         private void OnDestroy()
@@ -47,19 +48,17 @@ namespace Startup
             if (!_isActive)
                 return;
             
-            if (InGame) StopGame(false);
-            
             DisposeList(_startupInitializers);
             _windowsSystem.DestroyAll();
         }
 
-        public void StartGame()
+        public async UniTask StartGame()
         {
             InGame = true;
-            _gameStateMachine.SwitchToState(GameStateType.Game, true);
+            await _gameStateMachine.SwitchToState(GameStateType.Game, true);
         }
 
-        public void StopGame(bool toMainMenu = true)
+        public async UniTask StopGame(bool toMainMenu = true)
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
@@ -67,15 +66,15 @@ namespace Startup
             _windowsSystem.DestroyAll();
 
             if (toMainMenu)
-                _gameStateMachine.SwitchToState(GameStateType.Menu);
+                await _gameStateMachine.SwitchToState(GameStateType.Menu);
             
             InGame = false;
         }
 
-        public void RestartGame()
+        public async UniTask RestartGame()
         {
-            StopGame(false);
-            StartGame();
+            await StopGame(false);
+            await StartGame();
         }
 
         private void DisposeList(List<InitializerBase> initializers)

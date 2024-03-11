@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Common.DI;
+using Cysharp.Threading.Tasks;
 using Startup.GameStateMachine.States;
 using UnityEngine;
 
@@ -23,7 +24,7 @@ namespace Startup.GameStateMachine
         private GameStateType _currentStateType;
         private IGameState _currentState;
 
-        public void SwitchToState(GameStateType targetState, bool force = false)
+        public async UniTask SwitchToState(GameStateType targetState, bool force = false)
         {
             Debug.Log($"Switching to state {targetState}");
             if (_currentStateType == targetState && !force)
@@ -32,12 +33,13 @@ namespace Startup.GameStateMachine
                 return;
             }
 
-            _currentState?.OnExit();
+            if (_currentState != null)
+                await _currentState.OnExit();
 
             _currentStateType = targetState;
             _currentState = _states[targetState];
             
-            _currentState.OnEnter();
+            await _currentState.OnEnter();
         }
     }
 }

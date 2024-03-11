@@ -1,6 +1,6 @@
 ﻿using Common.DI;
+using Cysharp.Threading.Tasks;
 using GameCore.Camera;
-using Networking;
 using Networking.Client;
 using Networking.Dataframes.InGame;
 using Startup;
@@ -44,7 +44,7 @@ namespace UI.WindowsSystem.WindowTypes
                 }
                 
                 _windowsSystem.DestroyWindow(this);
-                _gameInitializer.StopGame();
+                _gameInitializer.StopGame().Forget();
             });
             
             _settingsButton.onClick.AddListener(OpenSettings);

@@ -1,5 +1,6 @@
 ﻿using Common;
 using Common.DI;
+using Cysharp.Threading.Tasks;
 using GameCore.Camera;
 using GameCore.LevelAchievements;
 using GameCore.LevelAchievements.AchievementView;
@@ -78,11 +79,11 @@ namespace UI.WindowsSystem.WindowTypes
             _gameCamera.FollowTarget.SetInPause(true);
             _menuButton.onClick.AddListener(() =>
             {
-                _gameInitializer.StopGame();
+                _gameInitializer.StopGame().Forget();
             });
             _restartButton.onClick.AddListener(() =>
             {
-                _gameInitializer.RestartGame();
+                _gameInitializer.RestartGame().Forget();
             });
             _continueButton.onClick.AddListener(() =>
             {
@@ -96,7 +97,7 @@ namespace UI.WindowsSystem.WindowTypes
                 if (_gameInfo.currentLevel.hasIntro)
                     _windowsSystem.CreateWindow<IntroScreen>();
                 else
-                    _gameInitializer.StartGame();
+                    _gameInitializer.StartGame().Forget();
             });
         }
     }
