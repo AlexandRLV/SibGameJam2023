@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24ceac98a7ad468db4b9552dbddd4596, type: 3}
   m_Name: Levels Data
   m_EditorClassIdentifier: 
+  LoadingScreenShowSeconds: 3
   multiplayerLevel:
     hasIntro: 0
     sceneName: 

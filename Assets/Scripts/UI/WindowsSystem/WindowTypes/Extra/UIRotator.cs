@@ -6,7 +6,7 @@ namespace UI.WindowsSystem.WindowTypes.Extra
     {
         [SerializeField] private float _rotationSpeed;
 
-        private void Awake()
+        private void Update()
         {
             transform.Rotate(new Vector3(0f, 0f, _rotationSpeed * Time.deltaTime));
         }

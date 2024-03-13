@@ -1,8 +1,10 @@
 ﻿using Common.DI;
 using Cysharp.Threading.Tasks;
 using GameCore.LevelObjects;
+using GameCore.Levels;
 using UI;
 using UI.NotificationsSystem;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Startup.GameStateMachine.States
@@ -12,9 +14,12 @@ namespace Startup.GameStateMachine.States
         [Inject] private LoadingScreen _loadingScreen;
         [Inject] private GameInfo _gameInfo;
         [Inject] private NotificationsManager _notificationsManager;
+        [Inject] private LevelsData _levelsData;
         
         public async UniTask OnEnter()
         {
+            float startTime = Time.time;
+            
             _loadingScreen.Active = true;
             _loadingScreen.SetLevel(_gameInfo.currentLevel);
 
@@ -23,6 +28,14 @@ namespace Startup.GameStateMachine.States
             GameContainer.InGame.Register(service);
 
             await SceneManager.LoadSceneAsync(_gameInfo.currentLevel.sceneName);
+
+            float endTime = Time.time;
+            float passedTime = endTime - startTime;
+
+            float delta = _levelsData.LoadingScreenShowSeconds - passedTime;
+            if (delta > 0)
+                await UniTask.Delay((int)(delta * 1000));
+            
             _loadingScreen.Active = false;
         }
 
