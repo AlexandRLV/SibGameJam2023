@@ -103,7 +103,7 @@ namespace GameCore.RoundControl
 
         private void OnPlayerDetected(ref PlayerDetectedMessage value)
         {
-            LoseGameByReason(LoseGameReason.Catched);
+            LoseGameByReason(LoseGameReason.Caught);
         }
 
         private void OnPlayerDead(ref PlayerDeadMessage value)

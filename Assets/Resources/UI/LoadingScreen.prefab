@@ -101,6 +101,7 @@ GameObject:
   - component: {fileID: 2210153650233709883}
   - component: {fileID: 5606659797219587581}
   - component: {fileID: 3149705031979681545}
+  - component: {fileID: 2439443232489498605}
   m_Layer: 5
   m_Name: Hint
   m_TagString: Untagged
@@ -227,6 +228,21 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &2439443232489498605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2829369340284329400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 071cccf64ff14fe69501918cfa29c191, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _key: 
+  _text: {fileID: 3149705031979681545}
+  _parameters: []
 --- !u!1 &3680374924225946095
 GameObject:
   m_ObjectHideFlags: 0
@@ -314,6 +330,7 @@ GameObject:
   - component: {fileID: 1408629108085584687}
   - component: {fileID: 1466667740208861160}
   - component: {fileID: 753620475305214398}
+  - component: {fileID: 5128040809672496526}
   m_Layer: 5
   m_Name: LevelName
   m_TagString: Untagged
@@ -438,6 +455,21 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &5128040809672496526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4676547340969110345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 071cccf64ff14fe69501918cfa29c191, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _key: 
+  _text: {fileID: 753620475305214398}
+  _parameters: []
 --- !u!1 &6389271795946847494
 GameObject:
   m_ObjectHideFlags: 0
@@ -449,6 +481,7 @@ GameObject:
   - component: {fileID: 6389271795946847493}
   - component: {fileID: 6389271795946846971}
   - component: {fileID: 6389271795946847492}
+  - component: {fileID: 6434471485496251455}
   m_Layer: 5
   m_Name: LevelLabel
   m_TagString: Untagged
@@ -573,6 +606,21 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &6434471485496251455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6389271795946847494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 071cccf64ff14fe69501918cfa29c191, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _key: $LOADING_SCREEN_LEVEL
+  _text: {fileID: 6389271795946847492}
+  _parameters: []
 --- !u!1 &6389271796077203491
 GameObject:
   m_ObjectHideFlags: 0

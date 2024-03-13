@@ -87,6 +87,7 @@ GameObject:
   - component: {fileID: 4054919690824149882}
   - component: {fileID: 7770556883902184427}
   - component: {fileID: 4943092376536269569}
+  - component: {fileID: 8179085401714317994}
   m_Layer: 5
   m_Name: MissionTaskHeader
   m_TagString: Untagged
@@ -142,7 +143,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u0410\u0433\u0435\u043D\u0442\u044B, \u0443 \u0432\u0430\u0441 5 \u043C\u0438\u043D\u0443\u0442,
+  m_text: "\u0410\u0433\u0435\u043D\u0442, \u0443 \u0442\u0435\u0431\u044F 5 \u043C\u0438\u043D\u0443\u0442,
     \u0447\u0442\u043E\u0431\u044B \u0432\u044B\u043F\u043E\u043B\u043D\u0438\u0442\u044C
     \u0437\u0430\u0434\u0430\u043D\u0438\u0435:"
   m_isRightToLeft: 0
@@ -213,6 +214,21 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &8179085401714317994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8988698451989629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 071cccf64ff14fe69501918cfa29c191, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _key: $MISSIONS_TASKS_HEADER
+  _text: {fileID: 4943092376536269569}
+  _parameters: []
 --- !u!1 &99338967265603679
 GameObject:
   m_ObjectHideFlags: 0
@@ -416,6 +432,7 @@ GameObject:
   - component: {fileID: 4308883386748064200}
   - component: {fileID: 3355770167195326945}
   - component: {fileID: 2433356496843521078}
+  - component: {fileID: 3616284024896661374}
   m_Layer: 5
   m_Name: ThinAgentInfoLabel
   m_TagString: Untagged
@@ -541,6 +558,21 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &3616284024896661374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1489829247753954183}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 071cccf64ff14fe69501918cfa29c191, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _key: $MISSIONS_THIN_AGENT_INFO
+  _text: {fileID: 2433356496843521078}
+  _parameters: []
 --- !u!1 &1579721133030347141
 GameObject:
   m_ObjectHideFlags: 0
@@ -552,6 +584,7 @@ GameObject:
   - component: {fileID: 9023920788266488948}
   - component: {fileID: 2168721834739604731}
   - component: {fileID: 1627401004689671813}
+  - component: {fileID: 3793005656503444296}
   m_Layer: 5
   m_Name: MissionTaskFooter
   m_TagString: Untagged
@@ -678,6 +711,21 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &3793005656503444296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1579721133030347141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 071cccf64ff14fe69501918cfa29c191, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _key: $MISSIONS_TASKS_FOOTER
+  _text: {fileID: 1627401004689671813}
+  _parameters: []
 --- !u!1 &1598495874549333335
 GameObject:
   m_ObjectHideFlags: 0
@@ -1030,6 +1078,7 @@ GameObject:
   - component: {fileID: 1165157298888199551}
   - component: {fileID: 2560339834634073749}
   - component: {fileID: 6919477234493523496}
+  - component: {fileID: 7799731629426783051}
   m_Layer: 5
   m_Name: SwitchAgentsLabel
   m_TagString: Untagged
@@ -1155,6 +1204,21 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &7799731629426783051
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2948193813168216071}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 071cccf64ff14fe69501918cfa29c191, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _key: $MISSIONS_SWITCH_AGENT_LABEL
+  _text: {fileID: 6919477234493523496}
+  _parameters: []
 --- !u!1 &3152606833763745419
 GameObject:
   m_ObjectHideFlags: 0
@@ -2371,6 +2435,7 @@ GameObject:
   - component: {fileID: 2177848545626086968}
   - component: {fileID: 8801292652394388691}
   - component: {fileID: 7708467490470407214}
+  - component: {fileID: 7441829042512979781}
   m_Layer: 5
   m_Name: FatAgentInfoLabel
   m_TagString: Untagged
@@ -2496,6 +2561,21 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &7441829042512979781
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5805219384200809277}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 071cccf64ff14fe69501918cfa29c191, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _key: $MISSIONS_FAT_AGENT_INFO
+  _text: {fileID: 7708467490470407214}
+  _parameters: []
 --- !u!1 &5878843684039796957
 GameObject:
   m_ObjectHideFlags: 0

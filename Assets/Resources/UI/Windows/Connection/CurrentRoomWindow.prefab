@@ -109,7 +109,7 @@ RectTransform:
   - {fileID: 5130394993395714117}
   - {fileID: 6048647176049176851}
   m_Father: {fileID: 2305585233161667009}
-  m_RootOrder: 5
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
@@ -203,6 +203,7 @@ GameObject:
   - component: {fileID: 1045061474147373487}
   - component: {fileID: 8196128226106167765}
   - component: {fileID: 5979233758255546357}
+  - component: {fileID: 2989624890243009273}
   m_Layer: 5
   m_Name: GameStartLabel
   m_TagString: Untagged
@@ -328,6 +329,21 @@ MonoBehaviour:
   m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &2989624890243009273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 521057899448295929}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 071cccf64ff14fe69501918cfa29c191, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _key: $CURRENT_ROOM_TIMER_LABEL
+  _text: {fileID: 5979233758255546357}
+  _parameters: []
 --- !u!1 &576535821283705572
 GameObject:
   m_ObjectHideFlags: 0
@@ -339,6 +355,7 @@ GameObject:
   - component: {fileID: 9045250896222898550}
   - component: {fileID: 2850245233443048583}
   - component: {fileID: 153811298437592644}
+  - component: {fileID: 9160203487475268033}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -463,6 +480,21 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &9160203487475268033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 576535821283705572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 071cccf64ff14fe69501918cfa29c191, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _key: $CURRENT_ROOM_READY_LABEL
+  _text: {fileID: 153811298437592644}
+  _parameters: []
 --- !u!1 &600503839450994501
 GameObject:
   m_ObjectHideFlags: 0
@@ -572,7 +604,7 @@ RectTransform:
   m_Children:
   - {fileID: 3798185095990240072}
   m_Father: {fileID: 2305585233161667009}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -770,7 +802,7 @@ RectTransform:
   m_Children:
   - {fileID: 9045250896222898550}
   m_Father: {fileID: 2305585233161667009}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -870,6 +902,7 @@ GameObject:
   - component: {fileID: 6048647176049176851}
   - component: {fileID: 42087314593589900}
   - component: {fileID: 5776088742790788388}
+  - component: {fileID: 5139439581917643024}
   m_Layer: 5
   m_Name: LabelText
   m_TagString: Untagged
@@ -994,6 +1027,21 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &5139439581917643024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2005488508727919738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 071cccf64ff14fe69501918cfa29c191, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _key: $MAIN_MENU_LOGO_TEXT
+  _text: {fileID: 5776088742790788388}
+  _parameters: []
 --- !u!1 &2305585232311349274
 GameObject:
   m_ObjectHideFlags: 0
@@ -1027,7 +1075,7 @@ RectTransform:
   m_Children:
   - {fileID: 2305585233124664973}
   m_Father: {fileID: 2305585233161667009}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1127,6 +1175,7 @@ GameObject:
   - component: {fileID: 2305585233124664973}
   - component: {fileID: 2305585233124664975}
   - component: {fileID: 2305585233124664974}
+  - component: {fileID: 3408347749792978609}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -1251,6 +1300,21 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &3408347749792978609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2305585233124664972}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 071cccf64ff14fe69501918cfa29c191, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _key: $CURRENT_ROOM_LEAVE_BUTTON
+  _text: {fileID: 2305585233124664974}
+  _parameters: []
 --- !u!1 &2305585233161667008
 GameObject:
   m_ObjectHideFlags: 0
@@ -1281,11 +1345,11 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5411244427776858186}
+  - {fileID: 3363234809389046235}
   - {fileID: 3972310969342115973}
   - {fileID: 6320789759491753334}
   - {fileID: 5835629486644704615}
   - {fileID: 2305585232311349275}
-  - {fileID: 3363234809389046235}
   - {fileID: 8723702495201113826}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -1405,6 +1469,7 @@ GameObject:
   - component: {fileID: 4172879622140509599}
   - component: {fileID: 7357433563938398089}
   - component: {fileID: 2617269270035166168}
+  - component: {fileID: 4044503482422993894}
   m_Layer: 5
   m_Name: PlayerLabel
   m_TagString: Untagged
@@ -1529,6 +1594,21 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &4044503482422993894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3184967584266276327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 071cccf64ff14fe69501918cfa29c191, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _key: $CURRENT_ROOM_PLAYER1_LABEL
+  _text: {fileID: 2617269270035166168}
+  _parameters: []
 --- !u!1 &3192073776707185851
 GameObject:
   m_ObjectHideFlags: 0
@@ -1655,6 +1735,7 @@ GameObject:
   - component: {fileID: 9098877301345400984}
   - component: {fileID: 2107513147740594387}
   - component: {fileID: 7005615388316589267}
+  - component: {fileID: 902027660185985055}
   m_Layer: 5
   m_Name: PlayerLabel
   m_TagString: Untagged
@@ -1779,6 +1860,21 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &902027660185985055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4442574917362928674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 071cccf64ff14fe69501918cfa29c191, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _key: $CURRENT_ROOM_PLAYER2_LABEL
+  _text: {fileID: 7005615388316589267}
+  _parameters: []
 --- !u!1 &4902677134509649862
 GameObject:
   m_ObjectHideFlags: 0
@@ -1981,6 +2077,7 @@ GameObject:
   - component: {fileID: 3798185095990240072}
   - component: {fileID: 2807210467202249476}
   - component: {fileID: 7574892163465864706}
+  - component: {fileID: 4338445807456504909}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -2105,6 +2202,21 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &4338445807456504909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5629129900011039032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 071cccf64ff14fe69501918cfa29c191, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _key: $CURRENT_ROOM_NOT_READY_LABEL
+  _text: {fileID: 7574892163465864706}
+  _parameters: []
 --- !u!1 &7353778820116162728
 GameObject:
   m_ObjectHideFlags: 0
@@ -2440,6 +2552,7 @@ GameObject:
   - component: {fileID: 3685041653547021091}
   - component: {fileID: 3438673755102012212}
   - component: {fileID: 2013527979792006257}
+  - component: {fileID: 1614442736820303453}
   m_Layer: 5
   m_Name: RoomNameLabel
   m_TagString: Untagged
@@ -2564,6 +2677,21 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &1614442736820303453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7785236620839395781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 071cccf64ff14fe69501918cfa29c191, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _key: $CURRENT_ROOM_NAME_LABEL
+  _text: {fileID: 2013527979792006257}
+  _parameters: []
 --- !u!1 &8178885629695823179
 GameObject:
   m_ObjectHideFlags: 0
@@ -2675,7 +2803,7 @@ RectTransform:
   - {fileID: 2060229249948672948}
   - {fileID: 1757366977284949965}
   m_Father: {fileID: 2305585233161667009}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}

@@ -3,7 +3,7 @@
     public enum LoseGameReason
     {
         TimeOut,
-        Catched,
+        Caught,
         Dead,
     }
 }

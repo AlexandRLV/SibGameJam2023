@@ -87,6 +87,7 @@ GameObject:
   - component: {fileID: 4054919690824149882}
   - component: {fileID: 7770556883902184427}
   - component: {fileID: 4943092376536269569}
+  - component: {fileID: 2206766491720807721}
   m_Layer: 5
   m_Name: MissionTaskHeaderText
   m_TagString: Untagged
@@ -213,6 +214,21 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &2206766491720807721
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8988698451989629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 071cccf64ff14fe69501918cfa29c191, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _key: $MISSIONS_TASKS_HEADER
+  _text: {fileID: 4943092376536269569}
+  _parameters: []
 --- !u!1 &99338967265603679
 GameObject:
   m_ObjectHideFlags: 0
@@ -416,6 +432,7 @@ GameObject:
   - component: {fileID: 9023920788266488948}
   - component: {fileID: 2168721834739604731}
   - component: {fileID: 1627401004689671813}
+  - component: {fileID: 8537372167314252707}
   m_Layer: 5
   m_Name: MissionTaskFooterText
   m_TagString: Untagged
@@ -542,6 +559,21 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &8537372167314252707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1579721133030347141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 071cccf64ff14fe69501918cfa29c191, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _key: $MISSIONS_TASKS_FOOTER
+  _text: {fileID: 1627401004689671813}
+  _parameters: []
 --- !u!1 &1598495874549333335
 GameObject:
   m_ObjectHideFlags: 0

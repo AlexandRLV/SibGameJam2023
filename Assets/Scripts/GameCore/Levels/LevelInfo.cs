@@ -11,6 +11,8 @@ namespace GameCore.Levels
         [SerializeField] public string sceneName;
         [SerializeField] public int cheeseCount;
         [SerializeField] public string levelName;
+        [SerializeField] public string levelNameKey;
         [SerializeField] public string[] hints;
+        [SerializeField] public string[] hintsKeys;
     }
 }

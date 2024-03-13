@@ -171,6 +171,7 @@ MonoBehaviour:
   - {fileID: 9132857578577277279}
   - {fileID: 7}
   - {fileID: 6}
+  - {fileID: 9132857578577277281}
 --- !u!1 &769851868602834382
 GameObject:
   m_ObjectHideFlags: 0
@@ -186,6 +187,7 @@ GameObject:
   - component: {fileID: 6}
   - component: {fileID: 7}
   - component: {fileID: 9132857578577277279}
+  - component: {fileID: 9132857578577277281}
   m_Layer: 0
   m_Name: GameInitializer
   m_TagString: Untagged
@@ -247,3 +249,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _levelsData: {fileID: 11400000, guid: d2aedaee1fcb33740b782f6cd717275b, type: 2}
+--- !u!114 &9132857578577277281
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 769851868602834382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfe01f6c5951478491ac322210424591, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _cameraSettings: {fileID: 11400000, guid: b75b73ada0455c1409349d92ffd1df68, type: 2}

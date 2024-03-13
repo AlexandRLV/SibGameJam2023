@@ -29,6 +29,12 @@ namespace Localization
             _messageBroker.Unsubscribe<LocalizationChangedMessage>(OnLocalizationChanged);
         }
 
+        public void SetKey(string key)
+        {
+            _key = key;
+            UpdateLocalization();
+        }
+
         private void OnLocalizationChanged(ref LocalizationChangedMessage message)
         {
             UpdateLocalization();
@@ -36,10 +42,20 @@ namespace Localization
 
         private void UpdateLocalization()
         {
-            if (_parameters == null || _parameters.Count == 0)
+            if (string.IsNullOrWhiteSpace(_key))
+                _text.text = "";
+            else if (_parameters == null || _parameters.Count == 0)
                 _text.text = _localizationProvider.GetLocalization(_key);
             else
                 _text.text = _localizationProvider.GetLocalization(_key, _parameters);
         }
+
+#if UNITY_EDITOR
+        private void OnValidate()
+        {
+            if (_text == null)
+                _text = GetComponent<TextMeshProUGUI>();
+        }
+#endif
     }
 }

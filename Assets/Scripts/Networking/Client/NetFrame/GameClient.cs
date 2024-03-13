@@ -4,6 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using Common.DI;
+using Cysharp.Threading.Tasks;
 using GameCore.RoundControl;
 using LocalMessages;
 using NetFrame;
@@ -174,7 +175,7 @@ namespace Networking.Client.NetFrame
             var gameInitializer = GameContainer.Common.Resolve<GameInitializer>();
             if (!gameInitializer.InGame) return;
             
-            gameInitializer.StopGame();
+            gameInitializer.StopGame().Forget();
             
             Debug.Log("Creating room list window");
             var windowsSystem = GameContainer.Common.Resolve<WindowsSystem>();

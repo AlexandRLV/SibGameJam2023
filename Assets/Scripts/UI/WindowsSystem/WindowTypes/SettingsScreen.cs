@@ -1,6 +1,7 @@
 ﻿using Common.DI;
 using GameCore.Camera;
 using Localization;
+using PlayerSettings;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,21 +20,33 @@ namespace UI.WindowsSystem.WindowTypes
 
         [Inject] private WindowsSystem _windowsSystem;
         [Inject] private LocalizationProvider _localizationProvider;
+        [Inject] private GameSettingsManager _gameSettingsManager;
 
         private void Start()
         {
-            float sensitivity = Mathf.InverseLerp(_cameraSettings.minSensitivity, _cameraSettings.maxSensitivity,
-                _cameraSettings.sensitivity);
+            float sensitivity = Mathf.InverseLerp(_cameraSettings.minSensitivity, _cameraSettings.maxSensitivity, _gameSettingsManager.Settings.sensitivity);
             _sensitivitySlider.value = sensitivity;
 
-            _invertXToggle.isOn = _cameraSettings.invertX;
-            _invertYToggle.isOn = _cameraSettings.invertY;
+            _invertXToggle.isOn = _gameSettingsManager.Settings.invertX;
+            _invertYToggle.isOn = _gameSettingsManager.Settings.invertY;
 
-            _volumeSlider.value = AudioListener.volume;
-            _volumeSlider.onValueChanged.AddListener(value => AudioListener.volume = value);
+            _volumeSlider.value = _gameSettingsManager.Settings.volume;
+            _volumeSlider.onValueChanged.AddListener(value =>
+            {
+                _gameSettingsManager.Settings.volume = value;
+                AudioListener.volume = value;
+            });
             
-            _russianLanguageButton.onClick.AddListener(() => _localizationProvider.SetLanguage(SystemLanguage.Russian));
-            _englishLanguageButton.onClick.AddListener(() => _localizationProvider.SetLanguage(SystemLanguage.English));
+            _russianLanguageButton.onClick.AddListener(() =>
+            {
+                _gameSettingsManager.Settings.Language = SystemLanguage.Russian;
+                _localizationProvider.SetLanguage(SystemLanguage.Russian);
+            });
+            _englishLanguageButton.onClick.AddListener(() =>
+            {
+                _gameSettingsManager.Settings.Language = SystemLanguage.English;
+                _localizationProvider.SetLanguage(SystemLanguage.English);
+            });
             
             _saveButton.onClick.AddListener(Save);
         }
@@ -42,13 +55,15 @@ namespace UI.WindowsSystem.WindowTypes
         {
             float sensitivity = Mathf.Lerp(_cameraSettings.minSensitivity, _cameraSettings.maxSensitivity,
                 _sensitivitySlider.value);
-            _cameraSettings.sensitivity = sensitivity;
+            _gameSettingsManager.Settings.sensitivity = sensitivity;
 
-            _cameraSettings.invertX = _invertXToggle.isOn;
-            _cameraSettings.invertY = _invertYToggle.isOn;
+            _gameSettingsManager.Settings.invertX = _invertXToggle.isOn;
+            _gameSettingsManager.Settings.invertY = _invertYToggle.isOn;
 
-            AudioListener.volume = _volumeSlider.value;
+            _gameSettingsManager.Settings.volume = _volumeSlider.value;
             
+            _gameSettingsManager.Apply();
+            _gameSettingsManager.Save();
             _windowsSystem.DestroyWindow(this);
         }
     }

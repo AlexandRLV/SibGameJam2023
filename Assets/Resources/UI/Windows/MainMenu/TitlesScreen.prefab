@@ -74,8 +74,8 @@ MonoBehaviour:
     art\nSofya \"Wakami10\" Khlopchanka\nNastassia Mkrtychan\nAdonis \xABSky99\xBB
     Tukhvatshyn"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: e14ed2603735ff146a642f421bbb1a10, type: 2}
-  m_sharedMaterial: {fileID: -5206466236793226350, guid: e14ed2603735ff146a642f421bbb1a10, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 43ca41bc87679b542875173d5b61d2b6, type: 2}
+  m_sharedMaterial: {fileID: 3353742049047442339, guid: 43ca41bc87679b542875173d5b61d2b6, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -400,6 +400,7 @@ GameObject:
   - component: {fileID: 990663497523954578}
   - component: {fileID: 990663497523954580}
   - component: {fileID: 990663497523954579}
+  - component: {fileID: 8534343813111642877}
   m_Layer: 5
   m_Name: Text (TMP)2
   m_TagString: Untagged
@@ -458,8 +459,8 @@ MonoBehaviour:
   m_text: "MSA \u0431\u043B\u0430\u0433\u043E\u0434\u0430\u0440\u0438\u0442 \u0432\u0430\u0441
     \u0437\u0430 \u0438\u0433\u0440\u0443!"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: e14ed2603735ff146a642f421bbb1a10, type: 2}
-  m_sharedMaterial: {fileID: -5206466236793226350, guid: e14ed2603735ff146a642f421bbb1a10, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 43ca41bc87679b542875173d5b61d2b6, type: 2}
+  m_sharedMaterial: {fileID: 3353742049047442339, guid: 43ca41bc87679b542875173d5b61d2b6, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -525,6 +526,21 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &8534343813111642877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 990663497523954577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 071cccf64ff14fe69501918cfa29c191, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _key: $TITLES_THANKS_FOR_PLAYING
+  _text: {fileID: 990663497523954579}
+  _parameters: []
 --- !u!1 &990663497532400555
 GameObject:
   m_ObjectHideFlags: 0

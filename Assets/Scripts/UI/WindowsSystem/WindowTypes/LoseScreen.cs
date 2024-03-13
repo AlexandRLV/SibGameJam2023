@@ -2,10 +2,10 @@
 using Cysharp.Threading.Tasks;
 using GameCore.Camera;
 using GameCore.Common;
+using Localization;
 using Networking.Client;
 using Networking.Dataframes.InGame;
 using Startup;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,7 +13,7 @@ namespace UI.WindowsSystem.WindowTypes
 {
     public class LoseScreen : WindowBase
     {
-        [SerializeField] private TextMeshProUGUI _reasonLabel;
+        [SerializeField] private TextLocalizer _reasonLabelLocalizer;
         [SerializeField] private Button _restartButton;
         [SerializeField] private Button _menuButton;
 
@@ -48,13 +48,15 @@ namespace UI.WindowsSystem.WindowTypes
 
         public void Initialize(LoseGameReason reason)
         {
-            _reasonLabel.text = reason switch
+            string key = reason switch
             {
-                LoseGameReason.TimeOut => "Время вышло!",
-                LoseGameReason.Catched => "Агента поймали!",
-                LoseGameReason.Dead => "Агент погиб!",
-                _ => "Агента поймали!"
+                LoseGameReason.TimeOut => "$LOSE_SCREEN_REASON_TIMEOUT",
+                LoseGameReason.Caught => "$LOSE_SCREEN_REASON_CAUGHT",
+                LoseGameReason.Dead => "$LOSE_SCREEN_REASON_DIED",
+                _ => "$LOSE_SCREEN_REASON_CAUGHT"
             };
+            
+            _reasonLabelLocalizer.SetKey(key);
         }
     }
 }
