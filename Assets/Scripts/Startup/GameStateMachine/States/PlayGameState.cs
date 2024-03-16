@@ -15,9 +15,11 @@ namespace Startup.GameStateMachine.States
         [Inject] private GameInfo _gameInfo;
         [Inject] private NotificationsManager _notificationsManager;
         [Inject] private LevelsData _levelsData;
+        [Inject] private UIRoot _uiRoot;
         
         public async UniTask OnEnter()
         {
+            _uiRoot.UiAudioListenerState = false;
             float startTime = Time.time;
             
             _loadingScreen.Active = true;

@@ -82,7 +82,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7805173648945161180}
   - component: {fileID: 3267659727034168440}
-  - component: {fileID: 2083379746896635349}
+  - component: {fileID: 6210210715179752345}
   - component: {fileID: 1675880054101606883}
   m_Layer: 0
   m_Name: UI Camera
@@ -149,7 +149,7 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &2083379746896635349
+--- !u!81 &6210210715179752345
 AudioListener:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -304,6 +304,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ab572e266e04725af25a9423303a291, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _uiListener: {fileID: 6210210715179752345}
   _windowsParent: {fileID: 8514795391316343474}
   _notificationsParent: {fileID: 481243115485682909}
   _overlayParent: {fileID: 6414961139210779746}

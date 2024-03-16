@@ -15,9 +15,11 @@ namespace Startup.GameStateMachine.States
         [Inject] private SoundService _soundService;
         [Inject] private WindowsSystem _windowsSystem;
         [Inject] private LoadingScreen _loadingScreen;
+        [Inject] private UIRoot _uiRoot;
         
         public async UniTask OnEnter()
         {
+            _uiRoot.UiAudioListenerState = true;
             _loadingScreen.Active = true;
             var currentScene = SceneManager.GetActiveScene();
             if (currentScene.name != MainMenuScene)
