@@ -1,31 +1,22 @@
 using System.Collections.Generic;
 using Common.DI;
-using GameCore.Camera;
 using GameCore.Enemies.RouteControl;
 using GameCore.LevelObjects;
 using GameCore.Player;
 using GameCore.Sounds;
 using LocalMessages;
-using Networking;
 using Networking.Client;
 using Networking.Dataframes.InGame;
 using UnityEngine;
 
 namespace GameCore.Enemies.EnemyObject
 {
-    public enum MovementType
-    {
-        WaypointsSequentalPatrolling,
-        Clockwise,
-        NoWalk
-    }
-
     public class EnemyController : MonoBehaviour, ICheckPositionObject
     {
         public Vector3 CheckPosition { get; private set; }
 
         [Header("Main")]
-        [SerializeField] private MovementType movementType = MovementType.WaypointsSequentalPatrolling;
+        [SerializeField] private EnemyMovementType movementType = EnemyMovementType.WaypointsSequential;
         [SerializeField] private float timeToAlert;
         [SerializeField] private float questionTimeAfterDetect;
         [SerializeField] private float moveSpeed = 3.5f;
@@ -38,9 +29,11 @@ namespace GameCore.Enemies.EnemyObject
 
         private float _remainingTimeToAlert;
         private float _remainingTimeToShowQuestion;
-        private bool _isPlayerDetected = false;
-        private bool _isAlert = false;
+        private bool _isPlayerDetected;
+        private bool _isAlert;
         private bool _canTriggerAlert;
+
+        private bool _hasSeenCharacter;
 
         private float _timer;
         private bool _canTurn;
@@ -52,11 +45,9 @@ namespace GameCore.Enemies.EnemyObject
         private LocalMessageBroker _messageBroker;
         private MarkController _markController;
 
-        private bool _hasSeenCharacter;
-
         private void Start()
         {
-            if (movementType == MovementType.NoWalk)
+            if (movementType == EnemyMovementType.NoWalk)
                 Init(null);
 
             CheckPosition = transform.position;
@@ -68,15 +59,18 @@ namespace GameCore.Enemies.EnemyObject
         public void Init(List<Waypoint> movePoints)
         {
             _enemyScan = GetComponentInChildren<EnemyTargetScaner>();
-            _enemyMovement = GetComponent<EnemyMovement>();
-            _enemyFOV = GetComponentInChildren<EnemyFOV>();
             _markController = GetComponentInChildren<MarkController>();
+            
+            _enemyMovement = GetComponent<EnemyMovement>();
             _enemyMovement.movePoints = movePoints;
             _enemyMovement.Init(moveSpeed);
-            _currentTarget = null;
+            
+            _enemyFOV = GetComponentInChildren<EnemyFOV>();
             _enemyFOV.Init(_enemyScan.ViewAngle);
             _enemyFOV.SetColor(normalConeColor);
 
+            _currentTarget = null;
+            
             _messageBroker = GameContainer.Common.Resolve<LocalMessageBroker>();
             _messageBroker.Subscribe<PlayerDetectedMessage>(OnPlayerDetected);
         }
@@ -87,9 +81,9 @@ namespace GameCore.Enemies.EnemyObject
             
             _currentTarget = _enemyScan.GetNearestTarget();
 
-            if (MovementType.WaypointsSequentalPatrolling == movementType)
-                _enemyMovement.SequentalWaypointsMovement();
-            else if (MovementType.Clockwise == movementType)
+            if (EnemyMovementType.WaypointsSequential == movementType)
+                _enemyMovement.SequentialWaypointsMovement();
+            else if (EnemyMovementType.WaypointsClockwise == movementType)
                 _enemyMovement.ClockwiseWaypointsMovement();
             
             if (_currentTarget != null)
@@ -151,20 +145,10 @@ namespace GameCore.Enemies.EnemyObject
             _canTriggerAlert = canTriggerAlert;
         }
 
-        public void UndetectPlayer()
+        public void UnDetectPlayer()
         {
             _markController.ResetMarks();
             _isPlayerDetected = false;
-        }
-
-        private void LateUpdate()
-        {
-            if (!GameContainer.InGame.CanResolve<GameCamera>())
-                return;
-        
-            var cameraService = GameContainer.InGame.Resolve<GameCamera>();
-            if (cameraService != null && cameraService.Camera != null)
-                _markController.LookAt(cameraService.Camera);
         }
 
         private void OnPlayerDetected(ref PlayerDetectedMessage value)

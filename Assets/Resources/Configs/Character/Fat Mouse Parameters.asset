@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ad7b981199448e185415db1b2328ce1, type: 3}
+  m_Name: Fat Mouse Parameters
+  m_EditorClassIdentifier: 
+  speed: 15
+  standStillTimeToStartAnimation: 5
+  standStillAnimationTime: 2
+  lives: 3
+  cameraHeight: 1.5
+  canJump: 0
+  jumpHeight: 1.5
+  inAirSpeed: 3.5
+  gravityMultiplier: 2.5
+  jumpTime: 0.3
+  interactTime: 0.5
+  canPush: 1
+  hitTime: 0.5
+  lerpInertiaSpeed: 800
+  springForce: 500
+  dampingForce: 20

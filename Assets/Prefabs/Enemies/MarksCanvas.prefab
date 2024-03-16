@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5648691349064062472}
   - component: {fileID: 7475812049153963947}
   - component: {fileID: 6749917190730786091}
+  - component: {fileID: 5344372233820125624}
   m_Layer: 5
   m_Name: MarksCanvas
   m_TagString: Untagged
@@ -84,7 +85,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &6749917190730786091
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -97,8 +98,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 720e6c05f5d62154d8ca39be584b7324, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  questionMark: {fileID: 3086889316189685749}
-  exclamationMark: {fileID: 9129241003769989369}
+  _questionMark: {fileID: 3086889316189685749}
+  _exclamationMark: {fileID: 9129241003769989369}
+--- !u!114 &5344372233820125624
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 448905735854699484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cf0b57c5b924ac583d4759d80f38f8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3086889316189685749
 GameObject:
   m_ObjectHideFlags: 0

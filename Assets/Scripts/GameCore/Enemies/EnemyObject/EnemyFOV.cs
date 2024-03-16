@@ -4,16 +4,17 @@ namespace GameCore.Enemies.EnemyObject
 {
     public class EnemyFOV : MonoBehaviour
     {
+        [SerializeField] private MeshFilter _meshFilter;
+        [SerializeField] private MeshRenderer _meshRenderer;
+        
         private const int VisionConeResolution = 300;
         private Mesh _visionConeMesh;
-        private MeshFilter _meshFilter;
 
         private int[] _triangles;
         private Vector3[] _vertices;
 
         public void Init(float viewAngle)
         {
-            _meshFilter = GetComponent<MeshFilter>();
             _visionConeMesh = new Mesh();
             transform.localRotation = Quaternion.Euler(0.0f, viewAngle/2, 0.0f);
             
@@ -23,7 +24,12 @@ namespace GameCore.Enemies.EnemyObject
 
         public void SetColor(Color newColor)
         {
-            GetComponent<MeshRenderer>().material.color = newColor;
+            _meshRenderer.material.color = newColor;
+        }
+
+        public void Disable()
+        {
+            _meshRenderer.enabled = false;
         }
 
         public void DrawFOV(float viewDistance, float viewAngle, LayerMask layerMask)
@@ -31,8 +37,8 @@ namespace GameCore.Enemies.EnemyObject
             _vertices[0] = Vector3.zero;
             viewAngle *= Mathf.Deg2Rad;
             
-            float currentangle = -viewAngle;
-            float angleIcrement = viewAngle / (VisionConeResolution - 1);
+            float currentAngle = -viewAngle;
+            float angleIncrement = viewAngle / (VisionConeResolution - 1);
 
             var forward = transform.forward;
             var right = transform.right;
@@ -40,22 +46,18 @@ namespace GameCore.Enemies.EnemyObject
             
             for (int i = 0; i < VisionConeResolution; i++)
             {
-                float sin = Mathf.Sin(currentangle);
-                float cos = Mathf.Cos(currentangle);
+                float sin = Mathf.Sin(currentAngle);
+                float cos = Mathf.Cos(currentAngle);
                 
                 var raycastDirection = forward * cos + right * sin;
                 var vertForward = Vector3.forward * cos + Vector3.right * sin;
                 
                 if (Physics.Raycast(position, raycastDirection, out var hit, viewDistance, layerMask))
-                {
                     _vertices[i + 1] = vertForward * hit.distance;
-                }
                 else
-                {
                     _vertices[i + 1] = vertForward * viewDistance;
-                }
 
-                currentangle += angleIcrement;
+                currentAngle += angleIncrement;
             }
             
             for (int i = 0, j = 0; i < _triangles.Length; i += 3, j++)

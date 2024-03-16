@@ -91,7 +91,7 @@ namespace GameCore.LevelObjects
             }
             else
             {
-                enemy.UndetectPlayer();
+                enemy.UnDetectPlayer();
             }
         }
 

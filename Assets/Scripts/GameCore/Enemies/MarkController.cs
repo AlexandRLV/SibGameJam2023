@@ -4,41 +4,42 @@ namespace GameCore.Enemies
 {
     public class MarkController : MonoBehaviour
     {
-        [SerializeField] GameObject questionMark;
-        [SerializeField] GameObject exclamationMark;
-        bool isActiveAnything;
-
+        [SerializeField] private GameObject _questionMark;
+        [SerializeField] private GameObject _exclamationMark;
+        
         private void Start()
         {
-            questionMark.SetActive(false);
-            exclamationMark.SetActive(false);
-            isActiveAnything = false;
+            _questionMark.SetActive(false);
+            _exclamationMark.SetActive(false);
         }
 
-        public void LookAt(Transform target)
+        public void SetProvokedMarkState(bool state)
         {
-            if (isActiveAnything) transform.LookAt(target);
+            if (_questionMark.activeSelf != state)
+                _questionMark.SetActive(state);
+        }
+        public void SetAlarmMarkState(bool state)
+        {
+            if (_exclamationMark.activeSelf != state)
+                _exclamationMark.SetActive(state);
         }
 
         public void SetQuestionMark()
         {
-            questionMark.SetActive(true);
-            exclamationMark.SetActive(false);
-            isActiveAnything = true;
+            _questionMark.SetActive(true);
+            _exclamationMark.SetActive(false);
         }
 
         public void SetExclamationMark()
         {
-            questionMark.SetActive(false);
-            exclamationMark.SetActive(true);
-            isActiveAnything = true;
+            _questionMark.SetActive(false);
+            _exclamationMark.SetActive(true);
         }
 
         public void ResetMarks()
         {
-            questionMark.SetActive(false);
-            exclamationMark.SetActive(false);
-            isActiveAnything = false;
+            _questionMark.SetActive(false);
+            _exclamationMark.SetActive(false);
         }
     }
 }
