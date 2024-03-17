@@ -1,7 +1,6 @@
 ﻿using Common.DI;
 using GameCore.Camera;
 using GameCore.Character.Movement;
-using Networking;
 using Networking.Client;
 using Networking.Dataframes.InGame;
 using UnityEngine;
@@ -12,8 +11,9 @@ namespace GameCore.Player.Network
     {
         public PlayerMouseType MouseType { get; private set; }
         public CharacterMovement CurrentMovement { get; private set; }
+        public CharacterMovement LastMovement { get; private set; }
 
-        [HideInInspector] public bool Teleported;
+        [HideInInspector] public bool teleported;
         [SerializeField] private NetworkParameters _parameters;
 
         [Inject] private GameClientData _gameClientData;
@@ -25,7 +25,8 @@ namespace GameCore.Player.Network
         public void Initialize(CharacterMovement movement, PlayerMouseType mouseType)
         {
             MouseType = mouseType;
-            
+
+            LastMovement = movement;
             CurrentMovement = movement;
             CurrentMovement.Posess();
             
@@ -35,7 +36,10 @@ namespace GameCore.Player.Network
         public void Unposess()
         {
             if (CurrentMovement != null)
+            {
+                LastMovement = CurrentMovement;
                 CurrentMovement.Unposess();
+            }
 
             CurrentMovement = null;
         }
@@ -70,14 +74,14 @@ namespace GameCore.Player.Network
             var dataframe = new PlayerPositionDataframe
             {
                 Tick = _tick,
-                Teleported = Teleported,
+                Teleported = teleported,
                 Position = CurrentMovement.transform.position,
                 Rotation = CurrentMovement.transform.rotation,
                 animationType = (byte)CurrentMovement.CurrentAnimation,
                 animationSpeed = CurrentMovement.AnimationSpeed
             };
             _gameClient.Send(ref dataframe);
-            Teleported = false;
+            teleported = false;
         }
     }
 }

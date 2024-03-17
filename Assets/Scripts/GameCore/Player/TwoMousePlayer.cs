@@ -3,7 +3,6 @@ using Common;
 using Common.DI;
 using GameCore.Camera;
 using GameCore.Character.Movement;
-using GameCore.Common;
 using GameCore.Common.Messages;
 using GameCore.Input;
 using GameCore.RoundControl;
@@ -18,6 +17,7 @@ namespace GameCore.Player
         
         public PlayerMouseType MouseType { get; private set; }
         public CharacterMovement CurrentMovement { get; private set; }
+        public CharacterMovement LastMovement { get; private set; }
         
         [Inject] private GameCamera _gameCamera;
         [Inject] private LocalMessageBroker _messageBroker;
@@ -74,8 +74,11 @@ namespace GameCore.Player
         public void Unposess()
         {
             if (CurrentMovement != null)
+            {
+                LastMovement = CurrentMovement;
                 CurrentMovement.Unposess();
-
+            }
+            
             CurrentMovement = null;
         }
 
@@ -88,7 +91,8 @@ namespace GameCore.Player
                 MouseType = PlayerMouseType.FatMouse;
             else if (movement == _thinMouseCharacter)
                 MouseType = PlayerMouseType.ThinMouse;
-            
+
+            LastMovement = CurrentMovement;
             CurrentMovement = movement;
             CurrentMovement.Posess();
             _gameCamera.SetTarget(CurrentMovement.transform);

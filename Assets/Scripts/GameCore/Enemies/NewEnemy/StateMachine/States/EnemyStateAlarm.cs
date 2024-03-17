@@ -24,7 +24,7 @@ namespace GameCore.Enemies.NewEnemy.StateMachine.States
         public override void OnEnter(EnemyStateType prevState)
         {
             movement.Agent.isStopped = false;
-            movement.Agent.SetDestination(movement.Player.CurrentMovement.transform.position);
+            movement.Agent.SetDestination(movement.Player.LastMovement.transform.position);
         }
     }
 }

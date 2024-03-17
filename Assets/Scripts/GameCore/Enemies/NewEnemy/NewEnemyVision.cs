@@ -1,21 +1,24 @@
-﻿using GameCore.Enemies.EnemyObject;
+﻿using Common.DI;
+using GameCore.Enemies.EnemyObject;
 using GameCore.Enemies.NewEnemy.Parameters;
 using GameCore.Player;
+using LocalMessages;
 using UnityEngine;
 
 namespace GameCore.Enemies.NewEnemy
 {
     public class NewEnemyVision : MonoBehaviour
     {
-        public bool IsAlarmed { get; private set; }
-        
         public float HeadRotationAngle { get; set; }
+        public bool IsAlarmed { get; private set; }
 
         [SerializeField] private bool _debug;
         [SerializeField] private LayerMask _raycastMask;
         [SerializeField] private MarkController _markController;
         [SerializeField] private EnemyFOV _enemyFOV;
         [SerializeField] private EnemyTimersParameters _timersParameters;
+        
+        [Inject] private LocalMessageBroker _messageBroker;
 
         private bool _initialized;
         private IPlayer _player;
@@ -32,10 +35,14 @@ namespace GameCore.Enemies.NewEnemy
         
         public void Initialize(IPlayer player, EnemyViewPreset viewPreset)
         {
+            GameContainer.InjectToInstance(this);
+            
             _enemyFOV.Init(viewPreset.viewAngle);
             _player = player;
             _viewPreset = viewPreset;
             _initialized = true;
+            
+            _messageBroker.Subscribe<PlayerDetectedMessage>(OnPlayerDetected);
         }
 
         private void Update()
@@ -69,7 +76,7 @@ namespace GameCore.Enemies.NewEnemy
             var right = rotation * transform.right;
             
             _lookCenter = transform.position + Vector3.up * _viewPreset.viewStartOffset;
-            float distanceBack = _viewPreset.viewStartRadius / Mathf.Tan(_viewPreset.viewAngle);
+            float distanceBack = _viewPreset.viewStartRadius / Mathf.Tan(_viewPreset.viewAngle * Mathf.Rad2Deg);
             _lookBehindPoint = _lookCenter - forward * distanceBack;
             _playerTransform = _player.CurrentMovement.transform;
             
@@ -78,7 +85,7 @@ namespace GameCore.Enemies.NewEnemy
             
             var forwardPoint = _lookCenter + forward * _viewPreset.viewDistance;
             Debug.DrawLine(_lookCenter, forwardPoint);
-            float sideOffset = Mathf.Tan(_viewPreset.viewAngle) * _viewPreset.viewDistance +
+            float sideOffset = Mathf.Tan(_viewPreset.viewAngle * Mathf.Rad2Deg) * _viewPreset.viewDistance +
                                _viewPreset.viewStartRadius;
                 
             Debug.DrawLine(_lookCenter + right, forwardPoint + right * sideOffset);
@@ -139,8 +146,16 @@ namespace GameCore.Enemies.NewEnemy
             _isProvoked = true;
             
             _timer -= Time.deltaTime;
-            if (_timer <= 0)
-                IsAlarmed = true;
+            if (_timer > 0) return;
+            
+            IsAlarmed = true;
+            var message = new PlayerDetectedMessage();
+            _messageBroker.Trigger(ref message);
+        }
+
+        private void OnPlayerDetected(ref PlayerDetectedMessage message)
+        {
+            IsAlarmed = true;
         }
     }
 }

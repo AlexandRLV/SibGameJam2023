@@ -9,11 +9,13 @@ namespace GameCore.Player
     {
         public PlayerMouseType MouseType { get; private set; }
         public CharacterMovement CurrentMovement { get; private set; }
+        public CharacterMovement LastMovement { get; private set; }
         
         [Inject] private GameCamera _gameCamera;
 
         public void Initialize(CharacterMovement movement, PlayerMouseType mouseType)
         {
+            LastMovement = movement;
             CurrentMovement = movement;
             CurrentMovement.Posess();
 
@@ -25,8 +27,11 @@ namespace GameCore.Player
         public void Unposess()
         {
             if (CurrentMovement != null)
+            {
+                LastMovement = CurrentMovement;
                 CurrentMovement.Unposess();
-
+            }
+            
             CurrentMovement = null;
         }
     }
