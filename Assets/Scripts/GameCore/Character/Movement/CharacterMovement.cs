@@ -58,7 +58,6 @@ namespace GameCore.Character.Movement
         private CharacterVisuals _visuals;
         private Vector3 _movement;
 
-#region Internal methods
         private void Update()
         {
             if (UnityEngine.Input.GetKeyDown(KeyCode.N))
@@ -140,9 +139,8 @@ namespace GameCore.Character.Movement
             };
             GameClient.Send(ref dataframe);
         }
-#endregion
-
-#region Public methods
+        
+        
         public void Initialize(CharacterVisuals visuals)
         {
             _visuals = visuals;
@@ -216,6 +214,7 @@ namespace GameCore.Character.Movement
         {
             IsControlledByPlayer = false;
             _rigidbody.velocity = Vector3.zero;
+            _rigidbody.drag = 100f;
             
             if (MoveValues.CurrentInteractiveObject != null)
                 MoveValues.CurrentInteractiveObject.SetInteractIndicatorState(false);
@@ -286,6 +285,5 @@ namespace GameCore.Character.Movement
             if (value != null)
                 value.SetInteractIndicatorState(true);
         }
-#endregion
     }
 }

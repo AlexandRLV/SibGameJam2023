@@ -1,4 +1,5 @@
-﻿using Common.DI;
+﻿using System.Diagnostics.CodeAnalysis;
+using Common.DI;
 using GameCore.Enemies.EnemyObject;
 using GameCore.Enemies.NewEnemy.Parameters;
 using GameCore.Player;
@@ -38,6 +39,8 @@ namespace GameCore.Enemies.NewEnemy
             GameContainer.InjectToInstance(this);
             
             _enemyFOV.Init(viewPreset.viewAngle);
+            _enemyFOV.SetColor(viewPreset.normalConeColor);
+            
             _player = player;
             _viewPreset = viewPreset;
             _initialized = true;
@@ -69,6 +72,7 @@ namespace GameCore.Enemies.NewEnemy
             _markController.SetAlarmMarkState(IsAlarmed);
         }
 
+        [SuppressMessage("ReSharper", "Unity.InefficientPropertyAccess")]
         private void UpdateVision()
         {
             var rotation = Quaternion.Euler(0f, HeadRotationAngle, 0f);
@@ -149,6 +153,8 @@ namespace GameCore.Enemies.NewEnemy
             if (_timer > 0) return;
             
             IsAlarmed = true;
+            _enemyFOV.SetColor(_viewPreset.alertConeColor);
+            
             var message = new PlayerDetectedMessage();
             _messageBroker.Trigger(ref message);
         }
@@ -156,6 +162,7 @@ namespace GameCore.Enemies.NewEnemy
         private void OnPlayerDetected(ref PlayerDetectedMessage message)
         {
             IsAlarmed = true;
+            _enemyFOV.SetColor(_viewPreset.alertConeColor);
         }
     }
 }
