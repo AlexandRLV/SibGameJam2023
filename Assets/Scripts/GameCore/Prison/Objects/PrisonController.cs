@@ -16,6 +16,7 @@ namespace GameCore.Prison.Objects
         private enum OpenType { Angle, Move, }
         private enum OpenAxis { X, Y, Z, }
 
+        public event Action OnDoorStartOpen;
         public event Action OnDoorOpen;
         
         public override AnimationType InteractAnimation => AnimationType.OpenDoor;
@@ -68,6 +69,7 @@ namespace GameCore.Prison.Objects
             if (door == null) return;
             if (_isOpened) return;
             
+            OnDoorStartOpen?.Invoke();
             StartCoroutine(OpenDoorCoroutine());
 
             var message = new AgentSavedMessage();

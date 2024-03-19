@@ -38,7 +38,7 @@ namespace GameCore.LevelObjects.InteractiveObjects
         protected override void OnPlayerEnter()
         {
             base.OnPlayerEnter();
-            Movement.MoveValues.ForceInteract = true;
+            Movement.MoveValues.forceInteract = true;
             
             if (IsSeen) return;
             IsSeen = true;

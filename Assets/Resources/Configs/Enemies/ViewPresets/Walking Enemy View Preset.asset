@@ -17,3 +17,5 @@ MonoBehaviour:
   viewDistance: 7
   viewStartRadius: 2
   viewStartOffset: 1
+  normalConeColor: {r: 0.019607844, g: 0.6666667, b: 1, a: 0.47058824}
+  alertConeColor: {r: 1, g: 0, b: 0, a: 0.47058824}

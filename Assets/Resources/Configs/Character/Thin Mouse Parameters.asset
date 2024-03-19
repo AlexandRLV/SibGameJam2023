@@ -15,6 +15,59 @@ MonoBehaviour:
   speed: 4.3
   standStillTimeToStartAnimation: 5
   standStillAnimationTime: 2
+  inAirControlSpeed: 4.3
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 257
+  maxSlopeAngle: 70
+  slideSlopeAngle: 45
+  slopeSpeedCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: -0.008338928
+      value: 0.99984324
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.21459405
+    - serializedVersion: 3
+      time: 0.57097876
+      value: 0.9909123
+      inSlope: -0.045814607
+      outSlope: -0.045814607
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.28467736
+      outWeight: 0.5710157
+    - serializedVersion: 3
+      time: 0.82545686
+      value: 0.93623734
+      inSlope: -0.7443982
+      outSlope: -0.7443982
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.41043824
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1.0002441
+      value: 0.0002861023
+      inSlope: -0.011355797
+      outSlope: -0.011355797
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.22263913
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  minStepHeight: 0.1
+  stepHeight: 0.5
+  stepDepth: 0.3
+  stepAdditionalDepth: 0.12
+  stepCheckMovementThreshold: 0.8
   lives: 2
   cameraHeight: 1.5
   canJump: 1
@@ -25,6 +78,6 @@ MonoBehaviour:
   interactTime: 1
   canPush: 0
   hitTime: 0.5
-  lerpInertiaSpeed: 1000
-  springForce: 500
-  dampingForce: 50
+  inertiaThreshold: 0.1
+  lerpInertiaSpeed: 32
+  lerpInertiaSpeedInAir: 12

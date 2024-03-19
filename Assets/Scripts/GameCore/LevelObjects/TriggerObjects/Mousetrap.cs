@@ -46,7 +46,7 @@ namespace GameCore.LevelObjects.TriggerObjects
             soundService.PlayRandomSound(SoundType.Mousetrap1, SoundType.Mousetrap2, SoundType.Mousetrap3);
             Destroy(cheese);
             
-            Movement.MoveValues.IsHit = true;
+            Movement.MoveValues.isHit = true;
             Movement.Damage();
             
             IsUsed = true;

@@ -93,7 +93,6 @@ MonoBehaviour:
   _oneSpriteInterval: 0.05
   _rotationAngle: 60
   _animationSprites:
-  - {fileID: 21300000, guid: fa1996f3abfbe6641a2c914452b59057, type: 3}
   - {fileID: 21300000, guid: 5a4d19e2e15ca7743a89b8a6cb4784ea, type: 3}
   - {fileID: 21300000, guid: 9269f6a257b2a094eb72ee7d42dd9d1c, type: 3}
   - {fileID: 21300000, guid: b3ce47c515af31243b9b2435e43a6fd9, type: 3}

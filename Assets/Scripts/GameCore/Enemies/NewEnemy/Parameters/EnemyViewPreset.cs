@@ -10,5 +10,8 @@ namespace GameCore.Enemies.NewEnemy.Parameters
         [SerializeField] public float viewDistance;
         [SerializeField] public float viewStartRadius;
         [SerializeField] public float viewStartOffset;
+        
+        [SerializeField] public Color normalConeColor;
+        [SerializeField] public Color alertConeColor;
     }
 }

@@ -12,6 +12,8 @@ namespace GameCore.Enemies.NewEnemy.Spawner
         {
             foreach (var spawnPoint in _spawnPoints)
             {
+                spawnPoint.spawnPreset.hasHeadRotationPreset = spawnPoint.spawnPreset.headRotationPreset != null;
+                
                 var spawnTransform = spawnPoint.transform;
                 var enemy = Instantiate(movementPrefab, spawnTransform.position, spawnTransform.rotation);
                 var visuals = Instantiate(spawnPoint.spawnPreset.enemyVisuals);
