@@ -17,7 +17,7 @@ namespace GameCore.Character.Movement.States
 
         public override bool CanEnter(MovementStateType prevState)
         {
-            return moveValues.IsHit;
+            return moveValues.isHit;
         }
 
         public override bool CanExit(MovementStateType nextState)
@@ -42,14 +42,14 @@ namespace GameCore.Character.Movement.States
 
         public override void OnExit(MovementStateType nextState)
         {
-            moveValues.IsHit = false;
+            moveValues.isHit = false;
             movement.SetEffectState(EffectType.Knockdown, false);
         }
 
         public override void Update()
         {
             _timer -= Time.deltaTime;
-            movement.Move(Vector2.zero);
+            movement.PhysicsBody.UpdateMovement(Vector2.zero);
             
             if (!movement.GameClientData.IsConnected) return;
 

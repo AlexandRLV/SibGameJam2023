@@ -18,7 +18,7 @@ namespace GameCore.Character.Movement.States
 
         public override bool CanEnter(MovementStateType prevState)
         {
-            return moveValues.IsGrounded;
+            return moveValues.isGrounded;
         }
 
         public override bool CanExit(MovementStateType nextState)
@@ -44,10 +44,10 @@ namespace GameCore.Character.Movement.States
             if (input != Vector2.zero)
                 _standStillTime = 0f;
 
-            float speed = parameters.speed * moveValues.SpeedMultiplier;
+            float speed = parameters.speed * moveValues.speedMultiplier;
             
             input *= speed;
-            movement.Move(input);
+            movement.PhysicsBody.UpdateMovement(input);
 
             if (!parameters.canPush)
             {
@@ -60,9 +60,8 @@ namespace GameCore.Character.Movement.States
                 _isPushing = false;
                 return;
             }
-
-            var pushable = hit.collider.GetComponent<PushableObject>();
-            _isPushing = pushable != null;
+            
+            _isPushing = hit.collider.TryGetComponent<PushableObject>(out _);
         }
     }
 }

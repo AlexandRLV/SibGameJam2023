@@ -7,7 +7,7 @@ namespace GameCore.LevelObjects.TriggerObjects
     {
         protected override void OnPlayerEnter()
         {
-            Movement.MoveValues.IsHit = true;
+            Movement.MoveValues.isHit = true;
             Movement.Damage();
         }
     }

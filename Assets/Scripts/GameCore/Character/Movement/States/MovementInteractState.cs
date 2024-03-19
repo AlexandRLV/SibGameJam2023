@@ -20,9 +20,9 @@ namespace GameCore.Character.Movement.States
         public override bool CanEnter(MovementStateType prevState)
         {
             if (!movement.IsControlledByPlayer) return false;
-            if (!movement.InputState.interact.IsDown() && !moveValues.ForceInteract) return false;
+            if (!movement.InputState.interact.IsDown() && !moveValues.forceInteract) return false;
 
-            return moveValues.CurrentInteractiveObject != null;
+            return moveValues.currentInteractiveObject != null;
         }
 
         public override bool CanExit(MovementStateType nextState)
@@ -32,9 +32,9 @@ namespace GameCore.Character.Movement.States
 
         public override void OnEnter(MovementStateType prevState)
         {
-            var interactiveObject = moveValues.CurrentInteractiveObject;
+            var interactiveObject = moveValues.currentInteractiveObject;
             _animationType = interactiveObject.InteractAnimation;
-            moveValues.ForceInteract = false;
+            moveValues.forceInteract = false;
             _timer = parameters.interactTime;
             interactiveObject.Interact();
             
@@ -51,7 +51,7 @@ namespace GameCore.Character.Movement.States
         public override void Update()
         {
             _timer -= Time.deltaTime;
-            movement.Move(Vector2.zero);
+            movement.PhysicsBody.UpdateMovement(Vector2.zero);
         }
     }
 }

@@ -18,11 +18,17 @@ namespace GameCore.Character.Movement.States
 
         public override bool CanEnter(MovementStateType prevState)
         {
-            return (!moveValues.IsGrounded && moveValues.DistanceToGround > 1f) || JumpPressed();
+            return (!moveValues.isGrounded && moveValues.distanceToGround > 1f) || JumpPressed();
+        }
+
+        public override bool CanExit(MovementStateType nextState)
+        {
+            return nextState != MovementStateType.Walk || _jumpTimer < 0f;
         }
 
         public override void OnEnter(MovementStateType prevState)
         {
+            movement.MoveValues.lerpInertiaSpeed = movement.Parameters.lerpInertiaSpeedInAir;
             _isJumping = false;
             if (!JumpPressed() || !parameters.canJump) return;
             
@@ -38,13 +44,9 @@ namespace GameCore.Character.Movement.States
             movement.StepSounds.Jump();
         }
 
-        public override bool CanExit(MovementStateType nextState)
-        {
-            return nextState != MovementStateType.Walk || _jumpTimer < 0f;
-        }
-
         public override void OnExit(MovementStateType nextState)
         {
+            movement.MoveValues.lerpInertiaSpeed = movement.Parameters.lerpInertiaSpeed;
             movement.StepSounds.Land();
         }
 
@@ -61,7 +63,7 @@ namespace GameCore.Character.Movement.States
 
             input *= parameters.inAirSpeed;
             
-            movement.Move(input);
+            movement.PhysicsBody.UpdateMovementInAir(input);
         }
 
         private bool JumpPressed() => movement.IsControlledByPlayer && movement.InputState.jump.IsDown();

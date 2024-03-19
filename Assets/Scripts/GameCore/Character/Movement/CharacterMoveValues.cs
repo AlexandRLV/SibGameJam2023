@@ -1,17 +1,23 @@
 ﻿using GameCore.LevelObjects.Abstract;
+using UnityEngine;
 
 namespace GameCore.Character.Movement
 {
     public class CharacterMoveValues
     {
-        public float SpeedMultiplier;
+        public float speedMultiplier;
 
-        public bool IsGrounded;
-        public float DistanceToGround;
+        public bool isGrounded;
+        public bool inContact;
+        public float distanceToGround;
+        public float groundAngle;
+        public Vector3 groundNormal;
 
-        public bool IsKnockdown;
-        public bool IsHit;
-        public bool ForceInteract;
-        public InteractiveObject CurrentInteractiveObject;
+        public float lerpInertiaSpeed;
+
+        public bool isKnockdown;
+        public bool isHit;
+        public bool forceInteract;
+        public InteractiveObject currentInteractiveObject;
     }
 }

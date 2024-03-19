@@ -159,7 +159,7 @@ namespace UI.WindowsSystem.WindowTypes
             SetLayout(message.isThinMouse);
 
             var player = GameContainer.InGame.Resolve<IPlayer>();
-            _interactIndicator.SetActive(player.CurrentMovement.MoveValues.CurrentInteractiveObject != null);
+            _interactIndicator.SetActive(player.CurrentMovement.MoveValues.currentInteractiveObject != null);
         }
 
         private void OnSideNotificationStateChanged(ref SideNotificationStateChangedMessage message)

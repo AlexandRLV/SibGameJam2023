@@ -15,12 +15,12 @@ namespace GameCore.Character.Movement.States
 
         public override bool CanEnter(MovementStateType prevState)
         {
-            return moveValues.IsKnockdown;
+            return moveValues.isKnockdown;
         }
 
         public override bool CanExit(MovementStateType nextState)
         {
-            return !moveValues.IsKnockdown;
+            return !moveValues.isKnockdown;
         }
 
         public override void OnEnter(MovementStateType prevState)
@@ -37,7 +37,7 @@ namespace GameCore.Character.Movement.States
 
         public override void Update()
         {
-            movement.Move(Vector2.zero);
+            movement.PhysicsBody.UpdateMovement(Vector2.zero);
         }
     }
 }
