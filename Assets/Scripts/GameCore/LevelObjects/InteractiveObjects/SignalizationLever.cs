@@ -17,6 +17,7 @@ namespace GameCore.LevelObjects.InteractiveObjects
         public override Vector3 CheckPosition => transform.position;
         
         [SerializeField] private LaserGroup laserGroup;
+        [SerializeField] private bool _useIntGroup;
         [SerializeField] private int _laserGroup;
         
         [Inject] private LocalMessageBroker _messageBroker;
@@ -58,7 +59,9 @@ namespace GameCore.LevelObjects.InteractiveObjects
         {
             soundService.PlaySound(SoundType.Panel);
 
-            _laserGroup = (int)laserGroup;
+            if (!_useIntGroup)
+                _laserGroup = (int)laserGroup;
+            
             var message = new LaserDestroyMessage
             {
                 LaserGroup = _laserGroup

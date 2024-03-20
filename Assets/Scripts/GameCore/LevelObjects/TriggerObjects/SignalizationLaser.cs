@@ -12,6 +12,7 @@ namespace GameCore.LevelObjects.TriggerObjects
     public class SignalizationLaser : BaseTriggerObject
     {
         [SerializeField] private LaserGroup laserGroup;
+        [SerializeField] private bool _useIntGroup;
         [SerializeField] private int _laserGroup;
 
         private void Start()
@@ -22,7 +23,9 @@ namespace GameCore.LevelObjects.TriggerObjects
 
         private void OnLaserDestroyed(ref LaserDestroyMessage value)
         {
-            _laserGroup = (int)laserGroup;
+            if (!_useIntGroup)
+                _laserGroup = (int)laserGroup;
+            
             if (value.LaserGroup == _laserGroup)
                 Destroy(gameObject);
         }
