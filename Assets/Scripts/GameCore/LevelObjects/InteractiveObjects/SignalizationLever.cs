@@ -5,6 +5,7 @@ using GameCore.LevelObjects.Messages;
 using GameCore.Player;
 using GameCore.Sounds;
 using LocalMessages;
+using Startup;
 using UnityEngine;
 
 namespace GameCore.LevelObjects.InteractiveObjects
@@ -16,8 +17,10 @@ namespace GameCore.LevelObjects.InteractiveObjects
         public override Vector3 CheckPosition => transform.position;
         
         [SerializeField] private LaserGroup laserGroup;
+        [SerializeField] private int _laserGroup;
         
         [Inject] private LocalMessageBroker _messageBroker;
+        [Inject] private GameInfo _gameInfo;
 
         protected override void OnInitialize()
         {
@@ -44,6 +47,8 @@ namespace GameCore.LevelObjects.InteractiveObjects
                 return;
             
             IsSeen = true;
+            
+            if (_gameInfo.currentLevel.id == 0) return;
 
             var player = GameContainer.InGame.Resolve<IPlayer>();
             soundService.PlaySound(player.MouseType == PlayerMouseType.ThinMouse ? SoundType.ThinPanel : SoundType.FatPanel);
@@ -52,10 +57,11 @@ namespace GameCore.LevelObjects.InteractiveObjects
         private void DisableLasers()
         {
             soundService.PlaySound(SoundType.Panel);
-            
+
+            _laserGroup = (int)laserGroup;
             var message = new LaserDestroyMessage
             {
-                LaserGroup = laserGroup
+                LaserGroup = _laserGroup
             };
             _messageBroker.Trigger(ref message);
         }

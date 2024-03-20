@@ -6,6 +6,6 @@ namespace GameCore.Sounds
         ThinCharacter,
         FatCharacter,
         Lose,
-        Win
+        Win,
     }
 }
