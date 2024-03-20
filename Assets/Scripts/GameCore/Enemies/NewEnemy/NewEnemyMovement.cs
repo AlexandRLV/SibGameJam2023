@@ -44,6 +44,8 @@ namespace GameCore.Enemies.NewEnemy
             if (visuals.KnockdownEffect != null)
                 visuals.KnockdownEffect.SetActive(false);
 
+            _agent.speed = preset.walkSpeed;
+            
             Player = player;
             _vision.Initialize(player, preset.viewPreset, visuals);
 
