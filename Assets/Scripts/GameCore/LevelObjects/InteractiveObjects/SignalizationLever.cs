@@ -1,5 +1,5 @@
 using Common.DI;
-using GameCore.Character.Animation;
+using GameCore.Character.Visuals;
 using GameCore.LevelObjects.Abstract;
 using GameCore.LevelObjects.Messages;
 using GameCore.Player;

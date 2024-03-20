@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using Common;
 using Common.DI;
 using GameCore.Camera;
-using GameCore.Character.Animation;
 using GameCore.Character.Movement.States;
+using GameCore.Character.Visuals;
 using GameCore.Common.Messages;
 using GameCore.Input;
 using GameCore.LevelAchievements.LocalMessages;
@@ -52,6 +52,10 @@ namespace GameCore.Character.Movement
         private StateMachine<MovementStateBase, MovementStateType> _stateMachine;
 
         private bool _isSpeedModified;
+
+#if UNITY_EDITOR
+        private float _defaultSpeed;
+#endif
         
         private CharacterVisuals _visuals;
         private Vector3 _movement;
@@ -65,8 +69,13 @@ namespace GameCore.Character.Movement
             
             _groundChecker.Initialize(this);
 
+#if UNITY_EDITOR
+            _defaultSpeed = _parameters.speed;
+#endif
+            
             MoveValues = new CharacterMoveValues
             {
+                defaultSpeed = _parameters.speed,
                 speedMultiplier = 1f,
                 lerpInertiaSpeed = _parameters.lerpInertiaSpeed,
             };
@@ -100,6 +109,16 @@ namespace GameCore.Character.Movement
                 Damage();
             
             _stateMachine.CheckStates();
+
+#if UNITY_EDITOR
+            if (!_inputState.cheatSpeedUp.IsDown()) return;
+            
+            // ReSharper disable once CompareOfFloatsByEqualityOperator
+            if (MoveValues.defaultSpeed == _defaultSpeed)
+                MoveValues.defaultSpeed = 15;
+            else
+                MoveValues.defaultSpeed = _defaultSpeed;
+#endif
         }
 
         private void FixedUpdate()

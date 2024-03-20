@@ -20,3 +20,4 @@ MonoBehaviour:
   crouchKey: 306
   interactKey: 101
   changeCharacterKey: 113
+  cheatSpeedUpKey: 120

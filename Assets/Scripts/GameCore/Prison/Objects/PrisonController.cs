@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using Common.DI;
-using GameCore.Character.Animation;
+using GameCore.Character.Visuals;
 using GameCore.LevelObjects.Abstract;
 using GameCore.Player;
 using GameCore.RoundMissions.LocalMessages;

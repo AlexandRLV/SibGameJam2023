@@ -1,4 +1,4 @@
-﻿using GameCore.Character.Animation;
+﻿using GameCore.Character.Visuals;
 using GameCore.Player.Network;
 using NetFrame;
 using NetFrame.WriteAndRead;

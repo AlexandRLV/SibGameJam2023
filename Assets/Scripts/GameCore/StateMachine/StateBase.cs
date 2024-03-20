@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using GameCore.Character.Animation;
+using GameCore.Character.Visuals;
 
 namespace GameCore.StateMachine
 {

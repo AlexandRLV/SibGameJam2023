@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Common;
-using GameCore.Character.Animation;
+using GameCore.Character.Visuals;
 using GameCore.Enemies.NewEnemy.Parameters;
 using GameCore.Enemies.NewEnemy.StateMachine;
 using GameCore.Enemies.NewEnemy.StateMachine.States;
@@ -13,13 +13,12 @@ namespace GameCore.Enemies.NewEnemy
 {
     public class NewEnemyMovement : MonoBehaviour, IAnimationSource
     {
-        public AnimationType CurrentAnimation { get; set; }
-        public float AnimationSpeed { get; set; }
+        public AnimationType CurrentAnimation { get; private set; }
+        public float AnimationSpeed { get; private set; }
 
         public NewEnemyVision Vision => _vision;
         public NavMeshAgent Agent => _agent;
         public EnemyMainPreset Preset { get; private set; }
-        public CharacterVisuals Visuals { get; private set; }
         public IPlayer Player { get; private set; }
         
         public bool EnableWaypointsMovement { get; private set; }
@@ -37,7 +36,6 @@ namespace GameCore.Enemies.NewEnemy
         public void Initialize(EnemyMainPreset preset, CharacterVisuals visuals, IPlayer player)
         {
             Preset = preset;
-            Visuals = visuals;
             
             visuals.Initialize(this);
             visuals.transform.SetParent(transform);
@@ -47,7 +45,7 @@ namespace GameCore.Enemies.NewEnemy
                 visuals.KnockdownEffect.SetActive(false);
 
             Player = player;
-            _vision.Initialize(player, preset.viewPreset);
+            _vision.Initialize(player, preset.viewPreset, visuals);
 
             _enemyStateMachine = new EnemyStateMachine
             {
