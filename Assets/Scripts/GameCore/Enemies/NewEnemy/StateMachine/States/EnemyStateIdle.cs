@@ -1,4 +1,4 @@
-﻿using GameCore.Character.Animation;
+﻿using GameCore.Character.Visuals;
 using GameCore.Enemies.EnemyObject;
 using UnityEngine;
 
@@ -59,10 +59,6 @@ namespace GameCore.Enemies.NewEnemy.StateMachine.States
 
             _headRotationTimer += _invertRotation ? -Time.deltaTime : Time.deltaTime;
             float t = _headRotationTimer / headPreset.headRotationTime;
-            if (t < 0) t *= -1;
-            
-            float angle = headPreset.headRotationAngle * headPreset.headRotationCurve.Evaluate(t);
-            movement.Vision.HeadRotationAngle = _invertRotation ? -angle : angle;
 
             if (t >= 1)
             {
@@ -74,6 +70,12 @@ namespace GameCore.Enemies.NewEnemy.StateMachine.States
                 _invertRotation = false;
                 _headRotationDelay = headPreset.headRotationInterval;
             }
+
+            bool invertAngle = t < 0;
+            if (invertAngle) t *= -1;
+            
+            float angle = headPreset.headRotationAngle * headPreset.headRotationCurve.Evaluate(t);
+            movement.Vision.HeadRotationAngle = invertAngle ? -angle : angle;
         }
     }
 }

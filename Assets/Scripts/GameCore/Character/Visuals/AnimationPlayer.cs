@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace GameCore.Character.Animation
+namespace GameCore.Character.Visuals
 {
     public class AnimationPlayer : MonoBehaviour
     {

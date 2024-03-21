@@ -1,5 +1,5 @@
 ﻿using Common;
-using GameCore.Character.Animation;
+using GameCore.Character.Visuals;
 using Networking.Dataframes.InGame;
 using UnityEngine;
 

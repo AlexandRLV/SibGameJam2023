@@ -14,5 +14,6 @@ namespace GameCore.Input
         public KeyCode crouchKey;
         public KeyCode interactKey;
         public KeyCode changeCharacterKey;
+        public KeyCode cheatSpeedUpKey;
     }
 }

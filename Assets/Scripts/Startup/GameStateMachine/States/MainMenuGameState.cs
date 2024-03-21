@@ -19,11 +19,13 @@ namespace Startup.GameStateMachine.States
         
         public async UniTask OnEnter()
         {
-            _uiRoot.UiAudioListenerState = true;
             _loadingScreen.Active = true;
+            
             var currentScene = SceneManager.GetActiveScene();
             if (currentScene.name != MainMenuScene)
                 await SceneManager.LoadSceneAsync(MainMenuScene);
+            
+            _uiRoot.UiAudioListenerState = true;
             
             _windowsSystem.CreateWindow<MainMenu>();
             _soundService.PlayMusic(MusicType.Menu);

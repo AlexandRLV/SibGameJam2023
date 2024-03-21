@@ -30,6 +30,13 @@ namespace GameCore.Sounds
         Click,
         Hover,
         
+        // Lose sounds
+        LoseDetected,
+        LoseMouseDead,
+        LoseTimeOut,
+        
+        Win,
+        
         // Empty
         None
     }

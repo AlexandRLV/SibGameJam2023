@@ -1,18 +1,20 @@
 ﻿using GameCore.Sounds;
 using UnityEngine;
 
-namespace GameCore.Character.Animation
+namespace GameCore.Character.Visuals
 {
     public class CharacterVisuals : MonoBehaviour
     {
         public GameObject SpeedUp => _speedUpVFX;
         public StepSounds StepSounds => _stepSounds;
         public GameObject KnockdownEffect => _knockdownEffect;
+        public Transform Head => _head;
         
         [SerializeField] private AnimationPlayer _animationPlayer;
         [SerializeField] private GameObject _speedUpVFX;
         [SerializeField] private StepSounds _stepSounds;
         [SerializeField] private GameObject _knockdownEffect;
+        [SerializeField] private Transform _head;
         
         private bool _initialized;
         private IAnimationSource _animationSource;

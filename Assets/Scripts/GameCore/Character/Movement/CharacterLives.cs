@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GameCore.Character.Movement.States
+namespace GameCore.Character.Movement
 {
     public class CharacterLives
     {

@@ -1,5 +1,5 @@
 ﻿using Common;
-using GameCore.Character.Animation;
+using GameCore.Character.Visuals;
 using UnityEngine;
 
 namespace GameCore.Character.Movement.States

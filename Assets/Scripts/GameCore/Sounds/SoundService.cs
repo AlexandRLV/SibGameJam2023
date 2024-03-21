@@ -1,58 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace GameCore.Sounds
 {
     public class SoundService : MonoBehaviour
     {
-        [FormerlySerializedAs("soundsSource")] [SerializeField] private AudioSource _soundsSource;
-        [FormerlySerializedAs("voiceSource")] [SerializeField] private AudioSource _voiceSource;
-        [FormerlySerializedAs("firstTrackSource")] [SerializeField] private AudioSource _firstTrackSource;
-        [FormerlySerializedAs("secondTrackSource")] [SerializeField] private AudioSource _secondTrackSource;
+        [SerializeField] private AudioSource _soundsSource;
+        [SerializeField] private AudioSource _voiceSource;
+        [SerializeField] private AudioSource _firstTrackSource;
+        [SerializeField] private AudioSource _secondTrackSource;
 
-        [SerializeField] private AudioClip menuTrack;
-        [SerializeField] private AudioClip thinTrack;
-        [SerializeField] private AudioClip fatTrack;
-        [SerializeField] private AudioClip loseTrack;
-        [SerializeField] private AudioClip winTrack;
-
-        [SerializeField] private AudioClip buffSound;
-        [SerializeField] private AudioClip alertSound;
-        [SerializeField] private AudioClip eatingSound;
-        [SerializeField] private AudioClip mousetrapSound1;
-        [SerializeField] private AudioClip mousetrapSound2;
-        [SerializeField] private AudioClip mousetrapSound3;
-        [SerializeField] private AudioClip panelSound;
-        [SerializeField] private AudioClip submissionCompleteSound;
-        
-        [Header("Ui")]
-        [SerializeField] private AudioClip clickSound;
-        [SerializeField] private AudioClip hoverSound;
-
-        [Header("Thin Character")]
-        [SerializeField] private AudioClip thinAboutFat;
-
-        [SerializeField] private AudioClip thinCats1;
-        [SerializeField] private AudioClip thinCats2;
-        [SerializeField] private AudioClip thinCheese;
-        [SerializeField] private AudioClip thinDetect;
-        [SerializeField] private AudioClip thinPanel;
-        [SerializeField] private AudioClip thinCactus;
-        [SerializeField] private AudioClip thinHostage;
-
-        [Header("Fat Character")]
-        [SerializeField] private AudioClip fatCats1;
-
-        [SerializeField] private AudioClip fatCats2;
-        [SerializeField] private AudioClip fatCats3;
-        [SerializeField] private AudioClip fatCheese;
-        [SerializeField] private AudioClip fatDetect;
-        [SerializeField] private AudioClip fatPanel;
-        [SerializeField] private AudioClip fatHostage;
-
-        [SerializeField] private float fadingTime = 1.0f;
+        [SerializeField] private float _fadingTime;
         [SerializeField] private SoundsData _soundsData;
         
         private Coroutine _fadingCoroutine;
@@ -68,25 +27,6 @@ namespace GameCore.Sounds
         {
             _sounds = new Dictionary<SoundType, AudioClip>();
             _tracks = new Dictionary<MusicType, AudioClip>();
-            
-            // _sounds.Add(SoundType.Buff, buffSound);
-            // _sounds.Add(SoundType.Eating, eatingSound);
-            // _sounds.Add(SoundType.Mousetrap1, mousetrapSound1);
-            // _sounds.Add(SoundType.Mousetrap2, mousetrapSound2);
-            // _sounds.Add(SoundType.Mousetrap3, mousetrapSound3);
-            // _sounds.Add(SoundType.Panel, panelSound);
-            // _sounds.Add(SoundType.Alert, alertSound);
-            // _sounds.Add(SoundType.SubmissionComplete, submissionCompleteSound);
-            
-            // UI
-            // _sounds.Add(SoundType.Click, clickSound);
-            // _sounds.Add(SoundType.Hover, hoverSound);
-            //
-            // _tracks.Add(MusicType.Menu, menuTrack);
-            // _tracks.Add(MusicType.ThinCharacter, thinTrack);
-            // _tracks.Add(MusicType.FatCharacter, fatTrack);
-            // _tracks.Add(MusicType.Lose, loseTrack);
-            // _tracks.Add(MusicType.Win, winTrack);
 
             _prioritizedSounds = new Dictionary<SoundType, PrioritizedSound>();
             foreach (var sound in _soundsData.prioritizedSounds)
@@ -137,6 +77,13 @@ namespace GameCore.Sounds
         public void PlayMusic(MusicType musicType, bool adjustTime = false)
         {
             var clip = _tracks[musicType];
+            if (clip == null)
+            {
+                Debug.LogError($"У музыки {musicType} нет аудиоклипа! Прокиньте нужный");
+                StopMusic();
+                return;
+            }
+            
             if (_firstTrackSource.isPlaying)
             {
                 FadeToMusic(clip, adjustTime);
@@ -184,9 +131,9 @@ namespace GameCore.Sounds
             float firstVolume = _firstTrackSource.volume;
 
             float time = 0.0f;
-            while (time < fadingTime)
+            while (time < _fadingTime)
             {
-                float t = time / fadingTime;
+                float t = time / _fadingTime;
 
                 _firstTrackSource.volume = Mathf.Lerp(firstVolume, 0.0f, t);
                 _secondTrackSource.volume = Mathf.Lerp(0.0f, 1.0f, t);

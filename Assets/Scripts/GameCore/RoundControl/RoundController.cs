@@ -93,6 +93,16 @@ namespace GameCore.RoundControl
         {
             _soundService.StopSound();
             _soundService.PlayMusic(MusicType.Lose);
+
+            var soundType = _loseGameReason switch
+            {
+                LoseGameReason.Caught => SoundType.LoseDetected,
+                LoseGameReason.Dead => SoundType.LoseMouseDead,
+                LoseGameReason.TimeOut => SoundType.LoseTimeOut,
+                _ => SoundType.LoseDetected
+            };
+            _soundService.PlaySound(soundType);
+            
             Stage = RoundStage.None;
             _player.Unposess();
 
@@ -117,6 +127,8 @@ namespace GameCore.RoundControl
             
             _soundService.StopSound();
             _soundService.PlayMusic(MusicType.Win);
+            _soundService.PlaySound(SoundType.Win);
+            
             Stage = RoundStage.None;
             _player.Unposess();
 

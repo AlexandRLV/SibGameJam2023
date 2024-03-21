@@ -19,7 +19,6 @@ namespace Startup.GameStateMachine.States
         
         public async UniTask OnEnter()
         {
-            _uiRoot.UiAudioListenerState = false;
             float startTime = Time.time;
             
             _loadingScreen.Active = true;
@@ -30,7 +29,8 @@ namespace Startup.GameStateMachine.States
             GameContainer.InGame.Register(service);
 
             await SceneManager.LoadSceneAsync(_gameInfo.currentLevel.sceneName);
-
+            _uiRoot.UiAudioListenerState = false;
+            
             float endTime = Time.time;
             float passedTime = endTime - startTime;
 

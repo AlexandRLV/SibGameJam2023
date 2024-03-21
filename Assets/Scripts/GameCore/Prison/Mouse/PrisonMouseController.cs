@@ -1,6 +1,6 @@
 using System.Collections;
 using Common.DI;
-using GameCore.Character.Animation;
+using GameCore.Character.Visuals;
 using GameCore.Player;
 using GameCore.Prison.Objects;
 using UnityEngine;

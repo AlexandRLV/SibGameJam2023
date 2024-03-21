@@ -12,6 +12,10 @@ namespace GameCore.Input
         public PressState interact;
         public PressState changeCharacter;
 
+#if UNITY_EDITOR
+        public PressState cheatSpeedUp;
+#endif
+
         public void Clear()
         {
             moveVector = Vector2.zero;

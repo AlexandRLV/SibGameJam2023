@@ -1,5 +1,5 @@
 using Common.DI;
-using GameCore.Character.Animation;
+using GameCore.Character.Visuals;
 using LocalMessages;
 using UI.WindowsSystem;
 using UI.WindowsSystem.WindowTypes;

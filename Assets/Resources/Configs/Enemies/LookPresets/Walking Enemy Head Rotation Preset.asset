@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Walking Enemy Head Rotation Preset
   m_EditorClassIdentifier: 
   headRotationAngle: 30
-  headRotationTime: 4
-  headRotationInterval: 3
+  headRotationTime: 1
+  headRotationInterval: 0
   headRotationCurve:
     serializedVersion: 2
     m_Curve:

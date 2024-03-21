@@ -1654,6 +1654,7 @@ MonoBehaviour:
   _speedUpVFX: {fileID: 0}
   _stepSounds: {fileID: 0}
   _knockdownEffect: {fileID: 0}
+  _head: {fileID: 4541717996686160676}
 --- !u!1 &6286238280330293191
 GameObject:
   m_ObjectHideFlags: 0

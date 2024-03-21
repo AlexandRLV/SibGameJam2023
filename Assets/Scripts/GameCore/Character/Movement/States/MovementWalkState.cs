@@ -1,4 +1,4 @@
-﻿using GameCore.Character.Animation;
+﻿using GameCore.Character.Visuals;
 using GameCore.LevelObjects.TriggerObjects;
 using UnityEngine;
 
@@ -44,7 +44,7 @@ namespace GameCore.Character.Movement.States
             if (input != Vector2.zero)
                 _standStillTime = 0f;
 
-            float speed = parameters.speed * moveValues.speedMultiplier;
+            float speed = moveValues.defaultSpeed * moveValues.speedMultiplier;
             
             input *= speed;
             movement.PhysicsBody.UpdateMovement(input);

@@ -1,4 +1,4 @@
-﻿namespace GameCore.Character.Animation
+﻿namespace GameCore.Character.Visuals
 {
     public interface IAnimationSource
     {
