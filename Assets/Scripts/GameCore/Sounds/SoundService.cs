@@ -1,5 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Common.DI;
+using GameCore.Sounds.Playback;
+using GameCore.Sounds.Volume;
+using PlayerSettings;
 using UnityEngine;
 
 namespace GameCore.Sounds
@@ -14,6 +18,8 @@ namespace GameCore.Sounds
         [SerializeField] private float _fadingTime;
         [SerializeField] private SoundsData _soundsData;
         
+        [Inject] private GameSettingsManager _gameSettingsManager;
+        
         private Coroutine _fadingCoroutine;
 
         private Dictionary<SoundType, PrioritizedSound> _prioritizedSounds;
@@ -22,9 +28,12 @@ namespace GameCore.Sounds
         private Dictionary<MusicType, AudioClip> _tracks;
 
         private int _playingSoundPriority;
+        private float _musicVolume;
         
         private void Awake()
         {
+            GameContainer.InjectToInstance(this);
+            
             _sounds = new Dictionary<SoundType, AudioClip>();
             _tracks = new Dictionary<MusicType, AudioClip>();
 
@@ -46,6 +55,12 @@ namespace GameCore.Sounds
                 if (!_tracks.TryAdd(music.musicType, music.audioClip))
                     Debug.LogError($"Ошибка: повторяющийся тип музыки: {music.musicType}");
             }
+            
+            _gameSettingsManager.RegisterVolumeListener(SoundVolumeType.Music, UpdateMusicVolume);
+            _musicVolume = _gameSettingsManager.GetVolume(SoundVolumeType.Music);
+            
+            _firstTrackSource.volume = _musicVolume;
+            _secondTrackSource.volume = 0f;
         }
 
         public void PlaySound(SoundType soundType)
@@ -112,6 +127,14 @@ namespace GameCore.Sounds
             PlaySound(sounds[randomNumber]);
         }
 
+        private void UpdateMusicVolume(float volume)
+        {
+            _musicVolume = volume;
+            if (_fadingCoroutine != null) return;
+
+            _firstTrackSource.volume = volume;
+        }
+
         private void FadeToMusic(AudioClip clip, bool adjustTime = false)
         {
             if (_fadingCoroutine != null)
@@ -129,10 +152,12 @@ namespace GameCore.Sounds
                 _secondTrackSource.time = _firstTrackSource.time;
 
             float firstVolume = _firstTrackSource.volume;
+            float volumePercent = firstVolume / _musicVolume;
 
             float time = 0.0f;
             while (time < _fadingTime)
             {
+                firstVolume = _musicVolume * volumePercent;
                 float t = time / _fadingTime;
 
                 _firstTrackSource.volume = Mathf.Lerp(firstVolume, 0.0f, t);

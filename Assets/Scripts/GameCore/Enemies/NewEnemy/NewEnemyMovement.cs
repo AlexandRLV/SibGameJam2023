@@ -51,7 +51,7 @@ namespace GameCore.Enemies.NewEnemy
 
             _enemyStateMachine = new EnemyStateMachine
             {
-                States = new List<EnemyStateBase>
+                states = new List<EnemyStateBase>
                 {
                     new EnemyStateIdle(this),
                     new EnemyStatePatrol(this),
@@ -77,7 +77,7 @@ namespace GameCore.Enemies.NewEnemy
             _enemyStateMachine.Update();
             _enemyStateMachine.CheckStates();
 
-            CurrentAnimation = _enemyStateMachine.CurrentState.AnimationType;
+            CurrentAnimation = _enemyStateMachine.currentState.AnimationType;
             AnimationSpeed = _agent.velocity.magnitude / _agent.speed;
         }
     }

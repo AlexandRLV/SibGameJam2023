@@ -25,6 +25,10 @@ namespace GameCore.Input
             crouch = PressState.Released;
             interact = PressState.Released;
             changeCharacter = PressState.Released;
+            
+#if UNITY_EDITOR
+            cheatSpeedUp = PressState.Released;
+#endif
         }
     }
 }

@@ -144,6 +144,6 @@ namespace Common.DI
 
             value = null;
             return false;
-        } 
+        }
     }
 }

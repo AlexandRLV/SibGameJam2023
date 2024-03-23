@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace GameCore.Sounds
+namespace GameCore.Sounds.Playback
 {
     [Serializable]
     public class PrioritizedSound

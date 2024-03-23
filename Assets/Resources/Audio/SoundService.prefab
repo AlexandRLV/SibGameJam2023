@@ -320,6 +320,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5765115096437511597}
   - component: {fileID: 8407349050078540529}
+  - component: {fileID: 6282360263876579965}
   m_Layer: 0
   m_Name: VoiceSource
   m_TagString: Untagged
@@ -438,6 +439,20 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &6282360263876579965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4052400699098873195}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b03a1b58184fb486ddcd93838c09c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioSource: {fileID: 8407349050078540529}
+  _volumeType: 0
 --- !u!1 &8394884547668795256
 GameObject:
   m_ObjectHideFlags: 0
@@ -448,6 +463,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3090375695941011503}
   - component: {fileID: 5312204494761823619}
+  - component: {fileID: 3648047872718029046}
   m_Layer: 0
   m_Name: EffectsSource
   m_TagString: Untagged
@@ -566,3 +582,17 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &3648047872718029046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8394884547668795256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b03a1b58184fb486ddcd93838c09c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioSource: {fileID: 5312204494761823619}
+  _volumeType: 0

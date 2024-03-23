@@ -1,4 +1,4 @@
-namespace GameCore.Sounds
+namespace GameCore.Sounds.Playback
 {
     public enum SoundType
     {
