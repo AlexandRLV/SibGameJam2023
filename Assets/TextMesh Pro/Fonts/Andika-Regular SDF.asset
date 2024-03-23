@@ -69,9 +69,9 @@ Material:
     - _OutlineWidth: 0
     - _PerspectiveFilter: 0.875
     - _Reflectivity: 10
-    - _ScaleRatioA: 1
-    - _ScaleRatioB: 1
-    - _ScaleRatioC: 1
+    - _ScaleRatioA: 0.9
+    - _ScaleRatioB: 0.73125
+    - _ScaleRatioC: 0.73125
     - _ScaleX: 1
     - _ScaleY: 1
     - _ShaderFlags: 0
@@ -116,9 +116,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
   m_Name: Andika-Regular SDF
   m_EditorClassIdentifier: 
-  hashCode: 0
+  hashCode: 849163758
   material: {fileID: -6064768406381841329}
-  materialHashCode: 0
+  materialHashCode: 84358798
   m_Version: 1.1.0
   m_SourceFontFileGUID: 3ee2093dc4d1ac2409c53901d5e69b6c
   m_SourceFontFile_EditorRef: {fileID: 12800000, guid: 3ee2093dc4d1ac2409c53901d5e69b6c, type: 3}
@@ -11225,7 +11225,8 @@ MonoBehaviour:
   m_FontFeatureTable:
     m_GlyphPairAdjustmentRecords: []
   fallbackFontAssets: []
-  m_FallbackFontAssetTable: []
+  m_FallbackFontAssetTable:
+  - {fileID: 11400000, guid: 9eabb7bdee4d3c64f9e2c75e2de34a27, type: 2}
   m_CreationSettings:
     sourceFontFileName: 
     sourceFontFileGUID: 3ee2093dc4d1ac2409c53901d5e69b6c
@@ -11258,7 +11259,7 @@ MonoBehaviour:
     italicTypeface: {fileID: 0}
   - regularTypeface: {fileID: 0}
     italicTypeface: {fileID: 0}
-  - regularTypeface: {fileID: 0}
+  - regularTypeface: {fileID: 11400000, guid: 31142700317cc1545b54861dee8d702f, type: 2}
     italicTypeface: {fileID: 0}
   - regularTypeface: {fileID: 0}
     italicTypeface: {fileID: 0}
