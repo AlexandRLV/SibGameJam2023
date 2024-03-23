@@ -33,7 +33,7 @@ namespace GameCore.Character.Movement
         public StepSounds StepSounds => _visuals.StepSounds;
         public CharacterPhysicsBody PhysicsBody => _physicsBody;
 
-        public AnimationType CurrentAnimation => _stateMachine.CurrentState.AnimationType;
+        public AnimationType CurrentAnimation => _stateMachine.currentState.AnimationType;
         public float AnimationSpeed => IsControlledByPlayer ? InputState.moveVector.magnitude : 0f;
         
         [Header("References")]
@@ -87,7 +87,7 @@ namespace GameCore.Character.Movement
                     
             _stateMachine = new StateMachine<MovementStateBase, MovementStateType>
             {
-                States = new List<MovementStateBase>
+                states = new List<MovementStateBase>
                 {
                     new MovementIdleWaitState(this),
                     new MovementWalkState(this),
@@ -98,7 +98,7 @@ namespace GameCore.Character.Movement
             };
                     
             if (_parameters.canJump)
-                _stateMachine.States.Add(new MovementJumpState(this));
+                _stateMachine.states.Add(new MovementJumpState(this));
                     
             _stateMachine.ForceSetState(MovementStateType.Walk);
         }

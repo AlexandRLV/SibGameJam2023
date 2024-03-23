@@ -9,11 +9,11 @@ namespace GameCore.StateMachine
         public abstract AnimationType AnimationType { get; }
         public abstract TStateType Type { get; }
 
-        public HashSet<TStateType> whiteListOnEnter = new();
-        public HashSet<TStateType> whiteListOnExit = new();
+        protected readonly HashSet<TStateType> whiteListOnEnter = new();
+        protected readonly HashSet<TStateType> whiteListOnExit = new();
         
-        public HashSet<TStateType> blackListOnEnter = new();
-        public HashSet<TStateType> blackListOnExit = new();
+        protected readonly HashSet<TStateType> blackListOnEnter = new();
+        protected readonly HashSet<TStateType> blackListOnExit = new();
 
         public bool AllowEnterFrom(TStateType prevState)
         {

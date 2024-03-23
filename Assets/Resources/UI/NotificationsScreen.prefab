@@ -283,8 +283,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Hi there! It's your notification
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 43ca41bc87679b542875173d5b61d2b6, type: 2}
-  m_sharedMaterial: {fileID: 3353742049047442339, guid: 43ca41bc87679b542875173d5b61d2b6, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 35f272cfa3ca3224c97687dea1b90750, type: 2}
+  m_sharedMaterial: {fileID: 4352411664403441882, guid: 35f272cfa3ca3224c97687dea1b90750, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1774,8 +1774,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Notification!
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 43ca41bc87679b542875173d5b61d2b6, type: 2}
-  m_sharedMaterial: {fileID: 3353742049047442339, guid: 43ca41bc87679b542875173d5b61d2b6, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 35f272cfa3ca3224c97687dea1b90750, type: 2}
+  m_sharedMaterial: {fileID: 4352411664403441882, guid: 35f272cfa3ca3224c97687dea1b90750, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

@@ -661,6 +661,7 @@ GameObject:
   - component: {fileID: 342940592499889757}
   - component: {fileID: 342940592499889756}
   - component: {fileID: 6297178303483891899}
+  - component: {fileID: 6100780217802721871}
   m_Layer: 0
   m_Name: Audio Source
   m_TagString: Untagged
@@ -791,6 +792,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ef881f207594ea99eebf8cb8e04729e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6100780217802721871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 342940592499889747}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b03a1b58184fb486ddcd93838c09c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioSource: {fileID: 342940592499889756}
+  _volumeType: 1
 --- !u!1 &342940592711220844
 GameObject:
   m_ObjectHideFlags: 0
@@ -1014,8 +1029,8 @@ MonoBehaviour:
     \u043F\u0440\u043E\u043F\u0443\u0441\u0442\u0438\u0442\u044C \u0432\u0441\u0442\u0443\u043F\u043B\u0435\u043D\u0438\u0435.
     \u041D\u0430\u0436\u043C\u0438\u0442\u0435 \"\u041F\u0440\u043E\u0431\u0435\u043B\""
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 43ca41bc87679b542875173d5b61d2b6, type: 2}
-  m_sharedMaterial: {fileID: 3353742049047442339, guid: 43ca41bc87679b542875173d5b61d2b6, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 35f272cfa3ca3224c97687dea1b90750, type: 2}
+  m_sharedMaterial: {fileID: 4352411664403441882, guid: 35f272cfa3ca3224c97687dea1b90750, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

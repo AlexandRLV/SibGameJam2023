@@ -46,8 +46,10 @@ MonoBehaviour:
         \u043F\u0440\u044B\u0433\u0430\u0442\u044C"
     - key: $SETTINGS_SCREEN_LABEL
       value: "\u041D\u0430\u0441\u0442\u0440\u043E\u0439\u043A\u0438"
-    - key: $SETTINGS_VOLUME_LABEL
-      value: "\u0413\u0440\u043E\u043C\u043A\u043E\u0441\u0442\u044C"
+    - key: $SETTINGS_SOUND_VOLUME_LABEL
+      value: "\u0413\u0440\u043E\u043C\u043A\u043E\u0441\u0442\u044C \u0437\u0432\u0443\u043A\u043E\u0432"
+    - key: $SETTINGS_MUSIC_VOLUME_LABEL
+      value: "\u0413\u0440\u043E\u043C\u043A\u043E\u0441\u0442\u044C \u043C\u0443\u0437\u044B\u043A\u0438"
     - key: $SETTINGS_GAMERA_LABEL
       value: "\u041A\u0430\u043C\u0435\u0440\u0430"
     - key: $SETTINGS_SENSITIVITY_LABEL
@@ -239,8 +241,10 @@ MonoBehaviour:
       value: Agent Cooper can jump
     - key: $SETTINGS_SCREEN_LABEL
       value: Settings
-    - key: $SETTINGS_VOLUME_LABEL
-      value: Volume
+    - key: $SETTINGS_SOUND_VOLUME_LABEL
+      value: Sounds volume
+    - key: $SETTINGS_MUSIC_VOLUME_LABEL
+      value: Music volume
     - key: $SETTINGS_GAMERA_LABEL
       value: Camera
     - key: $SETTINGS_SENSITIVITY_LABEL

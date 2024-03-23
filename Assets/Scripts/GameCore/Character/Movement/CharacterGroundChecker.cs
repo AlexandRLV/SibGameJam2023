@@ -46,8 +46,6 @@ namespace GameCore.Character.Movement
             _movement.MoveValues.groundAngle = firstGroundAngle < secondGroundAngle ? firstGroundAngle : secondGroundAngle;
             _movement.MoveValues.groundNormal = firstGroundAngle < secondGroundAngle ? firstNormal : secondNormal;
 
-            _movement.MoveValues.groundAngle = Mathf.Min(firstGroundAngle, secondGroundAngle);
-	        
             _movement.MoveValues.distanceToGround = distance - _verticalOffset;
             
             _movement.MoveValues.isGrounded = _groundHit.colliderInstanceID != 0 && _movement.MoveValues.distanceToGround <= _groundedDistance;

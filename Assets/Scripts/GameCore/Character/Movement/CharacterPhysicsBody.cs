@@ -235,6 +235,6 @@ namespace GameCore.Character.Movement
 	        }
 
 	        return origin;
-        } 
+        }
     }
 }

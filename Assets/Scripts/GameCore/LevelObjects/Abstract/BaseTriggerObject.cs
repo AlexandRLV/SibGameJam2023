@@ -1,6 +1,7 @@
 using Common.DI;
 using GameCore.Character.Movement;
 using GameCore.Sounds;
+using GameCore.Sounds.Playback;
 using UnityEngine;
 
 namespace GameCore.LevelObjects.Abstract
