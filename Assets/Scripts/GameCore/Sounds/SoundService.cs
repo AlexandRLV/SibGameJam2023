@@ -161,15 +161,14 @@ namespace GameCore.Sounds
                 float t = time / _fadingTime;
 
                 _firstTrackSource.volume = Mathf.Lerp(firstVolume, 0.0f, t);
-                _secondTrackSource.volume = Mathf.Lerp(0.0f, 1.0f, t);
+                _secondTrackSource.volume = Mathf.Lerp(0.0f, firstVolume, t);
 
                 time += Time.deltaTime;
-
                 yield return null;
             }
 
             _firstTrackSource.volume = 0.0f;
-            _secondTrackSource.volume = 1.0f;
+            _secondTrackSource.volume = _musicVolume;
             _firstTrackSource.Stop();
             (_firstTrackSource, _secondTrackSource) = (_secondTrackSource, _firstTrackSource);
             _fadingCoroutine = null;

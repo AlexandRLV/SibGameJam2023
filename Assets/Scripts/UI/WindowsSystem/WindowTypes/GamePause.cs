@@ -52,11 +52,11 @@ namespace UI.WindowsSystem.WindowTypes
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                _gameCamera.FollowTarget.SetInPause(false);
-                _windowsSystem.DestroyWindow(this);
-            }
+            if (!Input.GetKeyDown(KeyCode.Escape)) return;
+            if (_windowsSystem.TryGetWindow<SettingsScreen>(out _)) return;
+            
+            _gameCamera.FollowTarget.SetInPause(false);
+            _windowsSystem.DestroyWindow(this);
         }
 
         private void OpenSettings()
