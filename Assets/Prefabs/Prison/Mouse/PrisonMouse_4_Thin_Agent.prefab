@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 567440000448875820}
   - component: {fileID: 567440000448875809}
   - component: {fileID: 567440000448875808}
+  - component: {fileID: 5427547199565835535}
   m_Layer: 6
   m_Name: PrisonMouse_4_Thin_Agent
   m_TagString: Untagged
@@ -86,6 +87,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _visuals: {fileID: 4770902763599824744}
   _agent: {fileID: 567440000448875820}
+--- !u!208 &5427547199565835535
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 567440000448875819}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 0
+  m_Extents: {x: 0.5, y: 0.9, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0.9, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1001 &7562670277639801238
 PrefabInstance:
   m_ObjectHideFlags: 0
