@@ -98,7 +98,7 @@ namespace GameCore.Enemies.NewEnemy
             _lookCenter = transform.position + Vector3.up * _viewPreset.viewStartOffset;
             float distanceBack = _viewPreset.viewStartRadius / Mathf.Tan(_viewPreset.viewAngle * Mathf.Rad2Deg);
             _lookBehindPoint = _lookCenter - forward * distanceBack;
-            _playerTransform = _player.CurrentMovement.transform;
+            _playerTransform = _player.CurrentMovement == null ? null : _player.CurrentMovement.transform;
             
 #if UNITY_EDITOR
             if (!_debug) return;
@@ -117,6 +117,8 @@ namespace GameCore.Enemies.NewEnemy
 
         private bool CheckCanSeeTarget()
         {
+            if (_playerTransform == null) return false;
+            
             var playerPosition = _playerTransform.position;
             float distance = Vector3.Distance(playerPosition, _lookCenter);
             if (distance < _viewPreset.autoDetectRadius)

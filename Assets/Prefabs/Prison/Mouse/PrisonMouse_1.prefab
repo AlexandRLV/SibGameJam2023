@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 567440000448875820}
   - component: {fileID: 567440000448875809}
   - component: {fileID: 567440000448875808}
-  - component: {fileID: 2501841059847980795}
   m_Layer: 6
   m_Name: PrisonMouse_1
   m_TagString: Untagged
@@ -87,22 +86,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _visuals: {fileID: 2267791929760499266}
   _agent: {fileID: 567440000448875820}
---- !u!208 &2501841059847980795
-NavMeshObstacle:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 567440000448875819}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Shape: 0
-  m_Extents: {x: 0.5, y: 0.9, z: 0.5}
-  m_MoveThreshold: 0.1
-  m_Carve: 0
-  m_CarveOnlyStationary: 1
-  m_Center: {x: 0, y: 0.9, z: 0}
-  m_TimeToStationary: 0.5
 --- !u!1 &5420756953070955786
 GameObject:
   m_ObjectHideFlags: 0

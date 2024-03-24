@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5820949360426513578}
   - component: {fileID: 3939606776504934689}
   - component: {fileID: 4887327696372881159}
+  - component: {fileID: 6876001213062734148}
   m_Layer: 0
   m_Name: ToxicPuddle
   m_TagString: Untagged
@@ -115,6 +116,22 @@ MonoBehaviour:
   speedMultiplier: 0.2
   speedMultiplierDuration: 5
   damageTimeRate: 3
+--- !u!114 &6876001213062734148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3594752392048179530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35e95dc5ff2b64380880dd7ac5922847, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Size: {x: 2.6436305, y: 2.0515404, z: 1.4211307}
+  m_Center: {x: 0.01957345, y: 0.5257702, z: -0.042780995}
+  m_Area: 1
+  m_AffectedAgents: ffffffff
 --- !u!1001 &5282641005200250701
 PrefabInstance:
   m_ObjectHideFlags: 0

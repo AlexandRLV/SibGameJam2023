@@ -42,7 +42,9 @@ namespace GameCore.LevelObjects.Abstract
             var movement = other.GetComponentInParent<CharacterMovement>();
             if (movement == null) return;
             OnPlayerExit();
-            Movement = null;
+            
+            if (Movement == movement)
+                Movement = null;
         }
 
         protected virtual void OnPlayerEnter() { }

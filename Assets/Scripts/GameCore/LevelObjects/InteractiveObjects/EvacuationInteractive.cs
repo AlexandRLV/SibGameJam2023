@@ -1,27 +1,28 @@
+using System.Collections.Generic;
 using Common;
 using Common.DI;
 using GameCore.Common.Messages;
 using GameCore.LevelObjects.Abstract;
 using GameCore.LevelObjects.Messages;
+using GameCore.Player;
 using LocalMessages;
 using UI.NotificationsSystem;
-using UnityEngine;
 
 namespace GameCore.LevelObjects.InteractiveObjects
 {
     public class EvacuationInteractive : BaseTriggerObject
     {
-        private const float TimeToShowEvacuateNotif = 3f;
-        
         [Inject] private LocalMessageBroker _messageBroker;
         [Inject] private LevelObjectService _levelObjectService;
         [Inject] private NotificationsManager _notificationsManager;
 
-        private float _timer;
+        private Dictionary<int, bool> _enteredMovementObjects;
         
         private void Start()
         {
             GameContainer.InjectToInstance(this);
+
+            _enteredMovementObjects = new Dictionary<int, bool>();
             
             _messageBroker.Subscribe<ActivateEvacuationMessage>(OnEvacuationActivated);
             _levelObjectService.evacuation = this;
@@ -29,27 +30,18 @@ namespace GameCore.LevelObjects.InteractiveObjects
             gameObject.SetActive(false);
         }
 
-        private void Update()
-        {
-            // if (IsUsed) return;
-            // if (_timer <= 0f) return;
-            //
-            // _timer -= Time.deltaTime;
-            // if (_timer > 0f) return;
-            //
-            // _notificationsManager.ShowNotification(Const.Notifications.EvacuationActivated); //$MISSION_COMPLETED_EVACUATION_ACTIVATED
-        }
-
         private void OnEvacuationActivated(ref ActivateEvacuationMessage value)
         {
             IsUsed = false;
             gameObject.SetActive(value.active);
             _notificationsManager.ShowNotification(Const.Notifications.EvacuationActivated); //$MISSION_COMPLETED_EVACUATION_ACTIVATED
-            // _timer = TimeToShowEvacuateNotif;
         }
 
         protected override void OnPlayerEnter()
         {
+            _enteredMovementObjects[Movement.gameObject.GetInstanceID()] = true;
+            if (!AllMovementObjectsEntered()) return;
+            
             var message = new PlayerEvacuatedMessage();
             _messageBroker.Trigger(ref message);
         }
@@ -60,11 +52,24 @@ namespace GameCore.LevelObjects.InteractiveObjects
 
         protected override void OnPlayerExit()
         {
+            _enteredMovementObjects[Movement.gameObject.GetInstanceID()] = false;
         }
 
         private void OnDestroy()
         {
             _messageBroker.Unsubscribe<ActivateEvacuationMessage>(OnEvacuationActivated);
+        }
+
+        private bool AllMovementObjectsEntered()
+        {
+            var player = GameContainer.InGame.Resolve<IPlayer>();
+            foreach (int movementObject in player.MovementObjects)
+            {
+                if (!_enteredMovementObjects.ContainsKey(movementObject) || !_enteredMovementObjects[movementObject])
+                    return false;
+            }
+
+            return true;
         }
     }
 }
