@@ -28,7 +28,7 @@ namespace Startup.GameplayInitializers.Singleplayer
             fatMouseMovement.transform.SetPositionAndRotation(_playerSpawns.FatSpawn.position, _playerSpawns.FatSpawn.rotation);
             fatMouseMovement.Initialize(fatMouseVisuals);
 
-            Physics.IgnoreCollision(thinMouseMovement.Collider, fatMouseMovement.Collider);
+            // Physics.IgnoreCollision(thinMouseMovement.Collider, fatMouseMovement.Collider);
 
             var player = GameContainer.CreateGameObjectWithComponent<TwoMousePlayer>("TwoMousePlayer");
             player.Initialize(fatMouseMovement, thinMouseMovement);
