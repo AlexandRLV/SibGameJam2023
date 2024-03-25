@@ -27945,6 +27945,10 @@ PrefabInstance:
       propertyPath: m_Convex
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5751647026832356495, guid: 24c7a57dc8ae9d240a342e1dd7380de1, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 24c7a57dc8ae9d240a342e1dd7380de1, type: 3}
 --- !u!4 &691690442 stripped
@@ -78711,6 +78715,10 @@ PrefabInstance:
     - target: {fileID: 4581360148670909035, guid: f0a7aeae3721481458db23d7ce8eefa4, type: 3}
       propertyPath: m_Name
       value: PlayerEvacuationZone (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4581360148670909035, guid: f0a7aeae3721481458db23d7ce8eefa4, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4581360148670909035, guid: f0a7aeae3721481458db23d7ce8eefa4, type: 3}
       propertyPath: m_StaticEditorFlags
