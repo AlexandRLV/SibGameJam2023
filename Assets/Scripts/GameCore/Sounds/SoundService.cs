@@ -24,7 +24,7 @@ namespace GameCore.Sounds
 
         private Dictionary<SoundType, PrioritizedSound> _prioritizedSounds;
         
-        private Dictionary<SoundType, AudioClip> _sounds;
+        private Dictionary<SoundType, SoundContainer> _sounds;
         private Dictionary<MusicType, AudioClip> _tracks;
 
         private int _playingSoundPriority;
@@ -34,7 +34,7 @@ namespace GameCore.Sounds
         {
             GameContainer.InjectToInstance(this);
             
-            _sounds = new Dictionary<SoundType, AudioClip>();
+            _sounds = new Dictionary<SoundType, SoundContainer>();
             _tracks = new Dictionary<MusicType, AudioClip>();
 
             _prioritizedSounds = new Dictionary<SoundType, PrioritizedSound>();
@@ -46,7 +46,7 @@ namespace GameCore.Sounds
 
             foreach (var sound in _soundsData.sounds)
             {
-                if (!_sounds.TryAdd(sound.soundType, sound.audioClip))
+                if (!_sounds.TryAdd(sound.soundType, sound))
                     Debug.LogError($"Ошибка: повторяющийся тип звука: {sound.soundType}");
             }
 
@@ -67,25 +67,27 @@ namespace GameCore.Sounds
         {
             if (_prioritizedSounds.TryGetValue(soundType, out var sound))
             {
-                int priority = sound.priority;
-                var clip = sound.audioClip;
-                PlaySoundByPriority(clip, priority);
+                if (sound.disableSound) return;
+                if (Time.time - sound.lastPlayedTime < sound.minPlayDelay) return;
+                
+                PlaySoundByPriority(sound);
             }
             else
             {
-                var clip = _sounds[soundType];
-                if (clip != null)
-                    _soundsSource.PlayOneShot(clip);
+                var container = _sounds[soundType];
+                if (container != null && !container.disableSound)
+                    _soundsSource.PlayOneShot(container.audioClip);
             }
         }
 
-        private void PlaySoundByPriority(AudioClip clip, int priority)
+        private void PlaySoundByPriority(PrioritizedSound sound)
         {
-            if (_voiceSource.isPlaying && priority <= _playingSoundPriority)
+            if (_voiceSource.isPlaying && sound.priority <= _playingSoundPriority)
                 return;
 
-            _playingSoundPriority = priority;
-            _voiceSource.clip = clip;
+            sound.lastPlayedTime = Time.time;
+            _playingSoundPriority = sound.priority;
+            _voiceSource.clip = sound.audioClip;
             _voiceSource.Play();
         }
 

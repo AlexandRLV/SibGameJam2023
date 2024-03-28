@@ -8,5 +8,6 @@ namespace GameCore.Sounds.Playback
     {
         [SerializeField] public SoundType soundType;
         [SerializeField] public AudioClip audioClip;
+        [SerializeField] public bool disableSound;
     }
 }
