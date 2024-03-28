@@ -1,4 +1,5 @@
-﻿using Common.DI;
+﻿using System.Collections.Generic;
+using Common.DI;
 using GameCore.Camera;
 using GameCore.Character.Movement;
 using Networking.Client;
@@ -12,6 +13,7 @@ namespace GameCore.Player.Network
         public PlayerMouseType MouseType { get; private set; }
         public CharacterMovement CurrentMovement { get; private set; }
         public CharacterMovement LastMovement { get; private set; }
+        public List<int> MovementObjects { get; private set; }
 
         [HideInInspector] public bool teleported;
         [SerializeField] private NetworkParameters _parameters;
@@ -30,6 +32,7 @@ namespace GameCore.Player.Network
             CurrentMovement = movement;
             CurrentMovement.Posess();
             
+            MovementObjects = new List<int> { movement.gameObject.GetInstanceID() };
             _gameCamera.SetTarget(CurrentMovement.transform);
         }
 

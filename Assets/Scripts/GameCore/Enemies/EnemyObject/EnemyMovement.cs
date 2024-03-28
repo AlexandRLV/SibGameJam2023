@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using GameCore.Character.Animation;
+using GameCore.Character.Visuals;
 using GameCore.Enemies.RouteControl;
 using UnityEngine;
 using UnityEngine.AI;

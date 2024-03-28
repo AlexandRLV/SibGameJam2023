@@ -16,7 +16,7 @@ namespace PlayerSettings
         [JsonProperty("invert_x")] public bool invertX;
         [JsonProperty("invert_y")] public bool invertY;
         [JsonProperty("sensitivity")] public float sensitivity;
-        [JsonProperty("volume")] public float volume;
         [JsonProperty("language")] public int language;
+        [JsonProperty("volumes")] public SoundSettings[] soundSettings;
     }
 }

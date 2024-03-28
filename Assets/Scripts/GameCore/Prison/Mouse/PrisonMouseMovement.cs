@@ -1,5 +1,5 @@
 using Common.DI;
-using GameCore.Character.Animation;
+using GameCore.Character.Visuals;
 using GameCore.LevelObjects;
 using UnityEngine;
 using UnityEngine.AI;

@@ -1,7 +1,7 @@
 ﻿using Common;
 using Common.DI;
-using GameCore.Character.Animation;
 using GameCore.Character.Movement;
+using GameCore.Character.Visuals;
 using LocalMessages;
 using NetFrame.Client;
 using Networking;

@@ -12,6 +12,10 @@ namespace GameCore.Input
         public PressState interact;
         public PressState changeCharacter;
 
+#if UNITY_EDITOR
+        public PressState cheatSpeedUp;
+#endif
+
         public void Clear()
         {
             moveVector = Vector2.zero;
@@ -21,6 +25,10 @@ namespace GameCore.Input
             crouch = PressState.Released;
             interact = PressState.Released;
             changeCharacter = PressState.Released;
+            
+#if UNITY_EDITOR
+            cheatSpeedUp = PressState.Released;
+#endif
         }
     }
 }

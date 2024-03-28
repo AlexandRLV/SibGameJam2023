@@ -150,6 +150,7 @@ MonoBehaviour:
   _speedUpVFX: {fileID: 0}
   _stepSounds: {fileID: 0}
   _knockdownEffect: {fileID: 0}
+  _head: {fileID: 0}
 --- !u!1001 &2468179389305963174
 PrefabInstance:
   m_ObjectHideFlags: 0

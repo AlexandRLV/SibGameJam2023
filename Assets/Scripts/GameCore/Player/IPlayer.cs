@@ -1,4 +1,5 @@
-﻿using GameCore.Character.Movement;
+﻿using System.Collections.Generic;
+using GameCore.Character.Movement;
 
 namespace GameCore.Player
 {
@@ -7,6 +8,7 @@ namespace GameCore.Player
         public PlayerMouseType MouseType { get; }
         public CharacterMovement CurrentMovement { get; }
         public CharacterMovement LastMovement { get; }
+        public List<int> MovementObjects { get; }
 
         public void Unposess();
     }

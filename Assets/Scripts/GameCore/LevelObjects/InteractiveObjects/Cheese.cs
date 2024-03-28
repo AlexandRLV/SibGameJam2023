@@ -1,10 +1,11 @@
 using Common.DI;
-using GameCore.Character.Animation;
+using GameCore.Character.Visuals;
 using GameCore.LevelAchievements.LocalMessages;
 using GameCore.LevelObjects.Abstract;
 using GameCore.LevelObjects.Messages;
 using GameCore.Player;
 using GameCore.Sounds;
+using GameCore.Sounds.Playback;
 using LocalMessages;
 using UnityEngine;
 

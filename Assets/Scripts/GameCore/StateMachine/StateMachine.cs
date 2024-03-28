@@ -7,47 +7,47 @@ namespace GameCore.StateMachine
         where TStateBase : StateBase<TStateType>
         where TStateType : Enum 
     {
-        internal TStateBase CurrentState;
-        internal List<TStateBase> States;
+        public TStateBase currentState;
+        public List<TStateBase> states;
 		
         private TStateType _currentType;
         private readonly EqualityComparer<TStateType> _comparer = EqualityComparer<TStateType>.Default;
 
-        internal void Update()
+        public void Update()
         {
-            CurrentState.Update();
+            currentState.Update();
         }
 
-        internal void CheckStates()
+        public void CheckStates()
         {
-            foreach (var nextState in States)
+            foreach (var nextState in states)
             {
                 var nextType = nextState.Type;
                 if (_comparer.Equals(nextType, _currentType)) continue;
 				
                 if (!nextState.AllowEnterFrom(_currentType) || !nextState.CanEnter(_currentType)) continue;
-                if (!CurrentState.CanExit(nextState.Type) || !CurrentState.AllowExitTo(nextType)) continue;
+                if (!currentState.CanExit(nextState.Type) || !currentState.AllowExitTo(nextType)) continue;
 
-                CurrentState.OnExit(nextState.Type);
+                currentState.OnExit(nextState.Type);
                 nextState.OnEnter(_currentType);
-                CurrentState = nextState;
+                currentState = nextState;
                 _currentType = nextType;
                 break;
             }
         }
 
-        internal void ForceSetState(TStateType stateType)
+        public void ForceSetState(TStateType stateType)
         {
-            if (CurrentState != null && _comparer.Equals(CurrentState.Type, stateType))
+            if (currentState != null && _comparer.Equals(currentState.Type, stateType))
                 return;
 			
-            foreach (var state in States)
+            foreach (var state in states)
             {
                 if (!_comparer.Equals(stateType, state.Type)) continue;
 
-                if (CurrentState != null)
+                if (currentState != null)
                 {
-                    CurrentState.OnExit(stateType);
+                    currentState.OnExit(stateType);
                     state.OnEnter(_currentType);
                 }
                 else
@@ -55,7 +55,7 @@ namespace GameCore.StateMachine
                     state.OnEnter(default);
                 }
 				
-                CurrentState = state;
+                currentState = state;
                 _currentType = stateType;
             }
         }

@@ -37,6 +37,8 @@ namespace GameCore.Character.Movement
             if (!_movement.MoveValues.inContact || _movement.MoveValues.groundAngle > _parameters.slideSlopeAngle)
 	            _rigidbody.AddForce(Vector3.up * (Physics.gravity.y * _parameters.gravityMultiplier * _rigidbody.mass));
 
+            if (!_movement.IsControlledByPlayer) return;
+            
             var horizontalVelocity = _rigidbody.velocity;
             horizontalVelocity.y = 0f;
             
@@ -235,6 +237,6 @@ namespace GameCore.Character.Movement
 	        }
 
 	        return origin;
-        } 
+        }
     }
 }

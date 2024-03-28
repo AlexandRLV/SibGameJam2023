@@ -16,7 +16,7 @@ namespace Startup.StartGameInitializers
             provider.SetLanguage(
                 provider.HasLanguage(Application.systemLanguage)
                     ? Application.systemLanguage
-                    : SystemLanguage.Russian);
+                    : SystemLanguage.English);
 
             GameContainer.Common.Register(provider);
         }

@@ -6,6 +6,54 @@ ModelImporter:
   - first:
       74: 3611231419296906174
     second: Base_Layer
+  - first:
+      74: 7493080663981777123
+    second: Rig|[MThin_death_unused]
+  - first:
+      74: 5035666798419481127
+    second: Rig|[MThin_jump_unused]
+  - first:
+      74: 224049755818347896
+    second: Rig|MThin_crouch
+  - first:
+      74: -7026202947451740863
+    second: Rig|MThin_eat
+  - first:
+      74: -8963618725680488520
+    second: Rig|MThin_gotHit
+  - first:
+      74: -448483621666653641
+    second: Rig|MThin_idle
+  - first:
+      74: 1567630707781143929
+    second: Rig|MThin_idle_rare
+  - first:
+      74: -7865742789425706798
+    second: Rig|MThin_jump_end
+  - first:
+      74: 9157830711048764451
+    second: Rig|MThin_jump_idle
+  - first:
+      74: 3979764942594066628
+    second: Rig|MThin_jump_start
+  - first:
+      74: -1391103591042186602
+    second: Rig|MThin_Knockout
+  - first:
+      74: 5045383269742443418
+    second: Rig|MThin_Knockout_idle
+  - first:
+      74: -2254124530976709086
+    second: Rig|MThin_leverPull
+  - first:
+      74: -3904858370818502398
+    second: Rig|MThin_open
+  - first:
+      74: 8164392599236117747
+    second: Rig|MThin_sneak
+  - first:
+      74: 7921031285886407512
+    second: Rig|MThin_walk
   externalObjects: {}
   materials:
     materialImportMode: 2

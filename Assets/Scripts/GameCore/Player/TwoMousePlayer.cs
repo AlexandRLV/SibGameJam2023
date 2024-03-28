@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using Common;
 using Common.DI;
 using GameCore.Camera;
@@ -18,6 +19,7 @@ namespace GameCore.Player
         public PlayerMouseType MouseType { get; private set; }
         public CharacterMovement CurrentMovement { get; private set; }
         public CharacterMovement LastMovement { get; private set; }
+        public List<int> MovementObjects { get; private set; }
         
         [Inject] private GameCamera _gameCamera;
         [Inject] private LocalMessageBroker _messageBroker;
@@ -66,6 +68,12 @@ namespace GameCore.Player
             _fatMouseCharacter = fatMouse;
             _thinMouseCharacter = thinMouse;
             _canChangeMouse = canChangeCharacter;
+            
+            MovementObjects = new List<int>
+            {
+                fatMouse.gameObject.GetInstanceID(),
+                thinMouse.gameObject.GetInstanceID(),
+            };
             
             _thinMouseCharacter.Unposess();
             PosessCharacter(_fatMouseCharacter);

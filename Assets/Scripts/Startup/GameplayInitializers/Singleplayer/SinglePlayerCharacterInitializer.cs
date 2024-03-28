@@ -1,7 +1,7 @@
 ﻿using Common.DI;
 using GameCore;
-using GameCore.Character.Animation;
 using GameCore.Character.Movement;
+using GameCore.Character.Visuals;
 using GameCore.Player;
 using UnityEngine;
 
@@ -28,7 +28,7 @@ namespace Startup.GameplayInitializers.Singleplayer
             fatMouseMovement.transform.SetPositionAndRotation(_playerSpawns.FatSpawn.position, _playerSpawns.FatSpawn.rotation);
             fatMouseMovement.Initialize(fatMouseVisuals);
 
-            Physics.IgnoreCollision(thinMouseMovement.Collider, fatMouseMovement.Collider);
+            // Physics.IgnoreCollision(thinMouseMovement.Collider, fatMouseMovement.Collider);
 
             var player = GameContainer.CreateGameObjectWithComponent<TwoMousePlayer>("TwoMousePlayer");
             player.Initialize(fatMouseMovement, thinMouseMovement);

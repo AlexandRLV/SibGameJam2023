@@ -5,6 +5,7 @@ namespace GameCore.Character.Movement
 {
     public class CharacterMoveValues
     {
+        public float defaultSpeed;
         public float speedMultiplier;
 
         public bool isGrounded;

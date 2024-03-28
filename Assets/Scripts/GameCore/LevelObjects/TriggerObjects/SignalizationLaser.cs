@@ -4,6 +4,7 @@ using GameCore.LevelObjects.Abstract;
 using GameCore.LevelObjects.InteractiveObjects;
 using GameCore.LevelObjects.Messages;
 using GameCore.Sounds;
+using GameCore.Sounds.Playback;
 using LocalMessages;
 using UnityEngine;
 
@@ -12,6 +13,8 @@ namespace GameCore.LevelObjects.TriggerObjects
     public class SignalizationLaser : BaseTriggerObject
     {
         [SerializeField] private LaserGroup laserGroup;
+        [SerializeField] private bool _useIntGroup;
+        [SerializeField] private int _laserGroup;
 
         private void Start()
         {
@@ -21,7 +24,10 @@ namespace GameCore.LevelObjects.TriggerObjects
 
         private void OnLaserDestroyed(ref LaserDestroyMessage value)
         {
-            if (value.LaserGroup == laserGroup)
+            if (!_useIntGroup)
+                _laserGroup = (int)laserGroup;
+            
+            if (value.LaserGroup == _laserGroup)
                 Destroy(gameObject);
         }
 

@@ -1,4 +1,4 @@
-﻿using GameCore.Character.Animation;
+﻿using GameCore.Character.Visuals;
 
 namespace GameCore.Enemies.NewEnemy.StateMachine.States
 {

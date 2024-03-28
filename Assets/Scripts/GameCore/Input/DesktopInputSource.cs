@@ -34,6 +34,10 @@ namespace GameCore.Input
             _inputState.crouch = GetPressState(_keySettings.crouchKey);
             _inputState.interact = GetPressState(_keySettings.interactKey);
             _inputState.changeCharacter = GetPressState(_keySettings.changeCharacterKey);
+
+#if UNITY_EDITOR
+            _inputState.cheatSpeedUp = GetPressState(_keySettings.cheatSpeedUpKey);
+#endif
         }
 
         private PressState GetPressState(KeyCode key)

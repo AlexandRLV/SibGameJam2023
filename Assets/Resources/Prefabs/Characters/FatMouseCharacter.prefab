@@ -59,6 +59,7 @@ GameObject:
   - component: {fileID: 2933814764328320539}
   - component: {fileID: 1500056972748205926}
   - component: {fileID: 4566033392939041036}
+  - component: {fileID: 5732090606242595779}
   m_Layer: 7
   m_Name: FatMouseCharacter
   m_TagString: Untagged
@@ -131,6 +132,7 @@ MonoBehaviour:
   _verticalOffset: 1.2
   _groundedDistance: 0.5
   _inContactDistance: 0.05
+  _showDebug: 0
 --- !u!114 &4566033392939041036
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -147,3 +149,20 @@ MonoBehaviour:
   _rigidbody: {fileID: 2933814764328320538}
   _groundChecker: {fileID: 1500056972748205926}
   _movement: {fileID: 2933814764328320539}
+  _debug: 0
+--- !u!208 &5732090606242595779
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2933814764328320536}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 0
+  m_Extents: {x: 0.5, y: 1, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 1, z: 0}
+  m_TimeToStationary: 0.5

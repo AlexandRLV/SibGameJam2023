@@ -1,7 +1,7 @@
 ﻿using Common.DI;
 using GameCore;
-using GameCore.Character.Animation;
 using GameCore.Character.Movement;
+using GameCore.Character.Visuals;
 using GameCore.Player;
 using UnityEngine;
 

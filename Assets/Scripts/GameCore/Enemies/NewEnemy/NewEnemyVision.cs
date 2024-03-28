@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Common.DI;
+using GameCore.Character.Visuals;
 using GameCore.Enemies.EnemyObject;
 using GameCore.Enemies.NewEnemy.Parameters;
 using GameCore.Player;
@@ -10,7 +11,7 @@ namespace GameCore.Enemies.NewEnemy
 {
     public class NewEnemyVision : MonoBehaviour
     {
-        public float HeadRotationAngle { get; set; }
+        [field: SerializeField] public float HeadRotationAngle { get; set; }
         public bool IsAlarmed { get; private set; }
 
         [SerializeField] private bool _debug;
@@ -28,13 +29,16 @@ namespace GameCore.Enemies.NewEnemy
         private bool _canSeeTarget;
         private bool _isProvoked;
         private float _timer;
+
+        private bool _hasHead;
+        private Transform _head;
         
         private Vector3 _lookCenter;
         private Vector3 _lookBehindPoint;
         private Vector3 _lookDirection;
         private Transform _playerTransform;
         
-        public void Initialize(IPlayer player, EnemyViewPreset viewPreset)
+        public void Initialize(IPlayer player, EnemyViewPreset viewPreset, CharacterVisuals visuals)
         {
             GameContainer.InjectToInstance(this);
             
@@ -44,6 +48,9 @@ namespace GameCore.Enemies.NewEnemy
             _player = player;
             _viewPreset = viewPreset;
             _initialized = true;
+
+            _head = visuals.Head;
+            _hasHead = _head != null;
             
             _messageBroker.Subscribe<PlayerDetectedMessage>(OnPlayerDetected);
         }
@@ -61,9 +68,18 @@ namespace GameCore.Enemies.NewEnemy
 
             UpdateVision();
             _enemyFOV.DrawFOV(_viewPreset.viewDistance, _viewPreset.viewAngle, _raycastMask);
+            _enemyFOV.transform.localRotation = Quaternion.Euler(0f, HeadRotationAngle, 0f);
             
             bool canSeeTarget = CheckCanSeeTarget();
             UpdateAlarmTimer(canSeeTarget);
+        }
+
+        private void LateUpdate()
+        {
+            if (!_hasHead) return;
+
+            var additionalRotation = Quaternion.Euler(0f, HeadRotationAngle, 0f);
+            _head.localRotation *= additionalRotation;
         }
 
         private void UpdateIndication()
@@ -82,7 +98,7 @@ namespace GameCore.Enemies.NewEnemy
             _lookCenter = transform.position + Vector3.up * _viewPreset.viewStartOffset;
             float distanceBack = _viewPreset.viewStartRadius / Mathf.Tan(_viewPreset.viewAngle * Mathf.Rad2Deg);
             _lookBehindPoint = _lookCenter - forward * distanceBack;
-            _playerTransform = _player.CurrentMovement.transform;
+            _playerTransform = _player.CurrentMovement == null ? null : _player.CurrentMovement.transform;
             
 #if UNITY_EDITOR
             if (!_debug) return;
@@ -101,6 +117,8 @@ namespace GameCore.Enemies.NewEnemy
 
         private bool CheckCanSeeTarget()
         {
+            if (_playerTransform == null) return false;
+            
             var playerPosition = _playerTransform.position;
             float distance = Vector3.Distance(playerPosition, _lookCenter);
             if (distance < _viewPreset.autoDetectRadius)

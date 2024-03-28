@@ -38,7 +38,7 @@ namespace GameCore.Enemies.EnemyObject
             viewAngle *= Mathf.Deg2Rad;
             
             float currentAngle = -viewAngle;
-            float angleIncrement = viewAngle / (VisionConeResolution - 1);
+            float angleIncrement = viewAngle * 2f / (VisionConeResolution - 1);
 
             var forward = transform.forward;
             var right = transform.right;
