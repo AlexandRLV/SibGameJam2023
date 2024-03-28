@@ -164,6 +164,7 @@ GameObject:
   - component: {fileID: 1805926508530861239}
   - component: {fileID: 7008936544284747887}
   - component: {fileID: 2444826362907471866}
+  - component: {fileID: 4617170856983020784}
   m_Layer: 5
   m_Name: MenuButton
   m_TagString: Untagged
@@ -286,6 +287,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d974a7e6dbe8431da07c4b19a0833b30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4617170856983020784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2105302785410562669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4e936c15ef44eef90f96628f61ecb79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _buttonImage: {fileID: 1805926508530861239}
+  _defaultSprite: {fileID: 21300000, guid: 03844deeef84c4d4b84150bf7027e721, type: 3}
+  _hoveredSprite: {fileID: 21300000, guid: 639e31df705ab6844aa45dec415808d1, type: 3}
+  _pressedSprite: {fileID: 21300000, guid: 30db621c0580d50469dab10c6ad6a449, type: 3}
+  _selectedIndicator: {fileID: 0}
 --- !u!1 &2305585233161667008
 GameObject:
   m_ObjectHideFlags: 0
@@ -734,6 +752,7 @@ GameObject:
   - component: {fileID: 900646697468107351}
   - component: {fileID: 2424483881192186868}
   - component: {fileID: 1846921211455784497}
+  - component: {fileID: 3525396434925796196}
   m_Layer: 5
   m_Name: RestartButton
   m_TagString: Untagged
@@ -856,6 +875,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d974a7e6dbe8431da07c4b19a0833b30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3525396434925796196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8087882874867732491}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4e936c15ef44eef90f96628f61ecb79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _buttonImage: {fileID: 900646697468107351}
+  _defaultSprite: {fileID: 21300000, guid: 03844deeef84c4d4b84150bf7027e721, type: 3}
+  _hoveredSprite: {fileID: 21300000, guid: 639e31df705ab6844aa45dec415808d1, type: 3}
+  _pressedSprite: {fileID: 21300000, guid: 30db621c0580d50469dab10c6ad6a449, type: 3}
+  _selectedIndicator: {fileID: 0}
 --- !u!1 &8539150905799608087
 GameObject:
   m_ObjectHideFlags: 0

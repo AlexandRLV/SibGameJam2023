@@ -1269,6 +1269,8 @@ GameObject:
   - component: {fileID: 4594866712657822533}
   - component: {fileID: 6792836550107085585}
   - component: {fileID: 3224930261367380106}
+  - component: {fileID: 4502915707119784620}
+  - component: {fileID: 646395138395616135}
   m_Layer: 5
   m_Name: CreateRoomButton
   m_TagString: Untagged
@@ -1379,6 +1381,35 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &4502915707119784620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1312490478493342600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d974a7e6dbe8431da07c4b19a0833b30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &646395138395616135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1312490478493342600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4e936c15ef44eef90f96628f61ecb79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _buttonImage: {fileID: 6792836550107085585}
+  _defaultSprite: {fileID: 21300000, guid: 03844deeef84c4d4b84150bf7027e721, type: 3}
+  _hoveredSprite: {fileID: 21300000, guid: 639e31df705ab6844aa45dec415808d1, type: 3}
+  _pressedSprite: {fileID: 21300000, guid: 30db621c0580d50469dab10c6ad6a449, type: 3}
+  _selectedIndicator: {fileID: 0}
 --- !u!1 &1330642292904329211
 GameObject:
   m_ObjectHideFlags: 0
@@ -1881,6 +1912,8 @@ GameObject:
   - component: {fileID: 2305585232311349278}
   - component: {fileID: 2305585232311349277}
   - component: {fileID: 2305585232311349276}
+  - component: {fileID: 8231599557072505718}
+  - component: {fileID: 7423416269556437672}
   m_Layer: 5
   m_Name: CloseButton
   m_TagString: Untagged
@@ -1991,6 +2024,35 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &8231599557072505718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2305585232311349274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d974a7e6dbe8431da07c4b19a0833b30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7423416269556437672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2305585232311349274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4e936c15ef44eef90f96628f61ecb79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _buttonImage: {fileID: 2305585232311349277}
+  _defaultSprite: {fileID: 21300000, guid: 03844deeef84c4d4b84150bf7027e721, type: 3}
+  _hoveredSprite: {fileID: 21300000, guid: 639e31df705ab6844aa45dec415808d1, type: 3}
+  _pressedSprite: {fileID: 21300000, guid: 30db621c0580d50469dab10c6ad6a449, type: 3}
+  _selectedIndicator: {fileID: 0}
 --- !u!1 &2305585233124664972
 GameObject:
   m_ObjectHideFlags: 0
@@ -2482,6 +2544,7 @@ GameObject:
   - component: {fileID: 6466346726250497182}
   - component: {fileID: 6857744041781795675}
   - component: {fileID: 8311440081836937078}
+  - component: {fileID: 8587096020134075003}
   m_Layer: 5
   m_Name: CancelButton
   m_TagString: Untagged
@@ -2591,6 +2654,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &8587096020134075003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3013533869573959799}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d974a7e6dbe8431da07c4b19a0833b30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4056731015455525674
 GameObject:
   m_ObjectHideFlags: 0
@@ -4114,6 +4189,8 @@ GameObject:
   - component: {fileID: 8133287370447008311}
   - component: {fileID: 76942003478359542}
   - component: {fileID: 4078659351576574396}
+  - component: {fileID: 5182233886858223702}
+  - component: {fileID: 2566417561777597220}
   m_Layer: 5
   m_Name: JoinButton
   m_TagString: Untagged
@@ -4224,6 +4301,35 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &5182233886858223702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6274802679797964550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d974a7e6dbe8431da07c4b19a0833b30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2566417561777597220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6274802679797964550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4e936c15ef44eef90f96628f61ecb79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _buttonImage: {fileID: 76942003478359542}
+  _defaultSprite: {fileID: 21300000, guid: 03844deeef84c4d4b84150bf7027e721, type: 3}
+  _hoveredSprite: {fileID: 21300000, guid: 639e31df705ab6844aa45dec415808d1, type: 3}
+  _pressedSprite: {fileID: 21300000, guid: 30db621c0580d50469dab10c6ad6a449, type: 3}
+  _selectedIndicator: {fileID: 0}
 --- !u!1 &6744026691315817981
 GameObject:
   m_ObjectHideFlags: 0
@@ -5193,6 +5299,8 @@ GameObject:
   - component: {fileID: 7505627150765128322}
   - component: {fileID: 6020251188100017533}
   - component: {fileID: 4006408920463197748}
+  - component: {fileID: 2431655568738006828}
+  - component: {fileID: 2789574279467289267}
   m_Layer: 5
   m_Name: CreateButton
   m_TagString: Untagged
@@ -5303,6 +5411,35 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &2431655568738006828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8333372616666025505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d974a7e6dbe8431da07c4b19a0833b30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2789574279467289267
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8333372616666025505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4e936c15ef44eef90f96628f61ecb79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _buttonImage: {fileID: 6020251188100017533}
+  _defaultSprite: {fileID: 21300000, guid: 03844deeef84c4d4b84150bf7027e721, type: 3}
+  _hoveredSprite: {fileID: 21300000, guid: 639e31df705ab6844aa45dec415808d1, type: 3}
+  _pressedSprite: {fileID: 21300000, guid: 30db621c0580d50469dab10c6ad6a449, type: 3}
+  _selectedIndicator: {fileID: 0}
 --- !u!1 &8409122314099388968
 GameObject:
   m_ObjectHideFlags: 0
@@ -5491,6 +5628,7 @@ GameObject:
   - component: {fileID: 7647830063539568289}
   - component: {fileID: 209101306433933924}
   - component: {fileID: 4227512148719579940}
+  - component: {fileID: 8753286391548870742}
   m_Layer: 5
   m_Name: CancelButton
   m_TagString: Untagged
@@ -5600,6 +5738,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &8753286391548870742
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8519945251946210437}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d974a7e6dbe8431da07c4b19a0833b30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8812754541467147278
 GameObject:
   m_ObjectHideFlags: 0
