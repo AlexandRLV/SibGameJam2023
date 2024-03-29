@@ -139,7 +139,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8847009351174657391, guid: 50178887f22e27d4098e5337f9ead452, type: 3}
       propertyPath: m_Name
-      value: CharacterVisuals_Kuper_Ninja
+      value: CharacterVisuals_Kuper
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 50178887f22e27d4098e5337f9ead452, type: 3}
