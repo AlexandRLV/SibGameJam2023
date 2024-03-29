@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 4.3
   standStillTimeToStartAnimation: 5
-  standStillAnimationTime: 2
+  standStillAnimationTime: 2.3
   inAirControlSpeed: 4.3
   groundMask:
     serializedVersion: 2

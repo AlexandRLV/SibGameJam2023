@@ -39902,7 +39902,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh87872
+  m_Name: pb_Mesh28910
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -78404,7 +78404,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5e13215f5e34c01b92f3ccbc050b3ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _fatMouseVisuals: {fileID: 5227251022157880301, guid: 5822cfe44f7abc6408fb970e6f6c36df, type: 3}
+  _fatMouseVisuals: {fileID: 3080926436428353278, guid: a0f70f64a5da5654bb24d605d93cb99d, type: 3}
   _fatMouseMovement: {fileID: 2933814764328320539, guid: edbfb21b1d42ac742bd0b9548ce19b55, type: 3}
 --- !u!114 &1761039931
 MonoBehaviour:
