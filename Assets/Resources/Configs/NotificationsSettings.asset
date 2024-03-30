@@ -15,10 +15,10 @@ MonoBehaviour:
   notifications:
   - id: AgentSaved
     localizationKey: $MISSION_COMPLETED_AGENT_SAVED
-    enabled: 0
-    type: 0
-    showTime: 5
-    maxWaitTime: 5
+    enabled: 1
+    type: 2
+    showTime: 6
+    maxWaitTime: 6
     cooldown: 3
   - id: CactusFound
     localizationKey: $MISSION_COMPLETED_CACTUS_FOUND
