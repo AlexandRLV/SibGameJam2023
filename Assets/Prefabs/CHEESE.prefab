@@ -104,7 +104,7 @@ MonoBehaviour:
   sound: 0
   _interactIndicator: {fileID: 3468945211529626107}
   speedMultiplier: 1.5
-  speedMultiplierDuration: 20
+  speedMultiplierDuration: 15
 --- !u!65 &2840014026524394219
 BoxCollider:
   m_ObjectHideFlags: 0
