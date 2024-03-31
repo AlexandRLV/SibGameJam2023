@@ -103,8 +103,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sound: 0
   _interactIndicator: {fileID: 3468945211529626107}
-  speedMultiplier: 1.5
-  speedMultiplierDuration: 15
+  speedMultiplier: 1.8
+  speedMultiplierDuration: 11
 --- !u!65 &2840014026524394219
 BoxCollider:
   m_ObjectHideFlags: 0

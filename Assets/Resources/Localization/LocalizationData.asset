@@ -28,11 +28,11 @@ MonoBehaviour:
     - key: $MAIN_MENU_MULTIPLAYER
       value: "\u041C\u0443\u043B\u044C\u0442\u0438\u043F\u043B\u0435\u0435\u0440"
     - key: $MAIN_MENU_LOGO_TEXT
-      value: "\u041E\u041F\u0415\u0420\u0410\u0426\u0418\u042F: \u041A\u0410\u041A\u0422\u0423\u0421"
+      value: "\u0414\u0435\u043C\u043E \u0432\u0435\u0440\u0441\u0438\u044F 1.0"
     - key: $BACK_BUTTON
       value: "\u041D\u0430\u0437\u0430\u0434"
     - key: $LOADING_SCREEN_LEVEL
-      value: "\u0423\u0440\u043E\u0432\u0435\u043D\u044C"
+      value: "\u041C\u0438\u0441\u0441\u0438\u044F"
     - key: $LEVEL_NAME_TUTORIAL
       value: "\u041E\u0431\u0443\u0447\u0435\u043D\u0438\u0435"
     - key: $LEVEL_NAME_FIND_CACTUS
@@ -225,11 +225,11 @@ MonoBehaviour:
     - key: $MAIN_MENU_MULTIPLAYER
       value: Multiplayer
     - key: $MAIN_MENU_LOGO_TEXT
-      value: 'OPERATION: CACTUS'
+      value: Demo version 1.0
     - key: $BACK_BUTTON
       value: Back
     - key: $LOADING_SCREEN_LEVEL
-      value: Level
+      value: Mission
     - key: $LEVEL_NAME_TUTORIAL
       value: Tutorial
     - key: $LEVEL_NAME_FIND_CACTUS
