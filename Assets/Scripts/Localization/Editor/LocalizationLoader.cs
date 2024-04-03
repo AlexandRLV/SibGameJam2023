@@ -55,7 +55,7 @@ namespace Localization.Editor
             }
 
             var rows = result.Values;
-            data.data = new List<LocalizationDataContainer>();
+            data.textsData = new List<LocalizationTextDataContainer>();
             
             foreach (var languageConfig in config.languages)
             {
@@ -65,25 +65,25 @@ namespace Localization.Editor
                     return;
                 }
                 
-                data.data.Add(new LocalizationDataContainer
+                data.textsData.Add(new LocalizationTextDataContainer
                 {
                     language = languageConfig.language,
-                    values = localization,
+                    texts = localization,
                 });
             }
             
-            Debug.Log($"Успешно найдены {data.data.Count} языков!");
+            Debug.Log($"Успешно найдены {data.textsData.Count} языков!");
             EditorUtility.SetDirty(data);
             AssetDatabase.SaveAssetIfDirty(data);
         }
 
-        private static bool TryReadLocalization(IList<IList<object>> rows, int columnId, out List<LanguageContainer> localization)
+        private static bool TryReadLocalization(IList<IList<object>> rows, int columnId, out List<LanguageTextContainer> localization)
         {
             localization = null;
             if (rows[0].Count <= columnId)
                 return false;
 
-            localization = new List<LanguageContainer>();
+            localization = new List<LanguageTextContainer>();
             var temp = new Dictionary<string, string>();
             foreach (var row in rows)
             {
@@ -98,7 +98,7 @@ namespace Localization.Editor
 
             foreach (var localizationPair in temp)
             {
-                localization.Add(new LanguageContainer
+                localization.Add(new LanguageTextContainer
                 {
                     key = localizationPair.Key,
                     value = localizationPair.Value

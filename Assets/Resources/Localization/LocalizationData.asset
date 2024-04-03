@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa53b822cf0143e9be2371b4b50b4fd9, type: 3}
   m_Name: LocalizationData
   m_EditorClassIdentifier: 
-  data:
+  textsData:
   - language: 30
-    values:
+    texts:
     - key: $MAIN_MENU_NEW_GAME
       value: "\u041D\u043E\u0432\u0430\u044F \u0438\u0433\u0440\u0430"
     - key: $MAIN_MENU_CONTINUE
@@ -28,19 +28,18 @@ MonoBehaviour:
     - key: $MAIN_MENU_MULTIPLAYER
       value: "\u041C\u0443\u043B\u044C\u0442\u0438\u043F\u043B\u0435\u0435\u0440"
     - key: $MAIN_MENU_LOGO_TEXT
-      value: "\u041E\u041F\u0415\u0420\u0410\u0426\u0418\u042F: \u041A\u0410\u041A\u0422\u0423\u0421"
+      value: "\u0414\u0435\u043C\u043E \u0432\u0435\u0440\u0441\u0438\u044F 1.0"
     - key: $BACK_BUTTON
       value: "\u041D\u0430\u0437\u0430\u0434"
     - key: $LOADING_SCREEN_LEVEL
-      value: "\u0423\u0440\u043E\u0432\u0435\u043D\u044C"
+      value: "\u041C\u0438\u0441\u0441\u0438\u044F"
     - key: $LEVEL_NAME_TUTORIAL
-      value: "\u041E\u0411\u0423\u0427\u0415\u041D\u0418\u0415"
+      value: "\u041E\u0431\u0443\u0447\u0435\u043D\u0438\u0435"
     - key: $LEVEL_NAME_FIND_CACTUS
-      value: "\u041F\u041E\u0418\u0421\u041A\u0418 \u041A\u0410\u041A\u0422\u0423\u0421\u0410"
+      value: "\u041F\u043E\u0438\u0441\u043A\u0438 \u043A\u0430\u043A\u0442\u0443\u0441\u0430"
     - key: $LEVEL_HINT_AGENT_JOHNSON
-      value: "\u0410\u0433\u0435\u043D\u0442 \u0414\u0436\u043E\u043D\u0441\u043E\u043D
-        \u0443\u043C\u0435\u0435\u0442 \u043F\u0435\u0440\u0435\u0434\u0432\u0438\u0433\u0430\u0442\u044C
-        \u043E\u0431\u044A\u0435\u043A\u0442\u044B"
+      value: "\u0410\u0433\u0435\u043D\u0442 \u0420\u043E\u043A\u043A\u0438 \u0443\u043C\u0435\u0435\u0442
+        \u043F\u0435\u0440\u0435\u0434\u0432\u0438\u0433\u0430\u0442\u044C \u043E\u0431\u044A\u0435\u043A\u0442\u044B"
     - key: $LEVEL_HINT_AGENT_COOPER
       value: "\u0410\u0433\u0435\u043D\u0442 \u041A\u0443\u043F\u0435\u0440 \u0443\u043C\u0435\u0435\u0442
         \u043F\u0440\u044B\u0433\u0430\u0442\u044C"
@@ -59,7 +58,7 @@ MonoBehaviour:
     - key: $SETTINGS_LANGUAGE_LABEL
       value: "\u042F\u0437\u044B\u043A"
     - key: $PAUSE_SCREEN_LABEL
-      value: "\u041F\u0410\u0423\u0417\u0410"
+      value: "\u041F\u0430\u0443\u0437\u0430"
     - key: $LOSE_SCREEN_LABEL
       value: "\u041C\u0438\u0441\u0441\u0438\u044F \u043F\u0440\u043E\u0432\u0430\u043B\u0435\u043D\u0430!"
     - key: $LOSE_SCREEN_REASON_CAUGHT
@@ -82,7 +81,7 @@ MonoBehaviour:
       value: "\u041F\u043E\u0434\u043A\u043B\u044E\u0447\u0438\u0442\u044C\u0441\u044F"
     - key: $CURRENT_ROOM_TIMER_LABEL
       value: "\u0418\u0433\u0440\u0430 \u043D\u0430\u0447\u043D\u0451\u0442\u0441\u044F
-        \u0447\u0435\u0440\u0435\u0437:"
+        \u0447\u0435\u0440\u0435\u0437"
     - key: $CURRENT_ROOM_NAME_LABEL
       value: "\u041A\u043E\u043C\u043D\u0430\u0442\u0430:"
     - key: $CURRENT_ROOM_PLAYER1_LABEL
@@ -143,9 +142,9 @@ MonoBehaviour:
       value: "\u0410\u0433\u0435\u043D\u0442 \u0441\u043F\u0430\u0441\u0451\u043D!
         \u0422\u0430\u043A \u0434\u0435\u0440\u0436\u0430\u0442\u044C!"
     - key: $MISSION_COMPLETED_EVACUATION_ACTIVATED
-      value: "\u0412\u0441\u0435 \u0437\u0430\u0434\u0430\u0447\u0438 \u0432\u044B\u043F\u043E\u043B\u043D\u0435\u043D\u044B!
-        \u0412\u043E\u0437\u0432\u0440\u0430\u0449\u0430\u0439\u0442\u0435\u0441\u044C
-        \u043A\u043E \u0432\u0445\u043E\u0434\u0443 \u0434\u043B\u044F \u044D\u0432\u0430\u043A\u0443\u0430\u0446\u0438\u0438."
+      value: "\u0412\u0441\u0435 \u0437\u0430\u0434\u0430\u0447\u0438 \u0432\u044B\u043F\u043E\u043B\u043D\u0435\u043D\u044B.
+        \u0412\u043E\u0437\u0432\u0440\u0430\u0449\u0430\u0439\u0441\u044F \u043A\u043E
+        \u0432\u0445\u043E\u0434\u0443 \u0434\u043B\u044F \u044D\u0432\u0430\u043A\u0443\u0430\u0446\u0438\u0438!"
     - key: $MISSIONS_SWITCH_AGENT_LABEL
       value: "\u041F\u0435\u0440\u0435\u043A\u043B\u044E\u0447\u0438\u0442\u044C
         \u0430\u0433\u0435\u043D\u0442\u0430: \u043A\u043D\u043E\u043F\u043A\u0430
@@ -171,7 +170,7 @@ MonoBehaviour:
       value: "\u041E\u0448\u0438\u0431\u043A\u0430 \u043F\u043E\u0434\u043A\u043B\u044E\u0447\u0435\u043D\u0438\u044F:
         [{reason}]"
     - key: $LOBBY_CONNECTION_ALREADY_CONNECTED
-      value: "\u0412\u044B \u0443\u0436\u0435 \u043F\u043E\u0434\u043A\u043B\u044E\u0447\u0435\u043D\u044B"
+      value: "\u0412\u044B \u0443\u0436\u0435 \u043F\u043E\u0434\u043A\u043B\u044E\u0447\u0435\u043D\u044B!"
     - key: $LOBBY_CONNECTION_TO_SERVER_LOST
       value: "\u041F\u043E\u0442\u0435\u0440\u044F\u043D\u043E \u0441\u043E\u0435\u0434\u0438\u043D\u0435\u043D\u0438\u0435
         \u0441 \u0441\u0435\u0440\u0432\u0435\u0440\u043E\u043C"
@@ -200,19 +199,19 @@ MonoBehaviour:
     - key: $MULTIPLAYER_GAME_END_YOU_LEFT
       value: "\u0422\u044B \u0432\u044B\u0448\u0435\u043B \u0438\u0437 \u0438\u0433\u0440\u044B"
     - key: $TUTORIAL_DISABLE_LASER_HINT_NOTIF
-      value: "\u0410\u0433\u0435\u043D\u0442 \u0414\u0436\u043E\u043D\u0441\u043E\u043D,
-        \u0431\u0443\u0434\u044C \u0430\u043A\u043A\u0443\u0440\u0430\u0442\u0435\u043D.
-        \u041E\u0442\u043A\u043B\u044E\u0447\u0438 \u043B\u0430\u0437\u0435\u0440
-        \u0438 \u043D\u0435 \u043F\u043E\u043F\u0430\u0434\u0438 \u0432 \u043B\u043E\u0432\u0443\u0448\u043A\u0438."
+      value: "\u0410\u0433\u0435\u043D\u0442 \u0420\u043E\u043A\u043A\u0438, \u0431\u0443\u0434\u044C
+        \u0430\u043A\u043A\u0443\u0440\u0430\u0442\u0435\u043D. \u041E\u0442\u043A\u043B\u044E\u0447\u0438
+        \u043B\u0430\u0437\u0435\u0440 \u0438 \u043D\u0435 \u043F\u043E\u043F\u0430\u0434\u0438
+        \u0432 \u043B\u043E\u0432\u0443\u0448\u043A\u0438."
     - key: $TUTORIAL_CHEESE_HINT_NOTIF
-      value: "\u0414\u0436\u043E\u043D\u0441\u043E\u043D, \u0441\u044B\u0440 \u0434\u0430\u0435\u0442
+      value: "\u0420\u043E\u043A\u043A\u0438, \u0441\u044B\u0440 \u0434\u0430\u0435\u0442
         \u043D\u0430\u043C \u0441\u043A\u043E\u0440\u043E\u0441\u0442\u044C. \u0421\u044A\u0435\u0448\u044C
         \u0435\u0433\u043E!"
     - key: $TUTORIAL_MOVE_CHAIRS_HINT_NOTIF
-      value: "\u0410\u0433\u0435\u043D\u0442 \u0414\u0436\u043E\u043D\u0441\u043E\u043D,
-        \u0434\u0432\u0438\u0433\u0430\u0439 \u0442\u0430\u0431\u0443\u0440\u0435\u0442\u043A\u0438!"
+      value: "\u0410\u0433\u0435\u043D\u0442 \u0420\u043E\u043A\u043A\u0438, \u0434\u0432\u0438\u0433\u0430\u0439
+        \u0442\u0430\u0431\u0443\u0440\u0435\u0442\u043A\u0438!"
   - language: 10
-    values:
+    texts:
     - key: $MAIN_MENU_NEW_GAME
       value: New game
     - key: $MAIN_MENU_CONTINUE
@@ -226,17 +225,17 @@ MonoBehaviour:
     - key: $MAIN_MENU_MULTIPLAYER
       value: Multiplayer
     - key: $MAIN_MENU_LOGO_TEXT
-      value: 'OPERATION: CACTUS'
+      value: Demo version 1.0
     - key: $BACK_BUTTON
       value: Back
     - key: $LOADING_SCREEN_LEVEL
-      value: Level
+      value: Mission
     - key: $LEVEL_NAME_TUTORIAL
-      value: TUTORIAL
+      value: Tutorial
     - key: $LEVEL_NAME_FIND_CACTUS
-      value: FINDING CACTUS
+      value: Finding cactus
     - key: $LEVEL_HINT_AGENT_JOHNSON
-      value: Agent Johnson can move objects
+      value: Agent Rocky can move objects
     - key: $LEVEL_HINT_AGENT_COOPER
       value: Agent Cooper can jump
     - key: $SETTINGS_SCREEN_LABEL
@@ -254,7 +253,7 @@ MonoBehaviour:
     - key: $SETTINGS_LANGUAGE_LABEL
       value: Language
     - key: $PAUSE_SCREEN_LABEL
-      value: PAUSE
+      value: Pause
     - key: $LOSE_SCREEN_LABEL
       value: Mission failed!
     - key: $LOSE_SCREEN_REASON_CAUGHT
@@ -270,11 +269,11 @@ MonoBehaviour:
     - key: $WIN_SCREEN_NEXT_LEVEL
       value: Next mission
     - key: $CONNECTION_SCREEN_ENTER_NICKNAME
-      value: 'Enter nickname:'
+      value: Enter nickname
     - key: $CONNECTION_SCREEN_CONNECT
       value: Connect
     - key: $CURRENT_ROOM_TIMER_LABEL
-      value: 'Game will start in:'
+      value: Game will start in
     - key: $CURRENT_ROOM_NAME_LABEL
       value: 'Room:'
     - key: $CURRENT_ROOM_PLAYER1_LABEL
@@ -324,7 +323,7 @@ MonoBehaviour:
     - key: $MISSION_COMPLETED_AGENT_SAVED
       value: Agent escaped! Well done!
     - key: $MISSION_COMPLETED_EVACUATION_ACTIVATED
-      value: All tasks completed! Return to entrance for evacuation
+      value: All tasks completed! Return to entrance for evacuation.
     - key: $MISSIONS_SWITCH_AGENT_LABEL
       value: 'Switch agent: [Q]'
     - key: $MISSIONS_FAT_AGENT_INFO
@@ -362,9 +361,34 @@ MonoBehaviour:
     - key: $MULTIPLAYER_GAME_END_YOU_LEFT
       value: You left the game
     - key: $TUTORIAL_DISABLE_LASER_HINT_NOTIF
-      value: Agent Johnson, be careful. Turn off the laser and don't fall into the
+      value: Agent Rocky, be careful. Turn off the laser and don't fall into the
         traps.
     - key: $TUTORIAL_CHEESE_HINT_NOTIF
-      value: Johnson, this cheese gives us speed. Eat it!
+      value: Rocky, this cheese gives us speed. Eat it!
     - key: $TUTORIAL_MOVE_CHAIRS_HINT_NOTIF
-      value: Agent Johnson, move this chairs!
+      value: Agent Rocky, move this chairs!
+  imagesData:
+  - language: 30
+    images:
+    - key: $INTRO_SCREEN_1_2
+      value: {fileID: 21300000, guid: c4a2a896fa50e08408ac7aabc0de4386, type: 3}
+    - key: $INTRO_SCREEN_2_1
+      value: {fileID: 21300000, guid: c506c5e337e3e0945a86b55ca3765b0b, type: 3}
+    - key: $INTRO_SCREEN_2_2
+      value: {fileID: 21300000, guid: 639f1296ddd401e439d7e2ef9321dc83, type: 3}
+    - key: $INTRO_SCREEN_3_1
+      value: {fileID: 21300000, guid: 950ea411f87fba141b64f7039fbe2abd, type: 3}
+    - key: $INTRO_SCREEN_3_2
+      value: {fileID: 21300000, guid: e76c5cac575d7754c960754e45498879, type: 3}
+  - language: 10
+    images:
+    - key: $INTRO_SCREEN_1_2
+      value: {fileID: 21300000, guid: 9fd33c23a94928747a9b2a9a424912f9, type: 3}
+    - key: $INTRO_SCREEN_2_1
+      value: {fileID: 21300000, guid: 68ebb881f7491d44da77ee151f078e01, type: 3}
+    - key: $INTRO_SCREEN_2_2
+      value: {fileID: 21300000, guid: 3538b78ca79438640ab3af0caad509df, type: 3}
+    - key: $INTRO_SCREEN_3_1
+      value: {fileID: 21300000, guid: a20e76454f4e4a346a473437b5bb67f0, type: 3}
+    - key: $INTRO_SCREEN_3_2
+      value: {fileID: 21300000, guid: d3b073ab6f531584e87adf5a7911b9aa, type: 3}

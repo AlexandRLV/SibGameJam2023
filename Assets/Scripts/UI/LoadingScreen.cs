@@ -2,6 +2,7 @@
 using Common.DI;
 using GameCore.Levels;
 using Localization;
+using Localization.Extensions;
 using TMPro;
 using UnityEngine;
 
@@ -26,8 +27,8 @@ namespace UI
 
         public void SetLevel(LevelInfo levelInfo)
         {
-            _levelNameText.text = $"\"{_localizationProvider.GetLocalization(levelInfo.levelNameKey)}\"";
-            _hintText.text = _localizationProvider.GetLocalization(levelInfo.hintsKeys.GetRandom());
+            _levelNameText.text = $"\"{_localizationProvider.GetTextLocalization(levelInfo.levelNameKey)}\"";
+            _hintText.text = _localizationProvider.GetTextLocalization(levelInfo.hintsKeys.GetRandom());
         }
     }
 }

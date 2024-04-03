@@ -4,6 +4,7 @@ using Common.DI;
 using GameCore.RoundControl;
 using GameCore.RoundMissions.LocalMessages;
 using Localization;
+using Localization.Extensions;
 using LocalMessages;
 using LocalMessages.MessageTypes;
 using UI.WindowsSystem;
@@ -67,7 +68,7 @@ namespace GameCore.RoundMissions
                 if (mission.IsCompleted)
                     _stringBuilder.Append("<s>");
 
-                string localizedText = _localizationProvider.GetLocalization(mission.MissionLocalizationKey);
+                string localizedText = _localizationProvider.GetTextLocalization(mission.MissionLocalizationKey);
                 _stringBuilder.Append(localizedText);
 
                 if (mission.IsCompleted)

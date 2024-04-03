@@ -1,18 +1,17 @@
-﻿using System.Collections.Generic;
-using Common.DI;
+﻿using Common.DI;
+using Localization.Extensions;
 using LocalMessages;
 using LocalMessages.MessageTypes;
-using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
-namespace Localization
+namespace Localization.LocalizationComponents
 {
-    public class TextLocalizer : MonoBehaviour
+    public class ImageLocalizer : MonoBehaviour
     {
         [SerializeField] private string _key;
-        [SerializeField] private TextMeshProUGUI _text;
-        [SerializeField] private List<LocalizationParameter> _parameters;
-
+        [SerializeField] private Image _image;
+        
         [Inject] private LocalizationProvider _localizationProvider;
         [Inject] private LocalMessageBroker _messageBroker;
 
@@ -35,26 +34,25 @@ namespace Localization
             UpdateLocalization();
         }
 
+        private void UpdateLocalization()
+        {
+            if (string.IsNullOrWhiteSpace(_key))
+                return;
+
+            if (_localizationProvider.TryGetImageLocalization(_key, out var sprite))
+                _image.sprite = sprite;
+        }
+
         private void OnLocalizationChanged(ref LocalizationChangedMessage message)
         {
             UpdateLocalization();
         }
 
-        private void UpdateLocalization()
-        {
-            if (string.IsNullOrWhiteSpace(_key))
-                _text.text = "";
-            else if (_parameters == null || _parameters.Count == 0)
-                _text.text = _localizationProvider.GetLocalization(_key);
-            else
-                _text.text = _localizationProvider.GetLocalization(_key, _parameters);
-        }
-
 #if UNITY_EDITOR
         private void OnValidate()
         {
-            if (_text == null)
-                _text = GetComponent<TextMeshProUGUI>();
+            if (_image == null)
+                _image = GetComponent<Image>();
         }
 #endif
     }

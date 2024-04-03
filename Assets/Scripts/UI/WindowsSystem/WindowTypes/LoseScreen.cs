@@ -3,6 +3,7 @@ using Cysharp.Threading.Tasks;
 using GameCore.Camera;
 using GameCore.Common;
 using Localization;
+using Localization.LocalizationComponents;
 using Networking.Client;
 using Networking.Dataframes.InGame;
 using Startup;

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Common.DI;
 using Localization;
+using Localization.Extensions;
 using LocalMessages;
 using LocalMessages.MessageTypes;
 using UnityEngine;
@@ -126,7 +127,7 @@ namespace UI.NotificationsSystem
             Debug.Log($"Trigger notification {settings.id}");
             _lastNotificationsShowTimes[settings.id] = Time.time;
             
-            string localizedText = _localizationProvider.GetLocalization(settings.localizationKey, parameters);
+            string localizedText = _localizationProvider.GetTextLocalization(settings.localizationKey, parameters);
             
             var notification = settings.type switch
             {
