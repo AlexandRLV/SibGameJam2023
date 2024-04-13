@@ -36,7 +36,7 @@ namespace GameCore.Prison.Mouse
             if (!_evacuated)
                 return;
 
-            if (Vector3.Distance(transform.position, _agent.destination) < 1f)
+            if (Vector3.Distance(transform.position, _agent.destination) < 3f)
                 AnimationSpeed = 0f;
         }
     }
