@@ -25,6 +25,12 @@ namespace UI.Tween.Tweens
         protected override void OnUpdateInternal(float t)
         {
             _targetText.gameObject.SetActive(true);
+            if (Mathf.Approximately(t, 1f))
+            {
+                _targetText.text = _initialText;
+                return;
+            }
+            
             int length = Mathf.CeilToInt(Mathf.Lerp(0, _initialText.Length, t));
             length = Mathf.Clamp(length, 0, _initialText.Length - 1);
             _targetText.text = _initialText.Remove(length);
