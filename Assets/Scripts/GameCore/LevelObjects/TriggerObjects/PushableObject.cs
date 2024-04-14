@@ -1,6 +1,7 @@
 ﻿using Common.DI;
 using GameCore.LevelObjects.Abstract;
-using Networking;
+using GameCore.LevelObjects.FloorTypeDetection;
+using GameCore.Sounds.ChairMovementSound;
 using Networking.Client;
 using Networking.Client.NetFrame;
 using Networking.Dataframes.InGame;
@@ -15,9 +16,14 @@ namespace GameCore.LevelObjects.TriggerObjects
         public Vector3 CheckPosition { get; private set; }
         
         [SerializeField] private Rigidbody _rigidbody;
+        [SerializeField] private AudioSource _source;
+        [SerializeField] private FloorTypeDetector _floorTypeDetector;
+        [SerializeField] private ChairMovementSoundsData _soundsData;
 
         private bool _isOnline;
         private int _tick;
+
+        private Vector3 _lastPosition;
 
         private IGameClient _client;
         private GameClientData _gameClientData;
@@ -35,7 +41,9 @@ namespace GameCore.LevelObjects.TriggerObjects
         {
             if (!_isOnline) return;
             if (_rigidbody.isKinematic) return;
-
+            
+            UpdateSound();
+            
             _tick++;
             if (_tick % SendUpdateRate != 0) return;
 
@@ -46,6 +54,29 @@ namespace GameCore.LevelObjects.TriggerObjects
                 Rotation = _rigidbody.rotation,
             };
             _client.Send(ref dataframe);
+        }
+
+        private void UpdateSound()
+        {
+            var position = transform.position;
+            if (position == _lastPosition || _soundsData == null)
+            {
+                _source.Stop();
+                return;
+            }
+
+            _lastPosition = position;
+            var floorType = _floorTypeDetector.GetCurrentType();
+            var clip = _soundsData.GetClipForFloorType(floorType);
+
+            if (_source.clip != clip)
+            {
+                _source.Stop();
+                _source.clip = clip;
+            }
+            
+            if (!_source.isPlaying)
+                _source.Play();
         }
 
         protected override void OnPlayerExit()

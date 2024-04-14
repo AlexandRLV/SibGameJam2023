@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 567440000448875820}
   - component: {fileID: 567440000448875809}
   - component: {fileID: 567440000448875808}
+  - component: {fileID: 467503551005664522}
   m_Layer: 6
   m_Name: PrisonMouse_3
   m_TagString: Untagged
@@ -87,6 +88,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _visuals: {fileID: 2267791929760499266}
   _agent: {fileID: 567440000448875820}
+  _floorTypeDetector: {fileID: 467503551005664522}
+--- !u!114 &467503551005664522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 567440000448875819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1f835bd26f14e139a90686e9f12eae8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _yOffset: 0.2
+  _checkDistance: 0.4
+  _floorMask:
+    serializedVersion: 2
+    m_Bits: 257
 --- !u!1 &5420756953070955786
 GameObject:
   m_ObjectHideFlags: 0
@@ -148,9 +167,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _animationPlayer: {fileID: 5261868450684480987}
   _speedUpVFX: {fileID: 0}
-  _stepSounds: {fileID: 0}
+  _stepSounds: {fileID: 5795462785930931808}
   _knockdownEffect: {fileID: 0}
   _head: {fileID: 0}
+  _source: {fileID: 1544985982294527599}
 --- !u!1001 &8773486495919119337
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -356,18 +376,7 @@ MonoBehaviour:
   _audioSource: {fileID: 1544985982294527599}
   _jumpClip: {fileID: 0}
   _landClip: {fileID: 0}
-  _steps:
-  - {fileID: 8300000, guid: 3b4281f8f90848f40883b06a23e36063, type: 3}
-  - {fileID: 8300000, guid: cc861b4db0e483a47a3b8aed065e098f, type: 3}
-  - {fileID: 8300000, guid: 9f4dd185bd3b4c34bb36b4c80116ab88, type: 3}
-  - {fileID: 8300000, guid: 193092f74103a5a47b689b8a84a336f6, type: 3}
-  - {fileID: 8300000, guid: 52a7a7a6f71fa614d902c7723b882616, type: 3}
-  - {fileID: 8300000, guid: 35c0e53c3b0646443a6586de814933f9, type: 3}
-  - {fileID: 8300000, guid: 587f6a621616a26468897c34c18c8b36, type: 3}
-  - {fileID: 8300000, guid: 28e5a7011e051d048bfa1b465bcddd9e, type: 3}
-  - {fileID: 8300000, guid: 800d39d91ba1b1a45979e3dd29d8fbbb, type: 3}
-  - {fileID: 8300000, guid: 2e0a6e7ca069a99419022d55a4a480d8, type: 3}
-  - {fileID: 8300000, guid: 2eef763d901a5494bb3b55ee07439604, type: 3}
+  _config: {fileID: 11400000, guid: 802300c94ce05254fa62c8265d334e8e, type: 2}
 --- !u!4 &9100391689478962178 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 61c1a8153772bd543b5868f2f63d7c62, type: 3}

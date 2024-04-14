@@ -1,4 +1,5 @@
-﻿using GameCore.Sounds;
+﻿using GameCore.LevelObjects.FloorTypeDetection;
+using GameCore.Sounds;
 using UnityEngine;
 
 namespace GameCore.Character.Visuals
@@ -9,20 +10,24 @@ namespace GameCore.Character.Visuals
         public StepSounds StepSounds => _stepSounds;
         public GameObject KnockdownEffect => _knockdownEffect;
         public Transform Head => _head;
+        public AudioSource Source => _source;
         
         [SerializeField] private AnimationPlayer _animationPlayer;
         [SerializeField] private GameObject _speedUpVFX;
         [SerializeField] private StepSounds _stepSounds;
         [SerializeField] private GameObject _knockdownEffect;
         [SerializeField] private Transform _head;
+        [SerializeField] private AudioSource _source;
         
         private bool _initialized;
         private IAnimationSource _animationSource;
 
-        public void Initialize(IAnimationSource source)
+        public void Initialize(IAnimationSource source, FloorTypeDetector floorTypeDetector)
         {
             _animationSource = source;
             _initialized = true;
+            
+            _stepSounds.Initialize(floorTypeDetector);
             
             if (_speedUpVFX != null)
                 _speedUpVFX.SetActive(false);

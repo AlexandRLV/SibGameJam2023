@@ -50,6 +50,8 @@ MonoBehaviour:
   _speedUpVFX: {fileID: 9163632981640742828}
   _stepSounds: {fileID: 5007699480347018541}
   _knockdownEffect: {fileID: 8077977676420932248}
+  _head: {fileID: 0}
+  _source: {fileID: 5520821296984067937}
 --- !u!1001 &3110730479071584593
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -495,6 +497,7 @@ MonoBehaviour:
   _audioSource: {fileID: 5520821296984067937}
   _jumpClip: {fileID: 8300000, guid: 25f0fbc5dd630b04ea92a8a65b154b8c, type: 3}
   _landClip: {fileID: 8300000, guid: 7ad49dd446b381b47b313299bc7dfbb8, type: 3}
+  _config: {fileID: 11400000, guid: f4539d48e646d114798f57ecffd6cc3e, type: 2}
   _steps:
   - {fileID: 8300000, guid: a2449ad9601897f46847241ac8b3448a, type: 3}
   - {fileID: 8300000, guid: 3f710980597b1c24a80d589136f3be7c, type: 3}

@@ -19,6 +19,7 @@ namespace GameCore.Enemies.NewEnemy
         [SerializeField] private MarkController _markController;
         [SerializeField] private EnemyFOV _enemyFOV;
         [SerializeField] private EnemyTimersParameters _timersParameters;
+        [SerializeField] private AudioClip _provokeSound;
         
         [Inject] private LocalMessageBroker _messageBroker;
 
@@ -38,6 +39,8 @@ namespace GameCore.Enemies.NewEnemy
         private Vector3 _lookDirection;
         private Transform _playerTransform;
         
+        private AudioSource _source;
+        
         public void Initialize(IPlayer player, EnemyViewPreset viewPreset, CharacterVisuals visuals)
         {
             GameContainer.InjectToInstance(this);
@@ -51,7 +54,8 @@ namespace GameCore.Enemies.NewEnemy
 
             _head = visuals.Head;
             _hasHead = _head != null;
-            
+
+            _source = visuals.Source;
             _messageBroker.Subscribe<PlayerDetectedMessage>(OnPlayerDetected);
         }
 
@@ -143,16 +147,17 @@ namespace GameCore.Enemies.NewEnemy
             if (!canSeeTarget && _canSeeTarget)
             {
                 _timer = _timersParameters.disableProvokedSeconds;
-                _canSeeTarget = false;
             }
-
-            if (canSeeTarget && !_canSeeTarget)
+            else if (canSeeTarget && !_canSeeTarget)
             {
+                if (!_isProvoked)
+                    _source.PlayOneShot(_provokeSound);
+                
                 _timer = _timersParameters.triggerAlarmSeconds;
-                _canSeeTarget = true;
                 _isProvoked = true;
             }
-            
+
+            _canSeeTarget = canSeeTarget;
             if (!_canSeeTarget)
             {
                 if (!_isProvoked) return;

@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84cff4d940b242669c96ac2bc7f694c9, type: 3}
+  m_Name: Player Thin Step Sounds Config
+  m_EditorClassIdentifier: 
+  defaultTypesId: 0
+  soundsTypes:
+  - floorType: 1
+    clips:
+    - {fileID: 8300000, guid: a2449ad9601897f46847241ac8b3448a, type: 3}
+    - {fileID: 8300000, guid: 3f710980597b1c24a80d589136f3be7c, type: 3}
+    - {fileID: 8300000, guid: f8f67e8ac1cb27d4d84ea684fd7c4d3e, type: 3}
+    - {fileID: 8300000, guid: 62cfafd80251b7b488279606b76082b6, type: 3}
+    - {fileID: 8300000, guid: c7f02a00e2bc0724b99c606772e2cb09, type: 3}
+    - {fileID: 8300000, guid: 20396747649fa474a8fc5099f915c35c, type: 3}
+    - {fileID: 8300000, guid: bdbd2859fb114654e8478fd9b033b835, type: 3}
+    - {fileID: 8300000, guid: 1b0d6db71490fe74cb27ec88081abb04, type: 3}
+    - {fileID: 8300000, guid: 3a3a5408dc9b6c8499dbbf1da09a3229, type: 3}
+    - {fileID: 8300000, guid: 4bc9f29fede91b047bd645f2a1e6336a, type: 3}
+    - {fileID: 8300000, guid: bf7d947d0fa4e634d8917c05e31bf2a9, type: 3}

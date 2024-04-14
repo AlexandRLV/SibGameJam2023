@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 567440000448875820}
   - component: {fileID: 567440000448875809}
   - component: {fileID: 567440000448875808}
+  - component: {fileID: 7897864779578570638}
   m_Layer: 6
   m_Name: PrisonMouse_4_Thin_Agent
   m_TagString: Untagged
@@ -86,6 +87,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _visuals: {fileID: 4770902763599824744}
   _agent: {fileID: 567440000448875820}
+  _floorTypeDetector: {fileID: 7897864779578570638}
+--- !u!114 &7897864779578570638
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 567440000448875819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1f835bd26f14e139a90686e9f12eae8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _yOffset: 0.2
+  _checkDistance: 0.4
+  _floorMask:
+    serializedVersion: 2
+    m_Bits: 257
 --- !u!1001 &7562670277639801238
 PrefabInstance:
   m_ObjectHideFlags: 0

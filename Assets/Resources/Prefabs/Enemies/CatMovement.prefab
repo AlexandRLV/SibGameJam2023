@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7302715816161827802}
   - component: {fileID: 130920987583579799}
   - component: {fileID: 1180401859813230601}
+  - component: {fileID: 6515171889988680930}
   m_Layer: 6
   m_Name: CatMovement
   m_TagString: Untagged
@@ -72,6 +73,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _vision: {fileID: 1180401859813230601}
   _agent: {fileID: 7302715816161827802}
+  _floorTypeDetector: {fileID: 6515171889988680930}
 --- !u!114 &1180401859813230601
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -84,6 +86,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8763c6ca2570470e9c62d4f676d56945, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <HeadRotationAngle>k__BackingField: 0
   _debug: 0
   _raycastMask:
     serializedVersion: 2
@@ -91,6 +94,24 @@ MonoBehaviour:
   _markController: {fileID: 4552004717009779944}
   _enemyFOV: {fileID: 4483997922407224257}
   _timersParameters: {fileID: 11400000, guid: 43c2dac0fc875ae4eb3ed165f3450829, type: 2}
+  _provokeSound: {fileID: 8300000, guid: fe31855324788df49996664a855bdb39, type: 3}
+--- !u!114 &6515171889988680930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7302715816161827805}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1f835bd26f14e139a90686e9f12eae8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _yOffset: 0.2
+  _checkDistance: 0.4
+  _floorMask:
+    serializedVersion: 2
+    m_Bits: 257
 --- !u!1001 &262440333969586050
 PrefabInstance:
   m_ObjectHideFlags: 0

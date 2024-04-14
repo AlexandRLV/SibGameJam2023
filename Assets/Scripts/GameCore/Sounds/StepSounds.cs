@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using GameCore.LevelObjects.FloorTypeDetection;
+using GameCore.Sounds.Steps;
+using UnityEngine;
 
 namespace GameCore.Sounds
 {
@@ -9,24 +11,26 @@ namespace GameCore.Sounds
         [SerializeField] private AudioClip _jumpClip;
         [SerializeField] private AudioClip _landClip;
 
-        [SerializeField] private AudioClip[] _steps;
+        [SerializeField] private StepSoundsConfig _config;
         
-        public void Jump()
-        {
-            _audioSource.PlayOneShot(_jumpClip);
-        }
+        private FloorTypeDetector _floorTypeDetector;
 
-        public void Land()
-        {
-            _audioSource.PlayOneShot(_landClip);
-        }
-        
+        public void Initialize(FloorTypeDetector floorTypeDetector) => _floorTypeDetector = floorTypeDetector;
+        public void Jump() => _audioSource.PlayOneShot(_jumpClip);
+        public void Land() => _audioSource.PlayOneShot(_landClip);
+
         private void Step()
         {
             if (!_audioSource.enabled) return;
             
-            var clip = _steps[Random.Range(0, _steps.Length)];
+            var floorType = _floorTypeDetector.GetCurrentType();
+            var clip = _config.GetRandomClipForFloorType(floorType);
+            if (clip == null) return;
+            
             _audioSource.PlayOneShot(clip);
+            
+            // var clip = _steps[Random.Range(0, _steps.Length)];
+            // _audioSource.PlayOneShot(clip);
         }
     }
 }

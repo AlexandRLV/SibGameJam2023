@@ -2,9 +2,8 @@
 using Common.DI;
 using GameCore.Character.Movement;
 using GameCore.Character.Visuals;
+using GameCore.LevelObjects.FloorTypeDetection;
 using LocalMessages;
-using NetFrame.Client;
-using Networking;
 using Networking.Dataframes.InGame;
 using UnityEngine;
 
@@ -16,6 +15,7 @@ namespace GameCore.Player.Network
         public float AnimationSpeed { get; private set; }
 
         [SerializeField] private CharacterPositionInterpolator _interpolator;
+        [SerializeField] private FloorTypeDetector _floorTypeDetector;
         
         [Inject] private LocalMessageBroker _messageBroker;
         
@@ -26,7 +26,7 @@ namespace GameCore.Player.Network
             _visuals = visuals;
             _visuals.transform.SetParent(transform);
             _visuals.transform.ToLocalZero();
-            _visuals.Initialize(this);
+            _visuals.Initialize(this, _floorTypeDetector);
             
             _messageBroker.Subscribe<PlayerPositionDataframe>(ProcessPlayerPosition);
             _messageBroker.Subscribe<SetCurrentTickDataframe>(SetOwnerTick);

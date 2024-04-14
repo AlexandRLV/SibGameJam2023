@@ -60,6 +60,7 @@ GameObject:
   - component: {fileID: 6657772498642541178}
   - component: {fileID: 8816664610934317890}
   - component: {fileID: 3658727866380229273}
+  - component: {fileID: 8598468867308991654}
   m_Layer: 7
   m_Name: ThinMouseCharacter
   m_TagString: Untagged
@@ -116,6 +117,7 @@ MonoBehaviour:
   _parameters: {fileID: 11400000, guid: 5545bec0f887cab46b2b62fc0b69096d, type: 2}
   _groundChecker: {fileID: 6657772498642541178}
   _physicsBody: {fileID: 8816664610934317890}
+  _floorTypeDetector: {fileID: 8598468867308991654}
 --- !u!114 &6657772498642541178
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -166,3 +168,20 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0.9, z: 0}
   m_TimeToStationary: 0.5
+--- !u!114 &8598468867308991654
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2933814764328320536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1f835bd26f14e139a90686e9f12eae8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _yOffset: 0.2
+  _checkDistance: 0.4
+  _floorMask:
+    serializedVersion: 2
+    m_Bits: 257

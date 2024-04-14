@@ -1,6 +1,7 @@
 using Common.DI;
 using GameCore.Character.Visuals;
 using GameCore.LevelObjects;
+using GameCore.LevelObjects.FloorTypeDetection;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -13,6 +14,7 @@ namespace GameCore.Prison.Mouse
 
         [SerializeField] private CharacterVisuals _visuals;
         [SerializeField] private NavMeshAgent _agent;
+        [SerializeField] private FloorTypeDetector _floorTypeDetector;
 
         [Inject] private LevelObjectService _levelObjectService;
 
@@ -21,7 +23,7 @@ namespace GameCore.Prison.Mouse
         public void Init()
         {
             GameContainer.InjectToInstance(this);
-            _visuals.Initialize(this);
+            _visuals.Initialize(this, _floorTypeDetector);
         }
 
         public void Evacuate()

@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84cff4d940b242669c96ac2bc7f694c9, type: 3}
+  m_Name: Enemy Step Sounds Config
+  m_EditorClassIdentifier: 
+  defaultTypesId: 0
+  soundsTypes:
+  - floorType: 1
+    clips:
+    - {fileID: 8300000, guid: 2db13c04a048cf04fab80563e5238fc7, type: 3}
+    - {fileID: 8300000, guid: 621fecb2fb47b9b41a05df5bdcb68e2e, type: 3}
+    - {fileID: 8300000, guid: 839282d208846764c92717400c0d6593, type: 3}
+    - {fileID: 8300000, guid: 7e8d9b8b6749bce4d9255bdb396873e5, type: 3}
+    - {fileID: 8300000, guid: cca291b5dc81ed9438b2834e7eb871c7, type: 3}
+    - {fileID: 8300000, guid: 2a741052db20be447889dde7e76e0564, type: 3}
+    - {fileID: 8300000, guid: bd7156b06137ff14880dcefe9835619c, type: 3}
+    - {fileID: 8300000, guid: eadea2e560816f14abf6c336c038453a, type: 3}
+    - {fileID: 8300000, guid: 7673288d0a6da0d488252275cfa6ddf4, type: 3}
+    - {fileID: 8300000, guid: 64a406ce177ce9042852b58b3466f3ac, type: 3}
+  - floorType: 2
+    clips:
+    - {fileID: 8300000, guid: 3814d7f0dd5f697488dc3f012d7144dc, type: 3}
+    - {fileID: 8300000, guid: 2fc0f10701383dc4d9f5cb506a4f367d, type: 3}
+    - {fileID: 8300000, guid: d44df4e85aa5c0742bde162f7363a3a2, type: 3}
+    - {fileID: 8300000, guid: e7379cc2cf6f9fc4aa2189e5dae183a9, type: 3}
+    - {fileID: 8300000, guid: f1beb156533b9f449b095bbf35b573dd, type: 3}
+    - {fileID: 8300000, guid: 4a90765dee41856408422b501b5d271d, type: 3}
+    - {fileID: 8300000, guid: 3e99c5af504557c43b76169f38b93736, type: 3}

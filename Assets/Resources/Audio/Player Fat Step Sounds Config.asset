@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84cff4d940b242669c96ac2bc7f694c9, type: 3}
+  m_Name: Player Fat Step Sounds Config
+  m_EditorClassIdentifier: 
+  defaultTypesId: 0
+  soundsTypes:
+  - floorType: 1
+    clips:
+    - {fileID: 8300000, guid: 2eef763d901a5494bb3b55ee07439604, type: 3}
+    - {fileID: 8300000, guid: 2e0a6e7ca069a99419022d55a4a480d8, type: 3}
+    - {fileID: 8300000, guid: 800d39d91ba1b1a45979e3dd29d8fbbb, type: 3}
+    - {fileID: 8300000, guid: 28e5a7011e051d048bfa1b465bcddd9e, type: 3}
+    - {fileID: 8300000, guid: 587f6a621616a26468897c34c18c8b36, type: 3}
+    - {fileID: 8300000, guid: 35c0e53c3b0646443a6586de814933f9, type: 3}
+    - {fileID: 8300000, guid: 52a7a7a6f71fa614d902c7723b882616, type: 3}
+    - {fileID: 8300000, guid: 193092f74103a5a47b689b8a84a336f6, type: 3}
+    - {fileID: 8300000, guid: 9f4dd185bd3b4c34bb36b4c80116ab88, type: 3}
+    - {fileID: 8300000, guid: cc861b4db0e483a47a3b8aed065e098f, type: 3}
+    - {fileID: 8300000, guid: 3b4281f8f90848f40883b06a23e36063, type: 3}

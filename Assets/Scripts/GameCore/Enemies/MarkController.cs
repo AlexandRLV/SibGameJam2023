@@ -18,6 +18,7 @@ namespace GameCore.Enemies
             if (_questionMark.activeSelf != state)
                 _questionMark.SetActive(state);
         }
+        
         public void SetAlarmMarkState(bool state)
         {
             if (_exclamationMark.activeSelf != state)

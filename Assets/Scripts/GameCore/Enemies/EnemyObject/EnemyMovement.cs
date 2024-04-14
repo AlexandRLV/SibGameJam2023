@@ -28,7 +28,7 @@ namespace GameCore.Enemies.EnemyObject
         {
             _agent = GetComponent<NavMeshAgent>();
             _agent.speed = moveSpeed;
-            visuals.Initialize(this);
+            visuals.Initialize(this, null);
         }
 
         public void SequentialWaypointsMovement()

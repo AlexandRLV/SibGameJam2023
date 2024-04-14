@@ -5,6 +5,7 @@ using GameCore.Enemies.NewEnemy.Parameters;
 using GameCore.Enemies.NewEnemy.StateMachine;
 using GameCore.Enemies.NewEnemy.StateMachine.States;
 using GameCore.Enemies.RouteControl;
+using GameCore.LevelObjects.FloorTypeDetection;
 using GameCore.Player;
 using UnityEngine;
 using UnityEngine.AI;
@@ -29,6 +30,7 @@ namespace GameCore.Enemies.NewEnemy
         
         [SerializeField] private NewEnemyVision _vision;
         [SerializeField] private NavMeshAgent _agent;
+        [SerializeField] private FloorTypeDetector _floorTypeDetector;
 
         private bool _initialized;
         private EnemyStateMachine _enemyStateMachine;
@@ -37,7 +39,7 @@ namespace GameCore.Enemies.NewEnemy
         {
             Preset = preset;
             
-            visuals.Initialize(this);
+            visuals.Initialize(this, _floorTypeDetector);
             visuals.transform.SetParent(transform);
             visuals.transform.ToLocalZero();
             

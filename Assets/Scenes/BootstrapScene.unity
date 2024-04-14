@@ -153,6 +153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _soundService: {fileID: 2885077913043915093, guid: 6ddfec3818c0774458c19191b1baacbb, type: 3}
+  _floorTypesConfig: {fileID: 11400000, guid: 813427bbbd2385441af0205e9b3defec, type: 2}
 --- !u!114 &636710610879532147
 MonoBehaviour:
   m_ObjectHideFlags: 0

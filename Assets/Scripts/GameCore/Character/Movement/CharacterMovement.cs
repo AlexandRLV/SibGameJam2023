@@ -9,6 +9,7 @@ using GameCore.Common.Messages;
 using GameCore.Input;
 using GameCore.LevelAchievements.LocalMessages;
 using GameCore.LevelObjects.Abstract;
+using GameCore.LevelObjects.FloorTypeDetection;
 using GameCore.Sounds;
 using GameCore.StateMachine;
 using LocalMessages;
@@ -42,6 +43,7 @@ namespace GameCore.Character.Movement
         [SerializeField] private CharacterParameters _parameters;
         [SerializeField] private CharacterGroundChecker _groundChecker;
         [SerializeField] private CharacterPhysicsBody _physicsBody;
+        [SerializeField] private FloorTypeDetector _floorTypeDetector;
         
         [Inject] private GameCamera _gameCamera;
         [Inject] private GameClientData _gameClientData;
@@ -65,7 +67,7 @@ namespace GameCore.Character.Movement
             _visuals = visuals;
             _visuals.transform.SetParent(transform);
             _visuals.transform.ToLocalZero();
-            _visuals.Initialize(this);
+            _visuals.Initialize(this, _floorTypeDetector);
             
             _groundChecker.Initialize(this);
 
