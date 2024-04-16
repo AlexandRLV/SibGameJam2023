@@ -14,6 +14,8 @@ namespace GameCore.Sounds.ChairMovementSound
 
         public void Initialize()
         {
+            if (_audioClipsByType != null) return;
+            
             _audioClipsByType = new Dictionary<FloorType, AudioClip>();
             foreach (var container in containers)
             {

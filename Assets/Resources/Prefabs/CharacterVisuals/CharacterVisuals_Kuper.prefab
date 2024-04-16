@@ -150,8 +150,8 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 0.5
+  m_PlayOnAwake: 0
+  m_Volume: 0.609
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -251,7 +251,7 @@ MonoBehaviour:
   _jumpClip: {fileID: 8300000, guid: 25f0fbc5dd630b04ea92a8a65b154b8c, type: 3}
   _landClip: {fileID: 8300000, guid: 7ad49dd446b381b47b313299bc7dfbb8, type: 3}
   _config: {fileID: 11400000, guid: f4539d48e646d114798f57ecffd6cc3e, type: 2}
-  _steps: []
+  _debug: 0
 --- !u!114 &8980995832303658694
 MonoBehaviour:
   m_ObjectHideFlags: 0

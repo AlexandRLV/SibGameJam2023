@@ -12,6 +12,8 @@ namespace GameCore.Sounds
         [SerializeField] private AudioClip _landClip;
 
         [SerializeField] private StepSoundsConfig _config;
+
+        [SerializeField] private bool _debug;
         
         private FloorTypeDetector _floorTypeDetector;
 
@@ -19,8 +21,33 @@ namespace GameCore.Sounds
         public void Jump() => _audioSource.PlayOneShot(_jumpClip);
         public void Land() => _audioSource.PlayOneShot(_landClip);
 
+        private void Update()
+        {
+            if (UnityEngine.Input.GetKeyDown(KeyCode.T))
+            {
+                if (_debug)
+                {
+                    var floorType = _floorTypeDetector.GetCurrentType();
+                    var clip = _config.GetRandomClipForFloorType(floorType);
+                    if (clip == null)
+                    {
+                        Debug.Log($"clip is null {transform.root.gameObject.name}");
+                        return;
+                    }
+            
+                    Debug.Log($"STEP!!! {transform.root.gameObject.name}");
+                    _audioSource.PlayOneShot(clip);
+                }
+            }
+        }
+
         private void Step()
         {
+            if (_debug)
+            {
+                // awe
+            }
+            
             if (!_audioSource.enabled) return;
             
             var floorType = _floorTypeDetector.GetCurrentType();

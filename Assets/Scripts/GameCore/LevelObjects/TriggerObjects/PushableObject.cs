@@ -27,7 +27,12 @@ namespace GameCore.LevelObjects.TriggerObjects
 
         private IGameClient _client;
         private GameClientData _gameClientData;
-        
+
+        private void Start()
+        {
+            _soundsData.Initialize();
+        }
+
         protected override void OnPlayerEnter()
         {
             if (!Movement.Parameters.canPush)
@@ -39,10 +44,11 @@ namespace GameCore.LevelObjects.TriggerObjects
 
         private void FixedUpdate()
         {
-            if (!_isOnline) return;
             if (_rigidbody.isKinematic) return;
             
             UpdateSound();
+            
+            if (!_isOnline) return;
             
             _tick++;
             if (_tick % SendUpdateRate != 0) return;

@@ -771,7 +771,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 0.609
   m_Pitch: 1
   Loop: 0
@@ -892,15 +892,4 @@ MonoBehaviour:
   _jumpClip: {fileID: 8300000, guid: 25f0fbc5dd630b04ea92a8a65b154b8c, type: 3}
   _landClip: {fileID: 8300000, guid: 7ad49dd446b381b47b313299bc7dfbb8, type: 3}
   _config: {fileID: 11400000, guid: 802300c94ce05254fa62c8265d334e8e, type: 2}
-  _steps:
-  - {fileID: 8300000, guid: 3b4281f8f90848f40883b06a23e36063, type: 3}
-  - {fileID: 8300000, guid: cc861b4db0e483a47a3b8aed065e098f, type: 3}
-  - {fileID: 8300000, guid: 9f4dd185bd3b4c34bb36b4c80116ab88, type: 3}
-  - {fileID: 8300000, guid: 193092f74103a5a47b689b8a84a336f6, type: 3}
-  - {fileID: 8300000, guid: 52a7a7a6f71fa614d902c7723b882616, type: 3}
-  - {fileID: 8300000, guid: 35c0e53c3b0646443a6586de814933f9, type: 3}
-  - {fileID: 8300000, guid: 587f6a621616a26468897c34c18c8b36, type: 3}
-  - {fileID: 8300000, guid: 28e5a7011e051d048bfa1b465bcddd9e, type: 3}
-  - {fileID: 8300000, guid: 800d39d91ba1b1a45979e3dd29d8fbbb, type: 3}
-  - {fileID: 8300000, guid: 2e0a6e7ca069a99419022d55a4a480d8, type: 3}
-  - {fileID: 8300000, guid: 2eef763d901a5494bb3b55ee07439604, type: 3}
+  _debug: 0
