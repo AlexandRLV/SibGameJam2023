@@ -11,8 +11,7 @@ GameObject:
   - component: {fileID: 1968401231352506435}
   - component: {fileID: 8150240285372078285}
   - component: {fileID: 168327143364690011}
-  - component: {fileID: 6957770653753816266}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: steel.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -84,20 +83,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &6957770653753816266
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 768734822169031341}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -3663750993676253244, guid: ccfe1279e76d52c46903cf63f0f086e2, type: 3}
 --- !u!1 &1507189483352065532
 GameObject:
   m_ObjectHideFlags: 0
@@ -107,7 +92,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2279186952338530118}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: MousetrapVisuals
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -146,8 +131,7 @@ GameObject:
   - component: {fileID: 3372207045964623828}
   - component: {fileID: 1829490472641716337}
   - component: {fileID: 4505658658982827195}
-  - component: {fileID: 5192124097882306825}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: CHEESE
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -219,20 +203,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &5192124097882306825
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2704320168887727470}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -2719439086681959747, guid: b226a8f0536721b45958252c5ff3d0c3, type: 3}
 --- !u!1 &3415136811388458455
 GameObject:
   m_ObjectHideFlags: 0
@@ -244,7 +214,7 @@ GameObject:
   - component: {fileID: 2876495300273446966}
   - component: {fileID: 1762919811308734128}
   - component: {fileID: 874851597657640301}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: steel.004
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -327,8 +297,7 @@ GameObject:
   - component: {fileID: 7669395410168900949}
   - component: {fileID: 5868256431185321067}
   - component: {fileID: 7623447445284421349}
-  - component: {fileID: 7430354813018711814}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: steel.003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -400,20 +369,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &7430354813018711814
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5319258226840296229}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -3580873360172223536, guid: ccfe1279e76d52c46903cf63f0f086e2, type: 3}
 --- !u!1 &5927340005690772369
 GameObject:
   m_ObjectHideFlags: 0
@@ -426,7 +381,7 @@ GameObject:
   - component: {fileID: 2150583173347249577}
   - component: {fileID: 3903089768020801295}
   - component: {fileID: 8220723024945072989}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Mousetrap 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -504,7 +459,7 @@ GameObject:
   - component: {fileID: 3266279656652770184}
   - component: {fileID: 8185868158300059564}
   - component: {fileID: 414329091230606799}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: wood.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -583,7 +538,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6123871729409051867}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: af10c35716019f2469d130bc2e912264, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -600,8 +555,7 @@ GameObject:
   - component: {fileID: 1368501315090797174}
   - component: {fileID: 547547881596182594}
   - component: {fileID: 3503654050852950889}
-  - component: {fileID: 6933167666268482462}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: steel.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -673,16 +627,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &6933167666268482462
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8519924708458300114}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.3614161, y: 1.1299311, z: 0.10395132}
-  m_Center: {x: 0.012806743, y: -0.5411454, z: 0.028241642}
